@@ -3,7 +3,7 @@ pm2 start gateway.js --watch --env production -i max
 
 ////////////////////////////////////////////////////////////
 https://github.com/
-	username:	n@y.c
+	username:	n@g.c
 	password:	K.._4
 ////////////////////////////////////////////////////////////
 //how to update my repository in github	
