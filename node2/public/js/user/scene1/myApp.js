@@ -52,7 +52,7 @@ function loadEnvironment()
 			
 		}
 		
-		init() 
+		init(mygame) 
 		{	// Setup
 			//mygame		= new CThreejs();
 			//mygame.createHelper();
@@ -70,7 +70,7 @@ function loadEnvironment()
 
 					fbRef.child( "Players/" + playerID + "/isOnline" ).once( "value" ).then( function( isOnline ) 
 					{	var isOnlinetrue = ( isOnline.val() === null || isOnline.val() === false );
-						if(isOnlinetrue)loadGame();
+						if(isOnlinetrue)loadGame(mygame);
 						else						alert( "Hey, only one session at a time buddy!" );				
 					});
 				} 
@@ -85,7 +85,10 @@ function loadEnvironment()
 			});
 		}
 	}
+
+
 	
+	///////////////////////////////////////////////////////////////////////
 	class CmyApp extends CThreejs
 	{ 	constructor(width=window.innerWidth,height=window.innerHeight,fps=30) 
 		{	super(width,height,fps);
@@ -94,7 +97,7 @@ function loadEnvironment()
   
 		init() 
 		{	this.createHelper();
-			this.mydb.init();
+			this.mydb.init(this);
 		
 			/*
 			this.scene 		= new THREE.Scene();
@@ -127,8 +130,7 @@ function loadEnvironment()
 			//this.renderer.render(this.scene, this.camera);
 			this.renderer.render(this.scene, this.cam);
 		}
-		
-		
+
 	}    	
 
 //////////////////////////////////////////////////////////////////////////
@@ -140,24 +142,3 @@ var mygame = new CmyApp();
 mygame.init();
 mygame.render();
 
-
-/*
-function animate() 
-{	requestId =  requestAnimationFrame( animate );
-
-	//requestId =  requestAnimationFrame ( () => {mygame.render ();});
-     
-	if ( controls )controls.update();
-	
-	render();
-	//renderer.clear();
-	//renderer.render( scene, camera );
-}
-
-function render() 
-{	//renderer.clear();
-	//renderer.render( scene, camera );
-	mygame.render();
-	mygame.update(); 
-}
-*/

@@ -178,7 +178,7 @@
         	}
         	
         	createControl(mesh)
-        	{	this.controls = new THREE.PlayerControls( this.cam , mesh );
+        	{	this.controls				= new THREE.PlayerControls( this.cam , mesh );
 				this.controls.init();
         	}	
 				        

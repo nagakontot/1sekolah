@@ -4,11 +4,11 @@ var otherPlayers = {};
 var playerID;
 var player;
 
-function loadGame() 
+function loadGame(mygame) 
 {	loadEnvironment();				// load the environment
-	initMainPlayer();				// load the player
+	initMainPlayer(mygame);				// load the player
 
-	listenToOtherPlayers();
+	listenToOtherPlayers(mygame);
 
 	window.onunload = function() 
 	{	fbRef.child( "Players/" + playerID ).remove();
@@ -25,7 +25,7 @@ function listenToPlayer( playerData )
 	}
 }
 
-function listenToOtherPlayers() 
+function listenToOtherPlayers(mygame) 
 {	// when a player is added, do something
 	fbRef.child( "Players" ).on( "child_added", function( playerData ) 
 	{	if ( playerData.val() ) 
@@ -48,7 +48,7 @@ function listenToOtherPlayers()
 	});
 }
 
-function initMainPlayer() 
+function initMainPlayer(mygame) 
 {	fbRef.child( "Players/" + playerID ).set(
 	{	isOnline:		true,
 		orientation:	{	position: {x: 0, y:0, z:0},
@@ -58,7 +58,7 @@ function initMainPlayer()
 
 	player = new Player( playerID );
 	player.isMainPlayer = true;
-	player.init();
+	player.init(mygame);
 }
 
 function loadEnvironment() 
