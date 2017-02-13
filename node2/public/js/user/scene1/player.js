@@ -18,8 +18,9 @@ var Player = function( playerID )
 		if ( scope.isMainPlayer ) 
 		{	// Give player control of this mesh
 			//controls = new THREE.PlayerControls( camera , scope.mesh );
-			controls = new THREE.PlayerControls( mygame.camera , scope.mesh );
-			controls.init();
+			//controls = new THREE.PlayerControls( mygame.camera , scope.mesh );
+			//controls.init();
+			mygame.createControl(scope.mesh);	
 		}
 	};
 

@@ -62,10 +62,12 @@ function initMainPlayer()
 }
 
 function loadEnvironment() 
-{	var sphere_geometry = new THREE.SphereGeometry( 1 );
+{	/*
+	var sphere_geometry = new THREE.SphereGeometry( 1 );
 	var sphere_material = new THREE.MeshNormalMaterial();
 	var sphere			= new THREE.Mesh( sphere_geometry, sphere_material );
 
 	//scene.add( sphere );
 	mygame.add( sphere );
+	*/
 }

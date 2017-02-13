@@ -98,6 +98,7 @@
     			return this;
 			}
 		}
+		
 		class CAxisHelper extends CBaseUtils
 		{	constructor()
 			{	super(new THREE.AxisHelper ( 200 , 50 ));
@@ -105,6 +106,7 @@
     			return this;
 			}
 		}
+		
 		class CLightHelper extends CBaseUtils
 		{	constructor(light)
 			{	super(new THREE.DirectionalLightHelper ( light , 20 ));
@@ -112,11 +114,13 @@
     			return this;
 			}
 		}
+		
 		//////////////////////////////////////////////////////////////////////////
 		class CThreejs 
     	{   constructor(width=window.innerWidth,height=window.innerHeight,fps=30) 
-        	{   //this.requestId;
-				//this.controls;
+        	{   this.requestId;
+				this.controls;
+				this.objects 				= [];
 
         		this.scene_					= new CScene();        	  	
         		this.scene					= this.scene_.get_();
@@ -124,18 +128,15 @@
             	this.renderer_           	= new CRenderer(width,height);          	      
             	this.renderer           	= this.renderer_.get_();
             	
-            	this.stats_              	= new CStat();
-            	this.stats              	= this.stats_.get_();
-
             	this.container_				= new CContainer();
             	this.container				= this.container_.get_();
+            	
 			    this.container.appendChild( this.renderer.domElement );		
-				this.container.appendChild( this.stats.dom );           
 						
 				this.cam_ 					= new CCamera( 62,width/height,1,1000 );						
 				this.cam 					= this.cam_.get_();
 				this.cam.position.z 		= 5;
-							
+				
 				this.light					= new THREE.DirectionalLight( 0xffffff);
 				this.light.position.set(1000,1000,1000).normalize();
 				this.scene.add(this.light);
@@ -149,7 +150,21 @@
 	        	this.texLoader_          	= new CTexture();      
 	        	this.texLoader          	= this.texLoader_.get_();
 	        	
-	        	this.grid_					= new CGridHelper();
+	        	this.onWindowResize 		= this.onWindowResize.bind(this);
+	        	window.addEventListener( "resize", this.onWindowResize, false );
+
+	        	//this.WindowResize 			= evt => this.onWindowResize(evt);
+	        	//window.addEventListener( "resize", this.WindowResize, false );
+	        		
+	        	return this;
+        	}
+        	
+        	createHelper()
+        	{	this.stats_              	= new CStat();
+            	this.stats              	= this.stats_.get_();
+				this.container.appendChild( this.stats.dom );           
+
+        		this.grid_					= new CGridHelper();
 	        	this.grid					= this.grid_.get_();
 	        	this.scene.add(this.grid);
 	        	
@@ -160,21 +175,35 @@
 	        	this.lighthelper_			= new CLightHelper(this.light);
 	        	this.lighthelper			= this.lighthelper_.get_();
 	        	this.scene.add(this.lighthelper);
-	        		
-	        	this.onWindowResize 		= this.onWindowResize.bind(this);
-	        	window.addEventListener( "resize", this.onWindowResize, false );
-
-	        	//this.WindowResize 			= evt => this.onWindowResize(evt);
-	        	//window.addEventListener( "resize", this.WindowResize, false );
-	        		
-	        	return this;
         	}
+        	
+        	createControl(mesh)
+        	{	this.controls = new THREE.PlayerControls( this.cam , mesh );
+				this.controls.init();
+        	}	
 				        
-        	update(delta)       	{   this.stats.update();}
-        	render()            	{	this.renderer.render( this.scene, this.cam );}
+        	update(delta)       	
+        	{   this.stats.update();
+   				
+   				//this.objects.forEach((object) => 
+				//{	object.update();
+				//});
+			
+				if ( this.controls )this.controls.update();
+
+        	}
+        	
+        	//render()            	{	this.renderer.render( this.scene, this.cam );}
         	resize(w,h)         	{   this.renderer.setSize(w,h);}
         
-        	add(node)           	{   this.scene.add(node);}
+        	//add(node)           	{   this.scene.add(node);}
+			add(mesh) 
+			{	//this.objects.push(mesh);
+				//this.scene.add(mesh.getMesh());
+				this.scene.add(mesh);
+			}        	
+        	
+        	
         	remove(node)        	{   this.scene.remove(node);}
 
         	setFPS(fps)         	{   this.rafThrottler.fps  = fps;}
@@ -197,7 +226,10 @@
     			//this.projector = null;
     			this.scene		= null;
     			this.cam		= null;
-    			//this.controls	= null;
+    			this.controls	= null;
     			window.empty(this.container);
 			}
     	}
+    	
+
+    	
