@@ -12,15 +12,11 @@
 			var cube_material = new THREE.MeshBasicMaterial( {color: 0x7777ff, wireframe: false} );
 
 			this.scope.mesh = new THREE.Mesh( cube_geometry, cube_material );
-			mygame.add( this.scope.mesh );
+			myapp.add( this.scope.mesh );
 
-			if ( this.scope.isMainPlayer ) 
-			{	// Give player control of this mesh
-				//controls = new THREE.PlayerControls( camera , scope.mesh );
-				//controls = new THREE.PlayerControls( mygame.camera , scope.mesh );
-				//controls.init();
-				mygame.createControl(this.scope.mesh);	
-			}
+			// Give player control of this mesh
+			if ( this.scope.isMainPlayer )myapp.createControl(this.scope.mesh);	
+			
 		}
 
 		setOrientation( position, rotation ) 

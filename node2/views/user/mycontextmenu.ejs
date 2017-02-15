@@ -69,9 +69,11 @@
         }
         
         function shutdownThreejs()
-        {   this.mygame.exit(this.requestId);
-            this.controls = null;
+        {   this.myapp.exit();
             /*
+            this.mygame.exit(this.requestId);
+            this.controls = null;
+            
             cancelAnimationFrame(this.requestId);// Stop the animation
             this.renderer.domElement.addEventListener('dblclick', null, false); //remove listener to render
             ///////////////////////
