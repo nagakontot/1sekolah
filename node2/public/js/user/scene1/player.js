@@ -4,14 +4,12 @@
 	{	constructor( playerID ) 
 		{	this.playerID		= playerID;
 			this.isMainPlayer	= false;
-			this.mesh;
+			this.scope			= this;
 		}	
 		
-		init(mygame) 
+		init() 
 		{	var cube_geometry = new THREE.BoxGeometry( 1, 1, 1 );
 			var cube_material = new THREE.MeshBasicMaterial( {color: 0x7777ff, wireframe: false} );
-			
-			this.scope = this;
 
 			this.scope.mesh = new THREE.Mesh( cube_geometry, cube_material );
 			mygame.add( this.scope.mesh );

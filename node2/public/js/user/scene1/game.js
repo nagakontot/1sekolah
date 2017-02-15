@@ -1,11 +1,12 @@
 "use strict"
 
+
 var otherPlayers = {};
 var playerID;
 var player;
 
 function loadGame(mygame) 
-{	loadEnvironment();				// load the environment
+{	loadEnvironment(mygame);				// load the environment
 	initMainPlayer(mygame);				// load the player
 
 	listenToOtherPlayers(mygame);
@@ -58,16 +59,15 @@ function initMainPlayer(mygame)
 
 	player = new Player( playerID );
 	player.isMainPlayer = true;
-	player.init(mygame);
+	//player.init(mygame);
+	player.init();
 }
 
-function loadEnvironment() 
-{	/*
-	var sphere_geometry = new THREE.SphereGeometry( 1 );
+function loadEnvironment(mygame) 
+{	var sphere_geometry = new THREE.SphereGeometry( 1 );
 	var sphere_material = new THREE.MeshNormalMaterial();
 	var sphere			= new THREE.Mesh( sphere_geometry, sphere_material );
 
 	//scene.add( sphere );
 	mygame.add( sphere );
-	*/
 }

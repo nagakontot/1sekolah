@@ -217,8 +217,8 @@
 			
 			get camera()			{	return this.cam;}
 			
-			exit(requestId)
-			{	window.cancelAnimationFrame(requestId);// Stop the animation
+			exit()
+			{	window.cancelAnimationFrame(this.requestId);// Stop the animation
     			///////////////////////
 				this.renderer_.exit();
           
