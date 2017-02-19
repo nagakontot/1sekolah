@@ -1,12 +1,13 @@
 "use strict"
+//import * as THREE from 'three.js'
 
-		class CBaseUtils
+		class CBase
 		{	constructor(v)	{	this._	= v;}
 			get_()			{	return this._;}
 			set_(v)			{	this._	= v;}
 		}
 		
-		class CScene extends CBaseUtils
+		class CScene extends CBase
 		{	constructor()
 			{	super(new THREE.Scene());
 
@@ -16,7 +17,7 @@
 			}		
 		}
 		
-		class CContainer extends CBaseUtils
+		class CContainer extends CBase
 		{	constructor(name)
 			{ 	super((name)? document.createElement(name):document.getElementById('container'));
 
@@ -27,7 +28,7 @@
 			}
 		}
 
-		class CRenderer extends CBaseUtils
+		class CRenderer extends CBase
 		{	constructor(width,height)
 			{   super(new THREE.WebGLRenderer({ antialias: false,alpha: true }));
 
@@ -50,7 +51,7 @@
 			}
 		}
 		
-		class CStat extends CBaseUtils
+		class CStat extends CBase
 		{	constructor()
 			{	super(new Stats());
 	
@@ -66,7 +67,7 @@
 				
 		}
 		
-		class CCamera extends CBaseUtils
+		class CCamera extends CBase
 		{	constructor(viewangle,ratio,near,far)
 			{	super(new THREE.PerspectiveCamera(viewangle,ratio,near,far));
 
@@ -74,7 +75,7 @@
 			}
 		}
 		
-		class CTexture extends CBaseUtils
+		class CTexture extends CBase
 		{	constructor()
 			{	super(new THREE.TextureLoader());
 
@@ -82,7 +83,7 @@
 			}
 		}
 		
-		class CThrottler extends CBaseUtils
+		class CThrottler extends CBase
 		{	constructor(fps)
 			{	super(new RafThrottler());
 				this._.fps   	= fps;
@@ -91,7 +92,7 @@
 			}
 		}		
 		
-		class CGridHelper extends CBaseUtils
+		class CGridHelper extends CBase
 		{	constructor()
 			{	super(new THREE.GridHelper ( 200 , 50 )); // size, step
     			//this.scene.add ( this.gridHelper );
@@ -99,7 +100,7 @@
 			}
 		}
 		
-		class CAxisHelper extends CBaseUtils
+		class CAxisHelper extends CBase
 		{	constructor()
 			{	super(new THREE.AxisHelper ( 200 , 50 ));
     			//this.scene.add ( this.axisHelper );    			
@@ -107,7 +108,7 @@
 			}
 		}
 		
-		class CLightHelper extends CBaseUtils
+		class CLightHelper extends CBase
 		{	constructor(light)
 			{	super(new THREE.DirectionalLightHelper ( light , 20 ));
     			//this.scene.add ( this.lightHelper );
@@ -149,13 +150,18 @@
 	               
 	        	this.texLoader_          	= new CTexture();      
 	        	this.texLoader          	= this.texLoader_.get_();
-	        	
+/*	        	
 	        	this.onWindowResize 		= this.onWindowResize.bind(this);
 	        	window.addEventListener( "resize", this.onWindowResize, false );
 
 	        	//this.WindowResize 			= evt => this.onWindowResize(evt);
 	        	//window.addEventListener( "resize", this.WindowResize, false );
-	        		
+	        	
+*/	        		
+	        	////////////////////////////////
+	        	this.gpuPicker_;
+				this.gpuPicker;
+	        	/////////////////////////////////
 	        	return this;
         	}
         	
@@ -177,6 +183,15 @@
 	        	this.scene.add(this.lighthelper);
         	}
         	
+        	createPicker()
+        	{	this.gpuPicker_     		= new CGPUPicker(this.renderer,this.scene,this.cam);
+				this.gpuPicker				= this.gpuPicker_.get_();	        	
+				
+				this.gpuPicker_.init(this.controls);
+
+        	}
+        	
+			/////////////////////////////////////////////
         	createControl(mesh)
         	{	this.controls				= new THREE.PlayerControls( this.cam , mesh );
 				this.controls.init();
@@ -193,7 +208,7 @@
 
         	}
         	
-        	//render()            	{	this.renderer.render( this.scene, this.cam );}
+        	render()            	{	this.renderer.render( this.scene, this.cam );}
         	resize(w,h)         	{   this.renderer.setSize(w,h);}
         
         	//add(node)           	{   this.scene.add(node);}
@@ -208,15 +223,8 @@
 
         	setFPS(fps)         	{   this.rafThrottler.fps  = fps;}
         
-        	//onWindowResize(evt)	
-        	onWindowResize()	
-        	{	this.cam.aspect 	= window.innerWidth / window.innerHeight;
-				this.cam.updateProjectionMatrix();
-				this.renderer.setSize( window.innerWidth, window.innerHeight );
-			}
-			
 			get camera()			{	return this.cam;}
-			
+
 			exit()
 			{	window.cancelAnimationFrame(this.requestId);// Stop the animation
     			///////////////////////
@@ -229,6 +237,16 @@
     			this.controls	= null;
     			window.empty(this.container);
 			}
+			
+			//////////////////////////
+        	//onWindowResize(evt)	
+        	onWindowResize()	
+        	{	this.cam.aspect 	= window.innerWidth / window.innerHeight;
+				this.cam.updateProjectionMatrix();
+				this.renderer.setSize( window.innerWidth, window.innerHeight );
+				
+				if(this.gpuPicker_)this.gpuPicker_.onWindowResize();
+			}			
     	}
     	
 

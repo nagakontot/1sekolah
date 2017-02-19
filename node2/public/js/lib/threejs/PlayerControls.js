@@ -467,7 +467,7 @@ THREE.PlayerControls = function ( camera, player, domElement ) {
 
     }
 
-	this.domElement.addEventListener('contextmenu', function( event ) { event.preventDefault(); }, false );
+	//this.domElement.addEventListener('contextmenu', function( event ) { event.preventDefault(); }, false );
 	this.domElement.addEventListener('mousedown', onMouseDown, false );
 	this.domElement.addEventListener('mousewheel', onMouseWheel, false );
 	this.domElement.addEventListener('DOMMouseScroll', onMouseWheel, false ); // firefox

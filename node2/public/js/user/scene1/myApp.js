@@ -50,12 +50,16 @@ function loadEnvironment()
 	class CmyApp extends CThreejs
 	{ 	constructor(width=window.innerWidth,height=window.innerHeight,fps=30) 
 		{	super(width,height,fps);
-			this.mygame = new CGameModel(this);
+			
+			this.mygame 		= new CGameModel(this);
 		}
   
 		init() 
-		{	this.createHelper();
-			this.mygame.init();
+		{	this.mygame.init();
+			this.createHelper();
+			
+        	this.onWindowResize = this.onWindowResize.bind(this);
+        	window.addEventListener( "resize", this.onWindowResize, false );
 		}
   
 		render() 
@@ -68,14 +72,21 @@ function loadEnvironment()
 			{	object.update();
 			});
 			
-			if ( controls )controls.update();
 			*/
     
-    		this.update();
+    		//this.gpuPicker.needUpdate = true;
     		
-			//this.renderer.render(this.scene, this.camera);
-			this.renderer.render(this.scene, this.cam);
+    		this.update();
+			super.render();
 		}
+		
+		/////////////////////////////////////////////
+		
+		/////////////////////////////////////////////
+        onWindowResize()	
+        {	super.onWindowResize();
+		}		
+
 
 	}    	
 
