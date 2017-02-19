@@ -92,30 +92,6 @@
 			}
 		}		
 		
-		class CGridHelper extends CBase
-		{	constructor()
-			{	super(new THREE.GridHelper ( 200 , 50 )); // size, step
-    			//this.scene.add ( this.gridHelper );
-    			return this;
-			}
-		}
-		
-		class CAxisHelper extends CBase
-		{	constructor()
-			{	super(new THREE.AxisHelper ( 200 , 50 ));
-    			//this.scene.add ( this.axisHelper );    			
-    			return this;
-			}
-		}
-		
-		class CLightHelper extends CBase
-		{	constructor(light)
-			{	super(new THREE.DirectionalLightHelper ( light , 20 ));
-    			//this.scene.add ( this.lightHelper );
-    			return this;
-			}
-		}
-		
 		//////////////////////////////////////////////////////////////////////////
 		class CThreejs 
     	{   constructor(width=window.innerWidth,height=window.innerHeight,fps=30) 
@@ -158,10 +134,6 @@
 	        	//window.addEventListener( "resize", this.WindowResize, false );
 	        	
 */	        		
-	        	////////////////////////////////
-	        	this.gpuPicker_;
-				this.gpuPicker;
-	        	/////////////////////////////////
 	        	return this;
         	}
         	
@@ -183,14 +155,6 @@
 	        	this.scene.add(this.lighthelper);
         	}
         	
-        	createPicker()
-        	{	this.gpuPicker_     		= new CGPUPicker(this.renderer,this.scene,this.cam);
-				this.gpuPicker				= this.gpuPicker_.get_();	        	
-				
-				this.gpuPicker_.init(this.controls);
-
-        	}
-        	
 			/////////////////////////////////////////////
         	createControl(mesh)
         	{	this.controls				= new THREE.PlayerControls( this.cam , mesh );
@@ -200,9 +164,9 @@
         	update(delta)       	
         	{   this.stats.update();
    				
-   				//this.objects.forEach((object) => 
-				//{	object.update();
-				//});
+   				this.objects.forEach((object) => 
+				{	object.update();
+				});
 			
 				if ( this.controls )this.controls.update();
 
@@ -211,13 +175,13 @@
         	render()            	{	this.renderer.render( this.scene, this.cam );}
         	resize(w,h)         	{   this.renderer.setSize(w,h);}
         
-        	//add(node)           	{   this.scene.add(node);}
-			add(mesh) 
-			{	//this.objects.push(mesh);
-				//this.scene.add(mesh.getMesh());
-				this.scene.add(mesh);
+        	add(node)           	{   this.scene.add(node);}
+
+			addMesh(mesh) 
+			{	this.objects.push(mesh);
+				this.scene.add(mesh.getMesh());
 			}        	
-        	
+
         	
         	remove(node)        	{   this.scene.remove(node);}
 
@@ -244,8 +208,6 @@
         	{	this.cam.aspect 	= window.innerWidth / window.innerHeight;
 				this.cam.updateProjectionMatrix();
 				this.renderer.setSize( window.innerWidth, window.innerHeight );
-				
-				if(this.gpuPicker_)this.gpuPicker_.onWindowResize();
 			}			
     	}
     	

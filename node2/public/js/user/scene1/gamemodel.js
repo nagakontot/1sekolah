@@ -67,10 +67,11 @@ var player;
 		}
 
 		loadEnvironment() 
-		{	var sphere_geometry = new THREE.SphereGeometry( 1 );
-			var sphere_material = new THREE.MeshNormalMaterial();
-			var sphere			= new THREE.Mesh( sphere_geometry, sphere_material );
-			this.app.add( sphere );
+		{	//var sphere_geometry = new THREE.SphereGeometry( 1 );
+			//var sphere_material = new THREE.MeshNormalMaterial();
+			//var sphere			= new THREE.Mesh( sphere_geometry, sphere_material );
+			//this.app.add( sphere );
+			this.app.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 		}
 
 		listenToOtherPlayers() 

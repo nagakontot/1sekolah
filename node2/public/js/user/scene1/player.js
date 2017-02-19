@@ -4,6 +4,7 @@
 	{	constructor( playerID ) 
 		{	this.playerID		= playerID;
 			this.isMainPlayer	= false;
+			this.mesh;
 			this.scope			= this;
 		}	
 		
