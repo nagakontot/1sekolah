@@ -163,10 +163,8 @@
 				        
         	update(delta)       	
         	{   this.stats.update();
-   				
-   				this.objects.forEach((object) => 
-				{	object.update();
-				});
+
+   				this.objects.forEach((object) => {	object.update();});
 			
 				if ( this.controls )this.controls.update();
 

@@ -22,7 +22,7 @@ var player;
 
 					fbRef.child( "Players/" + playerID + "/isOnline" ).once( "value" ).then( function( isOnline ) 
 					{	var isOnlinetrue = ( isOnline.val() === null || isOnline.val() === false );
-						if(isOnlinetrue)	this.loadGame();
+						if(isOnlinetrue)	this.loadPlayers();
 						else				console.log( "Hey, only one session at a time buddy!" );				
 					}.bind(this));
 				} 
@@ -39,8 +39,8 @@ var player;
 		//////////////////////////////////
 		//////////////////////////////////
 		
-		loadGame() 
-		{	this.loadEnvironment();				// load the environment
+		loadPlayers() 
+		{	//this.loadEnvironment();				// load the environment
 			this.initMainPlayer();				// load the player
 			this.listenToOtherPlayers();
 
@@ -64,14 +64,6 @@ var player;
 			player = new Player( playerID );
 			player.isMainPlayer = true;
 			player.init();
-		}
-
-		loadEnvironment() 
-		{	//var sphere_geometry = new THREE.SphereGeometry( 1 );
-			//var sphere_material = new THREE.MeshNormalMaterial();
-			//var sphere			= new THREE.Mesh( sphere_geometry, sphere_material );
-			//this.app.add( sphere );
-			this.app.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 		}
 
 		listenToOtherPlayers() 
