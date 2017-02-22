@@ -1,86 +1,8 @@
 "use strict"
 
 
-/*
-class Cube 
-{	constructor(size) 
-	{	this.geometry = new THREE.BoxGeometry(size.width, size.height, size.depth);
-    	this.material = new THREE.MeshBasicMaterial({color: 0x00ff00});
-        this.mesh = new THREE.Mesh(this.geometry, this.material);
-	}
-  
-	update() 
-	{	this.mesh.rotation.x += 0.1;
-    	this.mesh.rotation.y += 0.1;
-	}
-  
-	getMesh() 
-	{	return this.mesh;
-	}
-}
 
-class Application {
-  constructor() {
-    this.objects = [];
-    this.createScene();
-  }
-  
-  createScene() {
-    this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
-    this.camera.position.z = 20;
-
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(this.renderer.domElement);
-    
-    this.render();
-  }
-  
-  render() {
-    requestAnimationFrame(() => {
-      this.render();
-    });
-    
-    this.objects.forEach((object) => {
-      object.update();
-    });
-    
-    this.renderer.render(this.scene, this.camera);
-  }
-  
-  add(mesh) {
-    this.objects.push(mesh);
-    this.scene.add(mesh.getMesh());
-  }
-}
-
-let app = new Application();
-app.add(new Cube({
-  width: 10,
-  height: 10,
-  depth: 10
-}));
-*/
 /////////////
-/*
-	class CGeom
-	{	constructor(size) 
-		{	this.geometry 	= new THREE.BoxGeometry(size.width, size.height, size.depth);
-			this.material 	= new THREE.MeshBasicMaterial({color: 0x00ff00});
-    	    this.mesh 		= new THREE.Mesh(this.geometry, this.material);
-		}
-  
-		update() 
-		{	this.mesh.rotation.x += 0.1;
-			this.mesh.rotation.y += 0.1;
-		}
-  
-		getMesh() 
-		{	return this.mesh;
-		}
-	}
-*/
 	class CCube
 	{	constructor(size) 
 		{	this.geometry 	= new THREE.BoxGeometry(size.width, size.height, size.depth);
@@ -96,6 +18,63 @@ app.add(new Cube({
 		{	if(this.rotx)this.mesh.rotation.x += this.rotx;
 			if(this.roty)this.mesh.rotation.y += this.roty;
 			if(this.rotz)this.mesh.rotation.z += this.rotz;
+		}
+  
+		getMesh() 
+		{	return this.mesh;
+		}
+	}
+
+////////////////////////
+	class CPlane
+	{	constructor(size) 
+		{	//////////////////////////////////////////////////
+	        var floorTexture        = texLoader.load( 'images/dirt/dirt_COLOR.jpg' );
+            floorTexture.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            floorTexture.repeat.set( 100,100 );
+
+	        var floorTextureBump    = texLoader.load( 'images/dirt/dirt_NRM.jpg' );
+            var floorTextureOCC     = texLoader.load( 'images/dirt/dirt_OCC.jpg' );
+            //var floorTextureSPEC    = texLoader.load( 'images/dirt/dirt_SPEC.jpg' );
+	        //var floorTextureDISP    = texLoader.load( 'images/dirt/dirt_DISP.jpg' );
+
+	        var params = 
+	        {   map:                floorTexture,
+                normalMap:          floorTextureBump,
+                aoMap:              floorTextureOCC,         
+                //specularMap:        floorTextureSPEC,
+                //displacementMap:    floorTextureDISP,
+                //displacementBias:   1,
+                //displacementScale:  1,  
+                normalScale:        new THREE.Vector2( 0.618,0.618 ),
+                shininess:          35.0,
+                //color:              0xdddddd,
+				specular:           0x101010,
+                side:               THREE.BackSide
+            };
+            var material			= new THREE.MeshPhongMaterial( params );
+			//////////////////////////////////////////////////
+			this.geometry 			= new THREE.PlaneBufferGeometry(size.width, size.height);
+            //make 2nd uv for aomap to function
+            var uvs = this.geometry.attributes.uv.array;
+            this.geometry.addAttribute( 'uv2', new THREE.BufferAttribute( uvs, 2 ) );
+			
+			this.material 			= new THREE.MeshPhongMaterial( params );
+			this.material.color.setHSL( 0.095, 1, 0.75 );
+			
+    	    this.mesh 				= new THREE.Mesh(this.geometry, this.material);
+    	    this.mesh.position.y 	= 0;
+            this.mesh.rotation.x 	= Math.PI / 2;
+    	    
+    	    //this.rotx		= size.rotx;
+    	    //this.roty		= size.roty;
+    	    //this.rotz		= size.rotz;
+		}
+  
+		update() 
+		{	//if(this.rotx)this.mesh.rotation.x += this.rotx;
+			//if(this.roty)this.mesh.rotation.y += this.roty;
+			//if(this.rotz)this.mesh.rotation.z += this.rotz;
 		}
   
 		getMesh() 

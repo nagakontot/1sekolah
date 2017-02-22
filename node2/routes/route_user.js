@@ -24,7 +24,7 @@ var router          = express.Router();
 
 /* GET user profile. */
 router.get( '/', 
-            // ensureLoggedIn, 
+            //ensureLoggedIn, 
             passport.authenticate('auth0',{ failureRedirect: '/' }),    //<<--this is 1sekolah.xyz/
             function(req, res, next) 
             {   //res.render('user.ejs', { user: req.user });

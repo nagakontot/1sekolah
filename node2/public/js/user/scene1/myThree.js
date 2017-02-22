@@ -92,7 +92,36 @@
 			}
 		}		
 		
+		class CLight extends CBase
+		{	constructor(scene)
+			{	//this.light					= new THREE.DirectionalLight( 0xffffff);
+				//this.light.position.set(1000,1000,1000).normalize();
+				//this.scene.add(this.light);
+            	/////////////////////////////////////////////////////////
+            	// LIGHT
+            	scene.add( new THREE.AmbientLight( 0xaaaaaa ) );
+
+            	var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
+				hemiLight.color.setHSL( 0.6, 1, 0.6 );
+				hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+				hemiLight.position.set( 0, 500, 0 );
+				scene.add( hemiLight );
+				
+				super(new THREE.DirectionalLight( 0xffffff, 1 ));
+				this._.color.setHSL( 0.1, 1, 0.95 );
+				this._.position.set( -1, 1.75, 1 );
+				this._.position.multiplyScalar( 50 );
+            	scene.add( this.light );
+            	
+            	return this;
+			}            	
+		}
+		
 		//////////////////////////////////////////////////////////////////////////
+	    var texLoader_	= new CTexture();      
+	    var texLoader   = texLoader_.get_();		
+	    
+	    //////////////////////////////////////////////////////////////////////////
 		class CThreejs 
     	{   constructor(width=window.innerWidth,height=window.innerHeight,fps=30) 
         	{   this.requestId;
@@ -107,25 +136,18 @@
             	
             	this.container_				= new CContainer();
             	this.container				= this.container_.get_();
-            	
 			    this.container.appendChild( this.renderer.domElement );		
 						
 				this.cam_ 					= new CCamera( 62,width/height,1,1000 );						
 				this.cam 					= this.cam_.get_();
 				this.cam.position.z 		= 5;
 				
-				this.light					= new THREE.DirectionalLight( 0xffffff);
-				this.light.position.set(1000,1000,1000).normalize();
-				this.scene.add(this.light);
-				
-				this.ambientLight			= new THREE.AmbientLight ( 0xffaa55 );
-				this.scene.add(this.ambientLight);
-
 				this.rafThrottler_	    	= new CThrottler(fps);
             	this.rafThrottler	    	= this.rafThrottler_.get_();
 	               
-	        	this.texLoader_          	= new CTexture();      
-	        	this.texLoader          	= this.texLoader_.get_();
+				this.stats_              	= new CStat();
+            	this.stats              	= this.stats_.get_();
+				this.container.appendChild( this.stats.dom );           	        	
 /*	        	
 	        	this.onWindowResize 		= this.onWindowResize.bind(this);
 	        	window.addEventListener( "resize", this.onWindowResize, false );
@@ -137,22 +159,25 @@
 	        	return this;
         	}
         	
+        	createStdLight(isHelper=true)
+        	{	this.light_          		= new CLight(this.scene);      
+	        	this.light          		= this.light_.get_();
+	        	
+	        	if(isHelper)
+	        	{	this.lighthelper_			= new CLightHelper(this.light);
+	        		this.lighthelper			= this.lighthelper_.get_();
+	        		this.scene.add(this.lighthelper);        		
+	        	}	
+        	}
+        	
         	createHelper()
-        	{	this.stats_              	= new CStat();
-            	this.stats              	= this.stats_.get_();
-				this.container.appendChild( this.stats.dom );           
-
-        		this.grid_					= new CGridHelper();
+        	{	this.grid_					= new CGridHelper();
 	        	this.grid					= this.grid_.get_();
 	        	this.scene.add(this.grid);
 	        	
 	        	this.axis_					= new CAxisHelper();
 	        	this.axis					= this.axis_.get_();
 	        	this.scene.add(this.axis);
-
-	        	this.lighthelper_			= new CLightHelper(this.light);
-	        	this.lighthelper			= this.lighthelper_.get_();
-	        	this.scene.add(this.lighthelper);
         	}
         	
 			/////////////////////////////////////////////

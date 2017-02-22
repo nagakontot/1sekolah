@@ -232,7 +232,7 @@ THREE.PlayerControls = function ( camera, player, domElement ) {
 
 	    }
 
-	    if (keyState[40] || keyState[83]) {
+	    else if (keyState[40] || keyState[83]) {
 
 	        // down arrow or 's' - move backward
 	        playerIsMoving = true;
@@ -254,7 +254,7 @@ THREE.PlayerControls = function ( camera, player, domElement ) {
 
 	    }
 
-	    if (keyState[39] || keyState[68]) {
+	    else if (keyState[39] || keyState[68]) {
 
 	        // right arrow or 'd' - rotate right
 	        playerIsMoving = true;
@@ -262,6 +262,7 @@ THREE.PlayerControls = function ( camera, player, domElement ) {
 	        this.player.rotation.y -= this.turnSpeed;
 
 	    }
+	    
 	    if ( keyState[81] ) {
 
 	        // 'q' - strafe left
@@ -275,7 +276,7 @@ THREE.PlayerControls = function ( camera, player, domElement ) {
 
 	    }
 
-	    if ( keyState[69] ) {
+	    else if ( keyState[69] ) {
 
 	        // 'e' - strage right
 	        playerIsMoving = true;

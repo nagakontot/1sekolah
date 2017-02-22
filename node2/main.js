@@ -95,8 +95,6 @@ app.use(passport.session());
 
 app.use('/',        require('./routes/route_index.js'));
 app.use('/user',    require('./routes/route_user.js' ));
-//app.use('/rchat',   require('./routes/route_rchat.js' ));
-
 
 //|///////////////////////////////////////|
 //|     error handlers                    |
