@@ -9,8 +9,9 @@
 		
 		init() 
 		{	if ( this.mesh ) return;
-			var cube_geometry = new THREE.BoxGeometry( 1, 1, 1 );
-			var cube_material = new THREE.MeshBasicMaterial( {color: 0x7777ff, wireframe: false} );
+			var cube_geometry = new THREE.BoxGeometry( 0.8, 2, 0.3 );
+			//var cube_material = new THREE.MeshBasicMaterial( {color: 0x7777ff, wireframe: false} );
+			var cube_material  = new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#aaaaaa',emissive: '#333333',shininess: 1 });
 
 			this.mesh = new THREE.Mesh( cube_geometry, cube_material );
 			myapp.add( this.mesh );

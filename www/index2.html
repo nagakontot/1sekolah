@@ -1,0 +1,100 @@
+<html>
+  <head>
+    <style type="text/css">
+      #svg {
+        background-color: grey;
+        width: 300px;
+        height: 300px;
+      }
+
+      .rect-a {
+        stroke: blue;
+        stroke-width: 4px;
+        fill: blue;
+        opacity: 0.5;
+      }
+
+      .rect-b {
+        stroke: red;
+        stroke-width: 4px;
+        fill: none;
+      }
+
+      .rect-a-minus-b {
+        stroke: black;
+        stroke-width: 4px;
+        fill: blue;
+        fill-opacity: 0.5;
+      }
+
+    </style>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r79/three.min.js"></script>
+    <script src="BoxCSG.js"></script>
+  </head>
+<body>
+  <h3>Subtract for THREE.Box3 and THREE.Box2</h3>
+  <p>
+    This is an implementation to subtract a box from another box. The result is an array of boxes. It should work both in 2D and in 3D, using the same code.
+  </p>
+  <p>
+    Subtract red from blue; blue with black border is what remains.
+  </p>
+  <p>
+    More info: contact <a href="//twitter.com/tojans" target="_blank">@tojans</a>.
+  </p>
+  <svg id="svg"></svg>
+
+  <script type="text/javascript">
+    // debug functions for 2D
+    function boxToRect(r, className) {
+      return '<rect ' +
+        'x="' + r.min.x + '" y="' + r.min.y +
+        '" width="' + (r.max.x - r.min.x) +
+        '" height="' + (r.max.y - r.min.y) +
+        '" class="' + className + '" /> ';
+    }
+
+    function displayIntersection(subtractees, subtractors, result) {
+      var $svg = document.getElementById("svg");
+      var classNames = ["rect-a", "rect-b", "rect-a-minus-b"];
+      var svgCode = [subtractees, subtractors, result
+      ].map(function(s, i) {
+        return s.map(function(r) {
+          return boxToRect(r, classNames[i]);
+        }).join("\n")
+      }).join("\n");
+      $svg.innerHTML = svgCode;
+    };
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+      var b1 = new THREE.Box2(
+        new THREE.Vector3(100, 100, 100),
+        new THREE.Vector3(200, 200, 200)
+      );
+
+      var b2 = new THREE.Box2(
+        new THREE.Vector3(10, 50, 100),
+        new THREE.Vector3(60, 150, 200)
+      );
+
+      var b3 = new THREE.Box2(
+        new THREE.Vector3(50, 120, 100),
+        new THREE.Vector3(160, 180, 120)
+      );
+
+      var b4 = new THREE.Box2(
+        new THREE.Vector3(20, 20, 100),
+        new THREE.Vector3(140, 80, 120)
+      );
+
+      var subtractees = [b1,b2];
+      var subtractors = [b3,b4];
+      var result      = new BoxCSG().subtract(subtractees, subtractors); 
+
+      displayIntersection(subtractees, subtractors, result);
+    });
+
+  </script>
+  </body>
+</html>

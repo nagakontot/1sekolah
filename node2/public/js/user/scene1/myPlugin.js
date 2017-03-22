@@ -1,12 +1,17 @@
 "use strict"
 
 
+/////////////	
+/////////////
 
+	
+/////////////	
 /////////////
 	class CCube
 	{	constructor(size) 
 		{	this.geometry 	= new THREE.BoxGeometry(size.width, size.height, size.depth);
-			this.material 	= new THREE.MeshBasicMaterial({color: 0x00ff00});
+			//this.material 	= new THREE.MeshBasicMaterial({color: 0x00ff00});
+			this.material   = new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#00ff00',emissive: '#333333',shininess: 1 });
     	    this.mesh 		= new THREE.Mesh(this.geometry, this.material);
     	    
     	    this.rotx		= size.rotx;
@@ -46,25 +51,33 @@
                 //displacementMap:    floorTextureDISP,
                 //displacementBias:   1,
                 //displacementScale:  1,  
-                normalScale:        new THREE.Vector2( 0.618,0.618 ),
-                shininess:          35.0,
+                
+                //normalScale:        new THREE.Vector2( 0.618,0.618 ),
+                //shininess:          1,//35.0,
                 //color:              0xdddddd,
-				specular:           0x101010,
-                side:               THREE.BackSide
+				//specular:           0x101010,
+				//emissive:			'#333333'
+                //side:               THREE.BackSide
             };
-            var material			= new THREE.MeshPhongMaterial( params );
+            
+            var material			= new THREE.MeshLambertMaterial( params );
+            //var material			= new THREE.MeshPhongMaterial( params );
+            //var material			= new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#aaaaaa',emissive: '#333333',shininess: 10 });
+            
 			//////////////////////////////////////////////////
 			this.geometry 			= new THREE.PlaneBufferGeometry(size.width, size.height);
+            
             //make 2nd uv for aomap to function
             var uvs = this.geometry.attributes.uv.array;
             this.geometry.addAttribute( 'uv2', new THREE.BufferAttribute( uvs, 2 ) );
 			
 			this.material 			= new THREE.MeshPhongMaterial( params );
-			this.material.color.setHSL( 0.095, 1, 0.75 );
+			//this.material.color.setHSL( 0.095, 1, 0.618 );
+			//this.material.color.setHSL( 0.392, 1, 0.618 );
 			
     	    this.mesh 				= new THREE.Mesh(this.geometry, this.material);
-    	    this.mesh.position.y 	= 0;
-            this.mesh.rotation.x 	= Math.PI / 2;
+    	    this.mesh.position.y 	= -1;
+            this.mesh.rotation.x 	= -Math.PI / 2;
     	    
     	    //this.rotx		= size.rotx;
     	    //this.roty		= size.roty;

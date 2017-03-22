@@ -3,8 +3,9 @@
 
 		class CBase
 		{	constructor(v)	{	this._	= v;}
+		
 			get_()			{	return this._;}
-			set_(v)			{	this._	= v;}
+			//set_(v)		{	this._	= v;}
 		}
 		
 		class CScene extends CBase
@@ -75,13 +76,12 @@
 			}
 		}
 		
-		class CTexture extends CBase
-		{	constructor()
-			{	super(new THREE.TextureLoader());
-
-				return this;
-			}
-		}
+		//class CTexture extends CBase
+		//{	constructor()
+		//	{	super(new THREE.TextureLoader());
+		//		return this;
+		//	}
+		//}
 		
 		class CThrottler extends CBase
 		{	constructor(fps)
@@ -101,25 +101,45 @@
             	// LIGHT
             	scene.add( new THREE.AmbientLight( 0xaaaaaa ) );
 
-            	var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
-				hemiLight.color.setHSL( 0.6, 1, 0.6 );
-				hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
-				hemiLight.position.set( 0, 500, 0 );
-				scene.add( hemiLight );
+				/*
+				super(new THREE.HemisphereLight( 0x0000ff, 0x00ff00, 0.618 ));
+				//var hemiLight = new THREE.HemisphereLight( 0x0000ff, 0x00ff00, 0.618 ); 
+            	//var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.6 );
+				//hemiLight.color.setHSL( 0.6, 1, 0.6 );
+				//hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
+				//hemiLight.position.set( 0, 500, 0 );
+				//scene.add( hemiLight );
+				this._.position.set( 0, 500, 0 );
+				scene.add( this._ );
+				*/
 				
+				/*
 				super(new THREE.DirectionalLight( 0xffffff, 1 ));
 				this._.color.setHSL( 0.1, 1, 0.95 );
-				this._.position.set( -1, 1.75, 1 );
+				this._.position.set( 500, 500, 0 );//( -1, 1.75, 1 );
 				this._.position.multiplyScalar( 50 );
-            	scene.add( this.light );
+            	scene.add( this._ );
+            	*/
+            	
+				var hemisphereLight = new THREE.HemisphereLight(0xffffff,0xff0000,1);
+				hemisphereLight.position.set(1, 0, 1).normalize();
+				scene.add(hemisphereLight);
+
+            	super(new THREE.DirectionalLight( 0xffffff, 1 ));
+				this._.position.set( 500, 500, 0 ).normalize();//( -1, 1.75, 1 );
+				this._.position.multiplyScalar( 50 );
+				this._.name = "dirlight";
+            	scene.add( this._ );
+            	
             	
             	return this;
 			}            	
 		}
 		
 		//////////////////////////////////////////////////////////////////////////
-	    var texLoader_	= new CTexture();      
-	    var texLoader   = texLoader_.get_();		
+	    //var texLoader_	= new CTexture();      
+	    //var texLoader   = texLoader_.get_();		
+	    var texLoader   = new THREE.TextureLoader()
 	    
 	    //////////////////////////////////////////////////////////////////////////
 		class CThreejs 
@@ -159,7 +179,7 @@
 	        	return this;
         	}
         	
-        	createStdLight(isHelper=true)
+        	createStdLight(isHelper=false)
         	{	this.light_          		= new CLight(this.scene);      
 	        	this.light          		= this.light_.get_();
 	        	
