@@ -17,18 +17,12 @@ redbird.register("www.1sekolah.xyz",            "http://172.18.0.3:3001",   {ssl
 redbird.register("ide.1sekolah.xyz",            "http://172.18.0.3:8181",   {ssl: true});
 
 redbird.register("rchat.1sekolah.xyz",          "http://172.18.0.5:3000",   {ssl: true});
-redbird.register("x11.1sekolah.xyz",            "http://172.18.0.6:10000",  {ssl: true});   ////Then visit https://x11.1sekolah.xyz/index.html?encoding=png&password=keplaotak
+//redbird.register("x11.1sekolah.xyz",            "http://172.18.0.6:10000",  {ssl: true});   ////Then visit https://x11.1sekolah.xyz/index.html?encoding=png&password=keplaotak
 //redbird.register("wine.1sekolah.xyz",           "http://172.18.0.8:8080",  {ssl: true});   ////Then visit https://x11.1sekolah.xyz/index.html?encoding=png&password=keplaotak
                                          
                                          
 //////////////////////////////////////////////////////////////////////
-//redbird.register("www.1sekolah.xyz",           "http://172.18.0.4:80",  {ssl: true});
 redbird.register("test1.1sekolah.xyz",           "http://172.18.0.4:80",  {ssl: true});
-
-
-//redbird.register("test1.1sekolah.xyz",           "http://172.18.0.2:8000",  {ssl: true});
-//redbird.register("test1.1sekolah.xyz",           "http://172.18.0.2:1987",  {ssl: true});
-
 
 
 //////////////////////////////////////////////////////////////////////
