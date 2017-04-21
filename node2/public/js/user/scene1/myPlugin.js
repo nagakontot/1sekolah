@@ -1,11 +1,30 @@
 "use strict"
 
-
 /////////////	
-/////////////
+	class CText
+	{	constructor(size) 
+		{	shapes = THREE.FontUtils.generateShapes( "Hello world", {font: "helvetiker",weight: "bold",size: 10} );
+		
+			this.geometry 	= new THREE.ShapeGeometry( shapes );	//new THREE.BoxGeometry(size.width, size.height, size.depth);
+			this.material   = new THREE.MeshBasicMaterial();		//new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#00ff00',emissive: '#333333',shininess: 1 });
+    	    this.mesh 		= new THREE.Mesh(this.geometry, this.material);
+    	    
+    	    this.rotx		= size.rotx;
+    	    this.roty		= size.roty;
+    	    this.rotz		= size.rotz;
+		}
+  
+		update() 
+		{	if(this.rotx)this.mesh.rotation.x += this.rotx;
+			if(this.roty)this.mesh.rotation.y += this.roty;
+			if(this.rotz)this.mesh.rotation.z += this.rotz;
+		}
+  
+		getMesh() 
+		{	return this.mesh;
+		}
+	}
 
-	
-/////////////	
 /////////////
 	class CCube
 	{	constructor(size) 

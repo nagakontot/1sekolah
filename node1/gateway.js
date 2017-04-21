@@ -12,6 +12,17 @@ var redbird = require('redbird')
                 http2:  true,
             }
 });
+//////////////////////////////////////////////////////////////////////
+// need to open port in putty, map docker:80 to localip:3000,
+//                             map docker:443 to localip:3443,
+// find localip: docker network inspect mynet
+//               OR
+//               docker inspect mycloud9 | grep IPAddress
+//
+// eg: if localip is 172.18.0.3, then:
+// iptables -t nat -A  DOCKER -p tcp --dport 80 -j DNAT --to-destination 172.18.0.3:3000
+// iptables -t nat -A  DOCKER -p tcp --dport 443 -j DNAT --to-destination 172.18.0.3:3443
+//////////////////////////////////////////////////////////////////////
 
 redbird.register("www.1sekolah.xyz",            "http://172.18.0.3:3001",   {ssl: true});
 redbird.register("ide.1sekolah.xyz",            "http://172.18.0.3:8181",   {ssl: true});
@@ -22,7 +33,11 @@ redbird.register("rchat.1sekolah.xyz",          "http://172.18.0.5:3000",   {ssl
                                          
                                          
 //////////////////////////////////////////////////////////////////////
-redbird.register("test1.1sekolah.xyz",           "http://172.18.0.4:80",  {ssl: true});
+redbird.register("test1.1sekolah.xyz",           "http://172.18.0.4:80",    {ssl: true});
+redbird.register("test2.1sekolah.xyz",           "http://172.18.0.3:8080",  {ssl: true});
+
+redbird.register("jitsi.1sekolah.xyz",           "http://172.18.0.6:80",  {ssl: true});
+
 
 
 //////////////////////////////////////////////////////////////////////

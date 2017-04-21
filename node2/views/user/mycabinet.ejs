@@ -216,41 +216,32 @@
 
 		<div class="cabinet-top">
 			<div class="cabinet-drawer">
-				<div class="cabinet-knob">
-					<p>Options</p>
-				</div>
+				<div class="cabinet-knob"><p>Options</p></div>
 				<div class="cabinet-box">
-					<p>This cabinet is a document of options.</p>
+				    <!--p>This cabinet is a document of options.</p-->
+				    <iframe src="ViewerJS/#../pdf/test_flash.pdf" width="640" height="480" allowfullscreen webkitallowfullscreen></iframe>
 				</div>
 			</div>
 		</div>
 
 		<div class="cabinet-right">
 			<div class="cabinet-drawer">
-				<div class="cabinet-knob">
-					<p>Methods</p>
-				</div>
-				<div class="cabinet-box">
-					<p>This cabinet is a document of methods.</p>
-				</div>
+				<div class="cabinet-knob"><p>Methods</p></div>
+				<div class="cabinet-box"><p>This cabinet is a document of methods.</p></div>
 			</div>
 		</div>
 		
 		<div class="cabinet-bottom">
 			<div class="cabinet-drawer">
-				<div class="cabinet-knob">
-					<p>License</p>
-				</div>
+				<div class="cabinet-knob"><p>Whiteboard</p></div>
 				<div class="cabinet-box">
-					<p>This box will be rewritten by the script.</p>
+				    <!--p>This box will be rewritten by the script.</p-->
+				    <iframe width="100%" height="100%" frameborder="0" src="https://www.twiddla.com/tzcha7"></iframe>
 				</div>
 			</div>
 			<div class="cabinet-drawer">
-				<div class="cabinet-knob">
-					<p>Chat</p>
-				</div>
+				<div class="cabinet-knob"><p>Chat</p></div>
 				<div class="cabinet-box">
-					<!--p>This box will be rewritten by the script.</p-->
 	        <div id="iframecontent" style="position:absolute; left:1%; right:1%; bottom:1%; top:1%;">
               <!--iframe width="100%" height="100%" frameborder="0" src="home" onfocus="document.getElementById('container').focus();"></iframe-->
               <iframe width="100%" height="100%" frameborder="0" src="https://rchat.1sekolah.xyz"></iframe>
@@ -272,6 +263,21 @@
     <!------------------------------------------------------------------>
         
     <script src="js/lib/jscabinet/jquery.cabinet.js"></script>
+    
+		<!--script>
+        var testObject    = { x:0, y:0 };
+        //var gui           = new xgui();
+        var gui           = new xgui( {width: 220, height: 30} );
+        document.body.appendChild( gui.getDomElement() );
+        //var container    = document.getElementById("Options");
+        //container.appendChild( gui.getDomElement() );
+        //document.getElementById("Options").appendChild( gui.getDomElement() );
+        //$('#Options').append(gui.getDomElement());
+        
+        var slider       = new gui.HSlider( {x:10, y:10, value: 0, min:-100, max:100} );
+        slider.value.bind(testObject, "x", "y");
+    </script-->
+    
     <script>
         $(function() 
         {   var backup_params;

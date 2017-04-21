@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Chroma Key (Three.js)</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+	body 
+	{	margin: 	0px;
+		overflow: 	hidden;
+	}
+	</style>
+</head>
+
+<body>
+	<script src="js/three_v84.min.js"></script>
+	<script src="js/libs/stats.min.js"></script>
+	<script src="js/controls/OrbitControls.js"></script>
+
+	<div id="demo" style="position: absolute; left:0px; top:0px"></div>
+
+	<script id="vertexShader" type="x-shader/x-vertex">
+		varying vec2 vUv;
+		void main()
+		{	vUv = uv;
+			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+			gl_Position = projectionMatrix * mvPosition;
+		}
+	</script>
+
+	<script id="fragmentShader" type="x-shader/x-fragment">
+		uniform sampler2D texture;
+		uniform vec3 color;
+		varying vec2 vUv;
+		void main()
+		{	vec3 tColor = texture2D( texture, vUv ).rgb;
+			float a = (length(tColor - color) - 0.5) * 7.0;
+		
+			//		gl_FragColor = vec4(a, a, a, 1.0);
+			gl_FragColor = vec4(tColor, a);
+		}
+	</script>
+
+	<script>
+		function ChromaKeyMaterial(url, width, height, keyColor) 
+		{	THREE.ShaderMaterial.call(this);
+			video					= document.createElement('video');
+			video.loop				= true;
+			video.src				= url;
+			video.load();
+			video.play();
+
+			var videoImage			= document.createElement('canvas');
+			if (window["webkitURL"]) document.body.appendChild(videoImage);
+			videoImage.width		= width;
+			videoImage.height		= height;
+	
+			var keyColorObject		= new THREE.Color(keyColor);
+			var videoImageContext	= videoImage.getContext('2d');
+	
+			// background color if no video present
+			videoImageContext.fillStyle = '#' + keyColorObject.getHexString();
+			videoImageContext.fillRect(0, 0, videoImage.width, videoImage.height);
+
+			var videoTexture		= new THREE.Texture(videoImage);
+			videoTexture.minFilter	= THREE.LinearFilter;
+			videoTexture.magFilter	= THREE.LinearFilter;
+
+			this.update = function () 
+			{	if (video.readyState === video.HAVE_ENOUGH_DATA) 
+				{	videoImageContext.drawImage(video, 0, 0);
+					if (videoTexture)videoTexture.needsUpdate = true;
+				}
+			}
+
+			this.setValues({	uniforms:		{	texture:	{type: "t",value: videoTexture},
+													color:		{type: "c",value: keyColorObject}
+												},
+								vertexShader:	document.getElementById('vertexShader').textContent,
+								fragmentShader: document.getElementById('fragmentShader').textContent,
+								transparent:	true
+			});
+		}
+
+		ChromaKeyMaterial.prototype = Object.create(THREE.ShaderMaterial.prototype);
+
+		function mymain() 
+		{	var scene				= new THREE.Scene();
+			var camera				= new THREE.PerspectiveCamera();
+			camera.position.set(0, 150, 900);
+			camera.lookAt(scene.position);
+			scene.add(camera);
+
+			renderer				= new THREE.WebGLRenderer({ antialias: false,alpha: true });
+			renderer.setClearColor(0xffffff);
+			document.getElementById('demo').appendChild(renderer.domElement);
+
+			var controls			= new THREE.OrbitControls(camera, renderer.domElement);
+
+			var floorTexture		= new THREE.ImageUtils.loadTexture('dirt_COLOR.jpg');
+			floorTexture.anisotropy = renderer.getMaxAnisotropy();
+			floorTexture.wrapS		= floorTexture.wrapT = THREE.RepeatWrapping;
+			floorTexture.repeat.set(10, 10);
+
+			var floor				= new THREE.Mesh(new THREE.PlaneGeometry(10000, 10000, 10, 10), new THREE.MeshBasicMaterial({map: floorTexture}));
+    		floor.rotation.x 		= -Math.PI * 0.5;
+            
+			scene.add(floor);
+
+			//var movieMaterial 	= new ChromaKeyMaterial('tree1.ogv', 242, 421, 0xd400);
+			//var movieMaterial 	= new ChromaKeyMaterial('pocoyo_dance.mp4', 242, 421, 0xd400);
+			var movieMaterial		= new ChromaKeyMaterial('troll_dance3.webm', 320,240, 0xd400);
+			var movieGeometry		= new THREE.PlaneGeometry(60, 105, 4, 4);
+
+			var girls = []
+			for (var i = 0; i < 50; i++)
+			{	for (var j = 0; j < 50; j++)
+				{	if ((i + j) % 2 == 0) 
+					{	var movie = new THREE.Mesh(movieGeometry, movieMaterial);
+						movie.position.set(0, 53, 0);
+
+						var girl = new THREE.Object3D();
+						//girl.position.set(150 * (i - 2), 0, 150 * (j - 2));
+						girl.position.set(50 * (i - 2), 0, 50 * (j - 2));
+
+						girl.add(movie);
+						scene.add(girl);
+
+						girls.push(girl);
+					}
+				}
+			}
+			
+			// stats
+			stats							= new Stats();
+			stats.domElement.style.position = 'absolute';
+			stats.domElement.style.bottom	= '0px';
+			stats.domElement.style.zIndex	= 100;
+			document.body.appendChild(stats.domElement);
+
+			// resize
+			function resize() 
+			{	// notify the renderer of the size change
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				// update the camera
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+			}
+
+			window.addEventListener('resize', resize, false);
+			resize();
+
+			// animate
+			function animate() 
+			{	controls.update();
+				movieMaterial.update();
+
+				for (var i in girls) girls[i].lookAt(camera.position);
+
+				renderer.render(scene, camera);
+
+				stats.update();
+				requestAnimationFrame(animate);
+			}
+
+			animate();
+		}
+		
+		mymain();
+</script>
+
+<!--script src="/ga.js"></script-->
+
+</body>
+</html>
