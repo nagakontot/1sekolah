@@ -1,270 +1,372 @@
-<html>
-  	<head>
-		<title>spinnin' cubes! yes! plural!</title>
-		<!--style>canvas { width: 100%; height: 100% }</style-->
-		<script src="xgui.min.js"></script>
-		<style type="text/css">
-			#settings { text-align:right; top:8px; right:8px; position:absolute; color:#fff; background: #121212; opacity:0.8; border-radius:12px; padding: 6px }
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - particles - sprites</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				background-color: #000000;
+				margin: 0px;
+				overflow: hidden;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+				font-weight: bold;
+				text-align:center;
+			}
+			a {
+				color:#0078ff;
+			}
+			#info {
+				color:#fff;
+				position: absolute;
+				top: 0px; width: 100%;
+				padding: 5px;
+				z-index:100;
+			}
 		</style>
-	
 	</head>
-	<body onLoad="init();">
-		<div id="settings"></div>
-		<!--canvas id="myCanvas" width="800" height="800" >Sorry! You need a modern browser to be able to view this.</canvas-->
-		<!------------------------------------------------------------------------------------>
-		
-		<script>
-//var context;
-//var canvas;
+	<body>
 
-var gui;
-/*
-var settings = {
-	steps: 16,
-	color: "840000",
-	bgcolor: "eeeeee",
-	startx: 200,
-	starty: 400,
-	endx: 600,
-	endy: 400,
-};
-*/
-function init() {
+		<div id="info">
+			<a href="http://threejs.org" target="_blank">three.js</a> - webgl particle sprites example -
+			snowflakes by <a href="http://en.wikipedia.org/wiki/File:Sketch_of_snow_crystal_by_Ren%C3%A9_Descartes.jpg">Ren&eacute;  Descartes</a>
+		</div>
 
-	//canvas = document.getElementById('myCanvas');
-	//context = canvas.getContext('2d');
-
-	setupGui();
-
-	//redraw();
-
-}
-
-		function redraw () {
-/*
-	context.clearRect(0,0,800,800);
-
-	context.fillStyle = "#"+settings.bgcolor;
-	context.fillRect(0,0,800,800);
-
-	context.strokeStyle = "#"+settings.color;
-	context.lineWidth = 1;
-
-	var startPoint = {x:settings.startx, y:settings.starty};
-	var endPoint = {x:settings.endx, y:settings.endy};
-
-	
-	context.beginPath();
-
-	//drawDragonCurve(startPoint, endPoint, Math.round(settings.steps));
-
-    context.stroke();
-    
-*/
-}
-
-		function doRedraw (value, mouseup) {
-	//if (mouseup) redraw();
-}
-
-		function setupGui() {
-	
-	gui = new xgui( {width: 190, height: 190, backgroundColor: "#dddddd", frontColor: "#444444", dimColor: "#dddddd"} );
-
-
-	var settingsDiv = document.getElementById('settings');
-	settingsDiv.appendChild( gui.getDomElement() );
-
-	var label = new gui.Label( {x: 10, y: 10, text: "Steps:"} )
-	var steps = new gui.HSlider( {x:80, y:10, value: settings.steps, min: 2, max: 20} );
-	steps.value.bind(settings, "steps");
-	steps.value.bind(doRedraw);
-
-	var label = new gui.Label( {x: 10, y: 40, text: "Background:"} );
-	var label = new gui.Label( {x: 10, y: 60, text: "Color:"} );
-
-	var bgcolor = new gui.ColorPicker2( {x: 80, y: 40, hex: settings.bgcolor } );
-	bgcolor.value.bind(settings, "bgcolor");
-	bgcolor.value.bind(doRedraw);
-
-	var color = new gui.ColorPicker2( {x: 80, y: 60, hex: settings.color } );
-	color.value.bind(settings, "color");
-	color.value.bind(doRedraw);
-	
-	var label = new gui.Label( {x: 10, y: 85, text: "Start Position"} );
-	
-	var start = new gui.TrackPad( {x: 10, y: 100, min: 100, max: 700, height: 70, width: 70, value1: settings.startx, value2: settings.starty } );
-	start.value1.bind(settings, "startx");
-	start.value2.bind(settings, "starty");
-	start.value2.bind(doRedraw);
-
-	var label = new gui.Label( {x: 110, y: 85, text: "End Position"} );
-	
-	var end = new gui.TrackPad( {x: 110, y: 100, min: 100, max: 700, height: 70, width: 70, value1: settings.endx, value2: settings.endy } );
-	end.value1.bind(settings, "endx");
-	end.value2.bind(settings, "endy");
-	end.value2.bind(doRedraw);
-
-	//var redraw = new gui.Button( {x: 10, y: 200, text: "Redraw" } );
-	//redraw.value.bind(doRedraw);
-	}	
-		</script>
-		<!------------------------------------------------------------------------------------>
-		<!--
 		<script src="js/three_v84.min.js"></script>
-		<script src="three.portals.js"></script>
-		-->
-		
-		<!--iframe src="https://drawonthe.net/board_index.php?id=100715_1" width="400" height="400"></iframe-->
-		
-		<!--iframe src="https://www.twiddla.com/tzcha7" width="800" height="600"></iframe-->
-		
-		<!--iframe src="https://test1.1sekolah.xyz/ViewerJS/#../pdf/test_flash.pdf" width="800" height="600" allowfullscreen webkitallowfullscreen></iframe-->
-		
 
-		<!--
-		<div style="width: 100%; height: 100%;" id="aww-wrapper"></div>
-    	<script src="https://awwapp.com/static/widget/js/aww.min.js"></script>
-    	<script type="text/javascript">
-    		var aww = new AwwBoard('#aww-wrapper', {});
-    	</script>
-    	-->
+		<script src="js/Detector.js"></script>
+		<script src="js/libs/stats.min.js"></script>
 
-		<!--script>
-			//create basic context
-			var main_scene = new THREE.Scene();
-			var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-			var renderer = new THREE.WebGLRenderer({stencil: true});
-			renderer.setSize(window.innerWidth, window.innerHeight);
-			document.body.appendChild(renderer.domElement);
-			
-			//create scene
-			
-			//create cube
-			var geometry = new THREE.CubeGeometry(0.5,0.5,0.5);
-			var material = new THREE.MeshPhongMaterial({color: 0x00ff00});
-			var cube = new THREE.Mesh(geometry, material);
-			main_scene.add(cube);
-			
-			//create portals
-			var portal_geom = new THREE.Geometry();
-			portal_geom.vertices.push( new THREE.Vector4( -1, -1) );
-			portal_geom.vertices.push( new THREE.Vector4(  1, -1) );
-			portal_geom.vertices.push( new THREE.Vector4( -1,  1) );
-			portal_geom.vertices.push( new THREE.Vector4(  1,  1) );
-			portal_geom.faces.push( new THREE.Face3( 0, 1, 2 ) );
-			portal_geom.faces.push( new THREE.Face3( 2, 1, 3 ) );
-			portal_geom.computeFaceNormals();
-			var red_material = new THREE.MeshPhongMaterial({color: 0xFF0000});
-			var blue_material = new THREE.MeshPhongMaterial({color: 0x0000FF});
-			var portals = [
-				new THREE.Mesh(portal_geom, blue_material),
-				new THREE.Mesh(portal_geom, red_material)
-			];
-			portals[0].position = new THREE.Vector3(0, 0, -1);
-			portals[1].position = new THREE.Vector3(-1, 0, 0);
-			portals[1].rotation = new THREE.Vector3(0, 3.14*0.55, 0);
-			main_scene.add(portals[0]);
-			main_scene.add(portals[1]);
-			
-			//create the light
-			var light = new THREE.PointLight(0xFFFFFF);
-			light.position.set(0,1,2);
-			main_scene.add(light);
-			camera.position.z = 5;
-			
-			function portal_view(camera, src_portal, dst_portal) {
-				var inverse_view_to_source = new THREE.Matrix4().getInverse(camera.matrix).multiply(src_portal.matrix);
-				var new_mat = dst_portal.matrix.clone().multiply(inverse_view_to_source);
-				new_mat.rotateY(3.14);
-				return new_mat;
+	<script id="vertexShader" type="x-shader/x-vertex">
+		varying vec2 vUv;
+		void main()
+		{	vUv = uv;
+			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+			gl_Position = projectionMatrix * mvPosition;
+		}
+	</script>
+
+	<script id="fragmentShader" type="x-shader/x-fragment">
+		uniform sampler2D texture;
+		uniform vec3 color;
+		varying vec2 vUv;
+		void main()
+		{	vec3 tColor = texture2D( texture, vUv ).rgb;
+			float a = (length(tColor - color) - 0.5) * 7.0;
+		
+			//		gl_FragColor = vec4(a, a, a, 1.0);
+			gl_FragColor = vec4(tColor, a);
+		}
+	</script>
+
+	<script>
+		var videoTexture;
+		function ChromaKeyMaterial(url, width, height, keyColor) 
+		{	THREE.ShaderMaterial.call(this);
+			video					= document.createElement('video');
+			video.loop				= true;
+			video.src				= url;
+			video.load();
+			video.play();
+
+			var videoImage			= document.createElement('canvas');
+			//if (window["webkitURL"]) document.body.appendChild(videoImage);
+			if (window["URL"]) document.body.appendChild(videoImage);
+			videoImage.width		= width;
+			videoImage.height		= height;
+	
+			var keyColorObject		= new THREE.Color(keyColor);
+			var videoImageContext	= videoImage.getContext('2d');
+	
+			// background color if no video present
+			videoImageContext.fillStyle = '#' + keyColorObject.getHexString();
+			videoImageContext.fillRect(0, 0, videoImage.width, videoImage.height);
+
+			videoTexture		= new THREE.Texture(videoImage);
+			//var videoTexture		= new THREE.Texture(videoImage);
+			videoTexture.minFilter	= THREE.LinearFilter;
+			videoTexture.magFilter	= THREE.LinearFilter;
+
+			this.update = function () 
+			{	if (video.readyState === video.HAVE_ENOUGH_DATA) 
+				{	videoImageContext.drawImage(video, 0, 0);
+					if (videoTexture)videoTexture.needsUpdate = true;
+				}
 			}
-			
-			just_portal_0 = new THREE.Scene();
-			just_portal_0.add(portals[0].clone());
-			just_portal_0.add(light.clone());
-			just_portal_0.__objects[0].scale.set(0.95,0.95,0.95);
-			just_portal_0.__objects[0].z += 0.0001;
 
-			
-			//render & update loop
-			function render() {
-				
-				requestAnimationFrame(render);//function(){console.log('ready')});
-				cube.rotation.x += 0.1;
-				cube.rotation.y += 0.1;
-				var gl = renderer.context;
-				
-				//save original camera
-				camera.updateMatrixWorld();
-				orig_mat = camera.matrixWorld.clone();
-				
-				//clear the old scene
-				renderer.autoClear=false;
-				renderer.autoClear=false;
-				renderer.autoClear=false;
-				renderer.clear(true,true,true);
-				
-				//0. render the portal scenes.
-				//0.a draw portal 0 as seen by the main camera into the stencil buffer, to clip its output.
-				gl.colorMask(false,false,false,false); //disable the color buffer
-				gl.depthMask(false); //and the depth buffer
-				gl.enable(gl.STENCIL_TEST);
-				gl.stencilMask(0xff);
-				gl.stencilFunc(gl.NEVER,0,0xFF);
-				gl.stencilOp(gl.INCR,gl.KEEP,gl.KEEP);
-				renderer.render(just_portal_0,camera);
-				gl.colorMask(true,true,true,true); //reenable
-				gl.depthMask(true);
-				gl.stencilOp(gl.KEEP,gl.KEEP,gl.KEEP);
-				
-				//render the view from portal 1 (seen through portal 0)
-				//renderer.clear(false,true,false);
-				gl.clear(gl.DEPTH_BUFFER_BIT);
-				
-				gl.stencilFunc(gl.LESS,0,0xff); //pass if 0 < stencil
-				camera.matrixAutoUpdate = false;
-				camera.matrixWorld = portal_view(camera, portals[0], portals[1]);
-				renderer.render(main_scene, camera);
-				gl.disable(gl.STENCIL_TEST);
-				renderer.clear(false,false,true);
-				
-				
-				
-				//render the main scene.
-				
-				//1. reset the camera
-				camera.matrixAutoUpdate = true;
-				camera.matrixWorld = orig_mat.clone();
-				
-				//2. protect the portal view.
-				//clear the depth buffer, and render the portal 0 shape to the depth buffer, so that it won't be overwritten by the main scene
-				renderer.clear(false,true,false);
-				
-				//gl.colorMask(false,false,false,false); //disable the color buffer
-				gl.colorMask(false,false,false,false);
-				gl.depthMask(true);
-				renderer.render(just_portal_0, camera);
-				//return;
-				gl.enable(gl.DEPTH_TEST);
-				
-				//3. render the actual main scene
-				portals[0].position.z-=0.0001;
-				gl.colorMask(true,true,true,true); //re-enable the color buffer
-				renderer.render(main_scene, camera);
-				portals[0].position.z+=0.0001;
-			}
-			render();
-			
-			document.addEventListener('mousemove', function(e) {
-				camera.position.set(0,0,0);
-				elevation = - 0.5*3.14 + 3.14 * e.clientY / window.innerHeight;
-				rotation = -3.14 + 6.28 * e.clientX / window.innerWidth;
-				camera.eulerOrder='YXZ';
-				camera.rotation.set(elevation,rotation,0);
-				camera.translateZ(2);
+			this.setValues({	uniforms:		{	texture:	{type: "t",value: videoTexture},
+													color:		{type: "c",value: keyColorObject}
+												},
+								vertexShader:	document.getElementById('vertexShader').textContent,
+								fragmentShader: document.getElementById('fragmentShader').textContent,
+								transparent:	true
 			});
-		</script--> 
-		
-	</body> 
+		}
+
+		ChromaKeyMaterial.prototype = Object.create(THREE.ShaderMaterial.prototype);
+
+		//////////////////////////////////////////////////////////////////////////////////
+		class mySpriteMovie
+		{	constructor(scene)
+			{	///////////////////////////////////////////////////////////////////////////
+				//var movieMaterial 	= new ChromaKeyMaterial('tree1.ogv', 242, 421, 0xd400);
+				//var movieMaterial 	= new ChromaKeyMaterial('pocoyo_dance.mp4', 242, 421, 0xd400);
+				this.movieMaterial		= new ChromaKeyMaterial('troll_dance3.webm', 320,240, 0xd400);
+				this.movieGeometry		= new THREE.PlaneGeometry(60, 105, 4, 4);
+
+				this.girls = [];
+				for (var i = 0; i < 50; i++)
+				{	for (var j = 0; j < 50; j++)
+					{	if ((i + j) % 2 == 0) 
+						{	var movie = new THREE.Mesh(this.movieGeometry,this.movieMaterial);
+							movie.position.set(0, 53, 0);
+	
+							var girl = new THREE.Object3D();
+							//girl.position.set(150 * (i - 2), 0, 150 * (j - 2));
+							girl.position.set(50 * (i - 2), 0, 50 * (j - 2));
+
+							girl.add(movie);
+							scene.add(girl);
+
+							this.girls.push(girl);
+						}
+					}
+				}
+			}
+			
+			render()
+			{	this.movieMaterial.update();
+			}
+			
+		}
+		//////////////////////////////////////////////////////////////////////////////////
+		class mySpritePoint
+		{	constructor(scene)
+			{	this.materials = [];
+				var textureLoader = new THREE.TextureLoader();
+					
+				this.sprite1 = textureLoader.load( "textures/sprites/snowflake1a.png" );//videoTexture;//
+				this.sprite2 = textureLoader.load( "textures/sprites/snowflake2a.png" );//videoTexture;//
+				this.sprite3 = textureLoader.load( "textures/sprites/snowflake3a.png" );//videoTexture;//
+				this.sprite4 = textureLoader.load( "textures/sprites/snowflake4a.png" );//videoTexture;//
+				this.sprite5 = textureLoader.load( "textures/sprites/snowflake5a.png" );//videoTexture;//
+
+				this.parameters =[	[ [1.0,  0.2,  0.5], this.sprite2, 20 ],
+									[ [0.95, 0.1,  0.5], this.sprite3, 15 ],
+									[ [0.90, 0.05, 0.5], this.sprite1, 10 ],
+									[ [0.85, 0,    0.5], this.sprite5, 8  ],
+									[ [0.80, 0,    0.5], this.sprite4, 5  ]
+								];
+
+				/////////////////////////////////////////////////////////////////////
+				
+				var max_particles	= 10000;
+				var n = 1000, n2 = n / 2; // particles spread in the cube_material
+
+				//////////////////////////////////////////////////////////////////////
+				this.geometry = new THREE.Geometry();
+				for (var i = 0; i < max_particles; i ++ ) 
+				{	var vertex = new THREE.Vector3();
+					vertex.x = Math.random() * n - n2;//Math.random() * 2000 - 1000;
+					vertex.y = Math.random() * n - n2;//Math.random() * 2000 - 1000;
+					vertex.z = Math.random() * n - n2;//Math.random() * 2000 - 1000;
+					this.geometry.vertices.push( vertex );
+				}
+
+				var color,sprite,size,particles;
+				for (var i = 0; i < this.parameters.length; i ++ ) 
+				{	color  = this.parameters[i][0];
+					sprite = this.parameters[i][1];
+					size   = this.parameters[i][2];
+						
+					//this.materials[i] = new THREE.PointsMaterial( { size: size, map: sprite} );
+					//this.materials[i] = new THREE.PointsMaterial( { size: size, map: sprite, transparent : true } );
+					//this.materials[i] = new THREE.PointsMaterial( { size: size, map: sprite, depthTest: false, transparent : true } );
+					this.materials[i] = new THREE.PointsMaterial( { size: size, map: sprite, blending: THREE.AdditiveBlending, depthTest: false, transparent : true } );
+					this.materials[i].color.setHSL( color[0], color[1], color[2] );
+						
+					particles = new THREE.Points( this.geometry, this.materials[i] );
+					//particles = new THREE.Points( this.geometry, this.movieMaterial );
+					
+					particles.rotation.x = Math.random() * 6;
+					particles.rotation.y = Math.random() * 6;
+					particles.rotation.z = Math.random() * 6;
+					scene.add( particles );
+				}
+			}
+				
+			render(time,scene)
+			{	var object,length=scene.children.length;
+				for (var i = 0; i < length; i ++ ) 
+				{	object = scene.children[ i ];
+					if ( object instanceof THREE.Points ) 
+					{	object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+					}
+				}
+				
+				var color;
+				length=this.materials.length;
+				for (var i = 0; i < length; i ++ ) 
+				{	color = this.parameters[i][0];
+					//h = ( 360 * ( color[0] + time ) % 360 ) / 360;
+					//materials[i].color.setHSL( h, color[1], color[2] );
+					this.materials[i].color.setHSL(( 360 * ( color[0] + time ) % 360 ) / 360, color[1], color[2] );
+				}
+			}
+		}		
+	</script>
+////////////////////////////////////////////////////////////////////////////////////////
+
+		<script>
+			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+			var container, stats;
+			//var camera, scene, renderer, particles, geometry, materials = [], parameters, i,h, color, sprite, size;
+			var camera, scene, renderer;//, particles, geometry, materials = [], parameters, color, sprite, size;
+			//var materials = [],parameters;
+			
+			var mouseX = 0, mouseY = 0;
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+			
+			init();
+			createFloor(scene);
+			//createSpritePoint();
+			var mysp	= new mySpritePoint(scene);
+			var mymov	= new mySpriteMovie(scene);
+			
+			animate();
+			
+			function init() 
+			{	container = document.createElement( 'div' );
+				document.body.appendChild( container );
+				
+				camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 2000 );
+				//camera.position.z = 1000;
+				camera.position.set(0, 150, 900);
+				
+				scene = new THREE.Scene();
+				scene.fog = new THREE.FogExp2( 0x000000, 0.0008 );
+				
+				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+				
+				stats = new Stats();
+				container.appendChild( stats.dom );
+				
+				/*
+				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				document.addEventListener( 'touchstart', onDocumentTouchStart, false );
+				document.addEventListener( 'touchmove', onDocumentTouchMove, false );
+				
+				window.addEventListener( 'resize', onWindowResize, false );
+				*/
+			}
+			
+			function createFloor(scene)
+			{	var textureLoader = new THREE.TextureLoader();
+				var floorTexture		= new textureLoader.load('dirt_COLOR.jpg');
+				floorTexture.anisotropy = renderer.getMaxAnisotropy();
+				floorTexture.wrapS		= floorTexture.wrapT = THREE.RepeatWrapping;
+				floorTexture.repeat.set(10, 10);
+
+				var floor				= new THREE.Mesh(new THREE.PlaneGeometry(10000, 10000, 10, 10), new THREE.MeshBasicMaterial({map: floorTexture}));
+    			floor.rotation.x 		= -Math.PI * 0.5;
+            
+				scene.add(floor);	
+			}
+			
+/*			
+			function createSpritePoint()
+			{	geometry = new THREE.Geometry();
+				var textureLoader = new THREE.TextureLoader();
+				sprite1 = textureLoader.load( "textures/sprites/snowflake1a.png" );
+				sprite2 = textureLoader.load( "textures/sprites/snowflake2a.png" );
+				sprite3 = textureLoader.load( "textures/sprites/snowflake3a.png" );
+				sprite4 = textureLoader.load( "textures/sprites/snowflake4a.png" );
+				sprite5 = textureLoader.load( "textures/sprites/snowflake5a.png" );
+				
+				for (var i = 0; i < 10000; i ++ ) 
+				{	var vertex = new THREE.Vector3();
+					vertex.x = Math.random() * 2000 - 1000;
+					vertex.y = Math.random() * 2000 - 1000;
+					vertex.z = Math.random() * 2000 - 1000;
+					geometry.vertices.push( vertex );
+				}
+				
+				parameters =[	[ [1.0,  0.2,  0.5], sprite2, 20 ],
+								[ [0.95, 0.1,  0.5], sprite3, 15 ],
+								[ [0.90, 0.05, 0.5], sprite1, 10 ],
+								[ [0.85, 0,    0.5], sprite5, 8  ],
+								[ [0.80, 0,    0.5], sprite4, 5  ]
+							];
+				
+				var color;
+				for (var i = 0; i < parameters.length; i ++ ) 
+				{	color  = parameters[i][0];
+					sprite = parameters[i][1];
+					size   = parameters[i][2];
+					materials[i] = new THREE.PointsMaterial( { size: size, map: sprite, blending: THREE.AdditiveBlending, depthTest: false, transparent : true } );
+					materials[i].color.setHSL( color[0], color[1], color[2] );
+					particles = new THREE.Points( geometry, materials[i] );
+					particles.rotation.x = Math.random() * 6;
+					particles.rotation.y = Math.random() * 6;
+					particles.rotation.z = Math.random() * 6;
+					scene.add( particles );
+				}
+			}
+*/			
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+			/*
+			function onWindowResize() {
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+			}
+			function onDocumentMouseMove( event ) {
+				mouseX = event.clientX - windowHalfX;
+				mouseY = event.clientY - windowHalfY;
+			}
+			function onDocumentTouchStart( event ) {
+				if ( event.touches.length === 1 ) {
+					event.preventDefault();
+					mouseX = event.touches[ 0 ].pageX - windowHalfX;
+					mouseY = event.touches[ 0 ].pageY - windowHalfY;
+				}
+			}
+			function onDocumentTouchMove( event ) {
+				if ( event.touches.length === 1 ) {
+					event.preventDefault();
+					mouseX = event.touches[ 0 ].pageX - windowHalfX;
+					mouseY = event.touches[ 0 ].pageY - windowHalfY;
+				}
+			}
+			*/
+			
+			function animate() 
+			{	requestAnimationFrame( animate );
+				render();
+				stats.update();
+			}
+			
+			function render() 
+			{	var time = Date.now() * 0.00005;
+			
+				//camera.position.x += (  mouseX - camera.position.x ) * 0.05;
+				//camera.position.y += ( -mouseY - camera.position.y ) * 0.05;
+				camera.lookAt( scene.position );
+				
+				mysp.render(time,scene);
+				mymov.render();
+				
+				renderer.render( scene, camera );
+			}
+		</script>
+	</body>
 </html>

@@ -38,6 +38,8 @@
 			{	this.render();
 			});
    
+			this.mygame.updateMainPlayer();
+			
     		super.update();
 			super.render();
 		}

@@ -16,7 +16,8 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" media="all" title="Screen"></link>
 	<!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css" media="all" title="Screen"></link-->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">    
+	<!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"-->    
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css">    
 	
 	<link rel="stylesheet" href="stylesheets/user/main.css"></link>
 	<link rel="stylesheet" href="js/lib/smallipop/css/jquery.smallipop.min.css" media="all" title="Screen"></link>
@@ -174,7 +175,28 @@
     <!------------------------------------------------------------------>
     <!------------------------------------------------------------------>
     <!------------------------------------------------------------------>
-    
+	<script id="vertexShader" type="x-shader/x-vertex">
+		varying vec2 vUv;
+		void main()
+		{	vUv = uv;
+			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+			gl_Position = projectionMatrix * mvPosition;
+		}
+	</script>
+
+	<script id="fragmentShader" type="x-shader/x-fragment">
+		uniform sampler2D texture;
+		uniform vec3 color;
+		varying vec2 vUv;
+		void main()
+		{	vec3 tColor = texture2D( texture, vUv ).rgb;
+			float a = (length(tColor - color) - 0.5) * 7.0;
+		
+			//		gl_FragColor = vec4(a, a, a, 1.0);
+			gl_FragColor = vec4(tColor, a);
+		}
+	</script>
+	
     <script src="js/user/scene1/myThree.js"></script>
     <script src="js/user/scene1/myPlugin.js"></script>
     <script src="js/user/scene1/myPlayer.js"></script>

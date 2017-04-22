@@ -66,6 +66,10 @@ var player;
 			player.init();
 		}
 
+		updateMainPlayer()
+		{	player.update();
+		}
+		
 		listenToOtherPlayers() 
 		{	// when a player is added, do something
 			fbRef.child( "Players" ).on( "child_added", function( playerData ) 
@@ -91,6 +95,7 @@ var player;
 		listenToPlayer( playerData ) 
 		{	if ( playerData.val() ) 
 			{	otherPlayers[playerData.key].setOrientation( playerData.val().orientation.position, playerData.val().orientation.rotation );
+				otherPlayers[playerData.key].update();
 			}
 		}		
 
