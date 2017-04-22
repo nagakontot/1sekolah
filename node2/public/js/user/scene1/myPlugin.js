@@ -2,22 +2,77 @@
 
 /////////////	
 	class CText
-	{	constructor(size) 
-		{	shapes = THREE.FontUtils.generateShapes( "Hello world", {font: "helvetiker",weight: "bold",size: 10} );
+	{	
+		//init( font ) 
+		//{	this.myfont = font;
+    	//	//console.log("inner value "+this.myfont);
+		//}   
+		//console.log("2nd time" +this.myfont);
 		
-			this.geometry 	= new THREE.ShapeGeometry( shapes );	//new THREE.BoxGeometry(size.width, size.height, size.depth);
-			this.material   = new THREE.MeshBasicMaterial();		//new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#00ff00',emissive: '#333333',shininess: 1 });
-    	    this.mesh 		= new THREE.Mesh(this.geometry, this.material);
-    	    
+		constructor(size) 
+		{	this.mesh;
+			this.myfont;
+		
+			var loader = new THREE.FontLoader();
+			loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) 
+			{
+				this.myfont = font;
+				
+			var params = {	material: 0,
+    						extrudeMaterial: 1,
+    						bevelEnabled: false,
+    						bevelThickness: 8,
+    						bevelSize: 4,
+    						font: this.myfont,
+    						weight: "normal",
+    						style: "normal",
+    						height: 0,
+    						size: 11,
+    						curveSegments: 4
+						};
+
+var textGeo = new THREE.TextGeometry("3D text", params);
+//console.log("3rd time "+this.myfont);
+
+textGeo.computeBoundingBox();
+//console.log("4th time "+this.myfont);
+
+textGeo.computeVertexNormals();
+//console.log("5th time "+this.myfont);
+var material = new THREE.MeshFaceMaterial([
+    new THREE.MeshPhongMaterial({color: 0xff22cc, shading: THREE.FlatShading}), // front
+    new THREE.MeshPhongMaterial({color: 0xff22cc, shading: THREE.SmoothShading}) // side
+]);
+//console.log("6th time "+this.myfont);
+this.mesh = new THREE.Mesh(textGeo, material);
+//console.log("7th time "+this.myfont);
+this.mesh.position.x = -textGeo.boundingBox.max.x / 2;
+this.mesh.position.y = -5;
+this.mesh.position.z = 30;
+this.mesh.name = 'text';
+//scene.add(this.mesh);
+//console.log("8th time "+this.myfont);		
+
+			}.bind(this));
+			/////////////////////////////////////////////////////////////////////////////////////
+			//var loader = new THREE.FontLoader();
+			//loader.load( 'three.js-master/examples/fonts/helvetiker_regular.typeface.json', function ( font ) {init( font );}.bind(this));
+			//loader.load( 'fonts/helvetiker_regular.typeface.json', function ( font ) {this.myfont = font;}.bind(this));
+
+			//this.myfont;
+
+
+
+			////////////////////////////////////////////////////////////////////////////////////////
     	    this.rotx		= size.rotx;
     	    this.roty		= size.roty;
     	    this.rotz		= size.rotz;
 		}
   
 		update() 
-		{	if(this.rotx)this.mesh.rotation.x += this.rotx;
-			if(this.roty)this.mesh.rotation.y += this.roty;
-			if(this.rotz)this.mesh.rotation.z += this.rotz;
+		{	//if(this.rotx)this.mesh.rotation.x += this.rotx;
+			//if(this.roty)this.mesh.rotation.y += this.roty;
+			//if(this.rotz)this.mesh.rotation.z += this.rotz;
 		}
   
 		getMesh() 
@@ -51,37 +106,60 @@
 
 ////////////////////////
 	class CPlane
-	{	constructor(size) 
+	{	constructor(size,maxAnisotropy) 
 		{	//////////////////////////////////////////////////
-	        var floorTexture        = texLoader.load( 'images/dirt/dirt_COLOR.jpg' );
+			//var maxAnisotropy = renderer.getMaxAnisotropy();
+			
+	        var floorTexture        = texLoader.load( 'images/dirt/ori/dirt_COLOR.png' );
             floorTexture.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
-            floorTexture.repeat.set( 100,100 );
+            floorTexture.repeat.set( 200,200 );
+   			floorTexture.anisotropy = maxAnisotropy;
 
-	        var floorTextureBump    = texLoader.load( 'images/dirt/dirt_NRM.jpg' );
+	        var floorTextureBump    = texLoader.load( 'images/dirt/ori/dirt_NRM.png' );
+            //floorTextureBump.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            //floorTextureBump.repeat.set( 100,100 );
+   			//floorTextureBump.anisotropy = maxAnisotropy;
+
             var floorTextureOCC     = texLoader.load( 'images/dirt/dirt_OCC.jpg' );
+            //floorTextureOCC.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            //floorTextureOCC.repeat.set( 100,100 );
+   			//floorTextureOCC.anisotropy = maxAnisotropy;
+            
             //var floorTextureSPEC    = texLoader.load( 'images/dirt/dirt_SPEC.jpg' );
-	        //var floorTextureDISP    = texLoader.load( 'images/dirt/dirt_DISP.jpg' );
+            //floorTextureSPEC.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            //floorTextureSPEC.repeat.set( 100,100 );
+   			//floorTextureSPEC.anisotropy = maxAnisotropy;
+
+	        //var floorTextureDISP    = texLoader.load( 'images/dirt/ori/dirt_DISP.png' );
+            //floorTextureDISP.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            //floorTextureDISP.repeat.set( 100,100 );
+   			//floorTextureDISP.anisotropy = maxAnisotropy;
 
 	        var params = 
 	        {   map:                floorTexture,
-                normalMap:          floorTextureBump,
+                bumpMap:        	floorTextureBump,
                 aoMap:              floorTextureOCC,         
+                //normalMap:			floorTextureBump,
                 //specularMap:        floorTextureSPEC,
                 //displacementMap:    floorTextureDISP,
-                //displacementBias:   1,
-                //displacementScale:  1,  
-                
-                //normalScale:        new THREE.Vector2( 0.618,0.618 ),
-                //shininess:          1,//35.0,
+                //displacementBias:   1,//0.618,
+                //displacementScale:  1,//0.618,  
+              
+                //ambient:			0xffffff,	
+                bumpScale:			1,
+                //normalScale:        new THREE.Vector2( 1,1),
+                //shininess:          10,//35.0,
                 //color:              0xdddddd,
 				//specular:           0x101010,
 				//emissive:			'#333333'
                 //side:               THREE.BackSide
             };
             
-            var material			= new THREE.MeshLambertMaterial( params );
-            //var material			= new THREE.MeshPhongMaterial( params );
-            //var material			= new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#aaaaaa',emissive: '#333333',shininess: 10 });
+            
+            this.material			= new THREE.MeshStandardMaterial( params );
+            //this.material			= new THREE.MeshLambertMaterial( params );
+            //this.material			= new THREE.MeshPhongMaterial( params );
+            //this.material			= new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#aaaaaa',emissive: '#333333',shininess: 10 });
             
 			//////////////////////////////////////////////////
 			this.geometry 			= new THREE.PlaneBufferGeometry(size.width, size.height);
@@ -89,13 +167,9 @@
             //make 2nd uv for aomap to function
             var uvs = this.geometry.attributes.uv.array;
             this.geometry.addAttribute( 'uv2', new THREE.BufferAttribute( uvs, 2 ) );
-			
-			this.material 			= new THREE.MeshPhongMaterial( params );
-			//this.material.color.setHSL( 0.095, 1, 0.618 );
-			//this.material.color.setHSL( 0.392, 1, 0.618 );
-			
+
     	    this.mesh 				= new THREE.Mesh(this.geometry, this.material);
-    	    this.mesh.position.y 	= -1;
+    	    this.mesh.position.y 	= -1;//-2;//
             this.mesh.rotation.x 	= -Math.PI / 2;
     	    
     	    //this.rotx		= size.rotx;

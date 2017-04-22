@@ -2,8 +2,114 @@
   	<head>
 		<title>spinnin' cubes! yes! plural!</title>
 		<!--style>canvas { width: 100%; height: 100% }</style-->
+		<script src="xgui.min.js"></script>
+		<style type="text/css">
+			#settings { text-align:right; top:8px; right:8px; position:absolute; color:#fff; background: #121212; opacity:0.8; border-radius:12px; padding: 6px }
+		</style>
+	
 	</head>
-	<body>
+	<body onLoad="init();">
+		<div id="settings"></div>
+		<!--canvas id="myCanvas" width="800" height="800" >Sorry! You need a modern browser to be able to view this.</canvas-->
+		<!------------------------------------------------------------------------------------>
+		
+		<script>
+//var context;
+//var canvas;
+
+var gui;
+/*
+var settings = {
+	steps: 16,
+	color: "840000",
+	bgcolor: "eeeeee",
+	startx: 200,
+	starty: 400,
+	endx: 600,
+	endy: 400,
+};
+*/
+function init() {
+
+	//canvas = document.getElementById('myCanvas');
+	//context = canvas.getContext('2d');
+
+	setupGui();
+
+	//redraw();
+
+}
+
+		function redraw () {
+/*
+	context.clearRect(0,0,800,800);
+
+	context.fillStyle = "#"+settings.bgcolor;
+	context.fillRect(0,0,800,800);
+
+	context.strokeStyle = "#"+settings.color;
+	context.lineWidth = 1;
+
+	var startPoint = {x:settings.startx, y:settings.starty};
+	var endPoint = {x:settings.endx, y:settings.endy};
+
+	
+	context.beginPath();
+
+	//drawDragonCurve(startPoint, endPoint, Math.round(settings.steps));
+
+    context.stroke();
+    
+*/
+}
+
+		function doRedraw (value, mouseup) {
+	//if (mouseup) redraw();
+}
+
+		function setupGui() {
+	
+	gui = new xgui( {width: 190, height: 190, backgroundColor: "#dddddd", frontColor: "#444444", dimColor: "#dddddd"} );
+
+
+	var settingsDiv = document.getElementById('settings');
+	settingsDiv.appendChild( gui.getDomElement() );
+
+	var label = new gui.Label( {x: 10, y: 10, text: "Steps:"} )
+	var steps = new gui.HSlider( {x:80, y:10, value: settings.steps, min: 2, max: 20} );
+	steps.value.bind(settings, "steps");
+	steps.value.bind(doRedraw);
+
+	var label = new gui.Label( {x: 10, y: 40, text: "Background:"} );
+	var label = new gui.Label( {x: 10, y: 60, text: "Color:"} );
+
+	var bgcolor = new gui.ColorPicker2( {x: 80, y: 40, hex: settings.bgcolor } );
+	bgcolor.value.bind(settings, "bgcolor");
+	bgcolor.value.bind(doRedraw);
+
+	var color = new gui.ColorPicker2( {x: 80, y: 60, hex: settings.color } );
+	color.value.bind(settings, "color");
+	color.value.bind(doRedraw);
+	
+	var label = new gui.Label( {x: 10, y: 85, text: "Start Position"} );
+	
+	var start = new gui.TrackPad( {x: 10, y: 100, min: 100, max: 700, height: 70, width: 70, value1: settings.startx, value2: settings.starty } );
+	start.value1.bind(settings, "startx");
+	start.value2.bind(settings, "starty");
+	start.value2.bind(doRedraw);
+
+	var label = new gui.Label( {x: 110, y: 85, text: "End Position"} );
+	
+	var end = new gui.TrackPad( {x: 110, y: 100, min: 100, max: 700, height: 70, width: 70, value1: settings.endx, value2: settings.endy } );
+	end.value1.bind(settings, "endx");
+	end.value2.bind(settings, "endy");
+	end.value2.bind(doRedraw);
+
+	//var redraw = new gui.Button( {x: 10, y: 200, text: "Redraw" } );
+	//redraw.value.bind(doRedraw);
+	}	
+		</script>
+		<!------------------------------------------------------------------------------------>
 		<!--
 		<script src="js/three_v84.min.js"></script>
 		<script src="three.portals.js"></script>
@@ -13,7 +119,7 @@
 		
 		<!--iframe src="https://www.twiddla.com/tzcha7" width="800" height="600"></iframe-->
 		
-		<iframe src="https://test1.1sekolah.xyz/ViewerJS/#../pdf/test_flash.pdf" width="800" height="600" allowfullscreen webkitallowfullscreen></iframe>
+		<!--iframe src="https://test1.1sekolah.xyz/ViewerJS/#../pdf/test_flash.pdf" width="800" height="600" allowfullscreen webkitallowfullscreen></iframe-->
 		
 
 		<!--

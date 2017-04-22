@@ -26,9 +26,9 @@
 			//this.app.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			/////////////////////////////////////////////////////////
 		
-			super.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
-			super.addMesh(new CPlane({width:1000,height:1000}));
-			//super.addMesh(new CText({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
+			//super.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
+			super.addMesh(new CPlane({width:1000,height:1000},this.renderer.getMaxAnisotropy()));
+			//super.addMesh(new CText({width:20,height:20,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			
 
 		}

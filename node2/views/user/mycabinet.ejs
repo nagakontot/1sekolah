@@ -1,6 +1,6 @@
-    <!------------------------------------------------------------------>
-    <!------------------------------------------------------------------>
-        <style>
+<!------------------------------------------------------------------>
+<!------------------------------------------------------------------>
+<style>
 .cabinet {
   position: fixed;
   transition: all cubic-bezier(.19, 1, .22, 1);
@@ -185,9 +185,19 @@
 }
 
         
-        </style>
-    <!------------------------------------------------------------------>
-    <!------------------------------------------------------------------>
+</style>
+<!------------------------------------------------------------------>
+<!------------------------------------------------------------------>
+    
+<style type="text/css">
+      /*
+			#settings { text-align:right; top:8px; right:8px; position:absolute; color:#fff; background: #121212; opacity:0.8; border-radius:12px; padding: 6px }
+			*/
+			#settings { text-align:right; color:#fff; background: #121212; opacity:0.8; border-radius:12px; padding: 6px }
+</style>    
+<!------------------------------------------------------------------>
+<!------------------------------------------------------------------>
+    
     <!--
 		<div class="cabinet-left">
 			<div class="cabinet-drawer">
@@ -214,23 +224,30 @@
 		</div>
 		-->
 
+    <!-------------------------------------------------------------------------------->
 		<div class="cabinet-top">
 			<div class="cabinet-drawer">
 				<div class="cabinet-knob"><p>Options</p></div>
 				<div class="cabinet-box">
 				    <!--p>This cabinet is a document of options.</p-->
 				    <iframe src="ViewerJS/#../pdf/test_flash.pdf" width="640" height="480" allowfullscreen webkitallowfullscreen></iframe>
+				    <!--embed src="pdf/test_flash.pdf" width="500" height="375" type='application/pdf'></embed-->  <!--simple but slow!!!-->
 				</div>
 			</div>
 		</div>
 
+    <!-------------------------------------------------------------------------------->
 		<div class="cabinet-right">
 			<div class="cabinet-drawer">
 				<div class="cabinet-knob"><p>Methods</p></div>
-				<div class="cabinet-box"><p>This cabinet is a document of methods.</p></div>
+				<div class="cabinet-box">
+				    <!--p>This cabinet is a document of methods.</p-->
+				    <div id="settings"></div>
+				</div>
 			</div>
 		</div>
 		
+    <!-------------------------------------------------------------------------------->
 		<div class="cabinet-bottom">
 			<div class="cabinet-drawer">
 				<div class="cabinet-knob"><p>Whiteboard</p></div>
@@ -251,9 +268,7 @@
 				</div>
 			</div>
 			<div class="cabinet-drawer">
-				<div class="cabinet-knob">
-					remove
-				</div>
+				<div class="cabinet-knob">remove</div>
 				<div class="cabinet-box">
 					<p>This drawer will be removed by the script.</p>
 				</div>
@@ -263,21 +278,7 @@
     <!------------------------------------------------------------------>
         
     <script src="js/lib/jscabinet/jquery.cabinet.js"></script>
-    
-		<!--script>
-        var testObject    = { x:0, y:0 };
-        //var gui           = new xgui();
-        var gui           = new xgui( {width: 220, height: 30} );
-        document.body.appendChild( gui.getDomElement() );
-        //var container    = document.getElementById("Options");
-        //container.appendChild( gui.getDomElement() );
-        //document.getElementById("Options").appendChild( gui.getDomElement() );
-        //$('#Options').append(gui.getDomElement());
-        
-        var slider       = new gui.HSlider( {x:10, y:10, value: 0, min:-100, max:100} );
-        slider.value.bind(testObject, "x", "y");
-    </script-->
-    
+
     <script>
         $(function() 
         {   var backup_params;
@@ -294,7 +295,9 @@
                             };
             
             $('.cabinet-left').cabinet($.extend({width: 300,mode: 'position'}, options));
-              $('.cabinet-top').cabinet($.extend({position: 'top',height: 100,mode: 'position',drawers: [ {   knob: '<p>position</p>',
+            
+            //these top drawers are created dynamically
+            $('.cabinet-top').cabinet($.extend({position: 'top',height: 100,mode: 'position',drawers: [ {   knob: '<p>position</p>',
                                                                                                             box:  '<p><code>left</code> or <code>right</code> or <code>top</code> or <code>bottom</code></p><p>This option refers to the direction of slide.</p>'
                                                                                                         },
                                                                                                         {   knob: '<p>mode</p>',
@@ -305,6 +308,8 @@
                                                                                                         }]
                                                }, options));
   
+
+            //these topright drawers are created dynamically
             $('.cabinet-right').cabinet($.extend({position: 'right',width: 300,mode: 'width'}, options));
             $('.cabinet-right').cabinet('appendDrawers', [{  knob: '<p>appendDrawers</p>',
                                                              box:  '<h3>appendDrawers</h3><p>This method adds drawers.</p>'
@@ -325,3 +330,105 @@
         ////////////////
         
     </script>
+    
+    
+    		<!------------------------------------------------------------------------------------>
+		
+		<script>
+//var context;
+//var canvas;
+
+var gui;
+/*
+var settings = {
+	steps: 16,
+	color: "840000",
+	bgcolor: "eeeeee",
+	startx: 200,
+	starty: 400,
+	endx: 600,
+	endy: 400,
+};
+*/
+initGui1();
+function initGui1() {
+
+	//canvas = document.getElementById('myCanvas');
+	//context = canvas.getContext('2d');
+
+	setupGui();
+
+	//redraw();
+
+}
+
+		function redraw () {
+/*
+	context.clearRect(0,0,800,800);
+
+	context.fillStyle = "#"+settings.bgcolor;
+	context.fillRect(0,0,800,800);
+
+	context.strokeStyle = "#"+settings.color;
+	context.lineWidth = 1;
+
+	var startPoint = {x:settings.startx, y:settings.starty};
+	var endPoint = {x:settings.endx, y:settings.endy};
+
+	
+	context.beginPath();
+
+	//drawDragonCurve(startPoint, endPoint, Math.round(settings.steps));
+
+    context.stroke();
+    
+*/
+}
+
+		function doRedraw (value, mouseup) {
+	//if (mouseup) redraw();
+}
+
+		function setupGui() {
+	
+	gui = new xgui( {width: 190, height: 190, backgroundColor: "#dddddd", frontColor: "#444444", dimColor: "#dddddd"} );
+
+
+	var settingsDiv = document.getElementById('settings');
+	settingsDiv.appendChild( gui.getDomElement() );
+
+	var label = new gui.Label( {x: 10, y: 10, text: "Steps:"} )
+	var steps = new gui.HSlider( {x:80, y:10, value: settings.steps, min: 2, max: 20} );
+	steps.value.bind(settings, "steps");
+	steps.value.bind(doRedraw);
+
+	var label = new gui.Label( {x: 10, y: 40, text: "Background:"} );
+	var label = new gui.Label( {x: 10, y: 60, text: "Color:"} );
+
+	var bgcolor = new gui.ColorPicker2( {x: 80, y: 40, hex: settings.bgcolor } );
+	bgcolor.value.bind(settings, "bgcolor");
+	bgcolor.value.bind(doRedraw);
+
+	var color = new gui.ColorPicker2( {x: 80, y: 60, hex: settings.color } );
+	color.value.bind(settings, "color");
+	color.value.bind(doRedraw);
+	
+	var label = new gui.Label( {x: 10, y: 85, text: "Start Position"} );
+	
+	var start = new gui.TrackPad( {x: 10, y: 100, min: 100, max: 700, height: 70, width: 70, value1: settings.startx, value2: settings.starty } );
+	start.value1.bind(settings, "startx");
+	start.value2.bind(settings, "starty");
+	start.value2.bind(doRedraw);
+
+	var label = new gui.Label( {x: 110, y: 85, text: "End Position"} );
+	
+	var end = new gui.TrackPad( {x: 110, y: 100, min: 100, max: 700, height: 70, width: 70, value1: settings.endx, value2: settings.endy } );
+	end.value1.bind(settings, "endx");
+	end.value2.bind(settings, "endy");
+	end.value2.bind(doRedraw);
+
+	//var redraw = new gui.Button( {x: 10, y: 200, text: "Redraw" } );
+	//redraw.value.bind(doRedraw);
+	}	
+		</script>
+		<!------------------------------------------------------------------------------------>

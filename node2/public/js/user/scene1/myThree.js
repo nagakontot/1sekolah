@@ -117,7 +117,7 @@ class CThreejs
 		{	constructor(v)	{	this._	= v;}
 		
 			get_()			{	return this._;}
-			//set_(v)			{	this._	= v;}
+			set_(v)			{	this._	= v;}
 		}
 		
 		class CScene extends CBase
@@ -199,14 +199,15 @@ class CThreejs
 		
 		class CLight extends CBase
 		{	constructor(scene)
-			{	scene.add( new THREE.AmbientLight( 0xaaaaaa ) );
+			{	//scene.add( new THREE.AmbientLight( 0xaaaaaa ) );
+				scene.add( new THREE.AmbientLight( 0xffffff) );
 
 				var hemisphereLight = new THREE.HemisphereLight(0xffffff,0xff0000,1);
 				hemisphereLight.position.set(1, 0, 1).normalize();
 				scene.add(hemisphereLight);
 
             	super(new THREE.DirectionalLight( 0xffffff, 1 ));
-				this._.position.set( 500, 500, 0 ).normalize();//( -1, 1.75, 1 );
+				this._.position.set( 250, 500, 0 ).normalize();//( -1, 1.75, 1 );
 				this._.position.multiplyScalar( 50 );
 				this._.name = "dirlight";
             	scene.add( this._ );
