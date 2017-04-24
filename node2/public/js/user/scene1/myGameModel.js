@@ -59,10 +59,11 @@ var otherPlayers = {};
 			{	isOnline:		true,
 				orientation:	{	position: {x: 0, y:0, z:0},
 									rotation: {x: 0, y:0, z:0}
-								}
+								},
+				avatar:			getCookie("avatar")	
 			});
 
-			player = new Player( playerID );
+			player = new Player( playerID,getCookie("avatar"));
 			player.isMainPlayer = true;
 			player.init();
 		}
@@ -76,7 +77,7 @@ var otherPlayers = {};
 			fbRef.child( "Players" ).on( "child_added", function( playerData ) 
 			{	if ( playerData.val() ) 
 				{	if ( playerID != playerData.key && !otherPlayers[playerData.key] ) 
-					{	otherPlayers[playerData.key] = new Player( playerData.key );
+					{	otherPlayers[playerData.key] = new Player( playerData.key,playerData.val().avatar );
 						otherPlayers[playerData.key].init();
 						fbRef.child( "Players/" + playerData.key ).on( "value", this.listenToPlayer );
 					}

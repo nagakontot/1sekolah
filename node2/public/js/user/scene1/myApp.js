@@ -12,8 +12,17 @@
 			
 			//window.movieMaterial		= new ChromaKeyMaterial('video/baby4.webm', 320,218, 0xd400);
 			//window.movieMaterial		= new ChromaKeyMaterial('video/monkey5.webm', 320,240, 0xd400);
-			window.movieMaterial		= new ChromaKeyMaterial('video/TrainerCalem3.webm', 320,240, 0xd400);
-			window.movieMaterial.side   = THREE.DoubleSide;
+
+			window.movieMaterial		= [];
+			window.movieMaterial[0]		= new ChromaKeyMaterial('video/baby4.webm', 		320,218, 0xd400);
+			window.movieMaterial[1]		= new ChromaKeyMaterial('video/monkey5.webm',		320,240, 0xd400);
+			window.movieMaterial[2]		= new ChromaKeyMaterial('video/TrainerCalem3.webm', 320,240, 0xd400);
+			window.movieMaterial[3]		= new ChromaKeyMaterial('video/panda1.webm',		320,240, 0xd400);
+
+			window.movieMaterial[0].side   = THREE.DoubleSide;
+			window.movieMaterial[1].side   = THREE.DoubleSide;
+			window.movieMaterial[2].side   = THREE.DoubleSide;
+			window.movieMaterial[3].side   = THREE.DoubleSide;
 			
 			this.mygame = new CGameModel(this);
 			this.mygame.init();
@@ -87,7 +96,11 @@
 		}
 		
 		update(time)
-		{	window.movieMaterial.update();
+		{	window.movieMaterial[0].update();
+			window.movieMaterial[1].update();
+			window.movieMaterial[2].update();
+			window.movieMaterial[3].update();
+		
 			this.mysp.update(time,this.scene,this.params1);
 			this.mygame.updateMainPlayer();
 			

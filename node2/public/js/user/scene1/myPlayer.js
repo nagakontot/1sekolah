@@ -3,11 +3,12 @@
 	//var movieMaterial		= new ChromaKeyMaterial('video/baby4.webm', 320,218, 0xd400);
 	
 	class Player	
-	{	constructor( playerID ) 
+	{	constructor( playerID,avatar) 
 		{	this.playerID		= playerID;
 			this.isMainPlayer	= false;
 			this.mesh;
 			this.meshgroup;
+			this.avatar			= avatar;//getCookie("avatar");			
 		}	
 		 
 		init() 
@@ -29,7 +30,8 @@
 			//this.movieMaterial		= new ChromaKeyMaterial('video/baby4.webm', 320,218, 0xd400);
 			this.movieGeometry		= new THREE.PlaneGeometry(3.2,2.18, 4, 4);
 			
-			this.moviemesh = new THREE.Mesh(this.movieGeometry,movieMaterial);
+			this.moviemesh = new THREE.Mesh(this.movieGeometry,window.movieMaterial[this.avatar]);
+			//this.moviemesh = new THREE.Mesh(this.movieGeometry,movieMaterial);
 			//this.moviemesh = new THREE.Mesh(this.movieGeometry,this.movieMaterial);
 			//this.moviemesh.position.set(0, 53, 0);
 			

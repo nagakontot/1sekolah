@@ -1,3 +1,13 @@
+        function getCookie(name) 
+        {   return (name = (document.cookie + ';').match(new RegExp(name + '=.*;'))) && name[0].split(/=|;/)[1];
+        }
+
+        // the default lifetime is 7 days
+        function setCookie(name, value, days) 
+        {   var e = new Date;
+            e.setDate(e.getDate() + (days || 7));
+            document.cookie = name + "=" + value + ';expires=' + e.toUTCString() + ';path=/;domain=.' + document.domain;
+        }
 //////////////////////////////
         //http://psoug.org/snippet/Javascript-Javascript-quotFade-In-On-Clickquot_903.htm
         // Browser safe opacity handling function
