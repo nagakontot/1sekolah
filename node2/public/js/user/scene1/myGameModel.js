@@ -2,8 +2,9 @@
 
 //////////////////////////////////////////////////////////////////////////
 var playerID;
-var otherPlayers = {};
 var player;
+
+var otherPlayers = {};
 
 //////////////////////////////////////////////////////////////////////////
 	class CGameModel
@@ -67,7 +68,7 @@ var player;
 		}
 
 		updateMainPlayer()
-		{	player.update();
+		{	//player.update();
 		}
 		
 		listenToOtherPlayers() 
@@ -86,7 +87,8 @@ var player;
 			fbRef.child( "Players" ).on( "child_removed", function( playerData ) 
 			{	if ( playerData.val() ) 
 				{	fbRef.child( "Players/" + playerData.key ).off( "value", this.listenToPlayer );
-					myapp.remove( otherPlayers[playerData.key].mesh );
+					//myapp.remove( otherPlayers[playerData.key].mesh );
+					myapp.remove( otherPlayers[playerData.key].meshgroup );
 					delete otherPlayers[playerData.key];
 				}
 			}.bind(this));
@@ -95,7 +97,7 @@ var player;
 		listenToPlayer( playerData ) 
 		{	if ( playerData.val() ) 
 			{	otherPlayers[playerData.key].setOrientation( playerData.val().orientation.position, playerData.val().orientation.rotation );
-				otherPlayers[playerData.key].update();
+				//otherPlayers[playerData.key].update();
 			}
 		}		
 

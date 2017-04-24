@@ -45,9 +45,141 @@
 		}
 		ChromaKeyMaterial.prototype = Object.create(THREE.ShaderMaterial.prototype);
 
-		//////////////////////////////////////////////////////////////////////////////////
-		
-/////////////	
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+	class CSKyboxGradient
+	{	constructor(size) 
+		{	// prepare ShaderMaterial without textures
+			var vertexShader	= document.getElementById('sky-vertex').textContent, 
+			    fragmentShader  = document.getElementById('sky-fragment').textContent;
+			    
+			var uniforms = {	topColor:		{ type: "c", value: new THREE.Color(0x0055ff)}, 
+								bottomColor:	{ type: "c", value: new THREE.Color(0xffffff)},
+								offset: 		{ type: "f", value: 5}, 
+								exponent:		{ type: "f", value: 0.6}
+							}
+
+			this.skyMaterial	= new THREE.ShaderMaterial({vertexShader: vertexShader, fragmentShader: fragmentShader, uniforms: uniforms, side: THREE.BackSide, fog: false});
+			
+			// create Mesh with sphere geometry and add to the scene
+			//this.skyboxMesh		= new THREE.Mesh( new THREE.SphereGeometry(250, 60, 40), this.skyMaterial);
+			this.skyboxMesh		= new THREE.Mesh( new THREE.SphereGeometry(size.radius,size.widthSegments,size.heightSegments), this.skyMaterial);
+			//this.skyboxMesh.position.copy( player.getPosition() );
+		}
+  
+		//setPosition(position)
+		//{	this.skyboxMesh.position.copy( position );
+		//}
+  
+		setPosition(x,z)
+		{	this.skyboxMesh.position.x=x;
+			this.skyboxMesh.position.z=z;
+		}
+
+		update(pos) 
+		{	//this.skyboxMesh.position.copy( player.getPosition() );
+			this.skyboxMesh.position.copy( pos );
+		}
+  
+		getMesh() 
+		{	return this.skyboxMesh;
+		}
+	}
+	
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+	class CSpritePoint
+	{	constructor(scene,parameters)
+		//constructor(scene,texfile)
+		{	this.materials = [];
+			//var textureLoader = new THREE.TextureLoader();
+				
+			//this.sprite1 = textureLoader.load( "textures/sprites/snowflake1.png" );//videoTexture;//
+			//this.sprite2 = textureLoader.load( "textures/sprites/snowflake2.png" );//videoTexture;//
+			//this.sprite3 = textureLoader.load( "textures/sprites/snowflake3.png" );//videoTexture;//
+			//this.sprite4 = textureLoader.load( "textures/sprites/snowflake4.png" );//videoTexture;//
+			//this.sprite5 = textureLoader.load( "textures/sprites/snowflake5.png" );//videoTexture;//
+			//this.parameters =[	[ [1.0,  0.2,  0.5], this.sprite2, 0.8],//20 ],
+			//					[ [0.95, 0.1,  0.5], this.sprite3, 0.5],//15 ],
+			//					[ [0.90, 0.05, 0.5], this.sprite1, 0.3],//10 ],
+			//					[ [0.85, 0,    0.5], this.sprite5, 0.2],//8  ],
+			//					[ [0.80, 0,    0.5], this.sprite4, 0.1],//5  ]
+			//				];
+			
+			/*
+			this.sprite = [];
+			var i=0;
+			for (i=0; i<texfile.length; i++) 
+			{	this.sprite[i] = textureLoader.load( texfile[i]);
+			}
+			i=0;
+			this.parameters =[	[ [1.0,  0.2,  0.5], this.sprite[i++], 0.8],//20 ],
+								[ [0.95, 0.1,  0.5], this.sprite[i++], 0.5],//15 ],
+								[ [0.90, 0.05, 0.5], this.sprite[i++], 0.3],//10 ],
+								[ [0.85, 0,    0.5], this.sprite[i++], 0.2],//8  ],
+								[ [0.80, 0,    0.5], this.sprite[i++], 0.1],//5  ]
+							];
+			*/								
+			
+			/////////////////////////////////////////////////////////////////////
+			
+			var max_particles	= 1000;//10000;
+			//var n = 1000, n2 = n / 2; // particles spread in the cube_material
+			var n = 250, n2 = n / 2; // particles spread in the cube_material
+			//////////////////////////////////////////////////////////////////////
+			this.geometry = new THREE.Geometry();
+			for (var i = 0; i < max_particles; i ++ ) 
+			{	var vertex = new THREE.Vector3();
+				vertex.x = Math.random() * n - n2;//Math.random() * 2000 - 1000;
+				vertex.y = Math.random() * n - n2;//Math.random() * 2000 - 1000;
+				vertex.z = Math.random() * n - n2;//Math.random() * 2000 - 1000;
+				this.geometry.vertices.push( vertex );
+			}
+			var color,mysprite,size,particles;
+			for (var i = 0; i < parameters.length; i ++ ) 
+			{	color		= parameters[i][0];
+				mysprite	= parameters[i][1];
+				size		= parameters[i][2];
+						
+				//this.materials[i] = new THREE.PointsMaterial( { size: size, map: mysprite} );
+				//this.materials[i] = new THREE.PointsMaterial( { size: size, map: mysprite, depthTest: false, transparent : true } );
+				this.materials[i] = new THREE.PointsMaterial( { size: size, map: mysprite, blending: THREE.AdditiveBlending, transparent : true } );
+				//this.materials[i] = new THREE.PointsMaterial( { size: size, map: mysprite, blending: THREE.AdditiveBlending, depthTest: false, transparent : true } );
+				this.materials[i].color.setHSL( color[0], color[1], color[2] );
+					
+				particles = new THREE.Points( this.geometry, this.materials[i] );
+				//particles = new THREE.Points( this.geometry, this.movieMaterial );
+				
+				particles.rotation.x = Math.random() * 6;
+				particles.rotation.y = Math.random() * 6;
+				particles.rotation.z = Math.random() * 6;
+				scene.add( particles );
+			}
+		}
+			
+		update(time,scene,parameters)
+		{	time=time*0.1;
+			var object,length=scene.children.length;
+			for (var i = 0; i < length; i ++ ) 
+			{	object = scene.children[ i ];
+				if ( object instanceof THREE.Points ) 
+				{	object.rotation.y = time * ( i < 4 ? i + 1 : - ( i + 1 ) );
+				}
+			}
+			
+			var color;
+			length=this.materials.length;
+			for (var i = 0; i < length; i ++ ) 
+			{	color = parameters[i][0];
+				//h = ( 360 * ( color[0] + time ) % 360 ) / 360;
+				//materials[i].color.setHSL( h, color[1], color[2] );
+				this.materials[i].color.setHSL(( 360 * ( color[0] + time ) % 360 ) / 360, color[1], color[2] );
+			}
+		}
+	}		
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////
 	class CText
 	{	
 		//init( font ) 
@@ -195,7 +327,7 @@ this.mesh.name = 'text';
                 //ambient:			0xffffff,	
                 bumpScale:			1,
                 //normalScale:        new THREE.Vector2( 1,1),
-                //shininess:          10,//35.0,
+                shininess:          10,//35.0,
                 //color:              0xdddddd,
 				//specular:           0x101010,
 				//emissive:			'#333333'
@@ -203,9 +335,9 @@ this.mesh.name = 'text';
             };
             
             
-            this.material			= new THREE.MeshStandardMaterial( params );
+            //this.material			= new THREE.MeshStandardMaterial( params );
             //this.material			= new THREE.MeshLambertMaterial( params );
-            //this.material			= new THREE.MeshPhongMaterial( params );
+            this.material			= new THREE.MeshPhongMaterial( params );
             //this.material			= new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#aaaaaa',emissive: '#333333',shininess: 10 });
             
 			//////////////////////////////////////////////////

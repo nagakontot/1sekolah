@@ -1,5 +1,7 @@
 "use strict"
 
+	//var movieMaterial		= new ChromaKeyMaterial('video/baby4.webm', 320,218, 0xd400);
+	
 	class Player	
 	{	constructor( playerID ) 
 		{	this.playerID		= playerID;
@@ -7,34 +9,36 @@
 			this.mesh;
 			this.meshgroup;
 		}	
-		
+		 
 		init() 
 		{	//if ( this.mesh ) return;
 			if ( this.meshgroup ) return;
 			
-			var cube_geometry = new THREE.BoxGeometry( 0.8, 2, 0.3 );
+			/*
+			var cube_geometry = new THREE.BoxGeometry( 0.3, 2, 0.2 );
+			//var cube_geometry = new THREE.BoxGeometry( 0.8, 2, 0.3 );
 			//var cube_material = new THREE.MeshBasicMaterial( {color: 0x7777ff, wireframe: false} );
 			var cube_material  = new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#aaaaaa',emissive: '#333333',shininess: 1 });
 
 			this.mesh = new THREE.Mesh( cube_geometry, cube_material );
-			
+			*/
 			///////////////////////////////////////////////////////////////////////////////////
 			//this.movieMaterial		= new ChromaKeyMaterial('video/troll_dance3.webm', 320,240, 0xd400);
 			//this.movieGeometry		= new THREE.PlaneGeometry(60, 105, 4, 4);
 
-			this.movieMaterial		= new ChromaKeyMaterial('video/troll_dance3.webm', 320,240, 0xd400);
-			//this.movieGeometry		= new THREE.PlaneGeometry(3,5, 4, 4);
-			this.movieGeometry		= new THREE.PlaneGeometry(1.5,3, 4, 4);
+			//this.movieMaterial		= new ChromaKeyMaterial('video/baby4.webm', 320,218, 0xd400);
+			this.movieGeometry		= new THREE.PlaneGeometry(3.2,2.18, 4, 4);
 			
-			this.moviemesh = new THREE.Mesh(this.movieGeometry,this.movieMaterial);
+			this.moviemesh = new THREE.Mesh(this.movieGeometry,movieMaterial);
+			//this.moviemesh = new THREE.Mesh(this.movieGeometry,this.movieMaterial);
 			//this.moviemesh.position.set(0, 53, 0);
 			
 			
 			///////////////////////////////////////////////////////////////////////////////////
 			this.meshgroup = new THREE.Object3D();//create an empty container
-			this.meshgroup.add( this.mesh );//add a mesh with geometry to it
-			this.meshgroup.add( this.moviemesh );//add a mesh with geometry to it
 			
+			//this.meshgroup.add( this.mesh );//add a mesh with geometry to it
+			this.meshgroup.add( this.moviemesh );//add a mesh with geometry to it
 			
 			myapp.add( this.meshgroup );
 			//myapp.add( this.mesh );
@@ -63,7 +67,16 @@
 			}			
 		}
 		
+		getPosition()
+		{	return this.meshgroup.position;
+		}
+		
+		setPosition(position)
+		{	this.meshgroup.position.copy( position );
+		}
+
 		update()
-		{	this.movieMaterial.update();
+		{	//this.movieMaterial.update();
+			//movieMaterial.update();
 		}		
 	}

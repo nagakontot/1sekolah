@@ -175,12 +175,15 @@
     <!------------------------------------------------------------------>
     <!------------------------------------------------------------------>
     <!------------------------------------------------------------------>
+
+    <!------------ video shaders --------------------------------------->
 	<script id="vertexShader" type="x-shader/x-vertex">
 		varying vec2 vUv;
 		void main()
 		{	vUv = uv;
-			vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
-			gl_Position = projectionMatrix * mvPosition;
+			//vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+			//gl_Position = projectionMatrix * mvPosition;
+			gl_Position = projectionMatrix * vec4(modelViewMatrix * vec4( position, 1.0 ));
 		}
 	</script>
 
@@ -190,13 +193,40 @@
 		varying vec2 vUv;
 		void main()
 		{	vec3 tColor = texture2D( texture, vUv ).rgb;
-			float a = (length(tColor - color) - 0.5) * 7.0;
-		
-			//		gl_FragColor = vec4(a, a, a, 1.0);
-			gl_FragColor = vec4(tColor, a);
+			//float a = (length(tColor - color) - 0.5) * 7.0;
+			//gl_FragColor = vec4(tColor, a);
+			gl_FragColor = vec4(tColor, ((length(tColor - color) - 0.5) * 7.0));
 		}
 	</script>
+    <!------------ /video shaders -------------------------------------->
 	
+    <!------------ skybox shaders --------------------------------------->
+    <script id="sky-vertex" type="x-shader/x-vertex">
+        varying vec3 vWorldPosition;
+        void main() 
+        {   vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+            vWorldPosition = worldPosition.xyz;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        }
+    </script>
+    <script id="sky-fragment" type="x-shader/x-fragment">
+        uniform vec3 topColor;
+        uniform vec3 bottomColor;
+        uniform float offset;
+        uniform float exponent;
+        varying vec3 vWorldPosition;
+        void main() 
+        {    float h = normalize( vWorldPosition + offset ).y;
+            gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( h, exponent ), 0.0 ) ), 1.0 );
+        }
+    </script>
+    <!------------ /skybox shaders -------------------------------------->
+	
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+
     <script src="js/user/scene1/myThree.js"></script>
     <script src="js/user/scene1/myPlugin.js"></script>
     <script src="js/user/scene1/myPlayer.js"></script>

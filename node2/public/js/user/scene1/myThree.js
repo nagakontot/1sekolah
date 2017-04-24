@@ -124,7 +124,8 @@ class CThreejs
 		{	constructor()
 			{	super(new THREE.Scene());
 
-	        	this._.fog          	= new THREE.FogExp2( 0x9999ff, 0.00025 );
+	        	this._.fog          	= new THREE.FogExp2( 0x000000, 0.0008 );;//new THREE.FogExp2( 0x9999ff, 0.00025 );
+	        	
 
 	        	return this;
 			}		
@@ -147,7 +148,8 @@ class CThreejs
 
             	this._.setPixelRatio( window.devicePixelRatio || 1 );
             	this._.setSize( width,height);
-        		this._.setClearColor( 0xffffff); 
+        		//this._.setClearColor( 0xffffff); 
+        		//this._.setClearColor( 0x000000, 0 ); // the default
             	this._.autoClearColor	= false;//true;//
             	this._.gammaInput   	= true;
             	this._.gammaOutput  	= true;
