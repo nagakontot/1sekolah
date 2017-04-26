@@ -36,7 +36,7 @@ redbird.register("rchat.1sekolah.xyz",          "http://172.18.0.5:3000",   {ssl
 redbird.register("test1.1sekolah.xyz",           "http://172.18.0.4:80",    {ssl: true});
 redbird.register("test2.1sekolah.xyz",           "http://172.18.0.3:8080",  {ssl: true});
 
-redbird.register("jitsi.1sekolah.xyz",           "http://172.18.0.6:80",  {ssl: true});
+//redbird.register("jitsi.1sekolah.xyz",           "http://172.18.0.6:80",  {ssl: true});
 
 
 

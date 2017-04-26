@@ -1,8 +1,83 @@
 "use strict"
 
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+//http://ezcourse.nctu.me/2016/11/13/three-js-z-buffer/
 
-		//var videoTexture;
-		function ChromaKeyMaterial(url, width, height, keyColor) 
+var myglobal_ctx;
+function createLabel(message, fontSize=9) 
+{   var canvas = document.createElement('canvas');    //////////////////////////////
+                                                      // Create a canvas element. //
+                                                      //////////////////////////////
+    // 【Remove the two lines of code.】
+    // canvas.id = "box";
+    // document.body.appendChild(canvas);
+    canvas.width	= 64;//320;//300;
+    canvas.height	= 16;//32;//240;//300;
+    //var canvasSize	= 64;//300;
+    myglobal_ctx=canvas.getContext("2d");                      // get 2D drawing context.
+
+	myglobal_ctx.font = "Bold "+  fontSize+"px Verdana";	//good
+	//myglobal_ctx.font = "Bold "+fontSize+"px Tahoma";	//good
+    //myglobal_ctx.font = "Bold "+fontSize+"px Bookman"; 
+	//myglobal_ctx.textBaseline	= "top";//"middle";
+    //myglobal_ctx.textAlign		= "center";                   // write some words on the canvas.//
+    myglobal_ctx.fillStyle		= "#ffffff";//"#ffff00";                  ////////////////////////////////////
+    //myglobal_ctx.fillText(message, canvasSize/2, canvasSize/2);
+    //myglobal_ctx.fillText(message, canvas.width/2, canvas.width/2);
+    
+    //var textString = "Hello look at me!!!",
+    var textWidth = myglobal_ctx.measureText(message).width;
+	myglobal_ctx.fillText(message, (canvas.width/2) - (textWidth/2),canvas.height/2);
+	//myglobal_ctx.fillText(message, (canvas.width/2) - (textWidth / 2), 100);
+
+    // draw a frame for the text. //
+    // Method 1 : myglobal_ctx.strokeRect();
+    // var messageW = myglobal_ctx.measureText(message).width;
+    // var blank = fontSize/3;
+    // myglobal_ctx.strokeStyle = "#62bcfa";
+    // myglobal_ctx.lineWidth=2;
+    // myglobal_ctx.strokeRect(
+    //     canvasSize/2-messageW/2-blank,
+    //     canvasSize/2-fontSize,
+    //     messageW+blank*2,
+    //     fontSize+blank
+    // );
+	/*
+    // Method 2 : myglobal_ctx.stroke();
+    var messageW = myglobal_ctx.measureText(message).width;
+    var blank = fontSize/3;
+    myglobal_ctx.strokeStyle = "#62bcfa";
+    myglobal_ctx.lineWidth=2;
+    myglobal_ctx.beginPath();
+    myglobal_ctx.moveTo(canvasSize/2-messageW/2-blank, canvasSize/2-fontSize);
+    myglobal_ctx.lineTo(canvasSize/2+messageW/2+blank, canvasSize/2-fontSize);
+    myglobal_ctx.lineTo(canvasSize/2+messageW/2+blank, canvasSize/2+blank);
+    myglobal_ctx.lineTo(canvasSize/2-messageW/2-blank, canvasSize/2+blank);
+    myglobal_ctx.closePath();
+    myglobal_ctx.stroke();
+	*/
+    ///// put this label into the 3D scene. /////
+    var texture = new THREE.Texture(canvas);
+    texture.needsUpdate = true;
+
+    var spriteMtl	= new THREE.SpriteMaterial({map: texture});
+    var sprite		= new THREE.Sprite(spriteMtl);
+    
+    //sprite.scale.set(5, 5, 1);
+    //sprite.scale.set(2,2,1);
+    //sprite.position.set(0,1.5, 0);
+
+    sprite.scale.set(1,0.25,1);
+    sprite.position.set(0,1.25, 0);
+    //scene.add(sprite);
+	return sprite;
+}
+
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+		var videoTexture=[];
+		function ChromaKeyMaterial(url, width, height, keyColor,texindex) 
 		{	THREE.ShaderMaterial.call(this);
 			this.video					= document.createElement('video');
 			this.video.loop				= true;
@@ -23,19 +98,19 @@
 			videoImageContext.fillStyle = '#' + keyColorObject.getHexString();
 			videoImageContext.fillRect(0, 0, videoImage.width, videoImage.height);
 
-			//videoTexture		= new THREE.Texture(videoImage);
-			var videoTexture		= new THREE.Texture(videoImage);
-			videoTexture.minFilter	= THREE.LinearFilter;
-			videoTexture.magFilter	= THREE.LinearFilter;
+			videoTexture[texindex]	= new THREE.Texture(videoImage);
+			//var videoTexture		= new THREE.Texture(videoImage);
+			videoTexture[texindex].minFilter	= THREE.LinearFilter;
+			videoTexture[texindex].magFilter	= THREE.LinearFilter;
 
 			this.update = function () 
 			{	if (this.video.readyState === this.video.HAVE_ENOUGH_DATA) 
 				{	videoImageContext.drawImage(this.video, 0, 0);
-					if (videoTexture)videoTexture.needsUpdate = true;
+					if (videoTexture[texindex])videoTexture[texindex].needsUpdate = true;
 				}
 			}
 
-			this.setValues({	uniforms:		{	texture:	{type: "t",value: videoTexture},
+			this.setValues({	uniforms:		{	texture:	{type: "t",value: videoTexture[texindex]},
 													color:		{type: "c",value: keyColorObject}
 												},
 								vertexShader:	document.getElementById('vertexShader').textContent,
@@ -266,7 +341,9 @@ this.mesh.name = 'text';
 			//this.material 	= new THREE.MeshBasicMaterial({color: 0x00ff00});
 			this.material   = new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#00ff00',emissive: '#333333',shininess: 1 });
     	    this.mesh 		= new THREE.Mesh(this.geometry, this.material);
-    	    
+    	    this.mesh.castShadow	= true;
+			this.mesh.receiveShadow = false;//true;
+				
     	    this.rotx		= size.rotx;
     	    this.roty		= size.roty;
     	    this.rotz		= size.rotz;
@@ -350,7 +427,9 @@ this.mesh.name = 'text';
     	    this.mesh 				= new THREE.Mesh(this.geometry, this.material);
     	    this.mesh.position.y 	= -1;//-2;//
             this.mesh.rotation.x 	= -Math.PI / 2;
-    	    
+            
+            this.mesh.castShadow	= false;
+            this.mesh.receiveShadow = true;
     	    //this.rotx		= size.rotx;
     	    //this.roty		= size.roty;
     	    //this.rotz		= size.rotz;

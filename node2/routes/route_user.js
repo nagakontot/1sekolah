@@ -2,6 +2,8 @@
 
 var express         = require('express');
 var passport        = require('passport');
+//var ensureLoggedIn  = require('connect-ensure-login').ensureLoggedIn();
+
 //var iframe          = require('iframe');
 
 //var frame = iframe({ container: document.querySelector('#iframecontainer') , src: "https://localhost:3100"});
@@ -23,6 +25,7 @@ app.locals.firebase = firebase;
 var router          = express.Router();
 
 /* GET user profile. */
+
 router.get( '/', 
             //ensureLoggedIn, 
             passport.authenticate('auth0',{ failureRedirect: '/' }),    //<<--this is 1sekolah.xyz/
@@ -31,9 +34,11 @@ router.get( '/',
                 //res.render('user.ejs', { user: req.user, myfirebase: res.locals.firebase,myfbRef: res.locals.fbRef});
                 //res.render('user.ejs', { user: req.user, myfirebase: req.app.locals.firebase});
                 //res.render('user.ejs', { myfirebase: req.app.locals.firebase, myfbRef: req.app.locals.fbRef});
-                res.render('user.ejs');
+                //res.render('user.ejs');
+                
+                res.render('user.ejs',{ username: req.user.nickname });
             });
-
+     
 router.get( '/logout', 
             function(req, res)
             {   req.logout();

@@ -337,6 +337,15 @@ a:hover
     function handleMUp4()       {  document.getElementById('headvid4a').style.border = '0.5em solid green';return true;}
 */
     //default value set to headvid1
-    handleMDown1();
+    var x=getCookie("avatar");
+    if(!x)x="0";
+    switch(x)
+    { case "0":    handleMDown1();break;
+      case "1":    handleMDown2();break;
+      case "2":    handleMDown3();break;
+      case "3":    handleMDown4();break;
+      default:     handleMDown1();break;
+    }
+    
 
   </script>

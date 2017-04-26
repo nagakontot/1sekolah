@@ -32,6 +32,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.3.1/jquery.jspanel-compiled.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/3.5.0/firebase.js"></script>
     
+    
 	<script src="js/user/myutils.js"></script>
 	<script src="js/lib/db/myfirebase.js"></script>
 	<script src="js/lib/smallipop/lib/jquery.smallipop.min.js"></script>    <!--http://www.jqueryscript.net/demo/Versatile-Beautiful-Tooltip-Plugin-smallipop/-->
@@ -44,19 +45,22 @@
 	<script src="js/lib/threejs/PlayerControls.js"></script>
 	<script src="js/lib/threejs/js/libs/stats.min.js"></script>
 
+	<script src="js/lib/threejs/js/shaders/UnpackDepthRGBAShader.js"></script>
+	<script src="js/lib/threejs/js/utils/ShadowMapViewer.js"></script>
+	
+    <!--
 	<script src="js/lib/threejs/js/utils/GeometryUtils.js"></script>
-	
-
-	
 	<script src="js/lib/threejs/js/loaders/collada/Animation.js"></script>
 	<script src="js/lib/threejs/js/loaders/collada/AnimationHandler.js"></script>
 	<script src="js/lib/threejs/js/loaders/collada/KeyFrameAnimation.js"></script>
 	<script src="js/lib/threejs/js/loaders/ColladaLoader.js"></script>
+	-->
 	
     <script src="js/lib/extjs/THREEx/THREEx.KeyboardState.js"></script>
     <script src="js/lib/extjs/THREEx/raf-throttler.js"></script>
     
     <script src="js/lib/extjs/xgui.min.js"></script>
+    <!--script src="js/lib/extjs/ejs.min.js"></script-->
     
     <!--script src="js/lib/GPUPicker/GPUPicker.js"></script-->
     
@@ -128,7 +132,13 @@
             //focusit();
             breakout();
             
-            console.log("getCookie('avatar')=",getCookie("avatar"));
+            //var username_ = ejs.render('<%=username%>');
+            //setCookie("username",username_,1);
+
+            setCookie("username","<%=username%>",1);
+            
+            console.log("getCookie('avatar')=",    getCookie("avatar"));
+            console.log("getCookie('username')=",  getCookie("username"));
         }
     </script>
 
@@ -146,6 +156,22 @@
 <body onload="myLoad();" onclick="myClickFunction();">
 <!--body onload="myLoad();"-->
     
+
+    <!--script type="text/javascript">
+        $(document).ready(function() 
+        {    var user = "<%=username%>";//hehe
+             //var user = $("#username").html(); 
+             alert(user);  // now JS variable 'x' has the uid that's passed from the node backend.
+             setCookie("username",user,1);
+             console.log("getCookie('username')=",  getCookie("username"));
+        });
+    </script-->
+
+    <!--h2 style="display:none;" id="username">"<%=username%>"</h2-->
+    <!--h2 style="display:none;" id="username">bodoh2</h2-->
+
+    
+
     <div id="container"></div>
     <!--div id="content-wrapper" style="display:none; z-index:100;"-->
     
@@ -202,6 +228,44 @@
 	</script>
     <!------------ /video shaders -------------------------------------->
 	
+    <!------------ ShaderDepth shaders ----------------------------------->
+	<script id="vertexShaderDepth" type="x-shader/x-vertex">
+		varying vec2 vUv;
+		void main() 
+		{	//vUv = 0.75 * uv;
+			//vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+			//gl_Position = projectionMatrix * mvPosition;
+			
+			vUv = uv;
+			gl_Position = projectionMatrix * vec4(modelViewMatrix * vec4( position, 1.0 ));
+		}
+	</script>	
+
+    <script id="fragmentShaderDepth" type="x-shader/x-fragment">
+		#include <packing>
+		uniform sampler2D texture;
+		uniform vec3 color;
+		varying vec2 vUv;
+		void main() 
+		{	/*
+		    //vec4 pixel = texture2D( texture, vUv );
+		    //if ( pixel.a < 0.5 ) discard;
+		    /////////////////////////////////////////////////////
+		    vec3 tColor = texture2D( texture, vUv ).rgb;
+		    float a = (length(tColor - color) - 0.5) * 7.0;
+			if ( a < 0.5 ) discard;
+			//////////////////////////////////////////////////////
+			gl_FragData[ 0 ] = packDepthToRGBA( gl_FragCoord.z );
+			*/
+			//vec3 tColor = texture2D( texture, vUv ).rgb;
+			//float a = (length(tColor - color) - 0.5) * 7.0;
+			//if ( a < 0.5 ) discard;
+			//if(((length(tColor - color) - 0.5) * 7.0)<0.5)discard;
+			if(((length(texture2D( texture, vUv ).rgb - color) - 0.5) * 7.0)<0.5)discard;
+			gl_FragData[ 0 ] = packDepthToRGBA( gl_FragCoord.z );
+			
+		}
+	</script>
     <!------------ skybox shaders --------------------------------------->
     <script id="sky-vertex" type="x-shader/x-vertex">
         varying vec3 vWorldPosition;
@@ -223,7 +287,6 @@
         }
     </script>
     <!------------ /skybox shaders -------------------------------------->
-	
     <!------------------------------------------------------------------>
     <!------------------------------------------------------------------>
     <!------------------------------------------------------------------>
@@ -253,12 +316,23 @@
             }
         }
         
-   
     </script>
 
 
     <!------------------------------------------------------------------>
     <!------------------------------------------------------------------>
-
+    <!-- Start of Rocket.Chat Livechat Script -->
+    <!--
+    <script type="text/javascript">
+        (function(w, d, s, u) 
+        {   w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+	        var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+	        j.async = true; j.src = 'https://rchat.1sekolah.xyz/packages/rocketchat_livechat/assets/rocket-livechat.js';
+	        h.parentNode.insertBefore(j, h);
+        })(window, document, 'script', 'https://rchat.1sekolah.xyz/livechat');
+    </script>
+    -->
+    <!-- End of Rocket.Chat Livechat Script -->
+    
 </body>
 </html>

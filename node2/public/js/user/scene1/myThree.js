@@ -7,9 +7,12 @@ var texLoader   = new THREE.TextureLoader()
 	    
 class CThreejs 
 {   constructor(width=window.innerWidth,height=window.innerHeight,fps=30) 
-  	{   this.requestId;
+  	{	this.screenW				= width;
+  		this.screenH				= height;
+  		this.requestId;
 		this.controls;
 		this.objects 				= [];
+		this.isShadow               = false;
 
    		this.scene_					= new CScene();        	  	
    		this.scene					= this.scene_.get_();
@@ -21,7 +24,8 @@ class CThreejs
         this.container				= this.container_.get_();
 		this.container.appendChild( this.renderer.domElement );		
 						
-		this.cam_ 					= new CCamera( 62,width/height,1,1000 );						
+		//this.cam_ 					= new CCamera( 62,width/height,1,1000 );						
+		this.cam_ 					= new CCamera( 62,width/height,1,3000 );						
 		this.cam 					= this.cam_.get_();
 		this.cam.position.z 		= 5;
 				
@@ -42,7 +46,12 @@ class CThreejs
 */	        		
        	return this;
     }
-        	
+    
+    enableShadow(isShadow=true,SHADOW_MAP_WIDTH=2048,SHADOW_MAP_HEIGHT=1024)
+    {	this.isShadow = isShadow;
+    	if(this.isShadow)this.renderer_.enableShadow(SHADOW_MAP_WIDTH,SHADOW_MAP_HEIGHT);
+    }
+    
     createStdLight(isHelper=false)
     {	this.light_          		= new CLight(this.scene);      
 		this.light          		= this.light_.get_();
@@ -52,6 +61,10 @@ class CThreejs
 	    	this.lighthelper			= this.lighthelper_.get_();
 	        this.scene.add(this.lighthelper);        		
 	    }	
+	    
+	    if(this.isShadow)
+	    {  	this.light_.enableShadow();
+	    }
     }
         	
     createHelper()
@@ -74,10 +87,14 @@ class CThreejs
 		this.objects.forEach((object) => {	object.update();});
 			
 		if ( this.controls )this.controls.update();
+		
+		if(this.isShadow)
+		{	//if(this.light_)this.light_.update(this.renderer);
+		}
 
     }
         	
-    render()            	{	this.renderer.render( this.scene, this.cam );}
+    render()            	{	this.renderer.clear();this.renderer.render( this.scene, this.cam );}
     resize(w,h)         	{   this.renderer.setSize(w,h);}
         
     add(node)           	{   this.scene.add(node);}
@@ -114,7 +131,7 @@ class CThreejs
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 		class CBase
-		{	constructor(v)	{	this._	= v;}
+		{	constructor(v)	{	this._	= v; }
 		
 			get_()			{	return this._;}
 			set_(v)			{	this._	= v;}
@@ -124,8 +141,8 @@ class CThreejs
 		{	constructor()
 			{	super(new THREE.Scene());
 
-	        	this._.fog          	= new THREE.FogExp2( 0x000000, 0.0008 );;//new THREE.FogExp2( 0x9999ff, 0.00025 );
-	        	
+	        	//this._.fog          	= new THREE.FogExp2( 0x000000, 0.0008 );;//new THREE.FogExp2( 0x9999ff, 0.00025 );
+				this._.fog				= new THREE.Fog( 0x59472b, 1000,3000);	        	
 
 	        	return this;
 			}		
@@ -163,6 +180,19 @@ class CThreejs
     			this._.context			= null;
     			this._.domElement		= null;
     			this._					= null;  
+			}
+			
+			//enableShadow(SHADOW_MAP_WIDTH=1024,SHADOW_MAP_HEIGHT=1024)
+			enableShadow(SHADOW_MAP_WIDTH=512,SHADOW_MAP_HEIGHT=512)
+			{	this.SHADOW_MAP_WIDTH	= SHADOW_MAP_WIDTH;
+				this.SHADOW_MAP_HEIGHT	= SHADOW_MAP_HEIGHT;
+
+				//this._.shadowMap.enabled = true;
+				//this._.shadowMap.type	 = THREE.PCFShadowMap;		
+				
+				this._.shadowMap.enabled = true;
+				this._.shadowMap.type	 = THREE.BasicShadowMap;
+				
 			}
 		}
 		
@@ -205,18 +235,61 @@ class CThreejs
 				scene.add( new THREE.AmbientLight( 0xffffff) );
 
 				var hemisphereLight = new THREE.HemisphereLight(0xffffff,0xff0000,1);
-				hemisphereLight.position.set(1, 0, 1).normalize();
+				hemisphereLight.position.set(1, 1, 1).normalize();
 				scene.add(hemisphereLight);
 
-            	super(new THREE.DirectionalLight( 0xffffff, 1 ));
-				this._.position.set( 250, 500, 0 ).normalize();//( -1, 1.75, 1 );
-				this._.position.multiplyScalar( 50 );
-				this._.name = "dirlight";
+            	//super(new THREE.DirectionalLight( 0xffffff, 1 ));
+            	//this._.position.set( 0, 1500, 1000 );
+				//this._.target.position.set( 0, 0, 0 );
+
+
+				//this._.position.set( 250, 500, 0 ).normalize();//( -1, 1.75, 1 );
+				//this._.position.multiplyScalar( 50 );
+				//this._.name = "dirlight";
+				
+				//////////////////////////////////////////////////
+				super(new THREE.DirectionalLight( 0xffffff, 1 ));
+				this._.name = 'Dir. Light';
+				this._.position.set( 0, 10, 10 );
+						
+				//////////////////////////////////////////////////
             	scene.add( this._ );
-            	
-            	
+            	scene.add( new THREE.CameraHelper( this._.shadow.camera ) );
             	return this;
 			}            	
+			
+			//enableShadow(SHADOW_MAP_WIDTH=1024,SHADOW_MAP_HEIGHT=1024)
+			enableShadow(SHADOW_MAP_WIDTH=512,SHADOW_MAP_HEIGHT=512)
+			{	this._.castShadow = true;
+				//this._.shadow.camera.near	=  8;//1
+				//this._.shadow.camera.far	=  12;//10;
+				this._.shadow.camera.near	=  1
+				this._.shadow.camera.far	=  20;//10;
+				this._.shadow.camera.right	=  15;
+				this._.shadow.camera.left	= -15;
+				this._.shadow.camera.top	=  15;
+				this._.shadow.camera.bottom = -15;
+				this._.shadow.mapSize.width =  SHADOW_MAP_WIDTH;
+				this._.shadow.mapSize.height=  SHADOW_MAP_HEIGHT;
+				
+				//scene.add( new THREE.CameraHelper( this._.shadow.camera ) );
+				//this.createHUD(SHADOW_MAP_WIDTH,SHADOW_MAP_HEIGHT); 
+			}
+			
+			/*
+			createHUD(SHADOW_MAP_WIDTH=1024,SHADOW_MAP_HEIGHT=1024) 
+			{	this.dirLightShadowMapViewer = new THREE.ShadowMapViewer( this._ );
+				this.dirLightShadowMapViewer.position.x = 10;
+				this.dirLightShadowMapViewer.position.y = 10;
+				this.dirLightShadowMapViewer.size.width = 256;
+				this.dirLightShadowMapViewer.size.height = 256;
+				this.dirLightShadowMapViewer.update(); //Required when setting position or size directly
+			}			
+			*/
+			update(renderer)
+			{	//if(this.lightShadowMapViewer)this.lightShadowMapViewer.render( renderer );
+				//if(this.dirLightShadowMapViewer&&renderer)this.dirLightShadowMapViewer.render( renderer );
+			}
 		}
 		
 

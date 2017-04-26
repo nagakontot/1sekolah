@@ -7,22 +7,34 @@
 		}
   
 		init() 
-		{	super.createStdLight();
+		{	//this.renderer_.enableShadow();
+			this.renderer.setClearColor(this.scene.fog.color);
+			super.enableShadow();
+			
+			super.createStdLight();
 			//super.createHelper();
 			
 			//window.movieMaterial		= new ChromaKeyMaterial('video/baby4.webm', 320,218, 0xd400);
 			//window.movieMaterial		= new ChromaKeyMaterial('video/monkey5.webm', 320,240, 0xd400);
 
 			window.movieMaterial		= [];
-			window.movieMaterial[0]		= new ChromaKeyMaterial('video/baby4.webm', 		320,218, 0xd400);
-			window.movieMaterial[1]		= new ChromaKeyMaterial('video/monkey5.webm',		320,240, 0xd400);
-			window.movieMaterial[2]		= new ChromaKeyMaterial('video/TrainerCalem3.webm', 320,240, 0xd400);
-			window.movieMaterial[3]		= new ChromaKeyMaterial('video/panda1.webm',		320,240, 0xd400);
+			window.movieMaterial[0]		= new ChromaKeyMaterial('video/baby4.webm', 		320,218, 0xd400,0);
+			window.movieMaterial[1]		= new ChromaKeyMaterial('video/monkey5.webm',		320,240, 0xd400,1);
+			window.movieMaterial[2]		= new ChromaKeyMaterial('video/TrainerCalem3.webm', 320,240, 0xd400,2);
+			window.movieMaterial[3]		= new ChromaKeyMaterial('video/panda1.webm',		320,240, 0xd400,3);
 
-			window.movieMaterial[0].side   = THREE.DoubleSide;
-			window.movieMaterial[1].side   = THREE.DoubleSide;
-			window.movieMaterial[2].side   = THREE.DoubleSide;
-			window.movieMaterial[3].side   = THREE.DoubleSide;
+			
+			for(var i=0;i<4;i++)
+			{	//window.movieMaterial[0].side   = THREE.DoubleSide;
+				//window.movieMaterial[1].side   = THREE.DoubleSide;
+				//window.movieMaterial[2].side   = THREE.DoubleSide;
+				//window.movieMaterial[3].side   = THREE.DoubleSide;
+				window.movieMaterial[i].side		= THREE.DoubleSide;
+				//window.movieMaterial[i].transparent = true;
+				//window.movieMaterial[i].alphaTest	= 0.5;
+				//window.movieMaterial[i].alphaTest	= 0xd400;
+				//window.movieMaterial[i].alphaTest	= new THREE.Color(0xd400);
+			}
 			
 			this.mygame = new CGameModel(this);
 			this.mygame.init();
@@ -49,6 +61,9 @@
 							];
         						
         	this.mysp	= new CSpritePoint(this.scene,this.params1);
+        	
+        	//this.label   = createLabel(this.scene,"bodoooooo", 40) ;
+        	//this.scene.add(createLabel(this.scene,"bodoooooo", 40));
 		}
   
 		loadEnvironment() 
@@ -102,9 +117,9 @@
 			window.movieMaterial[3].update();
 		
 			this.mysp.update(time,this.scene,this.params1);
-			this.mygame.updateMainPlayer();
+			this.mygame.updatePlayers();
 			
-			this.mysky.setPosition(player.getPosition().x,player.getPosition().z);
+			if(player)this.mysky.setPosition(player.getPosition().x,player.getPosition().z);
 		
 		
 			//this.mysky.update(player.getPosition());
@@ -112,7 +127,7 @@
 			//this.skyBox.position.copy( player.getPosition() );
 			//this.skyBox.position.x = player.getPosition().x;
 			//this.skyBox.position.z = player.getPosition().z;
-
+			super.update();
 		}
 		
 		render() 
@@ -123,8 +138,6 @@
 			});
 			
 			this.update(time);
-			
-    		super.update();
 			super.render();
 		}
 		

@@ -60,16 +60,18 @@ var otherPlayers = {};
 				orientation:	{	position: {x: 0, y:0, z:0},
 									rotation: {x: 0, y:0, z:0}
 								},
-				avatar:			getCookie("avatar")	
+				avatar:			getCookie("avatar"),
+				username:		getCookie("username")
+				
 			});
 
-			player = new Player( playerID,getCookie("avatar"));
+			player = new Player( playerID,getCookie("avatar"),getCookie("username"));
 			player.isMainPlayer = true;
 			player.init();
 		}
 
-		updateMainPlayer()
-		{	//player.update();
+		updatePlayers()
+		{	if(player)player.update();
 		}
 		
 		listenToOtherPlayers() 
@@ -77,7 +79,7 @@ var otherPlayers = {};
 			fbRef.child( "Players" ).on( "child_added", function( playerData ) 
 			{	if ( playerData.val() ) 
 				{	if ( playerID != playerData.key && !otherPlayers[playerData.key] ) 
-					{	otherPlayers[playerData.key] = new Player( playerData.key,playerData.val().avatar );
+					{	otherPlayers[playerData.key] = new Player( playerData.key,playerData.val().avatar,playerData.val().username );
 						otherPlayers[playerData.key].init();
 						fbRef.child( "Players/" + playerData.key ).on( "value", this.listenToPlayer );
 					}
