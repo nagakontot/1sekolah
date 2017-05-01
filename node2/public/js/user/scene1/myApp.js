@@ -17,24 +17,40 @@
 			//window.movieMaterial		= new ChromaKeyMaterial('video/baby4.webm', 320,218, 0xd400);
 			//window.movieMaterial		= new ChromaKeyMaterial('video/monkey5.webm', 320,240, 0xd400);
 
-			window.movieMaterial		= [];
-			window.movieMaterial[0]		= new ChromaKeyMaterial('video/baby4.webm', 		320,218, 0xd400,0);
-			window.movieMaterial[1]		= new ChromaKeyMaterial('video/monkey5.webm',		320,240, 0xd400,1);
-			window.movieMaterial[2]		= new ChromaKeyMaterial('video/TrainerCalem3.webm', 320,240, 0xd400,2);
-			window.movieMaterial[3]		= new ChromaKeyMaterial('video/panda1.webm',		320,240, 0xd400,3);
+			var filename = ['video/baby4_160x120.webm',
+							'video/monkey_160x120.webm',
+							'video/robot.webm',//'video/TrainerCalem_160x120.webm',
+							'video/billcat2.webm'];//'video/panda_160x120.webm'];
+							
 
+			window.movieMaterial		= [];
+			for(var i=0;i<filename.length;i++)
+			{	window.movieMaterial[i]			= new ChromaKeyMaterial(filename[i],160,120,0xd400,i);
 			
-			for(var i=0;i<4;i++)
-			{	//window.movieMaterial[0].side   = THREE.DoubleSide;
-				//window.movieMaterial[1].side   = THREE.DoubleSide;
-				//window.movieMaterial[2].side   = THREE.DoubleSide;
-				//window.movieMaterial[3].side   = THREE.DoubleSide;
-				window.movieMaterial[i].side		= THREE.DoubleSide;
-				//window.movieMaterial[i].transparent = true;
-				//window.movieMaterial[i].alphaTest	= 0.5;
-				//window.movieMaterial[i].alphaTest	= 0xd400;
-				//window.movieMaterial[i].alphaTest	= new THREE.Color(0xd400);
+				window.movieMaterial[i].side	= THREE.DoubleSide;
+				//window.movieMaterial[i].side	= THREE.FrontSide;
+				//window.movieMaterial[i].side	= THREE.BackSide;
+				//window.movieMaterial[i+4].side= THREE.BackSide;
 			}
+
+			//window.movieMaterial[0]		= new ChromaKeyMaterial('video/baby4_160x120.webm', 		w,h, 0xd400,0);
+			//window.movieMaterial[1]		= new ChromaKeyMaterial('video/monkey_160x120.webm',		w,h, 0xd400,1);
+			//window.movieMaterial[2]		= new ChromaKeyMaterial('video/TrainerCalem_160x120.webm',  w,h, 0xd400,2);
+			//window.movieMaterial[3]		= new ChromaKeyMaterial('video/panda_160x120.webm',			w,h, 0xd400,3);
+
+			//window.movieMaterial[4]		= new ChromaKeyMaterial('video/baby4_160x120.webm', 		w,h, 0xd400,4);
+			//window.movieMaterial[5]		= new ChromaKeyMaterial('video/monkey_160x120.webm',		w,h, 0xd400,5);
+			//window.movieMaterial[6]		= new ChromaKeyMaterial('video/TrainerCalem_160x120.webm',  w,h, 0xd400,6);
+			//window.movieMaterial[7]		= new ChromaKeyMaterial('video/panda_160x120.webm',			w,h, 0xd400,7);
+			/*			
+			for(var i=0;i<4;i++)
+			{	//window.movieMaterial[i].side	 = THREE.DoubleSide;
+				window.movieMaterial[i].side	 = THREE.FrontSide;
+				//window.movieMaterial[i].side	 = THREE.BackSide;
+
+				window.movieMaterial[i+4].side	 = THREE.BackSide;
+			}
+			*/
 			
 			this.mygame = new CGameModel(this);
 			this.mygame.init();
@@ -78,7 +94,7 @@
 			super.addMesh(new CPlane({width:1000,height:1000},this.renderer.getMaxAnisotropy()));
 			//super.addMesh(new CText({width:20,height:20,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			
-			this.drawShaderSkybox();
+			//this.drawShaderSkybox();
 		}
 
 
@@ -111,15 +127,14 @@
 		}
 		
 		update(time)
-		{	window.movieMaterial[0].update();
-			window.movieMaterial[1].update();
-			window.movieMaterial[2].update();
-			window.movieMaterial[3].update();
-		
+		{	for(var i=0;i<movieMaterial.length;i++)
+			{	window.movieMaterial[i].update();
+			}
+			
 			this.mysp.update(time,this.scene,this.params1);
 			this.mygame.updatePlayers();
 			
-			if(player)this.mysky.setPosition(player.getPosition().x,player.getPosition().z);
+			//if(player)this.mysky.setPosition(player.getPosition().x,player.getPosition().z);
 		
 		
 			//this.mysky.update(player.getPosition());

@@ -3,7 +3,11 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-var texLoader   = new THREE.TextureLoader()
+var texLoader   		= new THREE.TextureLoader()
+
+Physijs.scripts.worker		= '../../../js/lib/extjs/physijs_worker.js';
+Physijs.scripts.ammo		= '../../../js/lib/extjs/ammo.js';
+	
 	    
 class CThreejs 
 {   constructor(width=window.innerWidth,height=window.innerHeight,fps=30) 
@@ -91,6 +95,8 @@ class CThreejs
 		if(this.isShadow)
 		{	//if(this.light_)this.light_.update(this.renderer);
 		}
+		
+		this.scene.simulate();
 
     }
         	
@@ -137,17 +143,6 @@ class CThreejs
 			set_(v)			{	this._	= v;}
 		}
 		
-		class CScene extends CBase
-		{	constructor()
-			{	super(new THREE.Scene());
-
-	        	//this._.fog          	= new THREE.FogExp2( 0x000000, 0.0008 );;//new THREE.FogExp2( 0x9999ff, 0.00025 );
-				this._.fog				= new THREE.Fog( 0x59472b, 1000,3000);	        	
-
-	        	return this;
-			}		
-		}
-		
 		class CContainer extends CBase
 		{	constructor(name)
 			{ 	super((name)? document.createElement(name):document.getElementById('container'));
@@ -158,7 +153,30 @@ class CThreejs
           		return this;
 			}
 		}
+		
+		class CScene extends CBase
+		{	constructor()
+			{	//super(new THREE.Scene());
+				super(new Physijs.Scene({ reportsize: 50, fixedTimeStep: 1 / 30 }));
+			
 
+	        	//this._.fog          	= new THREE.FogExp2( 0x000000, 0.0008 );;//new THREE.FogExp2( 0x9999ff, 0.00025 );
+				//this._.fog				= new THREE.Fog( 0x59472b, 1000,3000);	        	
+				//this._.fog				= new THREE.Fog( 0xffffff, 0.015, 300 );
+				this._.fog				= new THREE.Fog( 0xffffff, 125, 250 );
+	        	//this._.fog          	= new THREE.FogExp2( 0xffffff, 0.01 );//new THREE.FogExp2( 0x9999ff, 0.00025 );
+	        	
+	        	this._.setGravity(new THREE.Vector3( 0, -10, 0 ));
+			    //this._.addEventListener('update',
+				//						function() 
+				//						{	//applyForce();
+				//							this._.simulate( undefined, 1 );
+				//							//physics_stats.update();
+				//						}.bind(this));
+	        	return this;
+			}		
+		}
+		
 		class CRenderer extends CBase
 		{	constructor(width,height)
 			{   super(new THREE.WebGLRenderer({ antialias: false,alpha: true }));
@@ -170,7 +188,7 @@ class CThreejs
             	this._.autoClearColor	= false;//true;//
             	this._.gammaInput   	= true;
             	this._.gammaOutput  	= true;
-
+            	
             	return this;
 			}
 			
@@ -182,17 +200,22 @@ class CThreejs
     			this._					= null;  
 			}
 			
-			//enableShadow(SHADOW_MAP_WIDTH=1024,SHADOW_MAP_HEIGHT=1024)
-			enableShadow(SHADOW_MAP_WIDTH=512,SHADOW_MAP_HEIGHT=512)
+			enableShadow(SHADOW_MAP_WIDTH=1024,SHADOW_MAP_HEIGHT=1024)
+			//enableShadow(SHADOW_MAP_WIDTH=512,SHADOW_MAP_HEIGHT=512)
 			{	this.SHADOW_MAP_WIDTH	= SHADOW_MAP_WIDTH;
 				this.SHADOW_MAP_HEIGHT	= SHADOW_MAP_HEIGHT;
 
-				//this._.shadowMap.enabled = true;
-				//this._.shadowMap.type	 = THREE.PCFShadowMap;		
-				
 				this._.shadowMap.enabled = true;
 				this._.shadowMap.type	 = THREE.BasicShadowMap;
-				
+				//this._.shadowMap.type	 = THREE.PCFShadowMap;		
+
+            	//http://stackoverflow.com/questions/20463247/three-js-doublesided-material-doesnt-cast-shadow-on-both-sides-of-planar-parame
+            	//this._.shadowMapCullFace = THREE.CullFaceBack;	//make plane cast both side!!!!
+            	//this._.shadowMapCullFace = THREE.CullFaceNone;
+            	//this._.physicallyBasedShading = true;
+            	
+            	//this._.setFaceCulling(THREE.CullFaceNone);
+    			//this._.shadowMapCullFace = THREE.CullFaceNone;
 			}
 		}
 		
@@ -250,7 +273,7 @@ class CThreejs
 				//////////////////////////////////////////////////
 				super(new THREE.DirectionalLight( 0xffffff, 1 ));
 				this._.name = 'Dir. Light';
-				this._.position.set( 0, 10, 10 );
+				this._.position.set( 0, 10, -10 );
 						
 				//////////////////////////////////////////////////
             	scene.add( this._ );
@@ -258,8 +281,8 @@ class CThreejs
             	return this;
 			}            	
 			
-			//enableShadow(SHADOW_MAP_WIDTH=1024,SHADOW_MAP_HEIGHT=1024)
-			enableShadow(SHADOW_MAP_WIDTH=512,SHADOW_MAP_HEIGHT=512)
+			enableShadow(SHADOW_MAP_WIDTH=1024,SHADOW_MAP_HEIGHT=1024)
+			//enableShadow(SHADOW_MAP_WIDTH=512,SHADOW_MAP_HEIGHT=512)
 			{	this._.castShadow = true;
 				//this._.shadow.camera.near	=  8;//1
 				//this._.shadow.camera.far	=  12;//10;
@@ -271,6 +294,8 @@ class CThreejs
 				this._.shadow.camera.bottom = -15;
 				this._.shadow.mapSize.width =  SHADOW_MAP_WIDTH;
 				this._.shadow.mapSize.height=  SHADOW_MAP_HEIGHT;
+				
+				this._.shadow.bias			=  -0.0001;				
 				
 				//scene.add( new THREE.CameraHelper( this._.shadow.camera ) );
 				//this.createHUD(SHADOW_MAP_WIDTH,SHADOW_MAP_HEIGHT); 

@@ -1,6 +1,57 @@
 "use strict"
 
 //////////////////////////////////////////////////////////////////////////////////
+//	nice codes:
+//////////////////////////////////////////////////////////////////////////////////
+//http://stackoverflow.com/questions/11325548/creating-a-plane-adding-a-texture-on-both-sides-and-rotating-the-object-on-its
+//make 2 material for one plane
+
+
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+//http://stackoverflow.com/questions/23926314/three-js-set-the-center-of-a-object3d-based-on-internal-meshes
+// myObject3D is your Object3D
+function centerObject3D(obj) 
+{	var children = obj.children,
+	completeBoundingBox = new THREE.Box3();
+	for(var i = 0, j = children.length; i < j; i++) 
+	{	//children[i].geometry.computeBoundingBox();
+		children[i].geometry.center();
+    	var box = children[i].geometry.boundingBox.clone();
+    	box.translate(children[i].position);
+    	completeBoundingBox.set(box.max, box.min);
+  }
+  var objectCenter = completeBoundingBox.center()
+  console.log('This is the center of your Object3D:', objectCenter );
+  obj.position.x -= objectCenter.x;
+  obj.position.y -= objectCenter.y;
+  obj.position.z -= objectCenter.z;
+}
+/*
+function centerObject3D(myObject3D)
+{	var children = myObject3D.children;
+	var completeBoundingBox = new THREE.Box3(); // create a new box which will contain the entire values
+
+	for(var i = 0, j = children.length; i < j; i++)
+	{	// iterate through the children
+		children[i].geometry.computeBoundingBox(); // compute the bounding box of the the meshes geometry
+		var box = children[i].geometry.boundingBox.clone(); // clone the calculated bounding box, because we have to translate it
+		box.translate(children[i].position); // translate the geometries bounding box by the meshes position
+		//completeBoundingBox.addPoint(box.max).addPoint(box.min); // add the max and min values to your completeBoundingBox
+		completeBoundingBox.expandByPoint(box.max).expandByPoint(box.min); // add the max and min values to your completeBoundingBox
+	}
+
+	var objectCenter = completeBoundingBox.center();
+
+	//console.log('This is the center of your Object3D:', objectCenter );
+
+	// You want the center of you bounding box to be at 0|0|0
+	myObject3D.position.x -= objectCenter.x;
+	myObject3D.position.y -= objectCenter.y;
+	myObject3D.position.z -= objectCenter.z;
+}
+*/
+//////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 //http://ezcourse.nctu.me/2016/11/13/three-js-z-buffer/
 
@@ -68,8 +119,8 @@ function createLabel(message, fontSize=9)
     //sprite.scale.set(2,2,1);
     //sprite.position.set(0,1.5, 0);
 
-    sprite.scale.set(1,0.25,1);
-    sprite.position.set(0,1.25, 0);
+    //sprite.scale.set(1,0.25,1);
+    //sprite.position.set(0,1.25, 0);
     //scene.add(sprite);
 	return sprite;
 }
@@ -102,6 +153,10 @@ function createLabel(message, fontSize=9)
 			//var videoTexture		= new THREE.Texture(videoImage);
 			videoTexture[texindex].minFilter	= THREE.LinearFilter;
 			videoTexture[texindex].magFilter	= THREE.LinearFilter;
+			
+			//videoTexture[texindex].wrapS = THREE.RepeatWrapping;
+			//videoTexture[texindex].repeat.x = - 1;
+
 
 			this.update = function () 
 			{	if (this.video.readyState === this.video.HAVE_ENOUGH_DATA) 
@@ -116,6 +171,7 @@ function createLabel(message, fontSize=9)
 								vertexShader:	document.getElementById('vertexShader').textContent,
 								fragmentShader: document.getElementById('fragmentShader').textContent,
 								transparent:	true
+								//side:			THREE.DoubleSide
 			});
 		}
 		ChromaKeyMaterial.prototype = Object.create(THREE.ShaderMaterial.prototype);
@@ -376,7 +432,7 @@ this.mesh.name = 'text';
             //floorTextureBump.repeat.set( 100,100 );
    			//floorTextureBump.anisotropy = maxAnisotropy;
 
-            var floorTextureOCC     = texLoader.load( 'images/dirt/dirt_OCC.jpg' );
+            //var floorTextureOCC     = texLoader.load( 'images/dirt/dirt_OCC.jpg' );
             //floorTextureOCC.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             //floorTextureOCC.repeat.set( 100,100 );
    			//floorTextureOCC.anisotropy = maxAnisotropy;
@@ -394,7 +450,7 @@ this.mesh.name = 'text';
 	        var params = 
 	        {   map:                floorTexture,
                 bumpMap:        	floorTextureBump,
-                aoMap:              floorTextureOCC,         
+                //aoMap:              floorTextureOCC,         
                 //normalMap:			floorTextureBump,
                 //specularMap:        floorTextureSPEC,
                 //displacementMap:    floorTextureDISP,
@@ -414,17 +470,28 @@ this.mesh.name = 'text';
             
             //this.material			= new THREE.MeshStandardMaterial( params );
             //this.material			= new THREE.MeshLambertMaterial( params );
-            this.material			= new THREE.MeshPhongMaterial( params );
+            //this.material			= new THREE.MeshPhongMaterial( params );
             //this.material			= new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#aaaaaa',emissive: '#333333',shininess: 10 });
+            /////////////////////////////////////////////////
+			this.material			= Physijs.createMaterial(	new THREE.MeshPhongMaterial( params ),
+																0.618, // high friction
+																0.382 // low restitution
+															);            
             
 			//////////////////////////////////////////////////
-			this.geometry 			= new THREE.PlaneBufferGeometry(size.width, size.height);
+			//this.geometry 			= new THREE.BoxGeometry(size.width, size.height,-1);
+			//this.geometry 			= new THREE.PlaneBufferGeometry(size.width, size.height);
+			this.geometry 			= new THREE.PlaneGeometry(size.width, size.height);	//this work for physijs
             
             //make 2nd uv for aomap to function
-            var uvs = this.geometry.attributes.uv.array;
-            this.geometry.addAttribute( 'uv2', new THREE.BufferAttribute( uvs, 2 ) );
+            //var uvs = this.geometry.attributes.uv.array;
+            //this.geometry.addAttribute( 'uv2', new THREE.BufferAttribute( uvs, 2 ) );
 
-    	    this.mesh 				= new THREE.Mesh(this.geometry, this.material);
+			//////////////////////////////////////////////////
+			//this.mesh				= new Physijs.ConvexMesh(this.geometry,this.material);
+			//this.mesh				= new Physijs.BoxMesh(this.geometry,this.material);
+			this.mesh				= new Physijs.PlaneMesh(this.geometry,this.material);
+    	    //this.mesh 				= new THREE.Mesh(this.geometry, this.material);
     	    this.mesh.position.y 	= -1;//-2;//
             this.mesh.rotation.x 	= -Math.PI / 2;
             
@@ -433,6 +500,7 @@ this.mesh.name = 'text';
     	    //this.rotx		= size.rotx;
     	    //this.roty		= size.roty;
     	    //this.rotz		= size.rotz;
+    	    ////////////////////////////////////////////////////
 		}
   
 		update() 

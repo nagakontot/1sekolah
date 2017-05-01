@@ -9,7 +9,7 @@ var redbird = require('redbird')
                 key:    path.join(__dirname + './../../key/key.pem'),
                 cert:   path.join(__dirname + './../../key/cert.pem'),
                 ca:     path.join(__dirname + './../../key/ca-crt.pem'),
-                http2:  true,
+                http2:  true
             }
 });
 //////////////////////////////////////////////////////////////////////
@@ -36,9 +36,9 @@ redbird.register("rchat.1sekolah.xyz",          "http://172.18.0.5:3000",   {ssl
 redbird.register("test1.1sekolah.xyz",           "http://172.18.0.4:80",    {ssl: true});
 redbird.register("test2.1sekolah.xyz",           "http://172.18.0.3:8080",  {ssl: true});
 
-//redbird.register("jitsi.1sekolah.xyz",           "http://172.18.0.6:80",  {ssl: true});
-
-
+//////////////////////////////////////////////////////////////////////
+redbird.register("nodebb.1sekolah.xyz",           "http://172.18.0.6:4567",  {ssl: true});
+redbird.register("express.1sekolah.xyz",          "http://172.18.0.7:8081",  {ssl: true});
 
 //////////////////////////////////////////////////////////////////////
 /*

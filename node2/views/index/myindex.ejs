@@ -252,7 +252,8 @@ a:hover
             <!--video name="jsbutton" id="headvid1" loop muted alt="javascript button"-->
             <video id="headvid1" loop muted>
               <!--source src="video/nambia1.webm" type="video/webm"-->
-              <source src="video/baby4.webm" type="video/webm">
+              <!--source src="video/baby4.webm" type="video/webm"-->
+              <source src="video/baby4_160x120.webm" type="video/webm">
             </video>
           </a>  
           <span class="icon-screen"></span>
@@ -263,7 +264,7 @@ a:hover
           <a href="javascript:" onMouseDown="return handleMDown2()">
             <video id="headvid2" loop muted>
               <!--source src="video/nambia2.webm" type="video/webm"-->
-              <source src="video/monkey5.webm" type="video/webm">
+              <source src="video/monkey_160x120.webm" type="video/webm">
             </video>
           </a>
       </div>
@@ -273,7 +274,8 @@ a:hover
           <a href="javascript:" onMouseDown="return handleMDown3()">
             <video id="headvid3" loop muted>
               <!--source src="video/nambia3.webm" type="video/webm"-->
-              <source src="video/TrainerCalem3.webm" type="video/webm">
+              <!--source src="video/TrainerCalem_160x120.webm" type="video/webm"-->
+              <source src="video/robot.webm" type="video/webm">
             </video>
           </a>            
       </div>
@@ -283,7 +285,8 @@ a:hover
           <a href="javascript:" onMouseDown="return handleMDown4()">
             <video id="headvid4" loop muted>
               <!--source src="video/lake.webm" type="video/webm"-->
-              <source src="video/panda1.webm" type="video/webm">
+              <!--source src="video/panda_160x120.webm" type="video/webm"-->
+              <source src="video/billcat2.webm" type="video/webm">
             </video>
           </a>  
       </div>  
@@ -337,7 +340,9 @@ a:hover
     function handleMUp4()       {  document.getElementById('headvid4a').style.border = '0.5em solid green';return true;}
 */
     //default value set to headvid1
-    var x=getCookie("avatar");
+    var x=~~getCookie("avatar");
+
+/*
     if(!x)x="0";
     switch(x)
     { case "0":    handleMDown1();break;
@@ -347,5 +352,14 @@ a:hover
       default:     handleMDown1();break;
     }
     
+*/
+    if(!x)x=0;
+    switch(x)
+    { case 0:    handleMDown1();break;
+      case 1:    handleMDown2();break;
+      case 2:    handleMDown3();break;
+      case 3:    handleMDown4();break;
+      default:   handleMDown1();break;
+    }
 
   </script>
