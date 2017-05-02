@@ -53,7 +53,7 @@ var otherPlayers = {};
 			{	fbRef.child( "Players/" + playerID ).remove();
 			}.bind(this);
 		}
-		
+	
 		initMainPlayer() 
 		{	fbRef.child( "Players/" + playerID ).set(
 			{	isOnline:		true,
@@ -103,5 +103,4 @@ var otherPlayers = {};
 				//otherPlayers[playerData.key].update();
 			}
 		}		
-
 	}

@@ -432,7 +432,7 @@ this.mesh.name = 'text';
             //floorTextureBump.repeat.set( 100,100 );
    			//floorTextureBump.anisotropy = maxAnisotropy;
 
-            //var floorTextureOCC     = texLoader.load( 'images/dirt/dirt_OCC.jpg' );
+            var floorTextureOCC     = texLoader.load( 'images/dirt/dirt_OCC.jpg' );
             //floorTextureOCC.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             //floorTextureOCC.repeat.set( 100,100 );
    			//floorTextureOCC.anisotropy = maxAnisotropy;
@@ -450,7 +450,7 @@ this.mesh.name = 'text';
 	        var params = 
 	        {   map:                floorTexture,
                 bumpMap:        	floorTextureBump,
-                //aoMap:              floorTextureOCC,         
+                aoMap:              floorTextureOCC,         
                 //normalMap:			floorTextureBump,
                 //specularMap:        floorTextureSPEC,
                 //displacementMap:    floorTextureDISP,
@@ -480,17 +480,17 @@ this.mesh.name = 'text';
             
 			//////////////////////////////////////////////////
 			//this.geometry 			= new THREE.BoxGeometry(size.width, size.height,-1);
-			//this.geometry 			= new THREE.PlaneBufferGeometry(size.width, size.height);
-			this.geometry 			= new THREE.PlaneGeometry(size.width, size.height);	//this work for physijs
+			this.geometry 			= new THREE.PlaneBufferGeometry(size.width, size.height);
+			//this.geometry 			= new THREE.PlaneGeometry(size.width, size.height);	//this work for physijs
             
             //make 2nd uv for aomap to function
-            //var uvs = this.geometry.attributes.uv.array;
-            //this.geometry.addAttribute( 'uv2', new THREE.BufferAttribute( uvs, 2 ) );
+            var uvs = this.geometry.attributes.uv.array;
+            this.geometry.addAttribute( 'uv2', new THREE.BufferAttribute( uvs, 2 ) );
 
 			//////////////////////////////////////////////////
 			//this.mesh				= new Physijs.ConvexMesh(this.geometry,this.material);
-			//this.mesh				= new Physijs.BoxMesh(this.geometry,this.material);
-			this.mesh				= new Physijs.PlaneMesh(this.geometry,this.material);
+			this.mesh				= new Physijs.BoxMesh(this.geometry,this.material);
+			//this.mesh				= new Physijs.PlaneMesh(this.geometry,this.material);
     	    //this.mesh 				= new THREE.Mesh(this.geometry, this.material);
     	    this.mesh.position.y 	= -1;//-2;//
             this.mesh.rotation.x 	= -Math.PI / 2;

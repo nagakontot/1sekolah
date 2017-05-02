@@ -7,14 +7,17 @@
 		{	this.playerID		= playerID;
 			this.isMainPlayer	= false;
 			//this.mesh;
-			this.meshgroup;
+			//this.meshgroup;
+			this.moviemesh;
 			this.avatar			= ~~avatar;
 			this.username		= username;
 		}	
 		 
 		init() 
 		{	//if ( this.mesh ) return;
-			if ( this.meshgroup ) return;
+			//if ( this.meshgroup ) return;
+			if ( this.moviemesh ) return;
+			
 			
 			//var cube_geometry = new THREE.BoxGeometry( 0.2, 2, 0.1 );
 			//var cube_material  = new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#aaaaaa',emissive: '#333333',shininess: 1 });
@@ -26,6 +29,7 @@
 	
 			///////////////////////////////////////////////////////////////////////////////////
 			this.movieGeometry			= new THREE.PlaneGeometry(1.6,1.2);//, 10, 10);
+			this.movieGeometry.center();
 			//this.movieGeometry.applyMatrix( new THREE.Matrix4().makeRotationY( Math.PI ) );
 			//this.movieGeometry.scale.x	= -1;
 			/////////////////////////////////////////
@@ -37,11 +41,11 @@
 			///////////////////////////////////////////
 			this.material = Physijs.createMaterial( window.movieMaterial[this.avatar],0.618,0.382);
 			///////////////////////////////////////////
-			this.moviemesh		= new Physijs.PlaneMesh(this.movieGeometry,this.material);
+			this.moviemesh		    = new Physijs.PlaneMesh(this.movieGeometry,this.material);
 			//this.moviemesh		= new Physijs.PlaneMesh(this.movieGeometry,window.movieMaterial[this.avatar]);
 			//this.moviemesh		= new THREE.Mesh(this.movieGeometry,window.movieMaterial[this.avatar]);
-			this.moviemesh.position.y = -0.5;
-			this.moviemesh.position.z =  0.01;
+			//this.moviemesh.position.y = -0.5;
+			//this.moviemesh.position.z =  0.01;
 			//this.moviemesh.scale.x= -1;
 
 			//this.moviemesh = new THREE.Mesh(this.movieGeometry,movieMaterial);
@@ -104,12 +108,16 @@
 			
 			this.label = createLabel(this.username);
 			this.label.scale.set(1,0.25,1);
-    		this.label.position.set(0,0.25, 0);
+    		//this.label.position.set(0,0.25, 0);
+    		this.label.position.set(-0.25,0.7,0);
 
 			//this.label.castShadow		= true;			
 			//this.label.receiveShadow	= false;
 			///////////////////////////////////////////////////////////////////////////////////
-			this.meshgroup = new THREE.Object3D();//create an empty container
+/*			
+			//this.meshgroup = new THREE.Object3D();//create an empty container
+			//this.meshgroup = new Physijs.BoxMesh( new THREE.CubeGeometry( 0.01,0.01,0.01), new THREE.MeshBasicMaterial({ color: 0x888888 }) );
+			this.meshgroup = new Physijs.BoxMesh( new THREE.PlaneBufferGeometry(0.01,0.01), new THREE.MeshBasicMaterial({ color: 0x888888 }) );
 			
 			//this.meshgroup.add( this.mesh );//add a mesh with geometry to it
 			this.meshgroup.add( this.moviemesh );//add a mesh with geometry to it
@@ -132,7 +140,11 @@
 			if ( this.isMainPlayer )myapp.createControl(this.meshgroup);	
 			//if ( this.isMainPlayer )myapp.createControl(this.mesh);	
 			//if ( this.isMainPlayer )app.createControl(this.mesh);	
-			
+*/			////////////////////////////////////////////////////////////////////////////////////////
+			this.moviemesh.add( this.label );
+			this.moviemesh.name = 'player_moviemesh';
+			myapp.add( this.moviemesh );
+			if ( this.isMainPlayer )myapp.createControl(this.moviemesh);	
 		}
 
 		setOrientation( position, rotation ) 
@@ -142,20 +154,31 @@
 			//	this.mesh.rotation.y = rotation.y;
 			//	this.mesh.rotation.z = rotation.z;
 			//}
-			if ( this.meshgroup ) 
-			{	this.meshgroup.position.copy( position );
-				this.meshgroup.rotation.x = rotation.x;
-				this.meshgroup.rotation.y = rotation.y;
-				this.meshgroup.rotation.z = rotation.z;
+			////////////////////////////////
+			//if ( this.meshgroup ) 
+			//{	this.meshgroup.position.copy( position );
+			//	this.meshgroup.rotation.x = rotation.x;
+			//	this.meshgroup.rotation.y = rotation.y;
+			//	this.meshgroup.rotation.z = rotation.z;
+			//}			
+			////////////////////////////////
+			if ( this.moviemesh ) 
+			{	this.moviemesh.position.copy( position );
+				this.moviemesh.rotation.x = rotation.x;
+				this.moviemesh.rotation.y = rotation.y;
+				this.moviemesh.rotation.z = rotation.z;
 			}			
 		}
 		
 		getPosition()
-		{	return this.meshgroup.position;
+		{	//return this.meshgroup.position;
+			return this.moviemesh.position;
 		}
 		
 		setPosition(position)
-		{	this.meshgroup.position.copy( position );
+		{	//this.meshgroup.position.copy( position );
+			this.moviemesh.position.copy( position );
+		
 		}
 
 		update()

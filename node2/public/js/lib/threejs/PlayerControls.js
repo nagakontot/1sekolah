@@ -30,10 +30,6 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	this.minDistance	= 0;
 	this.maxDistance	= Infinity;
 
-	this.gravity		= -0.025;
-	this.onGround		= true;
-	this.velocityY		= 0.0;
-
 	// internals
 	var vectorWorldDirection = new THREE.Vector3(); //= camera.getWorldDirection();
 
@@ -80,15 +76,25 @@ THREE.PlayerControls = function ( camera, player, domElement )
 		//this.camera.position.y = this.player.position.y;
 		//this.camera.position.z = this.player.position.z + 3;
 
-		this.camera.position.x = this.player.position.x+2;
+		//this.camera.position.x = this.player.position.x+2;
+		//this.camera.position.y = this.player.position.y+2;
+		//this.camera.position.z = this.player.position.z+2;
+
+		this.camera.position.x = this.player.position.x;
 		this.camera.position.y = this.player.position.y+2;
-		this.camera.position.z = this.player.position.z+2;
+		this.camera.position.z = this.player.position.z;
+
 		this.camera.lookAt( this.player.position );
 	};
 
+//////////////////////////////////////////////////////////////
+	this.gravity		= -0.025;
+	this.onGround		= true;
+	this.velocityY		= 0.0;
+
 	this.StartJump = function () 
 	{	if(this.onGround)
-    	{	this.velocityY = 0.25;//-12.0;
+    	{	this.velocityY = 0.3;//0.25;//-12.0;
         	this.onGround = false;
     	}
 	}
@@ -110,8 +116,14 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	    //	onGround = true;
     	//}
 		
-	    if(this.player.position.y <  0)
-    	{	this.player.position.y = 0;
+	    //if(this.player.position.y <  0)
+    	//{	this.player.position.y = 0;
+        //	this.velocityY = 0.0;
+        //	this.onGround = true;
+	    //}
+
+	    if(this.player.position.y <  -0.5)
+    	{	this.player.position.y = -0.5;
         	this.velocityY = 0.0;
         	this.onGround = true;
 	    }

@@ -90,8 +90,8 @@
 			//this.app.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			/////////////////////////////////////////////////////////
 		
-			super.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			super.addMesh(new CPlane({width:1000,height:1000},this.renderer.getMaxAnisotropy()));
+			//super.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			//super.addMesh(new CText({width:20,height:20,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			
 			//this.drawShaderSkybox();
@@ -134,7 +134,26 @@
 			this.mysp.update(time,this.scene,this.params1);
 			this.mygame.updatePlayers();
 			
-			//if(player)this.mysky.setPosition(player.getPosition().x,player.getPosition().z);
+			if(player)
+			{	//this.mysky.setPosition(player.getPosition().x,player.getPosition().z);
+				//this.light.position.x=player.getPosition().x;
+				//this.light.position.z=player.getPosition().z;
+				
+				//var pos = player.getPosition();
+				//this.light.target.position.set( 0, 0, 0 );
+				//this.light.target.position.copy(player.getPosition());
+				//position.copy( this.center )
+				
+				//this.light.shadow.target.position.copy(player.getPosition());
+				//this.light.shadow.camera.position.copy(player.getPosition());
+				//this.light.shadow.camera.target.position.copy(player.getPosition());
+				
+				//this.light.target = player.getPosition();
+				
+				var pos = player.getPosition();
+				this.light.position.set(pos.x,10,pos.z-10);
+				this.light.target	= this.scene.getObjectByName('player_moviemesh');
+			}
 		
 		
 			//this.mysky.update(player.getPosition());

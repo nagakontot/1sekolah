@@ -96,7 +96,7 @@ class CThreejs
 		{	//if(this.light_)this.light_.update(this.renderer);
 		}
 		
-		this.scene.simulate();
+		//this.scene.simulate(undefined, 1);
 
     }
         	
@@ -157,22 +157,27 @@ class CThreejs
 		class CScene extends CBase
 		{	constructor()
 			{	//super(new THREE.Scene());
-				super(new Physijs.Scene({ reportsize: 50, fixedTimeStep: 1 / 30 }));
-			
+				//super(new Physijs.Scene({ reportsize: 50, fixedTimeStep: 1 / 30 }));
+				super(new Physijs.Scene());
 
+	        	
 	        	//this._.fog          	= new THREE.FogExp2( 0x000000, 0.0008 );;//new THREE.FogExp2( 0x9999ff, 0.00025 );
 				//this._.fog				= new THREE.Fog( 0x59472b, 1000,3000);	        	
 				//this._.fog				= new THREE.Fog( 0xffffff, 0.015, 300 );
 				this._.fog				= new THREE.Fog( 0xffffff, 125, 250 );
 	        	//this._.fog          	= new THREE.FogExp2( 0xffffff, 0.01 );//new THREE.FogExp2( 0x9999ff, 0.00025 );
 	        	
-	        	this._.setGravity(new THREE.Vector3( 0, -10, 0 ));
-			    //this._.addEventListener('update',
-				//						function() 
-				//						{	//applyForce();
-				//							this._.simulate( undefined, 1 );
-				//							//physics_stats.update();
-				//						}.bind(this));
+	        	//this._.setGravity(new THREE.Vector3( 0, -10, 0 ));
+	        	this._.setGravity(new THREE.Vector3( 0, -0.02,0 ));
+			    
+			    this._.addEventListener('update',
+										function() 
+										{	//applyForce();
+											this._.simulate( undefined, 1 );
+											//physics_stats.update();
+										}.bind(this));
+														
+														
 	        	return this;
 			}		
 		}
