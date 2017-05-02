@@ -470,13 +470,13 @@ this.mesh.name = 'text';
             
             //this.material			= new THREE.MeshStandardMaterial( params );
             //this.material			= new THREE.MeshLambertMaterial( params );
-            //this.material			= new THREE.MeshPhongMaterial( params );
+            this.material			= new THREE.MeshPhongMaterial( params );
             //this.material			= new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#aaaaaa',emissive: '#333333',shininess: 10 });
             /////////////////////////////////////////////////
-			this.material			= Physijs.createMaterial(	new THREE.MeshPhongMaterial( params ),
-																0.618, // high friction
-																0.382 // low restitution
-															);            
+			//this.material			= Physijs.createMaterial(	new THREE.MeshPhongMaterial( params ),
+			//													0.618, // high friction
+			//													0.382 // low restitution
+			//												);            
             
 			//////////////////////////////////////////////////
 			//this.geometry 			= new THREE.BoxGeometry(size.width, size.height,-1);
@@ -489,9 +489,9 @@ this.mesh.name = 'text';
 
 			//////////////////////////////////////////////////
 			//this.mesh				= new Physijs.ConvexMesh(this.geometry,this.material);
-			this.mesh				= new Physijs.BoxMesh(this.geometry,this.material);
+			//this.mesh				= new Physijs.BoxMesh(this.geometry,this.material);
 			//this.mesh				= new Physijs.PlaneMesh(this.geometry,this.material);
-    	    //this.mesh 				= new THREE.Mesh(this.geometry, this.material);
+    	    this.mesh 				= new THREE.Mesh(this.geometry, this.material);
     	    this.mesh.position.y 	= -1;//-2;//
             this.mesh.rotation.x 	= -Math.PI / 2;
             

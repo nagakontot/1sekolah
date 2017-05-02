@@ -5,8 +5,8 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 var texLoader   		= new THREE.TextureLoader()
 
-Physijs.scripts.worker		= '../../../js/lib/extjs/physijs_worker.js';
-Physijs.scripts.ammo		= '../../../js/lib/extjs/ammo.js';
+//Physijs.scripts.worker		= '../../../js/lib/extjs/physijs_worker.js';
+//Physijs.scripts.ammo		= '../../../js/lib/extjs/ammo.js';
 	
 	    
 class CThreejs 
@@ -156,9 +156,9 @@ class CThreejs
 		
 		class CScene extends CBase
 		{	constructor()
-			{	//super(new THREE.Scene());
+			{	super(new THREE.Scene());
 				//super(new Physijs.Scene({ reportsize: 50, fixedTimeStep: 1 / 30 }));
-				super(new Physijs.Scene());
+				//super(new Physijs.Scene());
 
 	        	
 	        	//this._.fog          	= new THREE.FogExp2( 0x000000, 0.0008 );;//new THREE.FogExp2( 0x9999ff, 0.00025 );
@@ -168,15 +168,14 @@ class CThreejs
 	        	//this._.fog          	= new THREE.FogExp2( 0xffffff, 0.01 );//new THREE.FogExp2( 0x9999ff, 0.00025 );
 	        	
 	        	//this._.setGravity(new THREE.Vector3( 0, -10, 0 ));
-	        	this._.setGravity(new THREE.Vector3( 0, -0.02,0 ));
+	        	//this._.setGravity(new THREE.Vector3( 0, -0.02,0 ));
 			    
-			    this._.addEventListener('update',
-										function() 
-										{	//applyForce();
-											this._.simulate( undefined, 1 );
-											//physics_stats.update();
-										}.bind(this));
-														
+			    //this._.addEventListener('update',
+				//						function() 
+				//						{	//applyForce();
+				//							this._.simulate( undefined, 1 );
+				//							//physics_stats.update();
+				//						}.bind(this));
 														
 	        	return this;
 			}		
@@ -221,6 +220,7 @@ class CThreejs
             	
             	//this._.setFaceCulling(THREE.CullFaceNone);
     			//this._.shadowMapCullFace = THREE.CullFaceNone;
+    			//this._.shadowMapCullFrontFaces = THREE.CullFaceNone;//false;
 			}
 		}
 		

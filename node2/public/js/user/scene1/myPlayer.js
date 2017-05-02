@@ -28,7 +28,7 @@
 			
 	
 			///////////////////////////////////////////////////////////////////////////////////
-			this.movieGeometry			= new THREE.PlaneGeometry(1.6,1.2);//, 10, 10);
+			this.movieGeometry			= new THREE.PlaneBufferGeometry(1.6,1.2,5,5);
 			this.movieGeometry.center();
 			//this.movieGeometry.applyMatrix( new THREE.Matrix4().makeRotationY( Math.PI ) );
 			//this.movieGeometry.scale.x	= -1;
@@ -39,11 +39,11 @@
 			//this.movieGeometry.faceVertexUvs[0][7] = [new THREE.Vector2(0, 0), new THREE.Vector2(0, 1), new THREE.Vector2(1, 1)]
 
 			///////////////////////////////////////////
-			this.material = Physijs.createMaterial( window.movieMaterial[this.avatar],0.618,0.382);
+			//this.material = Physijs.createMaterial( window.movieMaterial[this.avatar],0.618,0.382);
 			///////////////////////////////////////////
-			this.moviemesh		    = new Physijs.PlaneMesh(this.movieGeometry,this.material);
-			//this.moviemesh		= new Physijs.PlaneMesh(this.movieGeometry,window.movieMaterial[this.avatar]);
-			//this.moviemesh		= new THREE.Mesh(this.movieGeometry,window.movieMaterial[this.avatar]);
+			//this.moviemesh		    = new Physijs.PlaneMesh(this.movieGeometry,this.material);
+			//this.moviemesh			= new Physijs.PlaneMesh(this.movieGeometry,window.movieMaterial[this.avatar]);
+			this.moviemesh				= new THREE.Mesh(this.movieGeometry,window.movieMaterial[this.avatar]);
 			//this.moviemesh.position.y = -0.5;
 			//this.moviemesh.position.z =  0.01;
 			//this.moviemesh.scale.x= -1;
