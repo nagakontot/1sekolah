@@ -10,8 +10,9 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	this.enabled		= true;
 
 	this.center 		= new THREE.Vector3( player.position.x, player.position.y, player.position.z );
+	this.lastPosition   = new THREE.Vector3();
 
-	this.moveSpeed		= 0.2;
+	this.moveSpeed		= 0.1;//0.2;
 	this.turnSpeed		= 0.1;
 
 	this.userZoom		= true;
@@ -25,7 +26,7 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	this.YAutoRotation	= false;
 
 	this.minPolarAngle	= 0.5;//0;
-	this.maxPolarAngle	= Math.PI/2;//Math.PI;
+	this.maxPolarAngle	= Math.PI/2;//Math.PI;//
 
 	this.minDistance	= 0;
 	this.maxDistance	= Infinity;
@@ -91,10 +92,12 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	this.gravity		= -0.025;
 	this.onGround		= true;
 	this.velocityY		= 0.0;
+	this.GroundHeight   = -0.35;
+	this.GroundOffset   = 0;
 
-	this.StartJump = function () 
+	this.StartJump = function (h=0.3) 
 	{	if(this.onGround)
-    	{	this.velocityY = 0.3;//0.25;//-12.0;
+    	{	this.velocityY = h;//0.3;//0.25;//-12.0;
         	this.onGround = false;
     	}
 	}
@@ -122,8 +125,8 @@ THREE.PlayerControls = function ( camera, player, domElement )
         //	this.onGround = true;
 	    //}
 
-	    if(this.player.position.y <  -0.5)
-    	{	this.player.position.y = -0.5;
+	    if(this.player.position.y <  this.GroundHeight+this.GroundOffset)
+    	{	this.player.position.y = this.GroundHeight+this.GroundOffset;
         	this.velocityY = 0.0;
         	this.onGround = true;
 	    }
@@ -131,7 +134,6 @@ THREE.PlayerControls = function ( camera, player, domElement )
     	//if(positionX < 10 || positionX > 190)velocityX *= -1;
 	}
 	
-
 	this.update = function() 
 	{	this.checkKeyStates();
 		this.center = this.player.position;
@@ -166,9 +168,15 @@ THREE.PlayerControls = function ( camera, player, domElement )
 		{	//this.camera.position.x += this.autoRotateSpeed * ( ( this.player.position.x + 8 * Math.sin( this.player.rotation.y ) ) - this.camera.position.x );
 			//this.camera.position.y += this.autoRotateSpeed * ( ( this.player.position.y ) - this.camera.position.y + 3);
 			//this.camera.position.z += this.autoRotateSpeed * ( ( this.player.position.z + 8 * Math.cos( this.player.rotation.y ) ) - this.camera.position.z );
+			
+			//this.camera.position.x += this.autoRotateSpeed * ( ( this.player.position.x + 4*Math.sin( this.player.rotation.y ) ) - this.camera.position.x );
+			//this.camera.position.y += this.autoRotateSpeed * ( ( this.player.position.y - this.camera.position.y+1 ));
+			//this.camera.position.z += this.autoRotateSpeed * ( ( this.player.position.z + 4*Math.cos( this.player.rotation.y ) ) - this.camera.position.z );			
+			
 			this.camera.position.x += this.autoRotateSpeed * ( ( this.player.position.x + 4*Math.sin( this.player.rotation.y ) ) - this.camera.position.x );
-			this.camera.position.y += this.autoRotateSpeed * ( ( this.player.position.y - this.camera.position.y+1 ));
+			this.camera.position.y += this.autoRotateSpeed * ( ( this.player.position.y - this.camera.position.y)+2.5);
 			this.camera.position.z += this.autoRotateSpeed * ( ( this.player.position.z + 4*Math.cos( this.player.rotation.y ) ) - this.camera.position.z );			
+			
 		} 
 		else 
 		{	position.copy( this.center ).add( offset );
@@ -184,12 +192,27 @@ THREE.PlayerControls = function ( camera, player, domElement )
 		if ( state === STATE.NONE )										this.autoRotate = true;
 		else															this.autoRotate = false;
 
+		if(this.onGround)this.lastPosition = lastPosition;
 		if ( lastPosition.distanceTo( this.player.position) > 0 )		lastPosition.copy( this.player.position );
 		else if ( lastPosition.distanceTo( this.player.position) == 0 ) playerIsMoving	= false;
 		
 		this.UpdateJump();
 	};
 
+	this.isOnGround = function() 
+	{	return this.onGround;
+	}
+	
+	//this.getLastPosition = function ()
+	//{	return this.lastPosition
+	//}
+	//
+	//this.setLastPosition = function (pos)
+	//{	this.lastPosition = pos;
+	//	playerIsMoving	= false;
+	//	this.onGround   = true;
+	//}
+	
 	this.checkKeyStates = function () 
 	{	var turbomode = 1;
 		if(keyState[16])

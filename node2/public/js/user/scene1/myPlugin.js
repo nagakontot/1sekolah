@@ -6,51 +6,6 @@
 //http://stackoverflow.com/questions/11325548/creating-a-plane-adding-a-texture-on-both-sides-and-rotating-the-object-on-its
 //make 2 material for one plane
 
-
-//////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////
-//http://stackoverflow.com/questions/23926314/three-js-set-the-center-of-a-object3d-based-on-internal-meshes
-// myObject3D is your Object3D
-function centerObject3D(obj) 
-{	var children = obj.children,
-	completeBoundingBox = new THREE.Box3();
-	for(var i = 0, j = children.length; i < j; i++) 
-	{	//children[i].geometry.computeBoundingBox();
-		children[i].geometry.center();
-    	var box = children[i].geometry.boundingBox.clone();
-    	box.translate(children[i].position);
-    	completeBoundingBox.set(box.max, box.min);
-  }
-  var objectCenter = completeBoundingBox.center()
-  console.log('This is the center of your Object3D:', objectCenter );
-  obj.position.x -= objectCenter.x;
-  obj.position.y -= objectCenter.y;
-  obj.position.z -= objectCenter.z;
-}
-/*
-function centerObject3D(myObject3D)
-{	var children = myObject3D.children;
-	var completeBoundingBox = new THREE.Box3(); // create a new box which will contain the entire values
-
-	for(var i = 0, j = children.length; i < j; i++)
-	{	// iterate through the children
-		children[i].geometry.computeBoundingBox(); // compute the bounding box of the the meshes geometry
-		var box = children[i].geometry.boundingBox.clone(); // clone the calculated bounding box, because we have to translate it
-		box.translate(children[i].position); // translate the geometries bounding box by the meshes position
-		//completeBoundingBox.addPoint(box.max).addPoint(box.min); // add the max and min values to your completeBoundingBox
-		completeBoundingBox.expandByPoint(box.max).expandByPoint(box.min); // add the max and min values to your completeBoundingBox
-	}
-
-	var objectCenter = completeBoundingBox.center();
-
-	//console.log('This is the center of your Object3D:', objectCenter );
-
-	// You want the center of you bounding box to be at 0|0|0
-	myObject3D.position.x -= objectCenter.x;
-	myObject3D.position.y -= objectCenter.y;
-	myObject3D.position.z -= objectCenter.z;
-}
-*/
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 //http://ezcourse.nctu.me/2016/11/13/three-js-z-buffer/
@@ -289,7 +244,9 @@ function createLabel(message, fontSize=9)
 		}
 			
 		update(time,scene,parameters)
-		{	time=time*0.1;
+		{	time+=time*0.05;
+			//time+=time*0.1;
+			//this.time += time*1;
 			var object,length=scene.children.length;
 			for (var i = 0; i < length; i ++ ) 
 			{	object = scene.children[ i ];
@@ -425,6 +382,10 @@ this.mesh.name = 'text';
 	        var floorTexture        = texLoader.load( 'images/dirt/ori/dirt_COLOR.png' );
             floorTexture.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             floorTexture.repeat.set( 200,200 );
+    		
+    		//floorTexture.magFilter	= THREE.NearestFilter;
+			//floorTexture.minFilter	= THREE.LinearMipMapLinearFilter;
+
    			floorTexture.anisotropy = maxAnisotropy;
 
 	        var floorTextureBump    = texLoader.load( 'images/dirt/ori/dirt_NRM.png' );
@@ -622,4 +583,716 @@ class CGPUPicker extends CBase
     get helper()        {   return this.helper_;}
     set helper(v)       {   this.helper_=v;}    
    
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+class CMinecraft
+{	constructor(worldWidth = 200, worldDepth = 200,maxAnisotropy)
+	{	this.worldWidth		= worldWidth;
+		this.worldDepth 	= worldDepth;
+		
+		
+		this.sz				= 1;
+		this.szhalf			= this.sz/2;
+
+/*	
+				   //1   2   3   4   5   6   7   8   9   0   1   2   3   4   5   6   7   8   9   0   1   2   3   4   5   6   7   8   9   0   1   2   3   4   5   6   7   8   9   0
+		this.mynoise = 
+					[1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//1
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//2
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//3
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//4
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//5
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//6
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//7
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//8
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//9
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//0
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//1
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,5  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//2
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,10 ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//3
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,15 ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//4
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,20 ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//5
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,25 ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//6
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//7
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//8
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//9
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//0
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//1
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//2
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//3
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//4
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//5
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//6
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//7
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//8
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//9
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//0
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//1
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//2
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//3
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//4
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//5
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//6
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//7
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//8
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,	//9
+					 1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  ,1  	//0
+					];
+*/
+		this.data = this.generateHeight( worldWidth, worldDepth );
+					
+		//var clock = new THREE.Clock();
+		this.init(maxAnisotropy);
+					
+	}			
+
+	init(maxAnisotropy) 
+	{	var worldHalfWidth = this.worldWidth / 2;
+		var worldHalfDepth = this.worldDepth / 2;
+		/*
+		container = document.getElementById( 'container' );
+		camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 20000 );
+		camera.position.y = this.getY( worldHalfWidth, worldHalfDepth ) * 100 + 100;
+		controls = new THREE.FirstPersonControls( camera );
+		controls.movementSpeed = 1000;
+		controls.lookSpeed = 0.125;
+		controls.lookVertical = true;
+		controls.constrainVertical = true;
+		controls.verticalMin = 1.1;
+		controls.verticalMax = 2.2;
+		scene = new THREE.Scene();
+		scene.fog = new THREE.FogExp2( 0xffffff, 0.00015 );
+		*/
+		
+		// sides
+		this.light	= new THREE.Color( 0xffffff );
+		this.shadow	= new THREE.Color( 0x505050 );
+		this.matrix	= new THREE.Matrix4();
+		
+		this.pxGeometry = new THREE.PlaneGeometry( this.sz, this.sz );
+		this.pxGeometry.faces[ 0 ].vertexColors = [ this.light, this.shadow, this.light ];
+		this.pxGeometry.faces[ 1 ].vertexColors = [ this.shadow, this.shadow, this.light ];
+		this.pxGeometry.faceVertexUvs[ 0 ][ 0 ][ 0 ].y = 0.5;
+		this.pxGeometry.faceVertexUvs[ 0 ][ 0 ][ 2 ].y = 0.5;
+		this.pxGeometry.faceVertexUvs[ 0 ][ 1 ][ 2 ].y = 0.5;
+		this.pxGeometry.rotateY( Math.PI / 2 );
+		this.pxGeometry.translate( this.szhalf, 0, 0 );
+		
+		this.nxGeometry = new THREE.PlaneGeometry( this.sz, this.sz );
+		this.nxGeometry.faces[ 0 ].vertexColors = [ this.light, this.shadow, this.light ];
+		this.nxGeometry.faces[ 1 ].vertexColors = [ this.shadow, this.shadow, this.light ];
+		this.nxGeometry.faceVertexUvs[ 0 ][ 0 ][ 0 ].y = 0.5;
+		this.nxGeometry.faceVertexUvs[ 0 ][ 0 ][ 2 ].y = 0.5;
+		this.nxGeometry.faceVertexUvs[ 0 ][ 1 ][ 2 ].y = 0.5;
+		this.nxGeometry.rotateY( - Math.PI / 2 );
+		this.nxGeometry.translate( - this.szhalf, 0, 0 );
+		
+		this.pyGeometry = new THREE.PlaneGeometry( this.sz, this.sz );
+		this.pyGeometry.faces[ 0 ].vertexColors = [ this.light, this.light, this.light ];
+		this.pyGeometry.faces[ 1 ].vertexColors = [ this.light, this.light, this.light ];
+		this.pyGeometry.faceVertexUvs[ 0 ][ 0 ][ 1 ].y = 0.5;
+		this.pyGeometry.faceVertexUvs[ 0 ][ 1 ][ 0 ].y = 0.5;
+		this.pyGeometry.faceVertexUvs[ 0 ][ 1 ][ 1 ].y = 0.5;
+		this.pyGeometry.rotateX( - Math.PI / 2 );
+		this.pyGeometry.translate( 0, this.szhalf, 0 );
+		
+		this.py2Geometry = new THREE.PlaneGeometry( this.sz, this.sz );
+		this.py2Geometry.faces[ 0 ].vertexColors = [ this.light, this.light, this.light ];
+		this.py2Geometry.faces[ 1 ].vertexColors = [ this.light, this.light, this.light ];
+		this.py2Geometry.faceVertexUvs[ 0 ][ 0 ][ 1 ].y = 0.5;
+		this.py2Geometry.faceVertexUvs[ 0 ][ 1 ][ 0 ].y = 0.5;
+		this.py2Geometry.faceVertexUvs[ 0 ][ 1 ][ 1 ].y = 0.5;
+		this.py2Geometry.rotateX( - Math.PI / 2 );
+		this.py2Geometry.rotateY( Math.PI / 2 );
+		this.py2Geometry.translate( 0, this.szhalf, 0 );
+		
+		this.pzGeometry = new THREE.PlaneGeometry( this.sz, this.sz );
+		this.pzGeometry.faces[ 0 ].vertexColors = [ this.light, this.shadow, this.light ];
+		this.pzGeometry.faces[ 1 ].vertexColors = [ this.shadow, this.shadow, this.light ];
+		this.pzGeometry.faceVertexUvs[ 0 ][ 0 ][ 0 ].y = 0.5;
+		this.pzGeometry.faceVertexUvs[ 0 ][ 0 ][ 2 ].y = 0.5;
+		this.pzGeometry.faceVertexUvs[ 0 ][ 1 ][ 2 ].y = 0.5;
+		this.pzGeometry.translate( 0, 0, this.szhalf );
+		
+		this.nzGeometry = new THREE.PlaneGeometry( this.sz, this.sz );
+		this.nzGeometry.faces[ 0 ].vertexColors = [ this.light, this.shadow, this.light ];
+		this.nzGeometry.faces[ 1 ].vertexColors = [ this.shadow, this.shadow, this.light ];
+		this.nzGeometry.faceVertexUvs[ 0 ][ 0 ][ 0 ].y = 0.5;
+		this.nzGeometry.faceVertexUvs[ 0 ][ 0 ][ 2 ].y = 0.5;
+		this.nzGeometry.faceVertexUvs[ 0 ][ 1 ][ 2 ].y = 0.5;
+		this.nzGeometry.rotateY( Math.PI );
+		this.nzGeometry.translate( 0, 0, - this.szhalf );
+		
+		//
+		this.geometry = new THREE.Geometry();
+		//var dummy = new THREE.Mesh();
+		for ( var z = 0; z < this.worldDepth; z ++ ) 
+		{	for ( var x = 0; x < this.worldWidth; x ++ ) 
+			{	var h = this.getY( x, z );
+				this.matrix.makeTranslation(x * this.sz - worldHalfWidth * this.sz,h * this.sz,z * this.sz - worldHalfDepth * this.sz);
+				
+				var px	 = this.getY( x + 1, z );
+				var nx	 = this.getY( x - 1, z );
+				var pz	 = this.getY( x, z + 1 );
+				var nz	 = this.getY( x, z - 1 );
+				var pxpz = this.getY( x + 1, z + 1 );
+				var nxpz = this.getY( x - 1, z + 1 );
+				var pxnz = this.getY( x + 1, z - 1 );
+				var nxnz = this.getY( x - 1, z - 1 );
+				var a	 = nx > h || nz > h || nxnz > h ? 0 : 1;
+				var b	 = nx > h || pz > h || nxpz > h ? 0 : 1;
+				var c	 = px > h || pz > h || pxpz > h ? 0 : 1;
+				var d	 = px > h || nz > h || pxnz > h ? 0 : 1;
+				
+				if ( a + c > b + d ) 
+				{	var colors = this.py2Geometry.faces[ 0 ].vertexColors;
+					colors[ 0 ] = b === 0 ? this.shadow : this.light;
+					colors[ 1 ] = c === 0 ? this.shadow : this.light;
+					colors[ 2 ] = a === 0 ? this.shadow : this.light;
+					
+					var colors = this.py2Geometry.faces[ 1 ].vertexColors;
+					colors[ 0 ] = c === 0 ? this.shadow : this.light;
+					colors[ 1 ] = d === 0 ? this.shadow : this.light;
+					colors[ 2 ] = a === 0 ? this.shadow : this.light;
+					this.geometry.merge( this.py2Geometry, this.matrix );
+				} 
+				else 
+				{	var colors = this.pyGeometry.faces[ 0 ].vertexColors;
+					colors[ 0 ] = a === 0 ? this.shadow : this.light;
+					colors[ 1 ] = b === 0 ? this.shadow : this.light;
+					colors[ 2 ] = d === 0 ? this.shadow : this.light;
+					
+					var colors = this.pyGeometry.faces[ 1 ].vertexColors;
+					colors[ 0 ] = b === 0 ? this.shadow : this.light;
+					colors[ 1 ] = c === 0 ? this.shadow : this.light;
+					colors[ 2 ] = d === 0 ? this.shadow : this.light;
+					this.geometry.merge( this.pyGeometry, this.matrix );
+				}
+				
+				if ( ( px != h && px != h + 1 ) || x == 0 ) 
+				{	var colors = this.pxGeometry.faces[ 0 ].vertexColors;
+					colors[ 0 ] = pxpz > px && x > 0 ? this.shadow : this.light;
+					colors[ 2 ] = pxnz > px && x > 0 ? this.shadow : this.light;
+					var colors = this.pxGeometry.faces[ 1 ].vertexColors;
+					colors[ 2 ] = pxnz > px && x > 0 ? this.shadow : this.light;
+					this.geometry.merge( this.pxGeometry, this.matrix );
+				}
+				
+				if ( ( nx != h && nx != h + 1 ) || x == this.worldWidth - 1 ) 
+				{	var colors = this.nxGeometry.faces[ 0 ].vertexColors;
+					colors[ 0 ] = nxnz > nx && x < this.worldWidth - 1 ? this.shadow : this.light;
+					colors[ 2 ] = nxpz > nx && x < this.worldWidth - 1 ? this.shadow : this.light;
+					var colors = this.nxGeometry.faces[ 1 ].vertexColors;
+					colors[ 2 ] = nxpz > nx && x < this.worldWidth - 1 ? this.shadow : this.light;
+					this.geometry.merge( this.nxGeometry, this.matrix );
+				}
+				
+				if ( ( pz != h && pz != h + 1 ) || z == this.worldDepth - 1 ) 
+				{	var colors = this.pzGeometry.faces[ 0 ].vertexColors;
+					colors[ 0 ] = nxpz > pz && z < this.worldDepth - 1 ? this.shadow : this.light;
+					colors[ 2 ] = pxpz > pz && z < this.worldDepth - 1 ? this.shadow : this.light;
+					var colors = this.pzGeometry.faces[ 1 ].vertexColors;
+					colors[ 2 ] = pxpz > pz && z < this.worldDepth - 1 ? this.shadow : this.light;
+					this.geometry.merge( this.pzGeometry, this.matrix );
+				}
+				
+				if ( ( nz != h && nz != h + 1 ) || z == 0 ) 
+				{	var colors = this.nzGeometry.faces[ 0 ].vertexColors;
+					colors[ 0 ] = pxnz > nz && z > 0 ? this.shadow : this.light;
+					colors[ 2 ] = nxnz > nz && z > 0 ? this.shadow : this.light;
+				
+					var colors = this.nzGeometry.faces[ 1 ].vertexColors;
+					colors[ 2 ] = nxnz > nz && z > 0 ? this.shadow : this.light;
+					this.geometry.merge( this.nzGeometry, this.matrix );
+				}
+			}
+		}
+		////////////////////////////////////////////////////////////////////////////////////////
+		this.texture			= new THREE.TextureLoader().load( 'textures/minecraft/atlas.png' );
+		this.texture.magFilter	= THREE.LinearFilter;//THREE.NearestFilter;
+		this.texture.minFilter	= THREE.LinearMipMapLinearFilter;
+
+		////////////////////////////////////////////////////////////////////////
+		/*
+		var params = 
+        {   map:                this.texture,
+            bumpMap:        	this.texture,
+            bumpScale:			1,
+            shininess:          10,//35.0,
+            vertexColors:	    THREE.VertexColors
+        };
+            
+        this.material			= new THREE.MeshStandardMaterial( params );
+        //this.material			= new THREE.MeshLambertMaterial( params );
+        //this.material			= new THREE.MeshPhongMaterial( params );		
+		////////////////////////////////////////////////////////////////////////		
+		this.mesh = new THREE.Mesh( this.geometry, this.material);
+		*/
+		
+		this.mesh = new THREE.Mesh( this.geometry, new THREE.MeshLambertMaterial( { map: this.texture, vertexColors: THREE.VertexColors } ) );
+		this.mesh.name = 'myminecraft';
+		this.mesh.castShadow	= false;
+        this.mesh.receiveShadow = true;
+        
+        this.mesh.position.set(worldHalfWidth*this.sz,0, worldHalfDepth*this.sz);
+		//scene.add( this.mesh );
+		////////////////////////////////////////////////////////////////////////////////////////
+		/*
+	        var floorTexture        = texLoader.load( 'images/dirt/ori/dirt_COLOR.png' );
+            floorTexture.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            //floorTexture.repeat.set( 200,200 );
+			
+			floorTexture.magFilter	= THREE.NearestFilter;
+			floorTexture.minFilter	= THREE.LinearMipMapLinearFilter;
+
+   			floorTexture.anisotropy = maxAnisotropy;
+
+	        var floorTextureBump    = texLoader.load( 'images/dirt/ori/dirt_NRM.png' );
+            //floorTextureBump.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            //floorTextureBump.repeat.set( 100,100 );
+   			//floorTextureBump.anisotropy = maxAnisotropy;
+
+            //var floorTextureOCC     = texLoader.load( 'images/dirt/dirt_OCC.jpg' );
+            //floorTextureOCC.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            //floorTextureOCC.repeat.set( 100,100 );
+   			//floorTextureOCC.anisotropy = maxAnisotropy;
+            
+            //var floorTextureSPEC    = texLoader.load( 'images/dirt/dirt_SPEC.jpg' );
+            //floorTextureSPEC.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            //floorTextureSPEC.repeat.set( 100,100 );
+   			//floorTextureSPEC.anisotropy = maxAnisotropy;
+
+	        //var floorTextureDISP    = texLoader.load( 'images/dirt/ori/dirt_DISP.png' );
+            //floorTextureDISP.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            //floorTextureDISP.repeat.set( 100,100 );
+   			//floorTextureDISP.anisotropy = maxAnisotropy;
+
+	        var params = 
+	        {   map:                floorTexture,
+                bumpMap:        	floorTextureBump,
+                //aoMap:              floorTextureOCC,         
+                //normalMap:			floorTextureBump,
+                //specularMap:        floorTextureSPEC,
+                //displacementMap:    floorTextureDISP,
+                //displacementBias:   1,//0.618,
+                //displacementScale:  1,//0.618,  
+              
+                //ambient:			0xffffff,	
+                bumpScale:			1,
+                //normalScale:        new THREE.Vector2( 1,1),
+                shininess:          10,//35.0,
+                //color:              0xdddddd,
+				//specular:           0x101010,
+				//emissive:			'#333333'
+                //side:               THREE.BackSide
+            };
+            
+            
+            //this.material			= new THREE.MeshStandardMaterial( params );
+            //this.material			= new THREE.MeshLambertMaterial( params );
+            this.material			= new THREE.MeshPhongMaterial( params );
+            //this.material			= new THREE.MeshPhongMaterial({specular: '#ffffff',color: '#aaaaaa',emissive: '#333333',shininess: 10 });
+            /////////////////////////////////////////////////
+			//this.material			= Physijs.createMaterial(	new THREE.MeshPhongMaterial( params ),
+			//													0.618, // high friction
+			//													0.382 // low restitution
+			//												);            
+            
+			//////////////////////////////////////////////////
+			//this.geometry 			= new THREE.BoxGeometry(size.width, size.height,-1);
+			//this.geometry 			= new THREE.PlaneBufferGeometry(size.width, size.height);
+			//this.geometry 			= new THREE.PlaneGeometry(size.width, size.height);	//this work for physijs
+            
+            //make 2nd uv for aomap to function
+            //var uvs = this.geometry.attributes.uv.array;
+            //this.geometry.addAttribute( 'uv2', new THREE.BufferAttribute( uvs, 2 ) );
+
+			//////////////////////////////////////////////////
+			//this.mesh				= new Physijs.ConvexMesh(this.geometry,this.material);
+			//this.mesh				= new Physijs.BoxMesh(this.geometry,this.material);
+			//this.mesh				= new Physijs.PlaneMesh(this.geometry,this.material);
+    	    this.mesh 				= new THREE.Mesh(this.geometry, this.material);
+			
+			this.mesh.name			= 'myminecraft';
+    	    */
+		/////////////////////////////////////////////////////////////////////////		
+		
+		/*
+		var ambientLight = new THREE.AmbientLight( 0xcccccc );
+		scene.add( ambientLight );
+		var directionalLight = new THREE.DirectionalLight( 0xffffff, 2 );
+		directionalLight.position.set( 1, 1, 0.5 ).normalize();
+		scene.add( directionalLight );
+		renderer = new THREE.WebGLRenderer();
+		renderer.setClearColor( 0xffffff );
+		renderer.setPixelRatio( window.devicePixelRatio );
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		container.innerHTML = "";
+		container.appendChild( renderer.domElement );
+		stats = new Stats();
+		container.appendChild( stats.dom );
+		*/
+		//
+		//window.addEventListener( 'resize', onWindowResize, false );
+	}
+	
+	//loadTexture( path, callback ) 
+	//{	var image = new Image();
+	//	image.onload = function () { callback(); };
+	//	image.src = path;
+	//	return image;
+	//}
+	
+	generateHeight( width, height ) 
+	{	var data	= [], 
+			perlin	= new ImprovedNoise(),
+			size	= width * height, 
+			quality = 2, 
+			//z		= 1;//Math.random() * this.sz;
+			z		= this.sz;
+			
+		for ( var j = 0; j < 4; j ++ ) 
+		{	if ( j == 0 ) 
+			{	for ( var i = 0; i < size; i ++ ) data[ i ] = 0;
+			}
+			for ( var i = 0; i < size; i ++ ) 
+			{	var x = i % width, y = ( i / width ) | 0;
+				//data[ i ] += perlin.noise( x / quality, y / quality, z ) * quality;
+				data[ i ] += perlin.noise( x /quality/6, y/quality/6, z ) * quality;
+			}
+			quality *= 3;//4;//
+		}
+		return data;
+	}
+	
+	getY( x, z ) 
+	{	//return ( this.data[ x + z * this.worldWidth ] * 0.2 ) | 0;
+		return ( this.data[ x + z * this.worldWidth ] * 0.2 ) | 0;
+	}	
+
+	update() 
+	{
+	}
+  
+	getMesh() 
+	{	return this.mesh;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////
+
+class CMinecraft_ORI
+{	constructor(worldWidth = 200, worldDepth = 200)
+	{	this.worldWidth		= worldWidth;
+		this.worldDepth 	= worldDepth;
+	
+		this.data = this.generateHeight( worldWidth, worldDepth );
+		//var clock = new THREE.Clock();
+		this.init();
+	}			
+
+	init() 
+	{	var worldHalfWidth = this.worldWidth / 2;
+		var worldHalfDepth = this.worldDepth / 2;
+		/*
+		container = document.getElementById( 'container' );
+		camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 20000 );
+		camera.position.y = this.getY( worldHalfWidth, worldHalfDepth ) * 100 + 100;
+		controls = new THREE.FirstPersonControls( camera );
+		controls.movementSpeed = 1000;
+		controls.lookSpeed = 0.125;
+		controls.lookVertical = true;
+		controls.constrainVertical = true;
+		controls.verticalMin = 1.1;
+		controls.verticalMax = 2.2;
+		scene = new THREE.Scene();
+		scene.fog = new THREE.FogExp2( 0xffffff, 0.00015 );
+		*/
+		
+		// sides
+		this.light	= new THREE.Color( 0xffffff );
+		this.shadow	= new THREE.Color( 0x505050 );
+		this.matrix	= new THREE.Matrix4();
+		
+		this.pxGeometry = new THREE.PlaneGeometry( 100, 100 );
+		this.pxGeometry.faces[ 0 ].vertexColors = [ this.light, this.shadow, this.light ];
+		this.pxGeometry.faces[ 1 ].vertexColors = [ this.shadow, this.shadow, this.light ];
+		this.pxGeometry.faceVertexUvs[ 0 ][ 0 ][ 0 ].y = 0.5;
+		this.pxGeometry.faceVertexUvs[ 0 ][ 0 ][ 2 ].y = 0.5;
+		this.pxGeometry.faceVertexUvs[ 0 ][ 1 ][ 2 ].y = 0.5;
+		this.pxGeometry.rotateY( Math.PI / 2 );
+		this.pxGeometry.translate( 50, 0, 0 );
+		
+		this.nxGeometry = new THREE.PlaneGeometry( 100, 100 );
+		this.nxGeometry.faces[ 0 ].vertexColors = [ this.light, this.shadow, this.light ];
+		this.nxGeometry.faces[ 1 ].vertexColors = [ this.shadow, this.shadow, this.light ];
+		this.nxGeometry.faceVertexUvs[ 0 ][ 0 ][ 0 ].y = 0.5;
+		this.nxGeometry.faceVertexUvs[ 0 ][ 0 ][ 2 ].y = 0.5;
+		this.nxGeometry.faceVertexUvs[ 0 ][ 1 ][ 2 ].y = 0.5;
+		this.nxGeometry.rotateY( - Math.PI / 2 );
+		this.nxGeometry.translate( - 50, 0, 0 );
+		
+		this.pyGeometry = new THREE.PlaneGeometry( 100, 100 );
+		this.pyGeometry.faces[ 0 ].vertexColors = [ this.light, this.light, this.light ];
+		this.pyGeometry.faces[ 1 ].vertexColors = [ this.light, this.light, this.light ];
+		this.pyGeometry.faceVertexUvs[ 0 ][ 0 ][ 1 ].y = 0.5;
+		this.pyGeometry.faceVertexUvs[ 0 ][ 1 ][ 0 ].y = 0.5;
+		this.pyGeometry.faceVertexUvs[ 0 ][ 1 ][ 1 ].y = 0.5;
+		this.pyGeometry.rotateX( - Math.PI / 2 );
+		this.pyGeometry.translate( 0, 50, 0 );
+		
+		this.py2Geometry = new THREE.PlaneGeometry( 100, 100 );
+		this.py2Geometry.faces[ 0 ].vertexColors = [ this.light, this.light, this.light ];
+		this.py2Geometry.faces[ 1 ].vertexColors = [ this.light, this.light, this.light ];
+		this.py2Geometry.faceVertexUvs[ 0 ][ 0 ][ 1 ].y = 0.5;
+		this.py2Geometry.faceVertexUvs[ 0 ][ 1 ][ 0 ].y = 0.5;
+		this.py2Geometry.faceVertexUvs[ 0 ][ 1 ][ 1 ].y = 0.5;
+		this.py2Geometry.rotateX( - Math.PI / 2 );
+		this.py2Geometry.rotateY( Math.PI / 2 );
+		this.py2Geometry.translate( 0, 50, 0 );
+		
+		this.pzGeometry = new THREE.PlaneGeometry( 100, 100 );
+		this.pzGeometry.faces[ 0 ].vertexColors = [ this.light, this.shadow, this.light ];
+		this.pzGeometry.faces[ 1 ].vertexColors = [ this.shadow, this.shadow, this.light ];
+		this.pzGeometry.faceVertexUvs[ 0 ][ 0 ][ 0 ].y = 0.5;
+		this.pzGeometry.faceVertexUvs[ 0 ][ 0 ][ 2 ].y = 0.5;
+		this.pzGeometry.faceVertexUvs[ 0 ][ 1 ][ 2 ].y = 0.5;
+		this.pzGeometry.translate( 0, 0, 50 );
+		
+		this.nzGeometry = new THREE.PlaneGeometry( 100, 100 );
+		this.nzGeometry.faces[ 0 ].vertexColors = [ this.light, this.shadow, this.light ];
+		this.nzGeometry.faces[ 1 ].vertexColors = [ this.shadow, this.shadow, this.light ];
+		this.nzGeometry.faceVertexUvs[ 0 ][ 0 ][ 0 ].y = 0.5;
+		this.nzGeometry.faceVertexUvs[ 0 ][ 0 ][ 2 ].y = 0.5;
+		this.nzGeometry.faceVertexUvs[ 0 ][ 1 ][ 2 ].y = 0.5;
+		this.nzGeometry.rotateY( Math.PI );
+		this.nzGeometry.translate( 0, 0, - 50 );
+		
+		//
+		this.geometry = new THREE.Geometry();
+		//var dummy = new THREE.Mesh();
+		for ( var z = 0; z < this.worldDepth; z ++ ) 
+		{	for ( var x = 0; x < this.worldWidth; x ++ ) 
+			{	var h = this.getY( x, z );
+				this.matrix.makeTranslation(x * 100 - worldHalfWidth * 100,h * 100,z * 100 - worldHalfDepth * 100);
+				
+				var px	 = this.getY( x + 1, z );
+				var nx	 = this.getY( x - 1, z );
+				var pz	 = this.getY( x, z + 1 );
+				var nz	 = this.getY( x, z - 1 );
+				var pxpz = this.getY( x + 1, z + 1 );
+				var nxpz = this.getY( x - 1, z + 1 );
+				var pxnz = this.getY( x + 1, z - 1 );
+				var nxnz = this.getY( x - 1, z - 1 );
+				var a	 = nx > h || nz > h || nxnz > h ? 0 : 1;
+				var b	 = nx > h || pz > h || nxpz > h ? 0 : 1;
+				var c	 = px > h || pz > h || pxpz > h ? 0 : 1;
+				var d	 = px > h || nz > h || pxnz > h ? 0 : 1;
+				
+				if ( a + c > b + d ) 
+				{	var colors = this.py2Geometry.faces[ 0 ].vertexColors;
+					colors[ 0 ] = b === 0 ? this.shadow : this.light;
+					colors[ 1 ] = c === 0 ? this.shadow : this.light;
+					colors[ 2 ] = a === 0 ? this.shadow : this.light;
+					
+					var colors = this.py2Geometry.faces[ 1 ].vertexColors;
+					colors[ 0 ] = c === 0 ? this.shadow : this.light;
+					colors[ 1 ] = d === 0 ? this.shadow : this.light;
+					colors[ 2 ] = a === 0 ? this.shadow : this.light;
+					this.geometry.merge( this.py2Geometry, this.matrix );
+				} 
+				else 
+				{	var colors = this.pyGeometry.faces[ 0 ].vertexColors;
+					colors[ 0 ] = a === 0 ? this.shadow : this.light;
+					colors[ 1 ] = b === 0 ? this.shadow : this.light;
+					colors[ 2 ] = d === 0 ? this.shadow : this.light;
+					
+					var colors = this.pyGeometry.faces[ 1 ].vertexColors;
+					colors[ 0 ] = b === 0 ? this.shadow : this.light;
+					colors[ 1 ] = c === 0 ? this.shadow : this.light;
+					colors[ 2 ] = d === 0 ? this.shadow : this.light;
+					this.geometry.merge( this.pyGeometry, this.matrix );
+				}
+				
+				if ( ( px != h && px != h + 1 ) || x == 0 ) 
+				{	var colors = this.pxGeometry.faces[ 0 ].vertexColors;
+					colors[ 0 ] = pxpz > px && x > 0 ? this.shadow : this.light;
+					colors[ 2 ] = pxnz > px && x > 0 ? this.shadow : this.light;
+					var colors = this.pxGeometry.faces[ 1 ].vertexColors;
+					colors[ 2 ] = pxnz > px && x > 0 ? this.shadow : this.light;
+					this.geometry.merge( this.pxGeometry, this.matrix );
+				}
+				
+				if ( ( nx != h && nx != h + 1 ) || x == this.worldWidth - 1 ) 
+				{	var colors = this.nxGeometry.faces[ 0 ].vertexColors;
+					colors[ 0 ] = nxnz > nx && x < this.worldWidth - 1 ? this.shadow : this.light;
+					colors[ 2 ] = nxpz > nx && x < this.worldWidth - 1 ? this.shadow : this.light;
+					var colors = this.nxGeometry.faces[ 1 ].vertexColors;
+					colors[ 2 ] = nxpz > nx && x < this.worldWidth - 1 ? this.shadow : this.light;
+					this.geometry.merge( this.nxGeometry, this.matrix );
+				}
+				
+				if ( ( pz != h && pz != h + 1 ) || z == this.worldDepth - 1 ) 
+				{	var colors = this.pzGeometry.faces[ 0 ].vertexColors;
+					colors[ 0 ] = nxpz > pz && z < this.worldDepth - 1 ? this.shadow : this.light;
+					colors[ 2 ] = pxpz > pz && z < this.worldDepth - 1 ? this.shadow : this.light;
+					var colors = this.pzGeometry.faces[ 1 ].vertexColors;
+					colors[ 2 ] = pxpz > pz && z < this.worldDepth - 1 ? this.shadow : this.light;
+					this.geometry.merge( this.pzGeometry, this.matrix );
+				}
+				
+				if ( ( nz != h && nz != h + 1 ) || z == 0 ) 
+				{	var colors = this.nzGeometry.faces[ 0 ].vertexColors;
+					colors[ 0 ] = pxnz > nz && z > 0 ? this.shadow : this.light;
+					colors[ 2 ] = nxnz > nz && z > 0 ? this.shadow : this.light;
+				
+					var colors = this.nzGeometry.faces[ 1 ].vertexColors;
+					colors[ 2 ] = nxnz > nz && z > 0 ? this.shadow : this.light;
+					this.geometry.merge( this.nzGeometry, this.matrix );
+				}
+			}
+		}
+		
+		///////////////////////////////////////////////////////////////////////
+		this.texture			= new THREE.TextureLoader().load( 'textures/minecraft/atlas.png' );
+		this.texture.magFilter	= THREE.NearestFilter;
+		this.texture.minFilter	= THREE.LinearMipMapLinearFilter;
+
+		this.mesh = new THREE.Mesh( this.geometry, new THREE.MeshLambertMaterial( { map: this.texture, vertexColors: THREE.VertexColors } ) );
+		this.mesh.name = 'myminecraft';
+
+		////////////////////////////////////////////////////////////////////////		
+		//scene.add( this.mesh );
+		
+
+		/*
+		var ambientLight = new THREE.AmbientLight( 0xcccccc );
+		scene.add( ambientLight );
+		var directionalLight = new THREE.DirectionalLight( 0xffffff, 2 );
+		directionalLight.position.set( 1, 1, 0.5 ).normalize();
+		scene.add( directionalLight );
+		renderer = new THREE.WebGLRenderer();
+		renderer.setClearColor( 0xffffff );
+		renderer.setPixelRatio( window.devicePixelRatio );
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		container.innerHTML = "";
+		container.appendChild( renderer.domElement );
+		stats = new Stats();
+		container.appendChild( stats.dom );
+		*/
+		//
+		//window.addEventListener( 'resize', onWindowResize, false );
+	}
+	
+	//loadTexture( path, callback ) 
+	//{	var image = new Image();
+	//	image.onload = function () { callback(); };
+	//	image.src = path;
+	//	return image;
+	//}
+	
+	generateHeight( width, height ) 
+	{	var data	= [], 
+			perlin	= new ImprovedNoise(),
+			size	= width * height, 
+			quality = 2, 
+			z		= Math.random() * 100;
+			
+		for ( var j = 0; j < 4; j ++ ) 
+		{	if ( j == 0 ) for ( var i = 0; i < size; i ++ ) data[ i ] = 0;
+			for ( var i = 0; i < size; i ++ ) 
+			{	var x = i % width, y = ( i / width ) | 0;
+				data[ i ] += perlin.noise( x / quality, y / quality, z ) * quality;
+			}
+			quality *= 4
+		}
+		return data;
+	}
+	
+	getY( x, z ) 
+	{	return ( this.data[ x + z * this.worldWidth ] * 0.2 ) | 0;
+	}	
+
+	update() 
+	{
+	}
+  
+	getMesh() 
+	{	return this.mesh;
+	}
 }

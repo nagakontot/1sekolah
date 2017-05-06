@@ -164,7 +164,9 @@ class CThreejs
 	        	//this._.fog          	= new THREE.FogExp2( 0x000000, 0.0008 );;//new THREE.FogExp2( 0x9999ff, 0.00025 );
 				//this._.fog				= new THREE.Fog( 0x59472b, 1000,3000);	        	
 				//this._.fog				= new THREE.Fog( 0xffffff, 0.015, 300 );
+				
 				this._.fog				= new THREE.Fog( 0xffffff, 125, 250 );
+	        	
 	        	//this._.fog          	= new THREE.FogExp2( 0xffffff, 0.01 );//new THREE.FogExp2( 0x9999ff, 0.00025 );
 	        	
 	        	//this._.setGravity(new THREE.Vector3( 0, -10, 0 ));
@@ -204,14 +206,14 @@ class CThreejs
     			this._					= null;  
 			}
 			
-			enableShadow(SHADOW_MAP_WIDTH=1024,SHADOW_MAP_HEIGHT=1024)
-			//enableShadow(SHADOW_MAP_WIDTH=512,SHADOW_MAP_HEIGHT=512)
+			//enableShadow(SHADOW_MAP_WIDTH=1024,SHADOW_MAP_HEIGHT=1024)
+			enableShadow(SHADOW_MAP_WIDTH=512,SHADOW_MAP_HEIGHT=512)
 			{	this.SHADOW_MAP_WIDTH	= SHADOW_MAP_WIDTH;
 				this.SHADOW_MAP_HEIGHT	= SHADOW_MAP_HEIGHT;
 
 				this._.shadowMap.enabled = true;
 				this._.shadowMap.type	 = THREE.BasicShadowMap;
-				//this._.shadowMap.type	 = THREE.PCFShadowMap;		
+				//this._.shadowMap.type	 = THREE.PCFShadowMap;	
 
             	//http://stackoverflow.com/questions/20463247/three-js-doublesided-material-doesnt-cast-shadow-on-both-sides-of-planar-parame
             	//this._.shadowMapCullFace = THREE.CullFaceBack;	//make plane cast both side!!!!
@@ -260,7 +262,8 @@ class CThreejs
 		class CLight extends CBase
 		{	constructor(scene)
 			{	//scene.add( new THREE.AmbientLight( 0xaaaaaa ) );
-				scene.add( new THREE.AmbientLight( 0xffffff) );
+				//scene.add( new THREE.AmbientLight( 0xffffff) );
+				scene.add( new THREE.AmbientLight( 0xffffff, 0.3 ) );
 
 				var hemisphereLight = new THREE.HemisphereLight(0xffffff,0xff0000,1);
 				hemisphereLight.position.set(1, 1, 1).normalize();
@@ -277,7 +280,7 @@ class CThreejs
 				
 				//////////////////////////////////////////////////
 				super(new THREE.DirectionalLight( 0xffffff, 1 ));
-				this._.name = 'Dir. Light';
+				this._.name = 'DirLight';
 				this._.position.set( 0, 10, -10 );
 						
 				//////////////////////////////////////////////////
@@ -286,8 +289,8 @@ class CThreejs
             	return this;
 			}            	
 			
-			enableShadow(SHADOW_MAP_WIDTH=1024,SHADOW_MAP_HEIGHT=1024)
-			//enableShadow(SHADOW_MAP_WIDTH=512,SHADOW_MAP_HEIGHT=512)
+			//enableShadow(SHADOW_MAP_WIDTH=1024,SHADOW_MAP_HEIGHT=1024)
+			enableShadow(SHADOW_MAP_WIDTH=512,SHADOW_MAP_HEIGHT=512)
 			{	this._.castShadow = true;
 				//this._.shadow.camera.near	=  8;//1
 				//this._.shadow.camera.far	=  12;//10;
@@ -316,6 +319,17 @@ class CThreejs
 				this.dirLightShadowMapViewer.update(); //Required when setting position or size directly
 			}			
 			*/
+			
+			followTarget(pos,target)
+			//followTarget(scene,pos,ObjName)
+			{	//var pos = player.getPosition();
+				//this._.position.set(pos.x,10,pos.z-10);
+				this._.position.set(pos.x,pos.y+10,pos.z-10);
+				this._.target	= target;
+				//this._.target	= scene.getObjectByName(ObjName);
+				//this._.target	= this.scene.getObjectByName('player_moviemesh');
+			}
+			
 			update(renderer)
 			{	//if(this.lightShadowMapViewer)this.lightShadowMapViewer.render( renderer );
 				//if(this.dirLightShadowMapViewer&&renderer)this.dirLightShadowMapViewer.render( renderer );

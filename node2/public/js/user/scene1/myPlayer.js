@@ -28,8 +28,9 @@
 			
 	
 			///////////////////////////////////////////////////////////////////////////////////
-			this.movieGeometry			= new THREE.PlaneBufferGeometry(1.6,1.2,5,5);
-			this.movieGeometry.center();
+			this.movieGeometry			= new THREE.PlaneBufferGeometry(1.28,1.28,5,5);
+			//this.movieGeometry			= new THREE.PlaneBufferGeometry(1.6,1.2,5,5);
+			//this.movieGeometry.center();
 			//this.movieGeometry.applyMatrix( new THREE.Matrix4().makeRotationY( Math.PI ) );
 			//this.movieGeometry.scale.x	= -1;
 			/////////////////////////////////////////
@@ -68,7 +69,7 @@
 			} );
 
 			this.moviemesh.castShadow	 = true;			
-			this.moviemesh.receiveShadow = true;//false;//
+			this.moviemesh.receiveShadow = false;//true;//
 			
 			///////////////////////////////////////////////////////////////////////////////////
 /*			
@@ -109,7 +110,7 @@
 			this.label = createLabel(this.username);
 			this.label.scale.set(1,0.25,1);
     		//this.label.position.set(0,0.25, 0);
-    		this.label.position.set(-0.25,0.7,0);
+    		this.label.position.set(0,0.7,0);
 
 			//this.label.castShadow		= true;			
 			//this.label.receiveShadow	= false;
@@ -178,8 +179,14 @@
 		setPosition(position)
 		{	//this.meshgroup.position.copy( position );
 			this.moviemesh.position.copy( position );
+		}
+		
+		setPositionY(position)
+		{	//this.meshgroup.position.copy( position );
+			this.moviemesh.position.y = position;
 		
 		}
+		
 
 		update()
 		{	//this.movieMaterial.update();
