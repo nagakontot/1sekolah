@@ -1,10 +1,25 @@
+        //http://stackoverflow.com/questions/14226803/javascript-wait-5-seconds-before-executing-next-line
+        var delay = ( function() 
+        {   var timer = 0;
+            return function(callback, ms) 
+            {   clearTimeout (timer);
+                timer = setTimeout(callback, ms);
+            };
+        })();
+        
+        //Usage:
+        //    delay(  function()
+        //            {   // do stuff
+        //            }, 
+        //            600 ); // end delay
+//////////////////////////////////////        
         function getCookie(name) 
-        {   //return (name = (document.cookie + ';').match(new RegExp(name + '=.*;'))) && name[0].split(/=|;/)[1];
+        {   return (name = (document.cookie + ';').match(new RegExp(name + '=.*;'))) && name[0].split(/=|;/)[1];
             //match = document.cookie.match(new RegExp(name + '=([^;]+)'));
             //if (match) return match[1];
-            function escape(s) { return s.replace(/([.*+?\^${}()|\[\]\/\\])/g, '\\$1'); };
-            var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
-            return match ? match[1] : null;
+            //function escape(s) { return s.replace(/([.*+?\^${}()|\[\]\/\\])/g, '\\$1'); };
+            //var match = document.cookie.match(RegExp('(?:^|;\\s*)' + escape(name) + '=([^;]*)'));
+            //return match ? match[1] : null;
         }
 
         // the default lifetime is 7 days

@@ -133,6 +133,116 @@ function createLabel(message, fontSize=9)
 
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
+	class CLoadModel_Obj2
+	{	constructor(pivot,scene,path,filename_mtl,filename_obj,pos,scale)
+		{	//THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+			var mtlLoader = new THREE.MTLLoader();
+			mtlLoader.setPath(path);//( 'obj/male02/' );
+			mtlLoader.setCrossOrigin( 'anonymous' );
+			
+			//mtlLoader.load( 'male02_dds.mtl', function( materials ) {
+			mtlLoader.load( filename_mtl, function( materials ) 
+			{	
+				materials.preload();
+				var objLoader = new THREE.OBJLoader2();
+				objLoader.setSceneGraphBaseNode( pivot );
+				objLoader.setMaterials( materials.materials );
+				objLoader.setPath(path);//( 'obj/male02/' );
+				objLoader.setDebug( false, false );
+			
+				//window.setTimeout( function() 
+				//{	
+				//objLoader.load( 'male02.obj', function ( object ) {
+				objLoader.load( filename_obj, 
+								function ( object ) 
+								{	//object.position.y = - 95;
+									object.position.x = pos.x;
+									object.position.y = pos.y;
+									object.position.z = pos.z;
+									
+									object.scale.x = scale.x;
+									object.scale.y = scale.y;
+									object.scale.z = scale.z;
+									
+									scene.add( object );
+								}.bind(this), 
+								this.onProgress, 
+								this.onError );
+				//}.bind(this),100);								
+			}.bind(this));
+			//////////////////////
+		}
+		
+		onSuccess( object3d ) 
+		{	console.log( 'Loading complete. Meshes were attached to: ' + object3d.name );
+		};
+			
+		onProgress( xhr ) 
+		{	if ( xhr.lengthComputable ) 
+			{	var percentComplete = xhr.loaded / xhr.total * 100;
+				console.log( Math.round(percentComplete, 2) + '% downloaded' );
+			}
+		}
+		
+		onError( xhr ) 
+		{ 
+		}
+	}
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+	class CLoadModel_Obj
+	{	constructor(scene,path,filename_mtl,filename_obj,pos,scale)
+		{	THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+			var mtlLoader = new THREE.MTLLoader();
+			mtlLoader.setPath(path);//( 'obj/male02/' );
+			
+			//mtlLoader.load( 'male02_dds.mtl', function( materials ) {
+			mtlLoader.load( filename_mtl, function( materials ) 
+			{	materials.preload();
+				var objLoader = new THREE.OBJLoader();
+				objLoader.setMaterials( materials );
+				objLoader.setPath(path);//( 'obj/male02/' );
+			
+				//window.setTimeout( function() 
+				//{	
+				//objLoader.load( 'male02.obj', function ( object ) {
+				objLoader.load( filename_obj, 
+								function ( object ) 
+								{	//object.position.y = - 95;
+									object.position.x = pos.x;
+									object.position.y = pos.y;
+									object.position.z = pos.z;
+									
+									object.scale.x = scale.x;
+									object.scale.y = scale.y;
+									object.scale.z = scale.z;
+									
+									scene.add( object );
+								}.bind(this), 
+								this.onProgress, 
+								this.onError );
+				//}.bind(this),100);								
+								
+			}.bind(this));
+			//////////////////////
+			 
+			 
+		}
+		
+		onProgress( xhr ) 
+		{	if ( xhr.lengthComputable ) 
+			{	var percentComplete = xhr.loaded / xhr.total * 100;
+				console.log( Math.round(percentComplete, 2) + '% downloaded' );
+			}
+		}
+		
+		onError( xhr ) 
+		{ 
+		}
+	}
+
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
 	class CSKyboxGradient
 	{	constructor(size) 
 		{	// prepare ShaderMaterial without textures
@@ -221,7 +331,8 @@ function createLabel(message, fontSize=9)
 				vertex.z = Math.random() * n - n2;//Math.random() * 2000 - 1000;
 				this.geometry.vertices.push( vertex );
 			}
-			var color,mysprite,size,particles;
+			var color,mysprite,size;
+			this.particles;
 			for (var i = 0; i < parameters.length; i ++ ) 
 			{	color		= parameters[i][0];
 				mysprite	= parameters[i][1];
@@ -233,17 +344,17 @@ function createLabel(message, fontSize=9)
 				//this.materials[i] = new THREE.PointsMaterial( { size: size, map: mysprite, blending: THREE.AdditiveBlending, depthTest: false, transparent : true } );
 				this.materials[i].color.setHSL( color[0], color[1], color[2] );
 					
-				particles = new THREE.Points( this.geometry, this.materials[i] );
+				this.particles = new THREE.Points( this.geometry, this.materials[i] );
 				//particles = new THREE.Points( this.geometry, this.movieMaterial );
 				
-				particles.rotation.x = Math.random() * 6;
-				particles.rotation.y = Math.random() * 6;
-				particles.rotation.z = Math.random() * 6;
-				scene.add( particles );
+				this.particles.rotation.x = Math.random() * 6;
+				this.particles.rotation.y = Math.random() * 6;
+				this.particles.rotation.z = Math.random() * 6;
+				scene.add( this.particles );
 			}
 		}
 			
-		update(time,scene,parameters)
+		update(time,scene,parameters,pos)
 		{	time+=time*0.05;
 			//time+=time*0.1;
 			//this.time += time*1;
@@ -263,6 +374,8 @@ function createLabel(message, fontSize=9)
 				//materials[i].color.setHSL( h, color[1], color[2] );
 				this.materials[i].color.setHSL(( 360 * ( color[0] + time ) % 360 ) / 360, color[1], color[2] );
 			}
+			
+			this.particles.position.copy( pos );
 		}
 	}		
 	
@@ -598,7 +711,6 @@ class CMinecraft
 	{	this.worldWidth		= worldWidth;
 		this.worldDepth 	= worldDepth;
 		
-		
 		this.sz				= 1;
 		this.szhalf			= this.sz/2;
 
@@ -648,7 +760,7 @@ class CMinecraft
 					];
 */
 		this.data = this.generateHeight( worldWidth, worldDepth );
-					
+
 		//var clock = new THREE.Clock();
 		this.init(maxAnisotropy);
 					
@@ -821,23 +933,25 @@ class CMinecraft
 		this.texture.minFilter	= THREE.LinearMipMapLinearFilter;
 
 		////////////////////////////////////////////////////////////////////////
-		/*
+		/*		
 		var params = 
         {   map:                this.texture,
             bumpMap:        	this.texture,
             bumpScale:			1,
-            shininess:          10,//35.0,
+            shininess:          1,//35.0,
             vertexColors:	    THREE.VertexColors
         };
             
-        this.material			= new THREE.MeshStandardMaterial( params );
+        //this.material			= new THREE.MeshStandardMaterial( params );
         //this.material			= new THREE.MeshLambertMaterial( params );
-        //this.material			= new THREE.MeshPhongMaterial( params );		
-		////////////////////////////////////////////////////////////////////////		
+        this.material			= new THREE.MeshPhongMaterial( params );		
 		this.mesh = new THREE.Mesh( this.geometry, this.material);
 		*/
+		////////////////////////////////////////////////////////////////////////		
 		
-		this.mesh = new THREE.Mesh( this.geometry, new THREE.MeshLambertMaterial( { map: this.texture, vertexColors: THREE.VertexColors } ) );
+		
+		this.mesh = new THREE.Mesh( this.geometry, new THREE.MeshPhongMaterial( { map: this.texture, vertexColors: THREE.VertexColors } ) );
+		//this.mesh = new THREE.Mesh( this.geometry, new THREE.MeshLambertMaterial( { map: this.texture, vertexColors: THREE.VertexColors } ) );
 		this.mesh.name = 'myminecraft';
 		this.mesh.castShadow	= false;
         this.mesh.receiveShadow = true;
@@ -966,7 +1080,7 @@ class CMinecraft
 			for ( var i = 0; i < size; i ++ ) 
 			{	var x = i % width, y = ( i / width ) | 0;
 				//data[ i ] += perlin.noise( x / quality, y / quality, z ) * quality;
-				data[ i ] += perlin.noise( x /quality/6, y/quality/6, z ) * quality;
+				data[ i ] += perlin.noise( x /quality/9, y/quality/9, z ) * quality;
 			}
 			quality *= 3;//4;//
 		}

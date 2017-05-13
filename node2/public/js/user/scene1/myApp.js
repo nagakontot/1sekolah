@@ -6,14 +6,13 @@
 		{	super(width,height,fps);
 			this.clock = new THREE.Clock();
 			
-			this.oldpos = new THREE.Vector3();
-			
+			//this.oldpos = new THREE.Vector3();
 			//this.isInit =false;
 		}
   
 		init() 
 		{	//this.renderer_.enableShadow();
-			this.renderer.setClearColor(this.scene.fog.color);
+			//this.renderer.setClearColor(this.scene.fog.color);
 			super.enableShadow();
 			
 			super.createStdLight();
@@ -44,16 +43,7 @@
         	this.onWindowResize = this.onWindowResize.bind(this);
         	window.addEventListener( "resize", this.onWindowResize, false );
         	///////////////////////////////////////
-			/*        	
-        	var spritefn =  [	"textures/sprites/snowflake1.png",
-        						"textures/sprites/snowflake2.png",
-        						"textures/sprites/snowflake3.png",
-        						"textures/sprites/snowflake4.png",
-        						"textures/sprites/snowflake5.png"
-        					];
-        	this.mysp	= new CSpritePoint(this.scene,spritefn);
-        	*/
-			
+			/*
 			this.params1=	[	[ [1.0,  0.2,  0.5], texLoader.load("textures/sprites/snowflake1.png"), 0.8],
 								[ [0.95, 0.1,  0.5], texLoader.load("textures/sprites/snowflake2.png"), 0.5],
 								[ [0.90, 0.05, 0.5], texLoader.load("textures/sprites/snowflake3.png"), 0.3],
@@ -61,8 +51,40 @@
 								[ [0.80, 0,    0.5], texLoader.load("textures/sprites/snowflake5.png"), 0.1]
 							];
         						
-        	this.mysp	= new CSpritePoint(this.scene,this.params1);
+        	this.mysp		= new CSpritePoint(this.scene,this.params1);
+        	*/
         	
+        	//var pos = {x:83,y:-3,z:66};
+        	//this.mymodel_1  = new CLoadModel_Obj(this.scene,'models/male02/','male02_dds.mtl','male02.obj',pos);
+        	//this.kiosk  = new CLoadModel_Obj(this.scene,'models/kiosk/','Kiosk1.obj.mtl','Kiosk1.obj',pos);
+        	//this.kiosk  = new CLoadModel_Obj(this.scene,'models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos);
+        	
+        	//good!
+        	var pos1	= {x:83,y:-3.5,z:66};
+        	var scale1  = {x:2,y:2,z:2};
+        	this.kiosk  = new CLoadModel_Obj(this.scene,'models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos1,scale1);
+        	//this.kiosk  = new CLoadModel_Obj2(this.pivot,this.scene,'models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos1,scale1);
+
+        	//var pos1	= {x:109,y:-2.15,z:62};
+        	//var scale1  = {x:0.05,y:0.05,z:0.05};
+        	//this.house = new CLoadModel_Obj(this.scene,'models/house_02/','House_02.obj.mtl','House_02.obj',pos1,scale1);
+        	
+        	//var pos1	= {x:109,y:-3,z:62};
+        	//var scale1  = {x:1,y:1,z:1};
+        	//this.StreetScene = new CLoadModel_Obj(this.scene,'models/StreetScene/','StreetScene.obj.mtl','StreetScene.obj',pos1,scale1);
+
+        	//var pos1	= {x:109,y:-5,z:62};
+        	//var scale1  = {x:0.1,y:0.1,z:0.1};
+        	//this.TheCity = new CLoadModel_Obj(this.scene,'models/TheCity/','TheCity.obj.mtl','TheCity.obj',pos1,scale1);
+
+        	//var pos1	= {x:109,y:0,z:62};
+        	//var scale1  = {x:1,y:1,z:1};
+        	//this.cs_italy = new CLoadModel_Obj(this.scene,'models/cs_italy/','cs_italy.obj.mtl','cs_italy.obj',pos1,scale1);
+
+        	//var pos1	= {x:109,y:0,z:62};
+        	//var scale1  = {x:1,y:1,z:1};
+        	//this.kiosk2	= new CLoadModel_Obj(this.scene,'models/kiosk2/','CoffeeKiosk.obj.mtl','CoffeeKiosk.obj',pos1,scale1);
+
         	//this.label   = createLabel(this.scene,"bodoooooo", 40) ;
         	//this.scene.add(createLabel(this.scene,"bodoooooo", 40));
 		}
@@ -84,10 +106,15 @@
 			//super.addMesh(new CText({width:20,height:20,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			
 			//this.createShaderSkybox();
+			/////////////////////////////////////////////////////////
+			this.pivot			= new THREE.Object3D();
+			this.pivot.name 	= 'Pivot';
+			this.scene.add( this.pivot );
 		}
 
 		createMinecraft(anis)
 		{	this.mymc = new CMinecraft(200,200,anis);
+			//this.mymc.displayData();
 			this.scene.add(this.mymc.getMesh());
 		}
 
@@ -124,12 +151,13 @@
 			{	window.movieMaterial[i].update();
 			}
 			
-			this.mysp.update(time,this.scene,this.params1);
+			//this.mysp.update(time,this.scene,this.params1);
 			this.mygame.updatePlayers();
 			
 			if(player)
 			{	var pos = player.getPosition();
 				var newh = this.mymc.getY( Math.round(pos.x),Math.round(pos.z))+1.07;
+				
 				//console.log("pos.x="+Math.round(pos.x)+" pos.y="+this.mymc.getY( Math.round(pos.x), Math.round(pos.y) )+" pos.z="+Math.round(pos.z));
 				
 				if(newh>this.controls.GroundHeight && this.controls.isOnGround())
@@ -151,20 +179,23 @@
 				//var pos = player.getPosition();
 				//this.light.position.set(pos.x,10,pos.z-10);
 				//this.light.target	= this.scene.getObjectByName('player_moviemesh');
+
+				//if(this.mysky)this.mysky.update(player.getPosition());
+			
+				//this.skyBox.position.copy( player.getPosition() );
+				//this.skyBox.position.x = player.getPosition().x;
+				//this.skyBox.position.z = player.getPosition().z;
+				
+				//this.mysp.update(time,this.scene,this.params1,pos);	
 			}
 		
 		
-			//this.mysky.update(player.getPosition());
-			
-			//this.skyBox.position.copy( player.getPosition() );
-			//this.skyBox.position.x = player.getPosition().x;
-			//this.skyBox.position.z = player.getPosition().z;
 
 			super.update();
 		}
 		
 		render() 
-		{	var time = Date.now() * 0.00005;
+		{	var time = Date.now() * 0.00001;
 			//var time = this.clock.getDelta();
 		
 			this.requestId  = window.requestAnimationFrame(() => 

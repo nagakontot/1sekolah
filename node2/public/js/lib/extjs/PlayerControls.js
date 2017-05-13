@@ -197,6 +197,55 @@ THREE.PlayerControls = function ( camera, player, domElement )
 		else if ( lastPosition.distanceTo( this.player.position) == 0 ) playerIsMoving	= false;
 		
 		this.UpdateJump();
+		///////////////////////////////////////////////////////////
+		
+		//note: Math.trunc() will do proper truncation
+		var pos = {x:Math.round(this.player.position.x),y:Math.round(this.player.position.y),z:Math.round(this.player.position.z)};
+		var rot = {x:Math.round(this.player.rotation.x),y:Math.round(this.player.rotation.y),z:Math.round(this.player.rotation.z)};
+
+		//var pos = {x:~~this.player.position.x,y:~~this.player.position.y,z:~~this.player.position.z};
+		//var rot = {x:~~this.player.rotation.x,y:~~this.player.rotation.y,z:~~this.player.rotation.z};
+		
+		//var pos = {x:this.player.position.x|0,y:this.player.position.y|0,z:this.player.position.z|0};
+		//var rot = {x:this.player.rotation.x|0,y:this.player.rotation.y|0,z:this.player.rotation.z|0};
+	    	
+	    if( JSON.stringify(pos) != JSON.stringify(window.pos) )	
+	    {	//console.log("( JSON.stringify(pos) != JSON.stringify(window.pos))");
+	    	fbRef.child( "Players/" + playerID + "/orientation" ).update(
+	    	{	position:	{	x: pos.x,//~~this.player.position.x,
+	    						y: pos.y,//~~this.player.position.y,
+	    						z: pos.z //~~this.player.position.z
+	    					}
+	    	});
+	    }
+	    if( JSON.stringify(rot) != JSON.stringify(window.rot) )	
+	    {	//console.log("(JSON.stringify(rot) != JSON.stringify(window.rot))");
+	    	fbRef.child( "Players/" + playerID + "/orientation" ).update(
+	    	{	rotation:	{	x: rot.x,//~~this.player.rotation.x,
+	    						y: rot.y,//~~this.player.rotation.y,
+	    						z: rot.z //~~this.player.rotation.z
+	    					}
+	    	});	    	
+	    }
+	    
+	    //fbRef.child( "Players/" + playerID + "/orientation" ).update({
+	    //	position: {
+	    //		x: pos.x,//~~this.player.position.x,
+	    //		y: pos.y,//~~this.player.position.y,
+	    //		z: pos.z,//~~this.player.position.z
+	    //	},
+	    //	rotation: {
+	    //		x: rot.x,//~~this.player.rotation.x,
+	    //		y: rot.y,//~~this.player.rotation.y,
+	    //		z: rot.z,//~~this.player.rotation.z
+	    //	}
+	    //});
+		
+		//window.pos = JSON.parse(JSON.stringify(pos));
+		//window.rot = JSON.parse(JSON.stringify(rot));
+		
+		window.pos = Object.assign({}, pos); 
+		window.rot = Object.assign({}, rot); 		
 	};
 
 	this.isOnGround = function() 
@@ -313,9 +362,14 @@ THREE.PlayerControls = function ( camera, player, domElement )
 
 	    }
 
+		/*
 		//note: Math.trunc() will do proper truncation
-		var pos = {x:~~this.player.position.x,y:~~this.player.position.y,z:~~this.player.position.z};
-		var rot = {x:~~this.player.rotation.x,y:~~this.player.rotation.y,z:~~this.player.rotation.z};
+		var pos = {x:Math.round(this.player.position.x),y:Math.round(this.player.position.y),z:Math.round(this.player.position.z)};
+		var rot = {x:Math.round(this.player.rotation.x),y:Math.round(this.player.rotation.y),z:Math.round(this.player.rotation.z)};
+
+		//var pos = {x:~~this.player.position.x,y:~~this.player.position.y,z:~~this.player.position.z};
+		//var rot = {x:~~this.player.rotation.x,y:~~this.player.rotation.y,z:~~this.player.rotation.z};
+		
 		//var pos = {x:this.player.position.x|0,y:this.player.position.y|0,z:this.player.position.z|0};
 		//var rot = {x:this.player.rotation.x|0,y:this.player.rotation.y|0,z:this.player.rotation.z|0};
 	    	
@@ -337,26 +391,26 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	    					}
 	    	});	    	
 	    }
-	    /*
-	    fbRef.child( "Players/" + playerID + "/orientation" ).update({
-	    	position: {
-	    		x: pos.x,//~~this.player.position.x,
-	    		y: pos.y,//~~this.player.position.y,
-	    		z: pos.z,//~~this.player.position.z
-	    	},
-	    	rotation: {
-	    		x: rot.x,//~~this.player.rotation.x,
-	    		y: rot.y,//~~this.player.rotation.y,
-	    		z: rot.z,//~~this.player.rotation.z
-	    	}
-	    });
-		*/
+	    */
+	    
+	    //fbRef.child( "Players/" + playerID + "/orientation" ).update({
+	    //	position: {
+	    //		x: pos.x,//~~this.player.position.x,
+	    //		y: pos.y,//~~this.player.position.y,
+	    //		z: pos.z,//~~this.player.position.z
+	    //	},
+	    //	rotation: {
+	    //		x: rot.x,//~~this.player.rotation.x,
+	    //		y: rot.y,//~~this.player.rotation.y,
+	    //		z: rot.z,//~~this.player.rotation.z
+	    //	}
+	    //});
 		
 		//window.pos = JSON.parse(JSON.stringify(pos));
 		//window.rot = JSON.parse(JSON.stringify(rot));
 		
-		window.pos = Object.assign({}, pos); 
-		window.rot = Object.assign({}, rot); 
+		//window.pos = Object.assign({}, pos); 
+		//window.rot = Object.assign({}, rot); 
    		
 
 	};

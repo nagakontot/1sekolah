@@ -44,7 +44,16 @@ var otherPlayers = {};
 		{	//this.loadEnvironment();				// load the environment
 			this.initMainPlayer();				// load the player
 			this.listenToOtherPlayers();
-
+			/*
+			if(getCookie("username")=== null)
+			{	delay(  function()
+                    	{	this.initMainPlayer();				// load the player
+							this.listenToOtherPlayers();
+                    	}.bind(this), 
+                    	1000 ); // end delay
+			}
+			*/
+			
 			window.onunload = function() 
 			{	fbRef.child( "Players/" + playerID ).remove();
 			}.bind(this);
@@ -55,7 +64,12 @@ var otherPlayers = {};
 		}
 	
 		initMainPlayer() 
-		{	fbRef.child( "Players/" + playerID ).set(
+		{	//while(getCookie("username")=== null) 
+			//{	for(var i=0;i<10000;i++){}
+			//	console.log("getCookie('username')="+getCookie("username"));
+			//}
+			
+			fbRef.child( "Players/" + playerID ).set(
 			{	isOnline:		true,
 				orientation:	{	position: {x: 0, y:0, z:0},
 									rotation: {x: 0, y:0, z:0}
