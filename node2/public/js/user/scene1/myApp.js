@@ -8,6 +8,10 @@
 			
 			//this.oldpos = new THREE.Vector3();
 			//this.isInit =false;
+			
+			this.clumpy = new Clumpy();
+			
+			this.counter = 0;
 		}
   
 		init() 
@@ -21,21 +25,75 @@
 			//window.movieMaterial		= new ChromaKeyMaterial('video/baby4.webm', 320,218, 0xd400);
 			//window.movieMaterial		= new ChromaKeyMaterial('video/monkey5.webm', 320,240, 0xd400);
 
-			var filename = ['video/baby_1.webm',
+			///////////////////////////////////////////////////////////////////////
+			/*
+			var videos = ['video/baby_1.webm',
 							'video/monkey_1.webm',
 							'video/robot_1.webm',//'video/TrainerCalem_160x120.webm',
 							'video/billcat_1.webm'];//'video/panda_160x120.webm'];
 
 			window.movieMaterial		= [];
-			for(var i=0;i<filename.length;i++)
-			{	window.movieMaterial[i]			= new ChromaKeyMaterial(filename[i],128,128,0xd400,i);
+			for(var i=0;i<videos.length;i++)
+			{	window.movieMaterial[i]			= new ChromaKeyMaterial(videos[i],128,128,0xd400,i);
 			
 				window.movieMaterial[i].side	= THREE.DoubleSide;
 				//window.movieMaterial[i].side	= THREE.FrontSide;
 				//window.movieMaterial[i].side	= THREE.BackSide;
 				//window.movieMaterial[i+4].side= THREE.BackSide;
 			}
+			*/
+			///////////////////////////////////////////////////////////////////////
+			
+			var videos		= [	'video/baby_1.webm',
+								'video/monkey_1.webm',
+								'video/robot_1.webm',
+								'video/billcat_1.webm'];
 
+			window.movieMaterial		= [];
+			Architect.proxy(videos, function(data) 
+			{	//console.log(data)
+				// => ['foo.png', 'bar.png', 'twiz.png', 'foozle.png', 'barzle.png', 'twizle.png']
+
+				var i=0;
+				data.forEach(function(vid) 
+				{	//img = document.createElement('img')
+    				//img.src = vid
+    				//document.body.appendChild(img)
+					window.movieMaterial[i]			= new ChromaKeyMaterial(vid,128,128,0xd400,i);
+					window.movieMaterial[i].side	= THREE.DoubleSide;  
+					i++;
+				})
+			})			
+			
+			///////////////////////////////////////////////////////////////////////
+			/*
+			var videos		= [	'video/baby_1.webm',
+								'video/monkey_1.webm',
+								'video/robot_1.webm',//'video/TrainerCalem_160x120.webm',
+								'video/billcat_1.webm'];//'video/panda_160x120.webm'];
+			var jobName		= 'appendVideos';
+			var videosCount = 0;
+
+			window.movieMaterial		= [];
+			videos.forEach(function(vid) 
+			{	Architect.proxyOn(jobName,vid,function(data) 
+				{	videosCount++;
+    				//img 		= document.createElement('img')
+    				//img.src	= data
+    				//document.body.appendChild(img)
+    	
+					window.movieMaterial[videosCount]			= new ChromaKeyMaterial(vid,128,128,0xd400,videosCount);
+					window.movieMaterial[videosCount].side		= THREE.DoubleSide;
+					//window.movieMaterial[videosCount].side	= THREE.FrontSide;
+					//window.movieMaterial[videosCount].side	= THREE.BackSide;
+					//window.movieMaterial[videosCount+4].side	= THREE.BackSide;    	
+
+    				if(videosCount == videos.length)Architect.endJob(jobName);
+				}.bind(this));
+			}.bind(this));
+			*/
+			//////////////////////////////////////////////////////////////////////
+			//////////////////////////////////////////////////////////////////////
 			this.mygame = new CGameModel(this);
 			this.mygame.init();
 			this.loadEnvironment();
@@ -60,9 +118,9 @@
         	//this.kiosk  = new CLoadModel_Obj(this.scene,'models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos);
         	
         	//good!
-        	var pos1	= {x:83,y:-3.5,z:66};
-        	var scale1  = {x:2,y:2,z:2};
-        	this.kiosk  = new CLoadModel_Obj(this.scene,'models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos1,scale1);
+        	//var pos1	= {x:83,y:-3.5,z:66};
+        	//var scale1  = {x:2,y:2,z:2};
+        	//this.kiosk  = new CLoadModel_Obj(this.scene,'models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos1,scale1);
         	//this.kiosk  = new CLoadModel_Obj2(this.pivot,this.scene,'models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos1,scale1);
 
         	//var pos1	= {x:109,y:-2.15,z:62};
@@ -87,6 +145,16 @@
 
         	//this.label   = createLabel(this.scene,"bodoooooo", 40) ;
         	//this.scene.add(createLabel(this.scene,"bodoooooo", 40));
+
+			////////////////////////////////////////////////////////////////////
+
+        	//var pos2		= {x:50,y:-1.5,z:50};		//new THREE.Vector3(50,-2,50);	//
+        	//var scale2  	= {x:2,y:2,z:2};		//new THREE.Vector3(2,2,2);		//
+        	//this.newstand   = new CLoadModel_WWObj2(this.pivot,this.scene,'newstand','models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos2,scale2);
+			
+        	//var pos3	= {x:0,y:-50,z:0};		//new THREE.Vector3(50,-2,50);	//
+        	//var scale3  = {x:1,y:1,z:1};		//new THREE.Vector3(2,2,2);		//
+        	//this.CoffeeKiosk = new CLoadModel_WWObj2(this.pivot,this.scene,'CoffeeKiosk','models/CoffeeKiosk/','CoffeeKiosk.obj.mtl','CoffeeKiosk.obj',pos3,scale3);
 		}
   
 		loadEnvironment() 
@@ -142,20 +210,32 @@
 			this.mysky = new CSKyboxGradient(size);
 			
 			this.scene.add(this.mysky.getMesh());
-			
-			 
 		}
 		
 		update(time)
-		{	for(var i=0;i<movieMaterial.length;i++)
-			{	window.movieMaterial[i].update();
+		{	if(this.counter++>1)
+			{	this.counter=0;	
+				for(var i=0;i<movieMaterial.length;i++)
+				{	window.movieMaterial[i].update();
+				}
 			}
 			
+			/*
+			if(this.counter++>2)
+			{
+			this.counter=0;	
+			this.clumpy.for_loop(	function (){ this.i= 0;}.bind(this),
+    								function (){ return this.i < movieMaterial.length; }.bind(this),
+    								function (){ this.i++; }.bind(this),
+    								function (){ window.movieMaterial[this.i].update();}.bind(this));
+			    								
+			}
+			*/
 			//this.mysp.update(time,this.scene,this.params1);
 			this.mygame.updatePlayers();
 			
 			if(player)
-			{	var pos = player.getPosition();
+			{	var pos  = player.getPosition();
 				var newh = this.mymc.getY( Math.round(pos.x),Math.round(pos.z))+1.07;
 				
 				//console.log("pos.x="+Math.round(pos.x)+" pos.y="+this.mymc.getY( Math.round(pos.x), Math.round(pos.y) )+" pos.z="+Math.round(pos.z));
@@ -189,10 +269,10 @@
 				//this.mysp.update(time,this.scene,this.params1,pos);	
 			}
 		
-		
-
 			super.update();
+			
 		}
+		
 		
 		render() 
 		{	var time = Date.now() * 0.00001;
@@ -204,6 +284,13 @@
 			
 			this.update(time);
 			super.render();
+		}
+		
+		exit()
+		{	for(var i=0;i<movieMaterial.length;i++)
+			{	window.movieMaterial[i].exit();
+			}
+			super.exit();
 		}
 		
 		/////////////////////////////////////////////

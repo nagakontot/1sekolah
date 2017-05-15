@@ -12,7 +12,7 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	this.center 		= new THREE.Vector3( player.position.x, player.position.y, player.position.z );
 	this.lastPosition   = new THREE.Vector3();
 
-	this.moveSpeed		= 0.1;//0.2;
+	this.moveSpeed		= 0.2;
 	this.turnSpeed		= 0.1;
 
 	this.userZoom		= true;
@@ -265,7 +265,7 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	this.checkKeyStates = function () 
 	{	var turbomode = 1;
 		if(keyState[16])
-		{	turbomode =3;
+		{	turbomode =2;
 		}
 		
 		if(keyState[32])

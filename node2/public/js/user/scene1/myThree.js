@@ -100,7 +100,8 @@ class CThreejs
 
     }
         	
-    render()            	{	this.renderer.clear();this.renderer.render( this.scene, this.cam );}
+    render()            	{	//this.renderer.clear();
+    							this.renderer.render( this.scene, this.cam );}
     resize(w,h)         	{   this.renderer.setSize(w,h);}
         
     add(node)           	{   this.scene.add(node);}
@@ -146,8 +147,13 @@ class CThreejs
 		class CContainer extends CBase
 		{	constructor(name)
 			{ 	super((name)? document.createElement(name):document.getElementById('container'));
-
+				
 				this._name				= (name)? name:'container';
+				
+				//if (!('transferControlToOffscreen' in this._))throw new Error('webgl in worker unsupported');
+				//else console.log('huray webgl in worker supported!!!');
+				//this.offscreen = this._.transferControlToOffscreen();
+				
           		document.body.appendChild( this._ );         	
 
           		return this;

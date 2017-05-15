@@ -92,7 +92,6 @@ function createLabel(message, fontSize=9)
 			this.video.play();
 
 			var videoImage			= document.createElement('canvas');
-			//if (window["webkitURL"]) document.body.appendChild(videoImage);
 			if (window["URL"]) document.body.appendChild(videoImage);
 			videoImage.width		= width;
 			videoImage.height		= height;
@@ -111,7 +110,15 @@ function createLabel(message, fontSize=9)
 			
 			//videoTexture[texindex].wrapS = THREE.RepeatWrapping;
 			//videoTexture[texindex].repeat.x = - 1;
-
+			//////////////////////////////////////////////////////////////////
+			//navigator.mediaDevices.getUserMedia({video:true}, function(stream)
+			//{	this.video.src = URL.createObjectURL(stream);
+			//	this.video.play();
+			//	setInterval(this.update,10);
+			//}, function(error){
+			//	console.log('error', error);
+			//});			
+			///////////////////////////////////////////////////////////////////
 
 			this.update = function () 
 			{	if (this.video.readyState === this.video.HAVE_ENOUGH_DATA) 
@@ -128,9 +135,229 @@ function createLabel(message, fontSize=9)
 								transparent:	true
 								//side:			THREE.DoubleSide
 			});
+			
+			this.exit = function()
+			{	videoImage.parentNode.removeChild(videoImage);
+				this.video.pause();
+				this.video.src =""; // empty source
+				this.video.load();
+			}
 		}
 		ChromaKeyMaterial.prototype = Object.create(THREE.ShaderMaterial.prototype);
 
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+	class CLoadModel_WWObj2
+	{	constructor(pivot,scene,dirname,path,filename_mtl,filename_obj,pos,scale)
+		{	this.pos            = pos;
+			this.scale			= scale;
+			this.pivot			= pivot;
+			this.scene			= scene;
+			this.streamMeshes	= true;
+		
+			this.Validator		= THREE.OBJLoader2.prototype._getValidator();
+		
+			this.wwObjLoader2	= new THREE.OBJLoader2.WWOBJLoader2();
+			this.wwObjLoader2.setCrossOrigin( 'anonymous' );
+
+			this.wwObjLoader2.registerCallbackProgress( this.reportProgress.bind(this) );
+			this.wwObjLoader2.registerCallbackCompletedLoading( this.completedLoading.bind(this) );
+			this.wwObjLoader2.registerCallbackMaterialsLoaded( this.materialsLoaded.bind(this) );
+			this.wwObjLoader2.registerCallbackMeshLoaded( this.meshLoaded.bind(this) );
+		
+			// Check for the various File API support.
+			this.fileApiAvailable = true;
+			if ( window.File && window.FileReader && window.FileList && window.Blob ) 
+			{	console.log( 'File API is supported! Enabling all features.' );
+			} 
+			else 
+			{	this.fileApiAvailable = false;
+				console.warn( 'File API is not supported! Disabling file loading.' );
+			}
+		
+			var prepData = new THREE.OBJLoader2.WWOBJLoader2.PrepDataFile(
+				dirname,				//'newstand',				//'male02',
+				path,					//'models/newstand/',		//'resource/obj/male02/',		//'../../resource/obj/male02/',
+				filename_obj,			//'NewsStand.obj',		//'male02.obj',
+				path,					//'models/newstand/',		//'resource/obj/male02/',		//'../../resource/obj/male02/',
+				filename_mtl			//'NewsStand.obj.mtl'		//'male02.mtl'
+			);		
+			
+			this.loadFiles( prepData );        	
+			//////////////////////////////////////////////////////////////////////////////
+/*			
+			//THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+			var mtlLoader = new THREE.MTLLoader();
+			mtlLoader.setPath(path);//( 'obj/male02/' );
+			mtlLoader.setCrossOrigin( 'anonymous' );
+			
+			//mtlLoader.load( 'male02_dds.mtl', function( materials ) {
+			mtlLoader.load( filename_mtl, function( materials ) 
+			{	
+				materials.preload();
+				var objLoader = new THREE.OBJLoader2();
+				objLoader.setSceneGraphBaseNode( pivot );
+				objLoader.setMaterials( materials.materials );
+				objLoader.setPath(path);//( 'obj/male02/' );
+				objLoader.setDebug( false, false );
+			
+				//window.setTimeout( function() 
+				//{	
+				//objLoader.load( 'male02.obj', function ( object ) {
+				objLoader.load( filename_obj, 
+								function ( object ) 
+								{	//object.position.y = - 95;
+									object.position.x = pos.x;
+									object.position.y = pos.y;
+									object.position.z = pos.z;
+									
+									object.scale.x = scale.x;
+									object.scale.y = scale.y;
+									object.scale.z = scale.z;
+									
+									scene.add( object );
+								}.bind(this), 
+								this.onProgress, 
+								this.onError );
+				//}.bind(this),100);								
+			}.bind(this));
+			//////////////////////
+*/			
+		}
+/*		
+		onSuccess( object3d ) 
+		{	console.log( 'Loading complete. Meshes were attached to: ' + object3d.name );
+		};
+			
+		onProgress( xhr ) 
+		{	if ( xhr.lengthComputable ) 
+			{	var percentComplete = xhr.loaded / xhr.total * 100;
+				console.log( Math.round(percentComplete, 2) + '% downloaded' );
+			}
+		}
+		
+		onError( xhr ) 
+		{ 
+		}
+*/		
+		///////////////////////////////////////////
+		reportProgress( content ) 
+		{	console.log( 'Progress: ' + content );
+		}
+		
+		materialsLoaded( materials ) 
+		{	//var count = this.Validator.isValid( materials ) ? materials.length : 0;
+			//console.log( 'Loaded #' + count + ' materials.' );
+		}
+		
+		meshLoaded( name, bufferGeometry, material ) 
+		{	console.log( 'Loaded mesh: ' + name + ' Material name: ' + material.name );
+			bufferGeometry.scale ( this.scale.x,this.scale.y,this.scale.z );
+			bufferGeometry.translate (this.pos.x,this.pos.y,this.pos.z);
+		}
+		
+		completedLoading() 
+		{	console.log( 'Loading complete!' );
+		};		
+		
+		///////////////////////////////////////////
+		loadFiles( prepData ) 
+		{	prepData.setSceneGraphBaseNode( this.pivot );
+			prepData.setStreamMeshes( this.streamMeshes );
+			this.wwObjLoader2.prepareRun( prepData );
+			this.wwObjLoader2.run();
+		}
+
+		_handleFileSelect( event, pathTexture ) 
+		{	var fileObj = null;
+			var fileMtl = null;
+			var files = event.target.files;
+
+			for ( var i = 0, file; file = files[ i ]; i++) 
+			{	if ( file.name.indexOf( '\.obj' ) > 0 && fileObj === null ) 
+				{	fileObj = file;
+				}
+
+				if ( file.name.indexOf( '\.mtl' ) > 0 && fileMtl === null ) 
+				{	fileMtl = file;
+				}
+			}
+
+			//if ( ! Validator.isValid( fileObj ) ) 
+			//{	alert( 'Unable to load OBJ file from given files.' );
+			//}
+
+			var fileReader = new FileReader();
+			fileReader.onload = function( fileDataObj ) 
+			{	var uint8Array = new Uint8Array( fileDataObj.target.result );
+				if ( fileMtl === null ) 
+				{	this.loadFilesUser({	name:				'userObj',
+											objAsArrayBuffer:	uint8Array,
+											pathTexture:		pathTexture,
+											mtlAsString:		null});
+				} 
+				else 
+				{	fileReader.onload = function( fileDataMtl ) 
+					{	this.loadFilesUser({name:				'userObj',
+											objAsArrayBuffer:	uint8Array,
+											pathTexture:		pathTexture,
+											mtlAsString:		fileDataMtl.target.result});
+					}
+					fileReader.readAsText( fileMtl );
+				}
+			}
+			fileReader.readAsArrayBuffer( fileObj );
+		}
+
+		loadFilesUser( objDef ) 
+		{	var prepData = new THREE.OBJLoader2.WWOBJLoader2.PrepDataArrayBuffer(objDef.name, objDef.objAsArrayBuffer, objDef.pathTexture, objDef.mtlAsString);
+			prepData.setSceneGraphBaseNode( this.pivot );
+			prepData.setStreamMeshes( this.streamMeshes );
+			this.wwObjLoader2.prepareRun( prepData );
+			this.wwObjLoader2.run();
+		}		
+		
+		traverseScene( object3d ) 
+		{	if ( object3d.material instanceof THREE.MultiMaterial ) 
+			{	var materials = object3d.material.materials;
+				for ( var name in materials ) 
+				{	if ( materials.hasOwnProperty( name ) )	this.traversalFunction( materials[ name ] );
+				}
+			} 
+			else if ( object3d.material ) 
+			{	this.traversalFunction( object3d.material );
+			}
+		}
+
+		clearAllAssests() 
+		{	var scope = this;
+			var remover = function ( object3d ) 
+			{	if ( object3d === scope.pivot )return;
+			
+				console.log( 'Removing: ' + object3d.name );
+				scope.scene.remove( object3d );
+
+				if ( object3d.hasOwnProperty( 'geometry' ) ) object3d.geometry.dispose();
+			
+				if ( object3d.hasOwnProperty( 'material' ) ) 
+				{	var mat = object3d.material;
+					if ( mat.hasOwnProperty( 'materials' ) ) 
+					{	var materials = mat.materials;
+						for ( var name in materials ) 
+						{	if ( materials.hasOwnProperty( name ) ) materials[ name ].dispose();
+						}
+					}
+				}
+			
+				if ( object3d.hasOwnProperty( 'texture' ) ) object3d.texture.dispose();
+			};
+
+			scope.scene.remove( scope.pivot );
+			scope.pivot.traverse( remover );
+			//scope.createPivot();
+		}
+	
+	}
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 	class CLoadModel_Obj2
