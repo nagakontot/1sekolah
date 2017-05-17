@@ -174,7 +174,7 @@ THREE.PlayerControls = function ( camera, player, domElement )
 			//this.camera.position.z += this.autoRotateSpeed * ( ( this.player.position.z + 4*Math.cos( this.player.rotation.y ) ) - this.camera.position.z );			
 			
 			this.camera.position.x += this.autoRotateSpeed * ( ( this.player.position.x + 4*Math.sin( this.player.rotation.y ) ) - this.camera.position.x );
-			this.camera.position.y += this.autoRotateSpeed * ( ( this.player.position.y - this.camera.position.y)+2.5);
+			this.camera.position.y += this.autoRotateSpeed * ( ( this.player.position.y - this.camera.position.y)+1.1);//+2.5
 			this.camera.position.z += this.autoRotateSpeed * ( ( this.player.position.z + 4*Math.cos( this.player.rotation.y ) ) - this.camera.position.z );			
 			
 		} 
@@ -440,7 +440,7 @@ THREE.PlayerControls = function ( camera, player, domElement )
 		}
 
 		document.addEventListener( 'mousemove', onMouseMove, false );
-		document.addEventListener( 'mouseup', onMouseUp, false );
+		document.addEventListener( 'mouseup',   onMouseUp,   false );
 
 	}
 
@@ -481,7 +481,7 @@ THREE.PlayerControls = function ( camera, player, domElement )
 		if ( scope.userRotate === false ) return;
 
 		document.removeEventListener('mousemove', onMouseMove, false );
-		document.removeEventListener( 'mouseup', onMouseUp, false );
+		document.removeEventListener('mouseup',   onMouseUp,   false );
 
 		state = STATE.NONE;
 	}

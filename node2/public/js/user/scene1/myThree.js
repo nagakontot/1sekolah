@@ -18,16 +18,27 @@ class CThreejs
 		this.objects 				= [];
 		this.isShadow               = false;
 
-   		this.scene_					= new CScene();        	  	
-   		this.scene					= this.scene_.get_();
+   		this.glscene_				= new CGLScene();        	  	
+   		this.glscene				= this.glscene_.get_();
         		
-       	this.renderer_           	= new CRenderer(width,height);          	      
-        this.renderer           	= this.renderer_.get_();
+       	this.glrenderer_           	= new CGLRenderer(width,height);          	      
+        this.glrenderer           	= this.glrenderer_.get_();
             	
+   		this.cssscene_				= new CCSSScene();        	  	
+   		this.cssscene				= this.cssscene_.get_();
+
+       	this.cssrenderer_           = new CCSSRenderer(width,height);          	      
+        this.cssrenderer           	= this.cssrenderer_.get_();
+
         this.container_				= new CContainer();
         this.container				= this.container_.get_();
-		this.container.appendChild( this.renderer.domElement );		
-						
+        
+		//this.container.appendChild( this.glrenderer.domElement );		
+		//this.container.appendChild( this.cssrenderer.domElement );		
+
+		this.container.appendChild( this.cssrenderer.domElement );		
+		this.cssrenderer.domElement.appendChild( this.glrenderer.domElement );		
+		
 		//this.cam_ 					= new CCamera( 62,width/height,1,1000 );						
 		this.cam_ 					= new CCamera( 62,width/height,1,3000 );						
 		this.cam 					= this.cam_.get_();
@@ -53,17 +64,17 @@ class CThreejs
     
     enableShadow(isShadow=true,SHADOW_MAP_WIDTH=2048,SHADOW_MAP_HEIGHT=1024)
     {	this.isShadow = isShadow;
-    	if(this.isShadow)this.renderer_.enableShadow(SHADOW_MAP_WIDTH,SHADOW_MAP_HEIGHT);
+    	if(this.isShadow)this.glrenderer_.enableShadow(SHADOW_MAP_WIDTH,SHADOW_MAP_HEIGHT);
     }
     
     createStdLight(isHelper=false)
-    {	this.light_          		= new CLight(this.scene);      
+    {	this.light_          		= new CLight(this.glscene);      
 		this.light          		= this.light_.get_();
 	        	
 	    if(isHelper)
 	    {	this.lighthelper_			= new CLightHelper(this.light);
 	    	this.lighthelper			= this.lighthelper_.get_();
-	        this.scene.add(this.lighthelper);        		
+	        this.glscene.add(this.lighthelper);        		
 	    }	
 	    
 	    if(this.isShadow)
@@ -74,11 +85,11 @@ class CThreejs
     createHelper()
     {	this.grid_					= new CGridHelper();
 	    this.grid					= this.grid_.get_();
-	    this.scene.add(this.grid);
+	    this.glscene.add(this.grid);
 	        	
 	    this.axis_					= new CAxisHelper();
 	    this.axis					= this.axis_.get_();
-	    this.scene.add(this.axis);
+	    this.glscene.add(this.axis);
     }
         	
 	createControl(mesh)
@@ -93,35 +104,51 @@ class CThreejs
 		if ( this.controls )this.controls.update();
 		
 		if(this.isShadow)
-		{	//if(this.light_)this.light_.update(this.renderer);
+		{	//if(this.light_)this.light_.update(this.glrenderer);
 		}
 		
-		//this.scene.simulate(undefined, 1);
+		//this.glscene.simulate(undefined, 1);
 
     }
         	
-    render()            	{	//this.renderer.clear();
-    							this.renderer.render( this.scene, this.cam );}
-    resize(w,h)         	{   this.renderer.setSize(w,h);}
+    render()            	
+    {	this.glrenderer.clear();
+    	this.glrenderer.render( this.glscene,  this.cam );
+    	this.cssrenderer.render(this.cssscene, this.cam);
+    }
+    
+    resize(w,h)         	
+    {   this.glrenderer.setSize(w,h);
+    	this.cssrenderer.setSize(w,h);
+    }
         
-    add(node)           	{   this.scene.add(node);}
+    add(node)           	
+    {   this.glscene.add(node);
+    }
 
 	addMesh(mesh) 
 	{	this.objects.push(mesh);
-		this.scene.add(mesh.getMesh());
+		this.glscene.add(mesh.getMesh());
 	}        	
 
-        	
-    remove(node)        	{   this.scene.remove(node);}
-    setFPS(fps)         	{   this.rafThrottler.fps  = fps;}
+    remove(node)        	
+    {   this.glscene.remove(node);
+    }
+    
+    setFPS(fps)         	
+    {   this.rafThrottler.fps  = fps;
+    }
         
-	get camera()			{	return this.cam;}
+	get camera()			
+	{	return this.cam;
+	}
 
 	exit()
 	{	window.cancelAnimationFrame(this.requestId);// Stop the animation
-		this.renderer_.exit();
+		this.glrenderer_.exit();
+		
  		//this.projector = null;
-    	this.scene		= null;
+    	this.glscene		= null;
     	this.cam		= null;
     	this.controls	= null;
     	window.empty(this.container);
@@ -131,17 +158,16 @@ class CThreejs
     onWindowResize()	
     {	this.cam.aspect 	= window.innerWidth / window.innerHeight;
 		this.cam.updateProjectionMatrix();
-		this.renderer.setSize( window.innerWidth, window.innerHeight );
+		this.glrenderer.setSize( window.innerWidth, window.innerHeight );
 	}			
 }
     	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 		class CBase
-		{	constructor(v)	{	this._	= v; }
-		
-			get_()			{	return this._;}
-			set_(v)			{	this._	= v;}
+		{	constructor(v)	{	this.set_(v);		}
+			get_()			{	return this._;	}
+			set_(v)			{	this._	= v;	}
 		}
 		
 		class CContainer extends CBase
@@ -160,7 +186,14 @@ class CThreejs
 			}
 		}
 		
-		class CScene extends CBase
+		class CCSSScene extends CBase
+		{	constructor()
+			{	super(new THREE.Scene());
+	        	return this;
+			}		
+		}
+
+		class CGLScene extends CBase
 		{	constructor()
 			{	super(new THREE.Scene());
 				//super(new Physijs.Scene({ reportsize: 50, fixedTimeStep: 1 / 30 }));
@@ -189,7 +222,20 @@ class CThreejs
 			}		
 		}
 		
-		class CRenderer extends CBase
+		class CCSSRenderer extends CBase
+		{	constructor(width,height)
+			{   super(new THREE.CSS3DRenderer());
+
+    			this._.setSize( width,height);
+
+            	this._.domElement.style.position		= 'absolute';
+    			//this._.domElement.style.zIndex		= 1;
+    			this._.domElement.style.top 			= 0;
+            	return this;
+			}
+		}
+		
+		class CGLRenderer extends CBase
 		{	constructor(width,height)
 			{   super(new THREE.WebGLRenderer({ antialias: false,alpha: true }));
 
@@ -201,6 +247,11 @@ class CThreejs
             	this._.gammaInput   	= true;
             	this._.gammaOutput  	= true;
             	
+            	this._.domElement.style.position		= 'absolute';
+    			//this._.domElement.style.zIndex		= 1;
+    			this._.domElement.style.top 			= 0;
+    			this._.domElement.style.pointerEvents	= 'none';
+    			
             	return this;
 			}
 			
@@ -333,7 +384,7 @@ class CThreejs
 				this._.position.set(pos.x,pos.y+10,pos.z-10);
 				this._.target	= target;
 				//this._.target	= scene.getObjectByName(ObjName);
-				//this._.target	= this.scene.getObjectByName('player_moviemesh');
+				//this._.target	= this.glscene.getObjectByName('player_moviemesh');
 			}
 			
 			update(renderer)

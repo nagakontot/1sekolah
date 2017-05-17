@@ -86,13 +86,18 @@ function createLabel(message, fontSize=9)
 		function ChromaKeyMaterial(url, width, height, keyColor,texindex) 
 		{	THREE.ShaderMaterial.call(this);
 			this.video					= document.createElement('video');
+			
 			this.video.loop				= true;
 			this.video.src				= url;
 			this.video.load();
 			this.video.play();
 
 			var videoImage			= document.createElement('canvas');
+			//videoImage.setAttribute("display", "none");
+			videoImage.style.cssText = 'margin:0;padding:0;display:none;';
+
 			if (window["URL"]) document.body.appendChild(videoImage);
+			
 			videoImage.width		= width;
 			videoImage.height		= height;
 	
@@ -105,9 +110,9 @@ function createLabel(message, fontSize=9)
 
 			videoTexture[texindex]	= new THREE.Texture(videoImage);
 			//var videoTexture		= new THREE.Texture(videoImage);
-			videoTexture[texindex].minFilter	= THREE.LinearFilter;
+			videoTexture[texindex].minFilter	= THREE.LinearMipMapLinearFilter;//THREE.LinearFilter;
 			videoTexture[texindex].magFilter	= THREE.LinearFilter;
-			
+
 			//videoTexture[texindex].wrapS = THREE.RepeatWrapping;
 			//videoTexture[texindex].repeat.x = - 1;
 			//////////////////////////////////////////////////////////////////
@@ -132,8 +137,8 @@ function createLabel(message, fontSize=9)
 												},
 								vertexShader:	document.getElementById('vertexShader').textContent,
 								fragmentShader: document.getElementById('fragmentShader').textContent,
-								transparent:	true
-								//side:			THREE.DoubleSide
+								transparent:	true,
+								side:			THREE.DoubleSide
 			});
 			
 			this.exit = function()
@@ -145,6 +150,49 @@ function createLabel(message, fontSize=9)
 		}
 		ChromaKeyMaterial.prototype = Object.create(THREE.ShaderMaterial.prototype);
 
+//////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////
+		class CElement
+		{	constructor( id, x, y, z, ry ) 
+			{	var w = '1100px';
+				var h = '425px';
+				
+				var div 					= document.createElement( 'div' );
+				div.style.width 			= w;//'1100px';//'1024px';//'800px';
+				div.style.height			= h;//'425px';//'768px';
+				div.style.backgroundColor	= '#000';
+				
+				var iframe					= document.createElement( 'iframe' );
+				iframe.style.width			= w;//'1100px';//'1024px';//'800px';
+				iframe.style.height 		= h;//'425px';//'768px';
+				iframe.style.border 		= '0px';
+				//iframe.src				= [ 'https://www.youtube.com/embed/', id, '?rel=0' ].join( '' );
+				iframe.src					= id;
+				//iframe.onfocus				= document.getElementById('container').focus();
+				
+				//<div id="iframecontent" style="position:absolute; left:1%; right:1%; bottom:1%; top:1%;">
+              	//		<!--iframe width="100%" height="100%" frameborder="0" src="home" onfocus="document.getElementById('container').focus();"></iframe-->
+              	//	<iframe width="100%" height="100%" frameborder="0" src="https://rchat.1sekolah.xyz"></iframe>
+            	//</div>
+            		
+				div.appendChild( iframe );
+				
+				this.object = new THREE.CSS3DObject( div );
+				this.object.position.set( x, y, z );
+				this.object.rotation.y = ry;
+				return this.object;
+			}
+			
+			followTarget(pos,target)
+			//followTarget(scene,pos,ObjName)
+			{	//var pos = player.getPosition();
+				//this._.position.set(pos.x,10,pos.z-10);
+				//this.object.position.set(pos.x,pos.y+10,pos.z-10);
+				this.object.target	= target;
+				//this._.target	= scene.getObjectByName(ObjName);
+				//this._.target	= this.glscene.getObjectByName('player_moviemesh');
+			}
+		}
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 	class CLoadModel_WWObj2
@@ -996,21 +1044,7 @@ class CMinecraft
 	init(maxAnisotropy) 
 	{	var worldHalfWidth = this.worldWidth / 2;
 		var worldHalfDepth = this.worldDepth / 2;
-		/*
-		container = document.getElementById( 'container' );
-		camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 20000 );
-		camera.position.y = this.getY( worldHalfWidth, worldHalfDepth ) * 100 + 100;
-		controls = new THREE.FirstPersonControls( camera );
-		controls.movementSpeed = 1000;
-		controls.lookSpeed = 0.125;
-		controls.lookVertical = true;
-		controls.constrainVertical = true;
-		controls.verticalMin = 1.1;
-		controls.verticalMax = 2.2;
-		scene = new THREE.Scene();
-		scene.fog = new THREE.FogExp2( 0xffffff, 0.00015 );
-		*/
-		
+
 		// sides
 		this.light	= new THREE.Color( 0xffffff );
 		this.shadow	= new THREE.Color( 0x505050 );
@@ -1073,8 +1107,11 @@ class CMinecraft
 		//
 		this.geometry = new THREE.Geometry();
 		//var dummy = new THREE.Mesh();
+		
 		for ( var z = 0; z < this.worldDepth; z ++ ) 
+		//new async.ForLoop(0,this.worldDepth, function (z) 
 		{	for ( var x = 0; x < this.worldWidth; x ++ ) 
+			//new async.ForLoop(0,this.worldWidth, function (x) 
 			{	var h = this.getY( x, z );
 				this.matrix.makeTranslation(x * this.sz - worldHalfWidth * this.sz,h * this.sz,z * this.sz - worldHalfDepth * this.sz);
 				
@@ -1152,7 +1189,9 @@ class CMinecraft
 					colors[ 2 ] = nxnz > nz && z > 0 ? this.shadow : this.light;
 					this.geometry.merge( this.nzGeometry, this.matrix );
 				}
-			}
+			}	
+			//}.bind(this))
+		//}.bind(this));
 		}
 		////////////////////////////////////////////////////////////////////////////////////////
 		this.texture			= new THREE.TextureLoader().load( 'textures/minecraft/atlas.png' );
@@ -1160,25 +1199,22 @@ class CMinecraft
 		this.texture.minFilter	= THREE.LinearMipMapLinearFilter;
 
 		////////////////////////////////////////////////////////////////////////
-		/*		
-		var params = 
-        {   map:                this.texture,
-            bumpMap:        	this.texture,
-            bumpScale:			1,
-            shininess:          1,//35.0,
-            vertexColors:	    THREE.VertexColors
-        };
-            
+		//var params = 
+        //{   map:                this.texture,
+        //    bumpMap:        	this.texture,
+        //    bumpScale:			1,
+        //    shininess:          1,//35.0,
+        //    vertexColors:	    THREE.VertexColors
+        //};
+        //    
         //this.material			= new THREE.MeshStandardMaterial( params );
         //this.material			= new THREE.MeshLambertMaterial( params );
-        this.material			= new THREE.MeshPhongMaterial( params );		
-		this.mesh = new THREE.Mesh( this.geometry, this.material);
-		*/
+        //this.material			= new THREE.MeshPhongMaterial( params );		
+		//this.mesh = new THREE.Mesh( this.geometry, this.material);
 		////////////////////////////////////////////////////////////////////////		
 		
-		
-		this.mesh = new THREE.Mesh( this.geometry, new THREE.MeshPhongMaterial( { map: this.texture, vertexColors: THREE.VertexColors } ) );
-		//this.mesh = new THREE.Mesh( this.geometry, new THREE.MeshLambertMaterial( { map: this.texture, vertexColors: THREE.VertexColors } ) );
+		//this.mesh = new THREE.Mesh( this.geometry, new THREE.MeshPhongMaterial( { map: this.texture, vertexColors: THREE.VertexColors } ) );
+		this.mesh = new THREE.Mesh( this.geometry, new THREE.MeshLambertMaterial( { map: this.texture, vertexColors: THREE.VertexColors } ) );
 		this.mesh.name = 'myminecraft';
 		this.mesh.castShadow	= false;
         this.mesh.receiveShadow = true;
@@ -1285,6 +1321,7 @@ class CMinecraft
 		//window.addEventListener( 'resize', onWindowResize, false );
 	}
 	
+
 	//loadTexture( path, callback ) 
 	//{	var image = new Image();
 	//	image.onload = function () { callback(); };
