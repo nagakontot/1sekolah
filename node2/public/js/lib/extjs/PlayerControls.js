@@ -26,7 +26,7 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	this.YAutoRotation	= false;
 
 	this.minPolarAngle	= 0.5;//0;
-	this.maxPolarAngle	= Math.PI/2;//Math.PI;//
+	this.maxPolarAngle	= Math.PI;//Math.PI/2;//
 
 	this.minDistance	= 0;
 	this.maxDistance	= Infinity;
@@ -199,9 +199,17 @@ THREE.PlayerControls = function ( camera, player, domElement )
 		this.UpdateJump();
 		///////////////////////////////////////////////////////////
 		
+		//note: FastRound(num) with precison 1 dec only
+		var pos = {x:FastRound(this.player.position.x),y:FastRound(this.player.position.y),z:FastRound(this.player.position.z)};
+		var rot = {x:FastRound(this.player.rotation.x),y:FastRound(this.player.rotation.y),z:FastRound(this.player.rotation.z)};
+
+		//note: myRoundNum(num,prec) will do proper truncation withh precison
+		//var pos = {x:myRoundNum(this.player.position.x,1),y:myRoundNum(this.player.position.y,1),z:myRoundNum(this.player.position.z,1)};
+		//var rot = {x:myRoundNum(this.player.rotation.x,1),y:myRoundNum(this.player.rotation.y,1),z:myRoundNum(this.player.rotation.z,1)};
+
 		//note: Math.trunc() will do proper truncation
-		var pos = {x:Math.round(this.player.position.x),y:Math.round(this.player.position.y),z:Math.round(this.player.position.z)};
-		var rot = {x:Math.round(this.player.rotation.x),y:Math.round(this.player.rotation.y),z:Math.round(this.player.rotation.z)};
+		//var pos = {x:Math.round(this.player.position.x),y:Math.round(this.player.position.y),z:Math.round(this.player.position.z)};
+		//var rot = {x:Math.round(this.player.rotation.x),y:Math.round(this.player.rotation.y),z:Math.round(this.player.rotation.z)};
 
 		//var pos = {x:~~this.player.position.x,y:~~this.player.position.y,z:~~this.player.position.z};
 		//var rot = {x:~~this.player.rotation.x,y:~~this.player.rotation.y,z:~~this.player.rotation.z};

@@ -151,11 +151,30 @@ function createLabel(message, fontSize=9)
 		ChromaKeyMaterial.prototype = Object.create(THREE.ShaderMaterial.prototype);
 
 //////////////////////////////////////////////////////////////////////////////////
+/*
+<script>
+(function(d){
+  var iframe = d.body.appendChild(d.createElement('iframe')),
+  doc = iframe.contentWindow.document;
+
+  // style the iframe with some CSS
+  iframe.style.cssText = "position:absolute;width:200px;height:100px;left:0px;";
+  
+  doc.open().write('<body onload="' + 
+  'var d = document;d.getElementsByTagName(\'head\')[0].' + 
+  'appendChild(d.createElement(\'script\')).src' + 
+  '=\'\/path\/to\/file\'">');
+  
+  doc.close(); //iframe onload event happens
+
+  })(document);
+</script>
+*/
 //////////////////////////////////////////////////////////////////////////////////
 		class CElement
 		{	constructor( id, x, y, z, ry ) 
-			{	var w = '1100px';
-				var h = '425px';
+			{	var w = ''+(window.innerWidth*0.90).toFixed(0)+'px';	//'1250px';//'1100px';
+				var h = ''+(window.innerHeight*0.4).toFixed(0)+'px';	//'450px';//'425px';
 				
 				var div 					= document.createElement( 'div' );
 				div.style.width 			= w;//'1100px';//'1024px';//'800px';
@@ -168,21 +187,27 @@ function createLabel(message, fontSize=9)
 				iframe.style.border 		= '0px';
 				//iframe.src				= [ 'https://www.youtube.com/embed/', id, '?rel=0' ].join( '' );
 				iframe.src					= id;
-				//iframe.onfocus				= document.getElementById('container').focus();
-				
-				//<div id="iframecontent" style="position:absolute; left:1%; right:1%; bottom:1%; top:1%;">
-              	//		<!--iframe width="100%" height="100%" frameborder="0" src="home" onfocus="document.getElementById('container').focus();"></iframe-->
-              	//	<iframe width="100%" height="100%" frameborder="0" src="https://rchat.1sekolah.xyz"></iframe>
-            	//</div>
-            		
-				div.appendChild( iframe );
-				
+
+            	div.appendChild( iframe );	
+            	//setTimeout(this.setIframeSrc("cssiframe",id).bind(this), 5);
+            	
 				this.object = new THREE.CSS3DObject( div );
 				this.object.position.set( x, y, z );
 				this.object.rotation.y = ry;
 				return this.object;
 			}
 			
+			//setIframeSrc(iframe_name,id) 
+			//{	var s = id;//"path/to/file";
+			//	var iframe1 = document.getElementById(iframe_name);
+			//	if ( -1 == navigator.userAgent.indexOf("MSIE") ) 
+			//	{	iframe1.src = s;
+			//	}
+			//	else 
+			//	{	iframe1.location = s;
+			//	}
+			//}
+
 			followTarget(pos,target)
 			//followTarget(scene,pos,ObjName)
 			{	//var pos = player.getPosition();
@@ -196,8 +221,9 @@ function createLabel(message, fontSize=9)
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 	class CLoadModel_WWObj2
-	{	constructor(pivot,scene,dirname,path,filename_mtl,filename_obj,pos,scale)
+	{	constructor(pivot,scene,dirname,path,filename_mtl,filename_obj,pos,rot,scale)
 		{	this.pos            = pos;
+			this.rot            = rot;
 			this.scale			= scale;
 			this.pivot			= pivot;
 			this.scene			= scene;
@@ -232,62 +258,8 @@ function createLabel(message, fontSize=9)
 			);		
 			
 			this.loadFiles( prepData );        	
-			//////////////////////////////////////////////////////////////////////////////
-/*			
-			//THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
-			var mtlLoader = new THREE.MTLLoader();
-			mtlLoader.setPath(path);//( 'obj/male02/' );
-			mtlLoader.setCrossOrigin( 'anonymous' );
-			
-			//mtlLoader.load( 'male02_dds.mtl', function( materials ) {
-			mtlLoader.load( filename_mtl, function( materials ) 
-			{	
-				materials.preload();
-				var objLoader = new THREE.OBJLoader2();
-				objLoader.setSceneGraphBaseNode( pivot );
-				objLoader.setMaterials( materials.materials );
-				objLoader.setPath(path);//( 'obj/male02/' );
-				objLoader.setDebug( false, false );
-			
-				//window.setTimeout( function() 
-				//{	
-				//objLoader.load( 'male02.obj', function ( object ) {
-				objLoader.load( filename_obj, 
-								function ( object ) 
-								{	//object.position.y = - 95;
-									object.position.x = pos.x;
-									object.position.y = pos.y;
-									object.position.z = pos.z;
-									
-									object.scale.x = scale.x;
-									object.scale.y = scale.y;
-									object.scale.z = scale.z;
-									
-									scene.add( object );
-								}.bind(this), 
-								this.onProgress, 
-								this.onError );
-				//}.bind(this),100);								
-			}.bind(this));
-			//////////////////////
-*/			
 		}
-/*		
-		onSuccess( object3d ) 
-		{	console.log( 'Loading complete. Meshes were attached to: ' + object3d.name );
-		};
-			
-		onProgress( xhr ) 
-		{	if ( xhr.lengthComputable ) 
-			{	var percentComplete = xhr.loaded / xhr.total * 100;
-				console.log( Math.round(percentComplete, 2) + '% downloaded' );
-			}
-		}
-		
-		onError( xhr ) 
-		{ 
-		}
-*/		
+
 		///////////////////////////////////////////
 		reportProgress( content ) 
 		{	console.log( 'Progress: ' + content );
@@ -300,8 +272,14 @@ function createLabel(message, fontSize=9)
 		
 		meshLoaded( name, bufferGeometry, material ) 
 		{	console.log( 'Loaded mesh: ' + name + ' Material name: ' + material.name );
+
+			bufferGeometry.rotateX (this.rot.x);
+			bufferGeometry.rotateY (this.rot.y);
+			bufferGeometry.rotateZ (this.rot.z);
+			
 			bufferGeometry.scale ( this.scale.x,this.scale.y,this.scale.z );
 			bufferGeometry.translate (this.pos.x,this.pos.y,this.pos.z);
+
 		}
 		
 		completedLoading() 

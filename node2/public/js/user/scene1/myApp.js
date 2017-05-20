@@ -15,9 +15,7 @@
 		}
   
 		init() 
-		{	//this.glrenderer_.enableShadow();
-			
-			//this.glrenderer.setClearColor(this.glscene.fog.color);
+		{	//this.glrenderer.setClearColor(this.glscene.fog.color);
 			this.glrenderer.autoClear = false;
 			this.glrenderer.setClearColor(0x000000, 0.0);
   
@@ -26,9 +24,6 @@
 			super.createStdLight();
 			//super.createHelper();
 			
-			//window.movieMaterial		= new ChromaKeyMaterial('video/baby4.webm', 320,218, 0xd400);
-			//window.movieMaterial		= new ChromaKeyMaterial('video/monkey5.webm', 320,240, 0xd400);
-
 			///////////////////////////////////////////////////////////////////////
 			
 			var videos = [	'video/baby_1.webm',
@@ -91,7 +86,8 @@
 			//////////////////////////////////////////////////////////////////////
 			//////////////////////////////////////////////////////////////////////
 			this.mygame = new CGameModel(this);
-			this.mygame.init();
+			var xpos=50,ypos=0,zpos=50;
+			this.mygame.init(xpos,ypos,zpos);
 			this.loadEnvironment();
 			
 			//////////////////////////////////////////////////////////////////////
@@ -170,9 +166,15 @@
         	//var scale2  	= {x:2,y:2,z:2};		//new THREE.Vector3(2,2,2);		//
         	//this.newstand   = new CLoadModel_WWObj2(this.pivot,this.glscene,'newstand','models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos2,scale2);
 			
-        	//var pos3	= {x:0,y:-50,z:0};		//new THREE.Vector3(50,-2,50);	//
-        	//var scale3  = {x:1,y:1,z:1};		//new THREE.Vector3(2,2,2);		//
-        	//this.CoffeeKiosk = new CLoadModel_WWObj2(this.pivot,this.glscene,'CoffeeKiosk','models/CoffeeKiosk/','CoffeeKiosk.obj.mtl','CoffeeKiosk.obj',pos3,scale3);
+        	var pos3	= {x:6,		y:6.6,		z:85};		
+        	var rot3	= {x:0,		y:Math.PI,z:0};		
+        	var scale3  = {x:0.02,	y:0.02,		z:0.02};		
+        	this.house1 = new CLoadModel_WWObj2(this.pivot,this.glscene,'house1','models/house1/','house1.mtl','house1.obj',pos3,rot3,scale3);
+
+        	//var pos4	= {x:6,		y:-25,		z:85};		
+        	//var rot4	= {x:0,		y:Math.PI,  z:0};		
+        	//var scale4  = {x:0.02,	    y:0.02,		z:0.02};		
+        	//this.cs_italy = new CLoadModel_WWObj2(this.pivot,this.glscene,'cs_italy','models/cs_italy/','cs_italy.obj.mtl','cs_italy.obj',pos4,rot4,scale4);
 		}
   
 		loadEnvironment() 
@@ -184,10 +186,10 @@
 			/////////////////////////////////////////////////////////
 			var anis = this.glrenderer.getMaxAnisotropy();
 			
-			this.createMinecraft(anis);
+			//this.createMinecraft(anis);
 			
 			//super.addMesh(new CMinecraft(200,200,anis));
-			//super.addMesh(new CPlane({width:1000,height:1000},anis));
+			super.addMesh(new CPlane({width:1000,height:1000},anis));
 			//super.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			//super.addMesh(new CText({width:20,height:20,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			
@@ -201,7 +203,7 @@
 			this.cssgroup = new THREE.Group();//new THREE.Object3D();//
 			//this.cssgroup.add( new CElement("https://rchat.1sekolah.xyz",1000,250,400, -Math.PI/2 ) );
 			
-			this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",500,180,600, -Math.PI/2 );
+			this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,110,600, -Math.PI/2 );
 			this.cssgroup.add( this.css3Diframe );
 
 			//this.cssgroup.add( new CElement( 'njCDZWTI-xg', 0, 0, 240, 0 ) );
@@ -220,7 +222,6 @@
 
 		createMinecraft(anis)
 		{	this.mymc = new CMinecraft(100,100,anis);
-			//this.mymc.displayData();
 			this.glscene.add(this.mymc.getMesh());
 		}
 
@@ -275,10 +276,14 @@
 			//if(this.mymc)
 			//{	
 				if(player)
-				{	var pos  = player.getPosition();
+				{	/*
+					var pos  = player.getPosition();
 					var newh = this.mymc.getY( Math.round(pos.x),Math.round(pos.z))+1.07;
 				
-					//console.log("pos.x="+Math.round(pos.x)+" pos.y="+this.mymc.getY( Math.round(pos.x), Math.round(pos.y) )+" pos.z="+Math.round(pos.z));
+					if(this.counter++>1)
+					{	this.counter = 0;
+						console.log("pos.x="+Math.round(pos.x)+" pos.y="+this.mymc.getY( Math.round(pos.x), Math.round(pos.y) )+" pos.z="+Math.round(pos.z));
+					}	
 				
 					if(newh>this.controls.GroundHeight && this.controls.isOnGround())
 					{	player.setPositionY(pos.y+1.25);
@@ -287,7 +292,7 @@
 					else 
 					{	this.controls.GroundHeight = newh;
 					}
-				
+					*/
 					//this.controls.GroundHeight   = this.mymc.getY( Math.round(pos.x),Math.round(pos.z))+1.075;
 					//this.controls.GroundOffset   = 0;	//not use
 				
@@ -296,8 +301,15 @@
 					this.light_.followTarget(player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
 					
 					//this.css3Diframe.followTarget(player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
+					
+					//this.css3Diframe.lookAt (this.cam.getWorldPosition());
+					//this.css3Diframe.rotation.setFromRotationMatrix( this.cam.matrix );
+					
 					//this.css3Diframe.lookAt (player.getPosition());
 					this.css3Diframe.lookAt (this.cam.getWorldPosition());
+					
+					//this.css3Diframe.quaternion.copy( this.cam.quaternion );
+					this.css3Diframe.position.x = this.cam.position.x+800;
 					
 					//this.light_.followTarget(this.glscene,player.getPosition(),'player_moviemesh');
 					//var pos = player.getPosition();

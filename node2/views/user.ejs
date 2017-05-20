@@ -158,12 +158,13 @@
             //var username_ = ejs.render('<%=username%>');
             //setCookie("username",username_,1);
 
-            setCookie("username","<%=username%>",1);
+            
 
             window.setTimeout( function() 
-			{   console.log("getCookie('avatar')="    + getCookie("avatar"));
+			{   setCookie("username","<%=username%>",1);
+			    console.log("getCookie('avatar')="    + getCookie("avatar"));
                 console.log("getCookie('username')="  + getCookie("username"));
-			},100);
+			},1000);
         }
     </script>
 
@@ -179,8 +180,6 @@
 <!--------------------------------------------------------------------------------------------------------------->
 
 <body onload="myLoad();" onclick="myClickFunction();">
-<!--body onload="myLoad();"-->
-    
 
     <!--script type="text/javascript">
         $(document).ready(function() 
@@ -348,18 +347,18 @@
 
     <!------------------------------------------------------------------>
     <!------------------------------------------------------------------>
-    <!-- Start of Rocket.Chat Livechat Script -->
-    <!--
     <script type="text/javascript">
         (function(w, d, s, u) 
-        {   w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
-	        var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
-	        j.async = true; j.src = 'https://rchat.1sekolah.xyz/packages/rocketchat_livechat/assets/rocket-livechat.js';
+        {   w.RocketChat  = function(c) { w.RocketChat._.push(c) }; 
+            w.RocketChat._= []; w.RocketChat.url = u;
+	        var h         = d.getElementsByTagName(s)[0], j = d.createElement(s);
+	        j.async       = true; 
+	        j.src         = 'https://rchat.1sekolah.xyz/packages/rocketchat_livechat/assets/rocket-livechat.js';
 	        h.parentNode.insertBefore(j, h);
         })(window, document, 'script', 'https://rchat.1sekolah.xyz/livechat');
     </script>
-    -->
-    <!-- End of Rocket.Chat Livechat Script -->
+    
+    
     
 </body>
 </html>

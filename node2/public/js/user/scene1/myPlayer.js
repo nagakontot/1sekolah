@@ -13,7 +13,7 @@
 			this.username		= username;
 		}	
 		 
-		init() 
+		init(xpos,ypos,zpos) 
 		{	//if ( this.mesh ) return;
 			//if ( this.meshgroup ) return;
 			if ( this.moviemesh ) return;
@@ -144,8 +144,11 @@
 */			////////////////////////////////////////////////////////////////////////////////////////
 			this.moviemesh.add( this.label );
 			this.moviemesh.name = 'player_moviemesh';
+			
 			myapp.add( this.moviemesh );
 			if ( this.isMainPlayer )myapp.createControl(this.moviemesh);	
+			
+			this.setPosition(new THREE.Vector3(xpos,ypos,zpos));
 		}
 
 		setOrientation( position, rotation ) 

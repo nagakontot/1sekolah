@@ -1,3 +1,32 @@
+///////////////////////////////////  
+        function toggle(button)
+        {        if(document.getElementById("1").value=="OFF")  document.getElementById("1").value="ON";
+            else if(document.getElementById("1").value=="ON" )  document.getElementById("1").value="OFF";
+        }
+///////////////////////////////////  
+        //round with precision
+        
+        //http://stackoverflow.com/questions/7342957/how-do-you-round-to-1-decimal-place-in-javascript
+        function FastRound(num)
+        {   return ((num * 10) << 0) * 0.1;
+        }
+        
+        //http://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary
+        function FastRound2(num,prec)
+        {   return (num * 1).toFixed(prec);
+        }
+        
+        //http://stackoverflow.com/questions/1726630/formatting-a-number-with-exactly-two-decimals-in-javascript
+        Number.prototype.getDecimals = function ( decDigCount ) 
+        {   return this.toFixed(decDigCount);
+        }
+        
+        //https://jsperf.com/math-round-vs-hack/3
+        //no precision!
+        function myround(num)
+        {   return (0.5 + num) | 0;
+        }
+///////////////////////////////////        
         //http://stackoverflow.com/questions/14226803/javascript-wait-5-seconds-before-executing-next-line
         var delay = ( function() 
         {   var timer = 0;

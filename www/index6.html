@@ -1,0 +1,144 @@
+<html>
+  <head>
+	<title>spinnin' cubes! yes! plural!</title>
+		<style>canvas { width: 100%; height: 100% }</style>
+	</head>
+	<body>
+		<script src="https://raw.github.com/mrdoob/three.js/master/build/three.js"></script>
+		<script>
+			//create basic context
+			var main_scene = new THREE.Scene();
+			var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+			var renderer = new THREE.WebGLRenderer({stencil: true});
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			document.body.appendChild(renderer.domElement);
+			
+			//create scene
+			
+			//create cube
+			var geometry = new THREE.CubeGeometry(0.5,0.5,0.5);
+			var material = new THREE.MeshPhongMaterial({color: 0x00ff00});
+			var cube = new THREE.Mesh(geometry, material);
+			main_scene.add(cube);
+			
+			//create portals
+			var portal_geom = new THREE.Geometry();
+			portal_geom.vertices.push( new THREE.Vector4( -1, -1) );
+			portal_geom.vertices.push( new THREE.Vector4(  1, -1) );
+			portal_geom.vertices.push( new THREE.Vector4( -1,  1) );
+			portal_geom.vertices.push( new THREE.Vector4(  1,  1) );
+			portal_geom.faces.push( new THREE.Face3( 0, 1, 2 ) );
+			portal_geom.faces.push( new THREE.Face3( 2, 1, 3 ) );
+			portal_geom.computeFaceNormals();
+			var red_material = new THREE.MeshPhongMaterial({color: 0xFF0000});
+			var blue_material = new THREE.MeshPhongMaterial({color: 0x0000FF});
+			var portals = [
+				new THREE.Mesh(portal_geom, blue_material),
+				new THREE.Mesh(portal_geom, red_material)
+			];
+			portals[0].position = new THREE.Vector3(0, 0, -1);
+			portals[1].position = new THREE.Vector3(-1, 0, 0);
+			portals[1].rotation = new THREE.Vector3(0, 3.14*0.55, 0);
+			main_scene.add(portals[0]);
+			main_scene.add(portals[1]);
+			
+			//create the light
+			var light = new THREE.PointLight(0xFFFFFF);
+			light.position.set(0,1,2);
+			main_scene.add(light);
+			camera.position.z = 5;
+			
+			function portal_view(camera, src_portal, dst_portal) {
+				var inverse_view_to_source = new THREE.Matrix4().getInverse(camera.matrix).multiply(src_portal.matrix);
+				var new_mat = dst_portal.matrix.clone().multiply(inverse_view_to_source);
+				new_mat.rotateY(3.14);
+				return new_mat;
+			}
+			
+			just_portal_0 = new THREE.Scene();
+			just_portal_0.add(portals[0].clone());
+			just_portal_0.add(light.clone());
+			just_portal_0.__objects[0].scale.set(0.95,0.95,0.95);
+			just_portal_0.__objects[0].z += 0.0001;
+
+			
+			//render & update loop
+			function render() {
+				
+				requestAnimationFrame(render);//function(){console.log('ready')});
+				cube.rotation.x += 0.1;
+				cube.rotation.y += 0.1;
+				var gl = renderer.context;
+				
+				//save original camera
+				camera.updateMatrixWorld();
+				orig_mat = camera.matrixWorld.clone();
+				
+				//clear the old scene
+				renderer.autoClear=false;
+				renderer.autoClear=false;
+				renderer.autoClear=false;
+				renderer.clear(true,true,true);
+				
+				//0. render the portal scenes.
+				//0.a draw portal 0 as seen by the main camera into the stencil buffer, to clip its output.
+				gl.colorMask(false,false,false,false); //disable the color buffer
+				gl.depthMask(false); //and the depth buffer
+				gl.enable(gl.STENCIL_TEST);
+				gl.stencilMask(0xff);
+				gl.stencilFunc(gl.NEVER,0,0xFF);
+				gl.stencilOp(gl.INCR,gl.KEEP,gl.KEEP);
+				renderer.render(just_portal_0,camera);
+				gl.colorMask(true,true,true,true); //reenable
+				gl.depthMask(true);
+				gl.stencilOp(gl.KEEP,gl.KEEP,gl.KEEP);
+				
+				//render the view from portal 1 (seen through portal 0)
+				//renderer.clear(false,true,false);
+				gl.clear(gl.DEPTH_BUFFER_BIT);
+				
+				gl.stencilFunc(gl.LESS,0,0xff); //pass if 0 < stencil
+				camera.matrixAutoUpdate = false;
+				camera.matrixWorld = portal_view(camera, portals[0], portals[1]);
+				renderer.render(main_scene, camera);
+				gl.disable(gl.STENCIL_TEST);
+				renderer.clear(false,false,true);
+				
+				
+				
+				//render the main scene.
+				
+				//1. reset the camera
+				camera.matrixAutoUpdate = true;
+				camera.matrixWorld = orig_mat.clone();
+				
+				//2. protect the portal view.
+				//clear the depth buffer, and render the portal 0 shape to the depth buffer, so that it won't be overwritten by the main scene
+				renderer.clear(false,true,false);
+				
+				//gl.colorMask(false,false,false,false); //disable the color buffer
+				gl.colorMask(false,false,false,false);
+				gl.depthMask(true);
+				renderer.render(just_portal_0, camera);
+				//return;
+				gl.enable(gl.DEPTH_TEST);
+				
+				//3. render the actual main scene
+				portals[0].position.z-=0.0001;
+				gl.colorMask(true,true,true,true); //re-enable the color buffer
+				renderer.render(main_scene, camera);
+				portals[0].position.z+=0.0001;
+			}
+			render();
+			
+			document.addEventListener('mousemove', function(e) {
+				camera.position.set(0,0,0);
+				elevation = - 0.5*3.14 + 3.14 * e.clientY / window.innerHeight;
+				rotation = -3.14 + 6.28 * e.clientX / window.innerWidth;
+				camera.eulerOrder='YXZ';
+				camera.rotation.set(elevation,rotation,0);
+				camera.translateZ(2);
+			});
+		</script> 
+	</body> 
+</html>

@@ -40,7 +40,7 @@ class CThreejs
 		this.cssrenderer.domElement.appendChild( this.glrenderer.domElement );		
 		
 		//this.cam_ 					= new CCamera( 62,width/height,1,1000 );						
-		this.cam_ 					= new CCamera( 62,width/height,1,3000 );						
+		this.cam_ 					= new CCamera( 62,width/height,1,5000 );						
 		this.cam 					= this.cam_.get_();
 		this.cam.position.z 		= 5;
 				
@@ -62,7 +62,7 @@ class CThreejs
        	return this;
     }
     
-    enableShadow(isShadow=true,SHADOW_MAP_WIDTH=2048,SHADOW_MAP_HEIGHT=1024)
+    enableShadow(isShadow=true,SHADOW_MAP_WIDTH=512,SHADOW_MAP_HEIGHT=512)
     {	this.isShadow = isShadow;
     	if(this.isShadow)this.glrenderer_.enableShadow(SHADOW_MAP_WIDTH,SHADOW_MAP_HEIGHT);
     }
@@ -103,12 +103,9 @@ class CThreejs
 			
 		if ( this.controls )this.controls.update();
 		
-		if(this.isShadow)
-		{	//if(this.light_)this.light_.update(this.glrenderer);
-		}
-		
-		//this.glscene.simulate(undefined, 1);
-
+		//if(this.isShadow)
+		//{	//if(this.light_)this.light_.update(this.glrenderer);
+		//}
     }
         	
     render()            	
@@ -158,7 +155,8 @@ class CThreejs
     onWindowResize()	
     {	this.cam.aspect 	= window.innerWidth / window.innerHeight;
 		this.cam.updateProjectionMatrix();
-		this.glrenderer.setSize( window.innerWidth, window.innerHeight );
+		//this.glrenderer.setSize( window.innerWidth, window.innerHeight );
+		this.resize(window.innerWidth, window.innerHeight);   	
 	}			
 }
     	
@@ -346,7 +344,6 @@ class CThreejs
             	return this;
 			}            	
 			
-			//enableShadow(SHADOW_MAP_WIDTH=1024,SHADOW_MAP_HEIGHT=1024)
 			enableShadow(SHADOW_MAP_WIDTH=512,SHADOW_MAP_HEIGHT=512)
 			{	this._.castShadow = true;
 				//this._.shadow.camera.near	=  8;//1
@@ -378,13 +375,8 @@ class CThreejs
 			*/
 			
 			followTarget(pos,target)
-			//followTarget(scene,pos,ObjName)
-			{	//var pos = player.getPosition();
-				//this._.position.set(pos.x,10,pos.z-10);
-				this._.position.set(pos.x,pos.y+10,pos.z-10);
+			{	this._.position.set(pos.x,pos.y+10,pos.z-10);
 				this._.target	= target;
-				//this._.target	= scene.getObjectByName(ObjName);
-				//this._.target	= this.glscene.getObjectByName('player_moviemesh');
 			}
 			
 			update(renderer)

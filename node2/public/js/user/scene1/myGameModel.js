@@ -12,7 +12,7 @@ var otherPlayers = {};
 		{	this.app	= app;
 		}
 		
-		init() 
+		init(xpos=50,ypos=0,zpos=50) 
 		{	////////////////////////////////////////////////////////////////	
 			// Load game world
 			firebase.auth().onAuthStateChanged(function( user ) 
@@ -23,7 +23,7 @@ var otherPlayers = {};
 
 					fbRef.child( "Players/" + playerID + "/isOnline" ).once( "value" ).then( function( isOnline ) 
 					{	var isOnlinetrue = ( isOnline.val() === null || isOnline.val() === false );
-						if(isOnlinetrue)	this.loadPlayers();
+						if(isOnlinetrue)	this.loadPlayers(xpos,ypos,zpos);
 						else				console.log( "Hey, only one session at a time buddy!" );				
 					}.bind(this));
 				} 
@@ -40,9 +40,9 @@ var otherPlayers = {};
 		//////////////////////////////////
 		//////////////////////////////////
 		
-		loadPlayers() 
+		loadPlayers(xpos,ypos,zpos) 
 		{	//this.loadEnvironment();				// load the environment
-			this.initMainPlayer();				// load the player
+			this.initMainPlayer(xpos,ypos,zpos);				// load the player
 			this.listenToOtherPlayers();
 			/*
 			if(getCookie("username")=== null)
@@ -63,7 +63,7 @@ var otherPlayers = {};
 			}.bind(this);
 		}
 	
-		initMainPlayer() 
+		initMainPlayer(xpos,ypos,zpos) 
 		{	//while(getCookie("username")=== null) 
 			//{	for(var i=0;i<10000;i++){}
 			//	console.log("getCookie('username')="+getCookie("username"));
@@ -71,7 +71,7 @@ var otherPlayers = {};
 			
 			fbRef.child( "Players/" + playerID ).set(
 			{	isOnline:		true,
-				orientation:	{	position: {x: 0, y:0, z:0},
+				orientation:	{	position: {x: xpos, y:ypos, z:zpos},
 									rotation: {x: 0, y:0, z:0}
 								},
 				avatar:			getCookie("avatar"),
@@ -81,20 +81,20 @@ var otherPlayers = {};
 
 			player = new Player( playerID,getCookie("avatar"),getCookie("username"));
 			player.isMainPlayer = true;
-			player.init();
+			player.init(xpos,ypos,zpos);
 		}
 
 		updatePlayers()
 		{	if(player)player.update();
 		}
 		
-		listenToOtherPlayers() 
+		listenToOtherPlayers(xpos,ypos,zpos) 
 		{	// when a player is added, do something
 			fbRef.child( "Players" ).on( "child_added", function( playerData ) 
 			{	if ( playerData.val() ) 
 				{	if ( playerID != playerData.key && !otherPlayers[playerData.key] ) 
 					{	otherPlayers[playerData.key] = new Player( playerData.key,playerData.val().avatar,playerData.val().username );
-						otherPlayers[playerData.key].init();
+						otherPlayers[playerData.key].init(xpos,ypos,zpos);
 						fbRef.child( "Players/" + playerData.key ).on( "value", this.listenToPlayer );
 					}
 				}
