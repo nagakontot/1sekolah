@@ -1,8 +1,79 @@
 ///////////////////////////////////  
-        function toggle(button)
-        {        if(document.getElementById("1").value=="OFF")  document.getElementById("1").value="ON";
-            else if(document.getElementById("1").value=="ON" )  document.getElementById("1").value="OFF";
+//http://stackoverflow.com/questions/32518102/passing-an-instance-method-to-super-with-es6-classes
+//fake virtual function:
+/*
+    class A 
+    {   constructor(method) 
+        {   if(method) {method();return;}
+            this.callback();
         }
+
+        message() 
+        {   return "a";
+        }
+
+        callback() 
+        {   console.log(this.message());
+        }
+    }
+
+    class B extends A 
+    {   constructor() 
+        {   super(() => this.callback());
+        }
+
+        message() 
+        {   return "b"; 
+        }
+
+        callback() 
+        {   console.log(this.message())
+        }
+    }
+
+    //usage:
+    //  new A();        //will print output "a";
+    //  new B();        //will print output "b";
+*/
+
+///////////////////////////////////  
+//https://hacks.mozilla.org/2015/08/es6-in-depth-subclassing/
+//compose multiple inheritance using mixing
+        function mix(...mixins) 
+        {   class Mix {}
+
+            // Programmatically add all the methods and accessors
+            // of the mixins to class Mix.
+            for (let mixin of mixins) 
+            {   copyProperties(Mix, mixin);
+                copyProperties(Mix.prototype, mixin.prototype);
+            }
+            return Mix;
+        }
+
+        function copyProperties(target, source) 
+        {   for (let key of Reflect.ownKeys(source)) 
+            {   if (key !== "constructor" && key !== "prototype" && key !== "name") 
+                {   let desc = Object.getOwnPropertyDescriptor(source, key);
+                    Object.defineProperty(target, key, desc);
+                }
+            }
+        }
+        
+        //usage:
+        //      class DistributedEdit extends mix(Loggable, Serializable) 
+        //      {   // Event methods
+        //      }
+        
+///////////////////////////////////  
+        //function toggle(button)
+        //{        if(document.getElementById("1").value=="OFF")  document.getElementById("1").value="ON";
+        //    else if(document.getElementById("1").value=="ON" )  document.getElementById("1").value="OFF";
+        //}
+        
+        function toggle(b){b.value=(b.value=="ON")?"OFF":"ON";}
+        //usage: <input type="button" id="1" value="ON" style="color:blue" onclick="toggle(this);"></input>
+        
 ///////////////////////////////////  
         //round with precision
         

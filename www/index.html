@@ -14,58 +14,69 @@
 	<script src="three.msm.js"></script>
 	
 	<script>
-        function Scene1() 
-        {   extend(Scene, MSM.Scene);
+        class Scene1 extends MSMScene
+        {   //extend(Scene1, MSMScene);
 
-            function Scene(game1) 
-            {   var light;
-                this.game   = game1;
-                this.scene  = new THREE.Scene;
-                this.camera = new THREE.PerspectiveCamera(62, this.game.width / this.game.height, 1, 1000);
+            constructor(g) 
+            {   super(g);
+
+                this.game   = g;
+                this.scene  = new THREE.Scene;                          
+                //this.camera = new THREE.PerspectiveCamera(62, mygame.getWidth() / mygame.getHeight(), 1, 1000);
+                this.camera = new THREE.PerspectiveCamera(62, this.game.getWidth() / this.game.getHeight(), 1, 1000);
                 this.camera.position.set(0, 0, 5);
                     
-                light       = new THREE.DirectionalLight(0xFFFFFF);
+                var light   = new THREE.DirectionalLight(0xFFFFFF);
                 light.position.set(1, 1, 1);
                 this.scene.add(light);
                     
-                this.obj    = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1), new THREE.MeshLambertMaterial({ambient: 0xFFFFFF}));
+                this.obj    = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1), new THREE.MeshStandardMaterial({ambient: 0xFFFFFF}));
                 this.scene.add(this.obj);
+                
+                return this;
             }
 
-            Scene.prototype.update = function() 
+            update() 
             {   //this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.fps * 10));
-                this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.fps));
+                //this.obj.rotation.y += THREE.Math.degToRad(360 / (mygame.getfps()));
+                this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.getfps()));
                 return [[this.scene, this.camera]];
             };
 
-            return Scene;
+            //return Scene;
         }
             
-        function Scene2() 
-        {   extend(Scene, MSM.Scene);
+        class Scene2 extends MSMScene
+        {   //extend(Scene2, MSMScene);
 
-            function Scene(game1) 
-            {   var light;
-                this.game   = game1;
+            constructor(g) 
+            {   super(g);
+                //var light;
+            
+                this.game   = g;
                 this.scene  = new THREE.Scene;
-                this.camera = new THREE.PerspectiveCamera(62, this.game.width / this.game.height, 1, 1000);
+                //this.camera = new THREE.PerspectiveCamera(62, mygame.getWidth() / mygame.getHeight(), 1, 1000);
+                this.camera = new THREE.PerspectiveCamera(62, this.game.getWidth() / this.game.getHeight(), 1, 1000);
                 this.camera.position.set(0, 0, 5);
                     
-                light       = new THREE.DirectionalLight(0xFFFFFF);
+                var light   = new THREE.DirectionalLight(0xFFFFFF);
                 light.position.set(1, 1, 1);
                 this.scene.add(light);
                     
-                this.obj    = new THREE.Mesh(new THREE.CubeGeometry(5,5,5), new THREE.MeshLambertMaterial({ambient: 0x0000FF}));
+                this.obj    = new THREE.Mesh(new THREE.CubeGeometry(2,2,2), new THREE.MeshStandardMaterial({ambient: 0x0000FF}));
                 this.scene.add(this.obj);
+                
+                return this;
             }
 
-            Scene.prototype.update = function() 
+            update() 
             {   //this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.fps * 10));
-                this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.fps));
+                //this.obj.rotation.y += THREE.Math.degToRad(360 / (mygame.getfps()));
+                this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.getfps()));
                 return [[this.scene, this.camera]];
             };
 
-            return Scene;
+            //return Scene;
         }
         ///////////////////////////////////////////////////////////        
         //window.addEventListener("load", function() 
@@ -75,11 +86,27 @@
         //});
 
         //var game = new MSM.Game(document.getElementsByTagName("canvas")[0]);
-        var game = new MSM.Game("canvas");
-        game.setScene(Scene1()).start();
+        
+        
+        window.mygame = new MSMGame("canvas");
+        
+        var s1 = new Scene1(mygame);
+        var s2 = new Scene2(mygame);
+
+        //game.setScene(Scene1()).start();
+        mygame.setScene(s1).start();
         
         //setTimeout(game.setScene(Scene1()).start(),100);
         //setTimeout((game.setScene(Scene2()).start()),1000000);
+	    function toggle(b)
+	    {   b.value=(b.value=="ON")?"OFF":"ON";
+	        //if(b.value=='ON')   {game.setScene(Scene2()).stop();game.setScene(Scene1()).start();}
+	        //else                {game.setScene(Scene1()).stop();game.setScene(Scene2()).start();}
+	        if(b.value=='ON')   {mygame.setScene(s2).stop();mygame.setScene(s1).start();}
+	        else                {mygame.setScene(s1).stop();mygame.setScene(s2).start();}
+	    }
 
 	</script>
+	    
+	    <input type="button" value="ON" style="color:blue" onclick="toggle(this);"></input>
 </body>

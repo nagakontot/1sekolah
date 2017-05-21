@@ -5,7 +5,6 @@ Version 0.1.0
 MIT License
  */
  
- 
 function extend(child, parent) 
 {   for (var key in parent) 
     {   if (hasProp.call(parent, key)) child[key] = parent[key]; 
@@ -23,15 +22,14 @@ function extend(child, parent)
 };
         
 var hasProp = {}.hasOwnProperty;
-
-
         
 /////////////////////////////////////////////////////////
-//var MSM;
-//this.MSM = MSM = {};
+var MSM;
 
-class MSMGame
-{ constructor(canvas, fps=30, width=800, height=600) 
+this.MSM = MSM = {};
+
+MSM.Game = (function() 
+{ function Game(canvas, fps=30, width=800, height=600) 
   { this.canvas     = document.getElementsByTagName(canvas)[0];
     this.fps        = fps   != null ? fps   : 60;
     this.width      = width != null ? width : null;
@@ -47,28 +45,21 @@ class MSMGame
     this.renderer.setClearColor(0xFFFFFF, 1);
     this.renderer.autoClear = false;
     this.isRunning_         = false;
-    
-    return this;
-    //return Game;
   }
 
-  getWidth()  { return this.width;  }
-  getHeight() { return this.height; }
-  getfps()    { return this.fps;    }
-
-  start() 
-  { //var mainLoop;
+  Game.prototype.start = function() 
+  { var mainLoop;
     
     console.assert(!this.isRunning_);
     
     this.isRunning_ = true;
     this.past       = Date.now();
-    requestAnimationFrame(this.mainLoop = (function(_this) 
+    requestAnimationFrame(mainLoop = (function(_this) 
     { return function() 
       { //var i, len, now, ref, result, sc;
         if (!_this.isRunning_)  return;
 
-        requestAnimationFrame(this.mainLoop);
+        requestAnimationFrame(mainLoop);
         
         var now = Date.now();
         if (now - this.past < _this.frameSpan) return;
@@ -95,53 +86,41 @@ class MSMGame
         //////////////////////////////////////////////
         
         return null;
-      }.bind(this);
-    }.bind(this))(this));
+      };
+    })(this));
     
     return this;
-  }
+  };
 
-  stop() 
+  Game.prototype.stop = function() 
   { this.isRunning_ = false;
     return this;
-  }
+  };
 
-  isRunning() 
+  Game.prototype.isRunning = function() 
   { return this.isRunning_;
-  }
+  };
 
-  setScene(sceneClassOrInstance) 
-  { if (sceneClassOrInstance instanceof MSMScene) this.currentScene = sceneClassOrInstance;
+  Game.prototype.setScene = function(sceneClassOrInstance) 
+  { if (sceneClassOrInstance instanceof MSM.Scene)this.currentScene = sceneClassOrInstance;
     else                                          this.currentScene = new sceneClassOrInstance(this);
     
     return this;
-  }
-  //return Game;
-}
+  };
 
-////////////////////////////////////////////////////////////////////////////////
-class MSMScene
-{ constgructor(g) 
-  { //this.game = g;
-    //this.game = null;//g;
-    //return this;//Scene;
-    //return new.target;
+  return Game;
+
+})();
+
+MSM.Scene = (function() 
+{ function Scene(game) 
+  { this.game = game;
   }
-/*
-  getWidth()
-  { return this.game.getWidth();
-  }
-  
-  getHeight()
-  { return this.game.getHeight();
-  }
-  
-  getfps()    
-  { return this.game.getfps();
-  }  
-*/
-  update() 
+
+  Scene.prototype.update = function() 
   { return [];
   };
 
-}
+  return Scene;
+
+})();
