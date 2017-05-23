@@ -105,7 +105,7 @@ var otherPlayers = {};
 			{	if ( playerData.val() ) 
 				{	fbRef.child( "Players/" + playerData.key ).off( "value", this.listenToPlayer );
 					//myapp.remove( otherPlayers[playerData.key].mesh );
-					myapp.remove( otherPlayers[playerData.key].meshgroup );
+					myapp.getScene().remove( otherPlayers[playerData.key].meshgroup );
 					delete otherPlayers[playerData.key];
 				}
 			}.bind(this));

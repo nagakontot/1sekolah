@@ -8,7 +8,7 @@ var texLoader   		= new THREE.TextureLoader()
 //Physijs.scripts.worker		= '../../../js/lib/extjs/physijs_worker.js';
 //Physijs.scripts.ammo		= '../../../js/lib/extjs/ammo.js';
 	
-/*	    
+	    
 class CThreejs 
 {   constructor(width=window.innerWidth,height=window.innerHeight,fps=30) 
   	{	this.screenW				= width;
@@ -51,12 +51,14 @@ class CThreejs
         this.stats              	= this.stats_.get_();
 		this.container.appendChild( this.stats.dom );           	        	
 
-		//this.onWindowResize 		= this.onWindowResize.bind(this);
-	    //window.addEventListener( "resize", this.onWindowResize, false );
+/*	        	
+	        	this.onWindowResize 		= this.onWindowResize.bind(this);
+	        	window.addEventListener( "resize", this.onWindowResize, false );
 
-	    //this.WindowResize 			= evt => this.onWindowResize(evt);
-	    //window.addEventListener( "resize", this.WindowResize, false );
+	        	//this.WindowResize 			= evt => this.onWindowResize(evt);
+	        	//window.addEventListener( "resize", this.WindowResize, false );
 	        	
+*/	        		
        	return this;
     }
     
@@ -108,7 +110,7 @@ class CThreejs
         	
     render()            	
     {	this.glrenderer.clear();
-    	this.glrenderer.render (this.glscene,  this.cam );
+    	this.glrenderer.render( this.glscene,  this.cam );
     	this.cssrenderer.render(this.cssscene, this.cam);
     }
     
@@ -157,13 +159,13 @@ class CThreejs
 		this.resize(window.innerWidth, window.innerHeight);   	
 	}			
 }
-*/    	
+    	
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 		class CBase
-		{	constructor(v)	{	this.base = v;		}
-			get _()			{	return this.base;	}
-			set _(v)		{	this.base = v;  	}
+		{	constructor(v)	{	this.set_(v);		}
+			get_()			{	return this._;	}
+			set_(v)			{	this._	= v;	}
 		}
 		
 		class CContainer extends CBase
@@ -314,13 +316,7 @@ class CThreejs
 		
 		class CLight extends CBase
 		{	constructor(scene)
-			{	//////////////////////////////////////////////////
-				super(new THREE.DirectionalLight( 0xffffff, 1 ));
-				this._.name = 'DirLight';
-				this._.position.set( 0, 10, -10 );
-				scene.add( this._ );
-				
-				//scene.add( new THREE.AmbientLight( 0xaaaaaa ) );
+			{	//scene.add( new THREE.AmbientLight( 0xaaaaaa ) );
 				//scene.add( new THREE.AmbientLight( 0xffffff) );
 				scene.add( new THREE.AmbientLight( 0xffffff, 0.3 ) );
 
@@ -332,14 +328,19 @@ class CThreejs
             	//this._.position.set( 0, 1500, 1000 );
 				//this._.target.position.set( 0, 0, 0 );
 
+
 				//this._.position.set( 250, 500, 0 ).normalize();//( -1, 1.75, 1 );
 				//this._.position.multiplyScalar( 50 );
 				//this._.name = "dirlight";
 				
 				//////////////////////////////////////////////////
-            	
+				super(new THREE.DirectionalLight( 0xffffff, 1 ));
+				this._.name = 'DirLight';
+				this._.position.set( 0, 10, -10 );
+						
+				//////////////////////////////////////////////////
+            	scene.add( this._ );
             	scene.add( new THREE.CameraHelper( this._.shadow.camera ) );
-        	
             	return this;
 			}            	
 			

@@ -1,27 +1,58 @@
 "use strict"
 
-	///////////////////////////////////////////////////////////////////////
-	class CmyApp extends CThreejs
-	{ 	constructor(width=window.innerWidth,height=window.innerHeight,fps=30) 
-		{	super(width,height,fps);
-			this.clock = new THREE.Clock();
-			
-			//this.oldpos = new THREE.Vector3();
-			//this.isInit =false;
-			
-			//this.clumpy = new Clumpy();
-			
-			this.counter = 0;
-		}
-  
+    class CScene1 extends MSMScene
+    {	constructor(msmapp) 
+        {   super(msmapp,msmapp.width,msmapp.height);
+            this.msmapp 		= msmapp;
+            
+            //this.scene		= new THREE.Scene;                          
+            //this.camera		= new THREE.PerspectiveCamera(62, this.game.width/ this.game.height, 1, 1000);
+            //this.camera.position.set(0, 0, 5);
+                    
+            //var light 		= new THREE.DirectionalLight(0xFFFFFF);
+            //light.position.set(0, 10, -10 );
+            //this.glscene.add(light);
+            
+   			this.glscene_		= new CGLScene();        	  	
+   			this.glscene		= this.glscene_._;
+        		
+ 			this.cssscene_		= new CCSSScene();        	  	
+ 			this.cssscene		= this.cssscene_._;  
+ 		
+			this.cam_ 			= new CCamera( 62,this.width/this.height,1,5000 );						
+			this.cam 			= this.cam_._;
+			this.cam.position.z = 5;
+				
+			this.stats_         = new CStat();
+    		this.stats          = this.stats_._;
+
+			this.objects 		= [];
+
+            //var light 		= new THREE.DirectionalLight(0xFFFFFF);
+            //light.position.set(0, 10, -10 );
+            //this.glscene.add(light);
+            
+            //this.obj    = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1), new THREE.MeshStandardMaterial({ambient: 0xFFFFFF}));
+            //this.scene.add(this.obj);
+            
+            this.init();
+            
+            return this;
+        }
+
 		init() 
 		{	//this.glrenderer.setClearColor(this.glscene.fog.color);
-			this.glrenderer.autoClear = false;
-			this.glrenderer.setClearColor(0x000000, 0.0);
+			//this.glrenderer.autoClear = false;
+			//this.glrenderer.setClearColor(0x000000, 0.0);
   
-			super.enableShadow();
+			//super.enableShadow();
+			//var isShadow=true;
+			//super.createStdLight(isShadow);
 			
-			super.createStdLight();
+			super.createStdLight(this.msmapp.isShadow);
+			
+			//super.createStdLight(true);
+
 			//super.createHelper();
 			
 			///////////////////////////////////////////////////////////////////////
@@ -184,7 +215,8 @@
 			//this.app.add( sphere );
 			//this.app.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			/////////////////////////////////////////////////////////
-			var anis = this.glrenderer.getMaxAnisotropy();
+			//var anis = this.glrenderer.getMaxAnisotropy();
+			var anis = this.msmapp.getMaxAnisotropy();
 			
 			//this.createMinecraft(anis);
 			
@@ -251,7 +283,7 @@
 			this.glscene.add(this.mysky.getMesh());
 		}
 		
-		update(time)
+		update()
 		{	//if(this.counter++>1)
 			//{	this.counter=0;	
 				for(var i=0;i<movieMaterial.length;i++)
@@ -327,21 +359,23 @@
 			//}
 		
 			super.update();
+			//this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.fps));
+        	return [[this.glscene, this.cam],[this.cssscene, this.cam]];			
 			
 		}
 		
 		
-		render() 
-		{	var time = Date.now() * 0.00001;
-			//var time = this.clock.getDelta();
-		
-			this.requestId  = window.requestAnimationFrame(() => 
-			{	this.render();
-			});
-			
-			this.update(time);
-			super.render();
-		}
+		//render() 
+		//{	var time = Date.now() * 0.00001;
+		//	//var time = this.clock.getDelta();
+		//
+		//	this.requestId  = window.requestAnimationFrame(() => 
+		//	{	this.render();
+		//	});
+		//	
+		//	this.update(time);
+		//	super.render();
+		//}
 		
 		exit()
 		{	for(var i=0;i<movieMaterial.length;i++)
@@ -355,16 +389,46 @@
 		/////////////////////////////////////////////
         onWindowResize()	
         {	super.onWindowResize();
+        	this.msmapp.resize(window.innerWidth, window.innerHeight);
 		}		
 
+        //update() 
+        //{   this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.fps));
+        //    return [[this.glscene, this.camera],[this.cssscene, this.camera],];
+        //};
 
+    }	
+    
+	///////////////////////////////////////////////////////////////////////
+	class CApp extends MSMGame
+	{ 	constructor(canvas="canvas",fps=30,width=window.innerWidth,height=window.innerHeight) 
+		{	super(canvas,fps,width,height);
+			this.clock = new THREE.Clock();
+			
+			//this.oldpos = new THREE.Vector3();
+			//this.isInit =false;
+			
+			//this.clumpy = new Clumpy();
+			
+			this.counter = 0;
+			
+			super.enableShadow();
+		}
+ 
 	}    	
 
 //////////////////////////////////////////////////////////////////////////
 
-			
-var myapp = new CmyApp();
-myapp.init();
-myapp.render();
+var myapp = new CApp();
+
+//myapp.init();
+//myapp.render();
 
 //MainLoop.setUpdate(myapp.update).setDraw(myapp.render).start();
+
+var myscene1 = new CScene1(myapp);
+//var myscene2 = new CScene2(mygame);
+
+//myscene1.init();
+
+myapp.setScene(myscene1).start();

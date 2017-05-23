@@ -145,8 +145,12 @@
 			this.moviemesh.add( this.label );
 			this.moviemesh.name = 'player_moviemesh';
 			
-			myapp.add( this.moviemesh );
-			if ( this.isMainPlayer )myapp.createControl(this.moviemesh);	
+			//myapp.add( this.moviemesh );
+			//if ( this.isMainPlayer )myapp.createControl(this.moviemesh);	
+			
+			myapp.getScene().add( this.moviemesh );
+			if ( this.isMainPlayer )myapp.getScene().createControl(this.moviemesh);	
+			
 			
 			this.setPosition(new THREE.Vector3(xpos,ypos,zpos));
 		}
