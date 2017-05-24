@@ -26,7 +26,7 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	this.YAutoRotation	= false;
 
 	this.minPolarAngle	= 0.5;//0;
-	this.maxPolarAngle	= Math.PI;//Math.PI/2;//
+	this.maxPolarAngle	= Math.PI/2;//Math.PI;//
 
 	this.minDistance	= 0;
 	this.maxDistance	= Infinity;
@@ -89,7 +89,7 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	};
 
 //////////////////////////////////////////////////////////////
-	this.gravity		= -0.025;
+	this.gravity		= -0.03;//-0.025;
 	this.onGround		= true;
 	this.velocityY		= 0.0;
 	this.GroundHeight   = -0.35;
@@ -104,7 +104,8 @@ THREE.PlayerControls = function ( camera, player, domElement )
 
 	this.EndJump = function () 
 	{	//if(velocityY < -6.0)velocityY = -6.0;
-		if(this.velocityY > 0.15)this.velocityY = 0.15;
+		//if(this.velocityY > 0.15)this.velocityY = 0.15;
+		if(this.velocityY > 0.25)this.velocityY = 0.25;
 	}
 	
 	this.UpdateJump = function () 
