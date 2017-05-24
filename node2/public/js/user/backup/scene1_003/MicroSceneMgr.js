@@ -145,9 +145,7 @@ class MSMGame
   }  
   
   resize(w,h)         	
-  { this.width    = w;
-    this.height   = h;
-    this.glrenderer.setSize(w,h);
+  { this.glrenderer.setSize(w,h);
   	this.cssrenderer.setSize(w,h);
   }  
   
@@ -156,10 +154,13 @@ class MSMGame
 ////////////////////////////////////////////////////////////////////////////////
 class MSMScene
 { constgructor(g,width,height) 
-  { this.msmapp;
+  { //this.game         = g;
+    this.msmapp         = g;
+    
     this.width          = width;
     this.height         = height;
   
+    this.isShadow       = false;
 		this.controls;
 		this.objects 				= [];
 	
@@ -180,31 +181,24 @@ class MSMScene
 
 	  this.lighthelper_;
 	  this.lighthelper;
-  }
 
-  init()
-  {	this.glscene_		= new CGLScene();        	  	
-   	this.glscene		= this.glscene_._;
+/*
+   	this.glscene_				= new CGLScene();        	  	
+   	this.glscene				= this.glscene_._;
         		
- 		this.cssscene_		= new CCSSScene();        	  	
- 		this.cssscene		= this.cssscene_._;  
+ 		this.cssscene_			= new CCSSScene();        	  	
+ 		this.cssscene				= this.cssscene_._;  
  		
-		this.cam_ 			= new CCamera( 62,this.width/this.height,1,5000 );						
-		this.cam 			= this.cam_._;
+		this.cam_ 					= new CCamera( 62,width/height,1,5000 );						
+		this.cam 					  = this.cam_._;
 		this.cam.position.z = 5;
 				
 		this.stats_         = new CStat();
-  	this.stats          = this.stats_._;
-  	this.msmapp.appendChild( this.stats.dom );
-
-		this.objects 		= [];
-
-		//this.createStdLight();    	
-		
-		window.addEventListener( "resize", this.onWindowResize.bind(this), false );
-		window.dispatchEvent( new Event("resize") );
+    this.stats          = this.stats_._;
+		//this.container.appendChild( this.stats.dom ); 		
+*/
   }
-  
+
   add(node)           	
   { this.glscene.add(node);
   }
@@ -214,8 +208,8 @@ class MSMScene
 		this.glscene.add(mesh.getMesh());
 	}
 	
-  createStdLight(isHelper=false)
-  {	//this.isShadow           = this.msmapp.isShadow;//isShadow;
+  createStdLight(isShadow=false,isHelper=false)
+  {	this.isShadow           = isShadow;
     this.light_          		= new CLight(this.glscene);      
 		this.light          		= this.light_._;
 
@@ -225,8 +219,7 @@ class MSMScene
 	    this.glscene.add(this.lighthelper);        		
 	  }	
 	    
-	  //if(this.isShadow)
-	  if(this.msmapp.isShadow)
+	  if(this.isShadow)
 	  {  	this.light_.enableShadow();
 	  }
   }
@@ -281,13 +274,9 @@ class MSMScene
   }
 
   onWindowResize()	
-  {	this.width    = window.innerWidth;
-    this.height   = window.innerHeight;
-    
-    this.cam.aspect 	= this.width / this.height;
+  {	this.cam.aspect 	= window.innerWidth / window.innerHeight;
 		this.cam.updateProjectionMatrix();
 		//this.glrenderer.setSize( window.innerWidth, window.innerHeight );
 		//this.resize(window.innerWidth, window.innerHeight);   	
-		this.msmapp.resize(this.width, this.height);
 	}
 }

@@ -21,6 +21,17 @@ class MSMGame
 		this.isShadow         = false;    
     
     //////////////////////////////////////////////////////////
+   	this.glrenderer_;
+    this.glrenderer;
+            	
+   	this.cssrenderer_;
+    this.cssrenderer;
+
+    this.container_;
+    this.container;
+
+    //////////////////////////////////////////////////////////
+    /*
    	this.glrenderer_      = new CGLRenderer(width,height);          	      
     this.glrenderer       = this.glrenderer_._;
             	
@@ -33,13 +44,30 @@ class MSMGame
     //this setup will make css3d clickable inside webgl        
 		this.container.appendChild( this.cssrenderer.domElement );		
 		this.cssrenderer.domElement.appendChild( this.glrenderer.domElement );	
-		
+		*/
     //////////////////////////////////////////////////////////
-    this.renderer         = [this.glrenderer,this.cssrenderer];
+    //this.renderer;//         = [this.glrenderer,this.cssrenderer];
     
     return this;
   }
 
+  setup()
+  {	this.glrenderer_      = new CGLRenderer(this.width,this.height);          	      
+    this.glrenderer       = this.glrenderer_._;
+            	
+   	this.cssrenderer_     = new CCSSRenderer(this.width,this.height);          	      
+    this.cssrenderer      = this.cssrenderer_._;
+
+    this.container_				= new CContainer();
+    this.container				= this.container_._;
+
+    //this setup will make css3d clickable inside webgl        
+		this.container.appendChild( this.cssrenderer.domElement );		
+		this.cssrenderer.domElement.appendChild( this.glrenderer.domElement );	
+    
+    this.renderer         = [this.glrenderer,this.cssrenderer];
+  }
+  
   appendChild(domElement)
   { this.container.appendChild(domElement);
   }
@@ -68,7 +96,7 @@ class MSMGame
         _this.frameCount++;
         var result = _this.currentScene.update();
         _this.renderer[0].clear();
-        
+
         //////////////////////////////////////////////
         //var i, len,ref, sc;
         //for (i = 0, len = result.length; i < len; i++) 
@@ -95,6 +123,11 @@ class MSMGame
         
         _this.renderer[0].render.apply(_this.renderer[0],result[0]);
         _this.renderer[1].render.apply(_this.renderer[1],result[1]);
+        
+        //_this.renderer[0].render(result[0][0],result[0][1]);
+        //_this.renderer[1].render(result[1][0],result[1][1]);
+
+        //this.glrenderer.render (this.glscene,  this.cam );
 
         //////////////////////////////////////////////
         //return null;
@@ -145,9 +178,7 @@ class MSMGame
   }  
   
   resize(w,h)         	
-  { this.width    = w;
-    this.height   = h;
-    this.glrenderer.setSize(w,h);
+  { this.glrenderer.setSize(w,h);
   	this.cssrenderer.setSize(w,h);
   }  
   
@@ -155,13 +186,15 @@ class MSMGame
 
 ////////////////////////////////////////////////////////////////////////////////
 class MSMScene
-{ constgructor(g,width,height) 
-  { this.msmapp;
+{ constgructor(msm,width,height) 
+  { this.msmapp         = msm;
+    
     this.width          = width;
     this.height         = height;
   
+    this.isShadow       = false;
 		this.controls;
-		this.objects 				= [];
+		this.objects;
 	
    	this.glscene_;
    	this.glscene;
@@ -180,29 +213,39 @@ class MSMScene
 
 	  this.lighthelper_;
 	  this.lighthelper;
+	  
+/*
+   	this.glscene_				= new CGLScene();        	  	
+   	this.glscene				= this.glscene_._;
+        		
+ 		this.cssscene_			= new CCSSScene();        	  	
+ 		this.cssscene				= this.cssscene_._;  
+ 		
+		this.cam_ 					= new CCamera( 62,width/height,1,5000 );						
+		this.cam 					  = this.cam_._;
+		this.cam.position.z = 5;
+				
+		this.stats_         = new CStat();
+    this.stats          = this.stats_._;
+		//this.container.appendChild( this.stats.dom ); 		
+*/
   }
 
-  init()
-  {	this.glscene_		= new CGLScene();        	  	
+  setup()
+  { this.glscene_		= new CGLScene();        	  	
    	this.glscene		= this.glscene_._;
         		
  		this.cssscene_		= new CCSSScene();        	  	
  		this.cssscene		= this.cssscene_._;  
  		
 		this.cam_ 			= new CCamera( 62,this.width/this.height,1,5000 );						
-		this.cam 			= this.cam_._;
+		this.cam 			  = this.cam_._;
 		this.cam.position.z = 5;
 				
-		this.stats_         = new CStat();
-  	this.stats          = this.stats_._;
-  	this.msmapp.appendChild( this.stats.dom );
+		this.stats_     = new CStat();
+    this.stats      = this.stats_._;
 
 		this.objects 		= [];
-
-		//this.createStdLight();    	
-		
-		window.addEventListener( "resize", this.onWindowResize.bind(this), false );
-		window.dispatchEvent( new Event("resize") );
   }
   
   add(node)           	
@@ -214,8 +257,8 @@ class MSMScene
 		this.glscene.add(mesh.getMesh());
 	}
 	
-  createStdLight(isHelper=false)
-  {	//this.isShadow           = this.msmapp.isShadow;//isShadow;
+  createStdLight(isShadow=false,isHelper=false)
+  {	this.isShadow           = isShadow;
     this.light_          		= new CLight(this.glscene);      
 		this.light          		= this.light_._;
 
@@ -225,8 +268,7 @@ class MSMScene
 	    this.glscene.add(this.lighthelper);        		
 	  }	
 	    
-	  //if(this.isShadow)
-	  if(this.msmapp.isShadow)
+	  if(this.isShadow)
 	  {  	this.light_.enableShadow();
 	  }
   }
@@ -281,13 +323,9 @@ class MSMScene
   }
 
   onWindowResize()	
-  {	this.width    = window.innerWidth;
-    this.height   = window.innerHeight;
-    
-    this.cam.aspect 	= this.width / this.height;
+  {	this.cam.aspect 	= window.innerWidth / window.innerHeight;
 		this.cam.updateProjectionMatrix();
 		//this.glrenderer.setSize( window.innerWidth, window.innerHeight );
 		//this.resize(window.innerWidth, window.innerHeight);   	
-		this.msmapp.resize(this.width, this.height);
 	}
 }

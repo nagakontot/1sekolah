@@ -4,15 +4,16 @@
     {	constructor(msmapp) 
         {   super(msmapp,msmapp.width,msmapp.height);
             this.msmapp 		= msmapp;
-
-            this.init();
             
-            return this;
-        }
-
-		init() 
-		{	/*
-			this.glscene_		= new CGLScene();        	  	
+            //this.scene		= new THREE.Scene;                          
+            //this.camera		= new THREE.PerspectiveCamera(62, this.game.width/ this.game.height, 1, 1000);
+            //this.camera.position.set(0, 0, 5);
+                    
+            //var light 		= new THREE.DirectionalLight(0xFFFFFF);
+            //light.position.set(0, 10, -10 );
+            //this.glscene.add(light);
+            
+   			this.glscene_		= new CGLScene();        	  	
    			this.glscene		= this.glscene_._;
         		
  			this.cssscene_		= new CCSSScene();        	  	
@@ -27,13 +28,20 @@
 
 			this.objects 		= [];
 
-			super.createStdLight();    			
-			*/
-			
-			super.init();
-			super.createStdLight();    			
-			//////////////////////////////////////////////////////////////////////
-			//this.glrenderer.setClearColor(this.glscene.fog.color);
+            //var light 		= new THREE.DirectionalLight(0xFFFFFF);
+            //light.position.set(0, 10, -10 );
+            //this.glscene.add(light);
+            
+            //this.obj    = new THREE.Mesh(new THREE.CubeGeometry(1, 1, 1), new THREE.MeshStandardMaterial({ambient: 0xFFFFFF}));
+            //this.scene.add(this.obj);
+            
+            this.init();
+            
+            return this;
+        }
+
+		init() 
+		{	//this.glrenderer.setClearColor(this.glscene.fog.color);
 			//this.glrenderer.autoClear = false;
 			//this.glrenderer.setClearColor(0x000000, 0.0);
   
@@ -41,7 +49,7 @@
 			//var isShadow=true;
 			//super.createStdLight(isShadow);
 			
-			//super.createStdLight(this.msmapp.isShadow);
+			super.createStdLight(this.msmapp.isShadow);
 			
 			//super.createStdLight(true);
 
@@ -132,10 +140,7 @@
 			
         	//this.onWindowResize = this.onWindowResize.bind(this);
         	//window.addEventListener( "resize", this.onWindowResize, false );
-
-        	//window.addEventListener( "resize", this.onWindowResize.bind(this), false );
-        	//window.addEventListener( "resize", super.onWindowResize.bind(this), false );
-        	
+        	window.addEventListener( "resize", this.onWindowResize.bind(this), false );
         	///////////////////////////////////////
 			/*
 			this.params1=	[	[ [1.0,  0.2,  0.5], texLoader.load("textures/sprites/snowflake1.png"), 0.8],
@@ -274,8 +279,7 @@
 		}
 		
 		update()
-		{	super.update();
-			//if(this.counter++>1)
+		{	//if(this.counter++>1)
 			//{	this.counter=0;	
 				for(var i=0;i<movieMaterial.length;i++)
 				{	window.movieMaterial[i].update();
@@ -349,8 +353,10 @@
 				}					
 			//}
 		
+			super.update();
 			//this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.fps));
-        	return [[this.glscene, this.cam],[this.cssscene, this.cam]];		
+        	return [[this.glscene, this.cam],[this.cssscene, this.cam]];			
+			
 		}
 		
 		
@@ -376,9 +382,10 @@
 		/////////////////////////////////////////////
 		
 		/////////////////////////////////////////////
-        //onWindowResize()	
-        //{	super.onWindowResize();
-		//}		
+        onWindowResize()	
+        {	super.onWindowResize();
+        	this.msmapp.resize(window.innerWidth, window.innerHeight);
+		}		
 
         //update() 
         //{   this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.fps));
@@ -391,12 +398,14 @@
 	class CApp extends MSMGame
 	{ 	constructor(canvas="canvas",fps=30,width=window.innerWidth,height=window.innerHeight) 
 		{	super(canvas,fps,width,height);
+			this.clock = new THREE.Clock();
 			
-			//this.clock = new THREE.Clock();
 			//this.oldpos = new THREE.Vector3();
 			//this.isInit =false;
+			
 			//this.clumpy = new Clumpy();
-			//this.counter = 0;
+			
+			this.counter = 0;
 			
 			super.enableShadow();
 		}

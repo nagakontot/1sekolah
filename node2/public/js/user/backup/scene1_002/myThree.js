@@ -17,6 +17,7 @@ class CThreejs
 		this.controls;
 		this.objects 				= [];
 		this.isShadow               = false;
+
    		this.glscene_				= new CGLScene();        	  	
    		this.glscene				= this.glscene_.get_();
         		
@@ -25,13 +26,16 @@ class CThreejs
             	
    		this.cssscene_				= new CCSSScene();        	  	
    		this.cssscene				= this.cssscene_.get_();
+
        	this.cssrenderer_           = new CCSSRenderer(width,height);          	      
         this.cssrenderer           	= this.cssrenderer_.get_();
+
         this.container_				= new CContainer();
         this.container				= this.container_.get_();
         
 		//this.container.appendChild( this.glrenderer.domElement );		
 		//this.container.appendChild( this.cssrenderer.domElement );		
+
 		this.container.appendChild( this.cssrenderer.domElement );		
 		this.cssrenderer.domElement.appendChild( this.glrenderer.domElement );		
 		
@@ -46,8 +50,10 @@ class CThreejs
 		this.stats_              	= new CStat();
         this.stats              	= this.stats_.get_();
 		this.container.appendChild( this.stats.dom );           	        	
+
 		//this.onWindowResize 		= this.onWindowResize.bind(this);
 	    //window.addEventListener( "resize", this.onWindowResize, false );
+
 	    //this.WindowResize 			= evt => this.onWindowResize(evt);
 	    //window.addEventListener( "resize", this.WindowResize, false );
 	        	
@@ -114,10 +120,12 @@ class CThreejs
     add(node)           	
     {   this.glscene.add(node);
     }
+
 	addMesh(mesh) 
 	{	this.objects.push(mesh);
 		this.glscene.add(mesh.getMesh());
 	}        	
+
     remove(node)        	
     {   this.glscene.remove(node);
     }
@@ -129,6 +137,7 @@ class CThreejs
 	get camera()			
 	{	return this.cam;
 	}
+
 	exit()
 	{	window.cancelAnimationFrame(this.requestId);// Stop the animation
 		this.glrenderer_.exit();
@@ -375,3 +384,5 @@ class CThreejs
 			}
 		}
 		
+
+    	

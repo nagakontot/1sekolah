@@ -1,38 +1,34 @@
 "use strict"
 
+	window.movieMaterial = [];
+	//window.mygamemodel;	
+	
     class CScene1 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp,msmapp.width,msmapp.height);
-            this.msmapp 		= msmapp;
-
-            this.init();
+        	this.msmapp = msmapp;
             
+			//super.setup();
+			
             return this;
         }
 
 		init() 
-		{	/*
-			this.glscene_		= new CGLScene();        	  	
+		{	this.glscene_		= new CGLScene();        	  	
    			this.glscene		= this.glscene_._;
         		
  			this.cssscene_		= new CCSSScene();        	  	
  			this.cssscene		= this.cssscene_._;  
  		
 			this.cam_ 			= new CCamera( 62,this.width/this.height,1,5000 );						
-			this.cam 			= this.cam_._;
+			this.cam 			  = this.cam_._;
 			this.cam.position.z = 5;
 				
-			this.stats_         = new CStat();
-    		this.stats          = this.stats_._;
+			this.stats_     = new CStat();
+    		this.stats      = this.stats_._;
 
 			this.objects 		= [];
-
-			super.createStdLight();    			
-			*/
-			
-			super.init();
-			super.createStdLight();    			
-			//////////////////////////////////////////////////////////////////////
+			///////////////////////////////////////////////////////////////////////
 			//this.glrenderer.setClearColor(this.glscene.fog.color);
 			//this.glrenderer.autoClear = false;
 			//this.glrenderer.setClearColor(0x000000, 0.0);
@@ -41,7 +37,7 @@
 			//var isShadow=true;
 			//super.createStdLight(isShadow);
 			
-			//super.createStdLight(this.msmapp.isShadow);
+			super.createStdLight(this.msmapp.isShadow);
 			
 			//super.createStdLight(true);
 
@@ -54,7 +50,7 @@
 							'video/robot_1.webm',
 							'video/billcat_1.webm'];
 
-			window.movieMaterial		= [];
+			//window.movieMaterial		= [];
 			///////////////////////////////////////////////////////////////////////
 			
 			for(var i=0;i<videos.length;i++)
@@ -71,6 +67,7 @@
 			Architect.proxy(videos, function(data) 
 			{	//console.log(data)
 				// => ['foo.png', 'bar.png', 'twiz.png', 'foozle.png', 'barzle.png', 'twizle.png']
+
 				var i=0;
 				data.forEach(function(vid) 
 				{	//img = document.createElement('img')
@@ -86,6 +83,7 @@
 			/*
 			var jobName		= 'appendVideos';
 			var videosCount = 0;
+
 			window.movieMaterial		= [];
 			videos.forEach(function(vid) 
 			{	Architect.proxyOn(jobName,vid,function(data) 
@@ -99,15 +97,16 @@
 					//window.movieMaterial[videosCount].side	= THREE.FrontSide;
 					//window.movieMaterial[videosCount].side	= THREE.BackSide;
 					//window.movieMaterial[videosCount+4].side	= THREE.BackSide;    	
+
     				if(videosCount == videos.length)Architect.endJob(jobName);
 				});
 			});
 			*/
 			//////////////////////////////////////////////////////////////////////
 			//////////////////////////////////////////////////////////////////////
-			this.mygame = new CGameModel(this);
+			window.mygamemodel = new CGameModel();
 			var xpos=50,ypos=0,zpos=50;
-			this.mygame.init(xpos,ypos,zpos);
+			window.mygamemodel.init(xpos,ypos,zpos);
 			this.loadEnvironment();
 			
 			//////////////////////////////////////////////////////////////////////
@@ -116,6 +115,7 @@
 			Architect.proxy(images, function(data) 
 			{	//console.log(data)
 				// => ['foo.png', 'bar.png', 'twiz.png', 'foozle.png', 'barzle.png', 'twizle.png']
+
 				data.forEach(function(image) 
 				{	//img = document.createElement('img')
     				//img.src = image
@@ -132,10 +132,7 @@
 			
         	//this.onWindowResize = this.onWindowResize.bind(this);
         	//window.addEventListener( "resize", this.onWindowResize, false );
-
-        	//window.addEventListener( "resize", this.onWindowResize.bind(this), false );
-        	//window.addEventListener( "resize", super.onWindowResize.bind(this), false );
-        	
+        	window.addEventListener( "resize", this.onWindowResize.bind(this), false );
         	///////////////////////////////////////
 			/*
 			this.params1=	[	[ [1.0,  0.2,  0.5], texLoader.load("textures/sprites/snowflake1.png"), 0.8],
@@ -259,6 +256,7 @@
 								offset: 		{ type: "f", value: 5}, 
 								exponent:		{ type: "f", value: 0.6}
 							}
+
 			this.skyMaterial	= new THREE.ShaderMaterial({vertexShader: vertexShader, fragmentShader: fragmentShader, uniforms: uniforms, side: THREE.BackSide, fog: false});
 			
 			// create Mesh with sphere geometry and add to the scene
@@ -274,10 +272,9 @@
 		}
 		
 		update()
-		{	super.update();
-			//if(this.counter++>1)
+		{	//if(this.counter++>1)
 			//{	this.counter=0;	
-				for(var i=0;i<movieMaterial.length;i++)
+				for(var i=0;i<window.movieMaterial.length;i++)
 				{	window.movieMaterial[i].update();
 				}
 			//}
@@ -294,12 +291,14 @@
 			}
 			*/
 			//this.mysp.update(time,this.glscene,this.params1);
-			this.mygame.updatePlayers();
+			//window.mygamemodel.updatePlayers();
+			
 			
 			//if(this.mymc)
 			//{	
 				if(player)
-				{	/*
+				{	player.update();	
+					/*
 					var pos  = player.getPosition();
 					var newh = this.mymc.getY( Math.round(pos.x),Math.round(pos.z))+1.07;
 				
@@ -349,8 +348,10 @@
 				}					
 			//}
 		
+			//super.update();
 			//this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.fps));
-        	return [[this.glscene, this.cam],[this.cssscene, this.cam]];		
+        	return [[this.glscene, this.cam],[this.cssscene, this.cam]];			
+			
 		}
 		
 		
@@ -376,9 +377,10 @@
 		/////////////////////////////////////////////
 		
 		/////////////////////////////////////////////
-        //onWindowResize()	
-        //{	super.onWindowResize();
-		//}		
+        onWindowResize()	
+        {	super.onWindowResize();
+        	this.msmapp.resize(window.innerWidth, window.innerHeight);
+		}		
 
         //update() 
         //{   this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.fps));
@@ -393,12 +395,15 @@
 		{	super(canvas,fps,width,height);
 			
 			//this.clock = new THREE.Clock();
+			
 			//this.oldpos = new THREE.Vector3();
 			//this.isInit =false;
-			//this.clumpy = new Clumpy();
-			//this.counter = 0;
 			
-			super.enableShadow();
+			//this.clumpy = new Clumpy();
+			
+			//this.counter = 0;
+			//super.setup();
+			//super.enableShadow();
 		}
  
 	}    	
@@ -406,6 +411,9 @@
 //////////////////////////////////////////////////////////////////////////
 
 var myapp = new CApp();
+
+myapp.setup();
+myapp.enableShadow();
 
 //myapp.init();
 //myapp.render();

@@ -80,9 +80,11 @@
 			//this.movieGeometry2			= new THREE.PlaneGeometry(3.2,2.4, 4, 4);
 			//this.movieGeometry2.applyMatrix( new THREE.Matrix4().makeRotationY( Math.PI ) );
 		
+
 			//THREE.GeometryUtils.merge( this.movieGeometry,this.movieGeometry2, 1 );
 			//this.movieGeometry.merge( this.movieGeometry2, matrix, materialIndexOffset )
 			//this.movieGeometry.merge( movieGeometry2,movieGeometry2.matrix );
+
 			this.moviemesh2= new THREE.Mesh(this.movieGeometry2,window.movieMaterial[this.avatar+4]);
 			this.moviemesh2.position.y = -0.5;
 			this.moviemesh2.position.z = -0.01;
@@ -99,6 +101,7 @@
 				//side:			THREE.FrontSide
 				//side:			THREE.BackSide
 			} );
+
 			this.moviemesh2.castShadow	 = true;			
 			this.moviemesh2.receiveShadow = false;//true;
 */			
@@ -122,14 +125,18 @@
 			//this.meshgroup.add( this.moviemesh2 );//add a mesh with geometry to it
 			this.meshgroup.add( this.label );//add a mesh with geometry to it
 			//this.meshgroup.add( createLabel(this.username));
+
 			//if(this.meshgroup)centerObject3D(this.meshgroup);
 			
 			//this.meshgroup.castShadow		= true;			
 			//this.meshgroup.receiveShadow	= true;//false;
+
+
 			myapp.add( this.meshgroup );
 			//myapp.add( this.mesh );
 			
 			//app.add( this.mesh );
+
 			// Give player control of this mesh
 			if ( this.isMainPlayer )myapp.createControl(this.meshgroup);	
 			//if ( this.isMainPlayer )myapp.createControl(this.mesh);	

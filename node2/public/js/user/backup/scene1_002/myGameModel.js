@@ -8,8 +8,9 @@ var otherPlayers = {};
 
 //////////////////////////////////////////////////////////////////////////
 	class CGameModel
-	{	constructor(app)
-		{	this.app	= app;
+	{	//constructor(app)
+		constructor()
+		{	//this.app	= app;
 		}
 		
 		init(xpos=50,ypos=0,zpos=50) 

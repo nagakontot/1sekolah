@@ -156,6 +156,7 @@ function createLabel(message, fontSize=9)
 (function(d){
   var iframe = d.body.appendChild(d.createElement('iframe')),
   doc = iframe.contentWindow.document;
+
   // style the iframe with some CSS
   iframe.style.cssText = "position:absolute;width:200px;height:100px;left:0px;";
   
@@ -165,6 +166,7 @@ function createLabel(message, fontSize=9)
   '=\'\/path\/to\/file\'">');
   
   doc.close(); //iframe onload event happens
+
   })(document);
 </script>
 */
@@ -889,10 +891,12 @@ class CGPUPicker extends CBase
 		this.helper_ = new THREE.Mesh( geometry, new THREE.MeshPhongMaterial({color:0xFFD700}) );
         scene.add( this.helper_ );
     }
+
     init(controls)
     {   this.onMouseMove 	= this.onMouseMove.bind(this);
 		//this.renderer.domElement.addEventListener( 'mousemove', this.onMouseMove );
 		window.addEventListener( 'mousemove', this.onMouseMove );
+
         if(this.controls)
 		{	this.updateGPUPicker= this.updateGPUPicker.bind(this);
 			this.controls.addEventListener('end', this.updateGPUPicker);
@@ -1203,11 +1207,14 @@ class CMinecraft
 			
 			floorTexture.magFilter	= THREE.NearestFilter;
 			floorTexture.minFilter	= THREE.LinearMipMapLinearFilter;
+
    			floorTexture.anisotropy = maxAnisotropy;
+
 	        var floorTextureBump    = texLoader.load( 'images/dirt/ori/dirt_NRM.png' );
             //floorTextureBump.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             //floorTextureBump.repeat.set( 100,100 );
    			//floorTextureBump.anisotropy = maxAnisotropy;
+
             //var floorTextureOCC     = texLoader.load( 'images/dirt/dirt_OCC.jpg' );
             //floorTextureOCC.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             //floorTextureOCC.repeat.set( 100,100 );
@@ -1217,10 +1224,12 @@ class CMinecraft
             //floorTextureSPEC.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             //floorTextureSPEC.repeat.set( 100,100 );
    			//floorTextureSPEC.anisotropy = maxAnisotropy;
+
 	        //var floorTextureDISP    = texLoader.load( 'images/dirt/ori/dirt_DISP.png' );
             //floorTextureDISP.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             //floorTextureDISP.repeat.set( 100,100 );
    			//floorTextureDISP.anisotropy = maxAnisotropy;
+
 	        var params = 
 	        {   map:                floorTexture,
                 bumpMap:        	floorTextureBump,
@@ -1260,6 +1269,7 @@ class CMinecraft
             //make 2nd uv for aomap to function
             //var uvs = this.geometry.attributes.uv.array;
             //this.geometry.addAttribute( 'uv2', new THREE.BufferAttribute( uvs, 2 ) );
+
 			//////////////////////////////////////////////////
 			//this.mesh				= new Physijs.ConvexMesh(this.geometry,this.material);
 			//this.mesh				= new Physijs.BoxMesh(this.geometry,this.material);
