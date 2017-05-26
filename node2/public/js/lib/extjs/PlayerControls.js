@@ -89,10 +89,10 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	};
 
 //////////////////////////////////////////////////////////////
-	this.gravity		= -0.03;//-0.025;
+	this.gravity		=-0.03;//-0.025;
 	this.onGround		= true;
 	this.velocityY		= 0.0;
-	this.GroundHeight   = -0.35;
+	this.GroundHeight   =-0.45;//-0.35;
 	this.GroundOffset   = 0;
 
 	this.StartJump = function (h=0.3) 
@@ -199,45 +199,42 @@ THREE.PlayerControls = function ( camera, player, domElement )
 		
 		this.UpdateJump();
 		///////////////////////////////////////////////////////////
-		
-		//note: FastRound(num) with precison 1 dec only
-		var pos = {x:FastRound(this.player.position.x),y:FastRound(this.player.position.y),z:FastRound(this.player.position.z)};
-		var rot = {x:FastRound(this.player.rotation.x),y:FastRound(this.player.rotation.y),z:FastRound(this.player.rotation.z)};
-
-		//note: myRoundNum(num,prec) will do proper truncation withh precison
-		//var pos = {x:myRoundNum(this.player.position.x,1),y:myRoundNum(this.player.position.y,1),z:myRoundNum(this.player.position.z,1)};
-		//var rot = {x:myRoundNum(this.player.rotation.x,1),y:myRoundNum(this.player.rotation.y,1),z:myRoundNum(this.player.rotation.z,1)};
-
-		//note: Math.trunc() will do proper truncation
-		//var pos = {x:Math.round(this.player.position.x),y:Math.round(this.player.position.y),z:Math.round(this.player.position.z)};
-		//var rot = {x:Math.round(this.player.rotation.x),y:Math.round(this.player.rotation.y),z:Math.round(this.player.rotation.z)};
+		var pos = {x:FastRound2(this.player.position.x),y:FastRound2(this.player.position.y),z:FastRound2(this.player.position.z)};
+		var rot = {x:FastRound2(this.player.rotation.x),y:FastRound2(this.player.rotation.y),z:FastRound2(this.player.rotation.z)};
 
 		//var pos = {x:~~this.player.position.x,y:~~this.player.position.y,z:~~this.player.position.z};
 		//var rot = {x:~~this.player.rotation.x,y:~~this.player.rotation.y,z:~~this.player.rotation.z};
 		
-		//var pos = {x:this.player.position.x|0,y:this.player.position.y|0,z:this.player.position.z|0};
-		//var rot = {x:this.player.rotation.x|0,y:this.player.rotation.y|0,z:this.player.rotation.z|0};
-	    	
 	    if( JSON.stringify(pos) != JSON.stringify(window.pos) )	
 	    {	//console.log("( JSON.stringify(pos) != JSON.stringify(window.pos))");
+	    	//fbRef.child( "Players/" + this.player.playerID + "/orientation" ).update(
 	    	fbRef.child( "Players/" + playerID + "/orientation" ).update(
 	    	{	position:	{	x: pos.x,//~~this.player.position.x,
 	    						y: pos.y,//~~this.player.position.y,
 	    						z: pos.z //~~this.player.position.z
 	    					}
 	    	});
+	    	
+			this.player.position.x=pos.x;
+			this.player.position.y=pos.y;
+			this.player.position.z=pos.z;
 	    }
 	    if( JSON.stringify(rot) != JSON.stringify(window.rot) )	
 	    {	//console.log("(JSON.stringify(rot) != JSON.stringify(window.rot))");
+	    	//fbRef.child( "Players/" + this.player.playerID + "/orientation" ).update(
 	    	fbRef.child( "Players/" + playerID + "/orientation" ).update(
 	    	{	rotation:	{	x: rot.x,//~~this.player.rotation.x,
 	    						y: rot.y,//~~this.player.rotation.y,
 	    						z: rot.z //~~this.player.rotation.z
 	    					}
 	    	});	    	
+		
+			this.player.rotation.x=rot.x;
+			this.player.rotation.y=rot.y;
+			this.player.rotation.z=rot.z;
 	    }
 	    
-	    //fbRef.child( "Players/" + playerID + "/orientation" ).update({
+	    //fbRef.child( "Players/" + this.player.playerID + "/orientation" ).update({
 	    //	position: {
 	    //		x: pos.x,//~~this.player.position.x,
 	    //		y: pos.y,//~~this.player.position.y,
@@ -384,7 +381,7 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	    	
 	    if( JSON.stringify(pos) != JSON.stringify(window.pos) )	
 	    {	//console.log("( JSON.stringify(pos) != JSON.stringify(window.pos))");
-	    	fbRef.child( "Players/" + playerID + "/orientation" ).update(
+	    	fbRef.child( "Players/" + this.player.playerID + "/orientation" ).update(
 	    	{	position:	{	x: pos.x,//~~this.player.position.x,
 	    						y: pos.y,//~~this.player.position.y,
 	    						z: pos.z,//~~this.player.position.z
@@ -393,7 +390,7 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	    }
 	    if( JSON.stringify(rot) != JSON.stringify(window.rot) )	
 	    {	//console.log("(JSON.stringify(rot) != JSON.stringify(window.rot))");
-	    	fbRef.child( "Players/" + playerID + "/orientation" ).update(
+	    	fbRef.child( "Players/" + this.player.playerID + "/orientation" ).update(
 	    	{	rotation:	{	x: rot.x,//~~this.player.rotation.x,
 	    						y: rot.y,//~~this.player.rotation.y,
 	    						z: rot.z,//~~this.player.rotation.z
@@ -402,7 +399,7 @@ THREE.PlayerControls = function ( camera, player, domElement )
 	    }
 	    */
 	    
-	    //fbRef.child( "Players/" + playerID + "/orientation" ).update({
+	    //fbRef.child( "Players/" + this.player.playerID + "/orientation" ).update({
 	    //	position: {
 	    //		x: pos.x,//~~this.player.position.x,
 	    //		y: pos.y,//~~this.player.position.y,

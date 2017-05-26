@@ -83,13 +83,9 @@
         }
         
         //http://stackoverflow.com/questions/11832914/round-to-at-most-2-decimal-places-only-if-necessary
-        function FastRound2(num,prec)
-        {   return (num * 1).toFixed(prec);
-        }
-        
-        //http://stackoverflow.com/questions/1726630/formatting-a-number-with-exactly-two-decimals-in-javascript
-        Number.prototype.getDecimals = function ( decDigCount ) 
-        {   return this.toFixed(decDigCount);
+        function FastRound2(num,prec=2)
+        {   //return +(num*1).toFixed(prec);
+            return +(num).toFixed(prec);
         }
         
         //https://jsperf.com/math-round-vs-hack/3

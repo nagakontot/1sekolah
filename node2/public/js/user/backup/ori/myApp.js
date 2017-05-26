@@ -282,7 +282,7 @@
 			
 			//if(this.mymc)
 			//{	
-				if(this.msmapp.mygamemodel.player)
+				if(player)
 				{	/*
 					var pos  = player.getPosition();
 					var newh = this.mymc.getY( Math.round(pos.x),Math.round(pos.z))+1.07;
@@ -305,7 +305,7 @@
 				
 					//this.light_.followTarget(pos,this.glscene.getObjectByName('player_moviemesh'));
 				
-					this.light_.followTarget(this.msmapp.mygamemodel.player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
+					this.light_.followTarget(player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
 					
 					//this.css3Diframe.followTarget(player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
 					
@@ -373,7 +373,7 @@
 			//+//////////////////////////////////////////////////////////////+
 			//| create objs which will exist as singleton across many scenes |
 			//+//////////////////////////////////////////////////////////////+
-			this.mygamemodel = new CGameModel(this);
+			this.mygamemodel = new CGameModel();
 			var xpos=50,ypos=0,zpos=50;
 			this.mygamemodel.init(xpos,ypos,zpos);
 
