@@ -1,27 +1,28 @@
 "use strict"
 
-	///////////////////////////////////////////////////////////////////////
-	class CmyApp extends CThreejs
-	{ 	constructor(width=window.innerWidth,height=window.innerHeight,fps=30) 
-		{	super(width,height,fps);
-			this.clock = new THREE.Clock();
-			
-			//this.oldpos = new THREE.Vector3();
-			//this.isInit =false;
-			
-			//this.clumpy = new Clumpy();
-			
-			this.counter = 0;
-		}
-  
+    class CScene1 extends MSMScene
+    {	constructor(msmapp) 
+        {   super(msmapp,msmapp.width,msmapp.height);
+            this.i;	//use as counter to save some iteration
+            return this;
+        }
+
 		init() 
-		{	//this.glrenderer.setClearColor(this.glscene.fog.color);
-			this.glrenderer.autoClear = false;
-			this.glrenderer.setClearColor(0x000000, 0.0);
+		{	//super.init();
+			//super.createStdLight();    			
+			//////////////////////////////////////////////////////////////////////
+			//this.glrenderer.setClearColor(this.glscene.fog.color);
+			//this.glrenderer.autoClear = false;
+			//this.glrenderer.setClearColor(0x000000, 0.0);
   
-			super.enableShadow();
+			//super.enableShadow();
+			//var isShadow=true;
+			//super.createStdLight(isShadow);
 			
-			super.createStdLight();
+			//super.createStdLight(this.msmapp.isShadow);
+			
+			//super.createStdLight(true);
+
 			//super.createHelper();
 			
 			///////////////////////////////////////////////////////////////////////
@@ -32,8 +33,7 @@
 							'video/billcat_1.webm'];
 
 			window.movieMaterial		= [];
-			///////////////////////////////////////////////////////////////////////
-			
+
 			for(var i=0;i<videos.length;i++)
 			{	window.movieMaterial[i]			= new ChromaKeyMaterial(videos[i],128,128,0xd400,i);
 			
@@ -48,7 +48,6 @@
 			Architect.proxy(videos, function(data) 
 			{	//console.log(data)
 				// => ['foo.png', 'bar.png', 'twiz.png', 'foozle.png', 'barzle.png', 'twizle.png']
-
 				var i=0;
 				data.forEach(function(vid) 
 				{	//img = document.createElement('img')
@@ -64,7 +63,6 @@
 			/*
 			var jobName		= 'appendVideos';
 			var videosCount = 0;
-
 			window.movieMaterial		= [];
 			videos.forEach(function(vid) 
 			{	Architect.proxyOn(jobName,vid,function(data) 
@@ -78,16 +76,17 @@
 					//window.movieMaterial[videosCount].side	= THREE.FrontSide;
 					//window.movieMaterial[videosCount].side	= THREE.BackSide;
 					//window.movieMaterial[videosCount+4].side	= THREE.BackSide;    	
-
     				if(videosCount == videos.length)Architect.endJob(jobName);
 				});
 			});
 			*/
 			//////////////////////////////////////////////////////////////////////
 			//////////////////////////////////////////////////////////////////////
+			/*
 			this.mygame = new CGameModel(this);
 			var xpos=50,ypos=0,zpos=50;
 			this.mygame.init(xpos,ypos,zpos);
+			*/
 			this.loadEnvironment();
 			
 			//////////////////////////////////////////////////////////////////////
@@ -96,7 +95,6 @@
 			Architect.proxy(images, function(data) 
 			{	//console.log(data)
 				// => ['foo.png', 'bar.png', 'twiz.png', 'foozle.png', 'barzle.png', 'twizle.png']
-
 				data.forEach(function(image) 
 				{	//img = document.createElement('img')
     				//img.src = image
@@ -113,7 +111,10 @@
 			
         	//this.onWindowResize = this.onWindowResize.bind(this);
         	//window.addEventListener( "resize", this.onWindowResize, false );
-        	window.addEventListener( "resize", this.onWindowResize.bind(this), false );
+
+        	//window.addEventListener( "resize", this.onWindowResize.bind(this), false );
+        	//window.addEventListener( "resize", super.onWindowResize.bind(this), false );
+        	
         	///////////////////////////////////////
 			/*
 			this.params1=	[	[ [1.0,  0.2,  0.5], texLoader.load("textures/sprites/snowflake1.png"), 0.8],
@@ -175,6 +176,10 @@
         	//var rot4	= {x:0,		y:Math.PI,  z:0};		
         	//var scale4  = {x:0.02,	    y:0.02,		z:0.02};		
         	//this.cs_italy = new CLoadModel_WWObj2(this.pivot,this.glscene,'cs_italy','models/cs_italy/','cs_italy.obj.mtl','cs_italy.obj',pos4,rot4,scale4);
+
+			////////////////////////////////////////////////////////////////////
+            return this;
+
 		}
   
 		loadEnvironment() 
@@ -184,7 +189,8 @@
 			//this.app.add( sphere );
 			//this.app.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			/////////////////////////////////////////////////////////
-			var anis = this.glrenderer.getMaxAnisotropy();
+			//var anis = this.glrenderer.getMaxAnisotropy();
+			var anis = this.msmapp.getMaxAnisotropy();
 			
 			//this.createMinecraft(anis);
 			
@@ -236,7 +242,6 @@
 								offset: 		{ type: "f", value: 5}, 
 								exponent:		{ type: "f", value: 0.6}
 							}
-
 			this.skyMaterial	= new THREE.ShaderMaterial({vertexShader: vertexShader, fragmentShader: fragmentShader, uniforms: uniforms, side: THREE.BackSide, fog: false});
 			
 			// create Mesh with sphere geometry and add to the scene
@@ -251,8 +256,9 @@
 			this.glscene.add(this.mysky.getMesh());
 		}
 		
-		update(time)
-		{	//if(this.counter++>1)
+		update()
+		{	super.update();
+			//if(this.counter++>1)
 			//{	this.counter=0;	
 				for(var i=0;i<movieMaterial.length;i++)
 				{	window.movieMaterial[i].update();
@@ -271,11 +277,12 @@
 			}
 			*/
 			//this.mysp.update(time,this.glscene,this.params1);
-			this.mygame.updatePlayers();
+			//this.mygame.updatePlayers();
+			this.msmapp.mygamemodel.updatePlayers();
 			
 			//if(this.mymc)
 			//{	
-				if(player)
+				if(this.msmapp.mygamemodel.player)
 				{	/*
 					var pos  = player.getPosition();
 					var newh = this.mymc.getY( Math.round(pos.x),Math.round(pos.z))+1.07;
@@ -298,7 +305,7 @@
 				
 					//this.light_.followTarget(pos,this.glscene.getObjectByName('player_moviemesh'));
 				
-					this.light_.followTarget(player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
+					this.light_.followTarget(this.msmapp.mygamemodel.player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
 					
 					//this.css3Diframe.followTarget(player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
 					
@@ -323,48 +330,76 @@
 					//this.skyBox.position.z = player.getPosition().z;
 				
 					//this.mysp.update(time,this.glscene,this.params1,pos);	
+
+					//if(this.i++>1)
+					//{	this.i=0;
+						for (var key in window.otherPlayers) 
+						{	if (window.otherPlayers.hasOwnProperty(key)) 
+							{	window.otherPlayers[key].lookAt(this.cam.getWorldPosition());
+							}
+						}
+						//////////
+						//for (const key of Object.keys(window.otherPlayers)) 
+						//{	//console.log(key, obj[key]);
+						//	window.otherPlayers[key].lookAt(this.cam.getWorldPosition());
+						//}
+					//}	
 				}					
 			//}
 		
-			super.update();
-			
+			//this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.fps));
+        	return [[this.glscene, this.cam],[this.cssscene, this.cam]];		
 		}
 		
 		
-		render() 
-		{	var time = Date.now() * 0.00001;
-			//var time = this.clock.getDelta();
-		
-			this.requestId  = window.requestAnimationFrame(() => 
-			{	this.render();
-			});
-			
-			this.update(time);
-			super.render();
-		}
+		//render() 
+		//{	var time = Date.now() * 0.00001;
+		//	//var time = this.clock.getDelta();
+		//
+		//	this.requestId  = window.requestAnimationFrame(() => 
+		//	{	this.render();
+		//	});
+		//	
+		//	this.update(time);
+		//	super.render();
+		//}
 		
 		exit()
-		{	for(var i=0;i<movieMaterial.length;i++)
+		{	for(var i=0;i<window.movieMaterial.length;i++)
 			{	window.movieMaterial[i].exit();
 			}
 			super.exit();
 		}
-		
-		/////////////////////////////////////////////
-		
-		/////////////////////////////////////////////
-        onWindowResize()	
-        {	super.onWindowResize();
-		}		
+    }	
+    
+	///////////////////////////////////////////////////////////////////////
+	class CApp extends MSMApp
+	{ 	constructor(canvas="canvas",fps=30,width=window.innerWidth,height=window.innerHeight) 
+		{	super(canvas,fps,width,height);
+			super.enableShadow();
+			
+			//this.clock = new THREE.Clock();
+			//this.oldpos = new THREE.Vector3();
+			//this.isInit =false;
+			//this.clumpy = new Clumpy();
+			//this.counter = 0;
+			
+			//+//////////////////////////////////////////////////////////////+
+			//| create objs which will exist as singleton across many scenes |
+			//+//////////////////////////////////////////////////////////////+
+			this.mygamemodel = new CGameModel(this);
+			var xpos=50,ypos=0,zpos=50;
+			this.mygamemodel.init(xpos,ypos,zpos);
 
-
+			//+//////////////////////////////////////////////////////////////+
+			
+		}
 	}    	
 
 //////////////////////////////////////////////////////////////////////////
 
-			
-var myapp = new CmyApp();
-myapp.init();
-myapp.render();
+var myapp	= new CApp();
+var s1		= new CScene1(myapp);
 
-//MainLoop.setUpdate(myapp.update).setDraw(myapp.render).start();
+myapp.setScene(s1.init()).start();
+

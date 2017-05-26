@@ -3,7 +3,7 @@
     class CScene1 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp,msmapp.width,msmapp.height);
-            //this.init();
+            this.i;	//use as counter to save some iteration
             return this;
         }
 
@@ -330,6 +330,20 @@
 					//this.skyBox.position.z = player.getPosition().z;
 				
 					//this.mysp.update(time,this.glscene,this.params1,pos);	
+
+					//if(this.i++>1)
+					//{	this.i=0;
+						for (var key in window.otherPlayers) 
+						{	if (window.otherPlayers.hasOwnProperty(key)) 
+							{	window.otherPlayers[key].lookAt(this.cam.getWorldPosition());
+							}
+						}
+						//////////
+						//for (const key of Object.keys(window.otherPlayers)) 
+						//{	//console.log(key, obj[key]);
+						//	window.otherPlayers[key].lookAt(this.cam.getWorldPosition());
+						//}
+					//}	
 				}					
 			//}
 		

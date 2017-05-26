@@ -184,10 +184,13 @@
 		setPositionY(position)
 		{	//this.meshgroup.position.copy( position );
 			this.moviemesh.position.y = position;
-		
+		}
+
+		lookAt(pos)
+		{	console.log("Player.lookAt(pos): this.username="+this.username);
+			this.moviemesh.lookAt(pos);
 		}
 		
-
 		update()
 		{	//this.movieMaterial.update();
 			//movieMaterial.update();

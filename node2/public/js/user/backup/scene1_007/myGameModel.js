@@ -2,14 +2,18 @@
 
 //////////////////////////////////////////////////////////////////////////
 var playerID;
-var player;
-
+//var player;
 var otherPlayers = {};
 
 //////////////////////////////////////////////////////////////////////////
 	class CGameModel
 	{	constructor(app)
-		{	this.app	= app;
+		{	this.app			= app;
+			this.player;
+			otherPlayers	= {};
+			
+			this.avatar			=+getCookie("avatar");
+			this.username		= getCookie("username");
 		}
 		
 		init(xpos=50,ypos=0,zpos=50) 
@@ -79,13 +83,13 @@ var otherPlayers = {};
 				
 			});
 
-			player = new Player( playerID,getCookie("avatar"),getCookie("username"));
-			player.isMainPlayer = true;
-			player.init(xpos,ypos,zpos);
+			this.player = new Player( playerID,getCookie("avatar"),getCookie("username"));
+			this.player.isMainPlayer = true;
+			this.player.init(xpos,ypos,zpos);
 		}
 
 		updatePlayers()
-		{	if(player)player.update();
+		{	if(this.player)this.player.update();
 		}
 		
 		listenToOtherPlayers(xpos,ypos,zpos) 
@@ -105,7 +109,7 @@ var otherPlayers = {};
 			{	if ( playerData.val() ) 
 				{	fbRef.child( "Players/" + playerData.key ).off( "value", this.listenToPlayer );
 					//myapp.remove( otherPlayers[playerData.key].mesh );
-					myapp.remove( otherPlayers[playerData.key].meshgroup );
+					myapp.getScene().remove( otherPlayers[playerData.key].meshgroup );
 					delete otherPlayers[playerData.key];
 				}
 			}.bind(this));
@@ -114,7 +118,7 @@ var otherPlayers = {};
 		listenToPlayer( playerData ) 
 		{	if ( playerData.val() ) 
 			{	otherPlayers[playerData.key].setOrientation( playerData.val().orientation.position, playerData.val().orientation.rotation );
-				//otherPlayers[playerData.key].update();
+				//this.otherPlayers[playerData.key].update();
 			}
 		}		
 	}

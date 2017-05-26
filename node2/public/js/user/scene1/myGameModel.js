@@ -3,14 +3,17 @@
 //////////////////////////////////////////////////////////////////////////
 var playerID;
 //var player;
-
-var otherPlayers = {};
+window.otherPlayers = {};
 
 //////////////////////////////////////////////////////////////////////////
 	class CGameModel
 	{	constructor(app)
-		{	this.app	= app;
+		{	this.app			= app;
 			this.player;
+			//this.otherPlayers	= [];//{};
+			
+			this.avatar			=+getCookie("avatar");
+			this.username		= getCookie("username");
 		}
 		
 		init(xpos=50,ypos=0,zpos=50) 
@@ -45,16 +48,7 @@ var otherPlayers = {};
 		{	//this.loadEnvironment();				// load the environment
 			this.initMainPlayer(xpos,ypos,zpos);				// load the player
 			this.listenToOtherPlayers();
-			/*
-			if(getCookie("username")=== null)
-			{	delay(  function()
-                    	{	this.initMainPlayer();				// load the player
-							this.listenToOtherPlayers();
-                    	}.bind(this), 
-                    	1000 ); // end delay
-			}
-			*/
-			
+
 			window.onunload = function() 
 			{	fbRef.child( "Players/" + playerID ).remove();
 			}.bind(this);
@@ -75,12 +69,12 @@ var otherPlayers = {};
 				orientation:	{	position: {x: xpos, y:ypos, z:zpos},
 									rotation: {x: 0, y:0, z:0}
 								},
-				avatar:			getCookie("avatar"),
-				username:		getCookie("username")
+				avatar:			this.avatar,
+				username:		this.username
 				
 			});
 
-			this.player = new Player( playerID,getCookie("avatar"),getCookie("username"));
+			this.player = new Player( playerID,this.avatar,this.username);
 			this.player.isMainPlayer = true;
 			this.player.init(xpos,ypos,zpos);
 		}
@@ -93,9 +87,9 @@ var otherPlayers = {};
 		{	// when a player is added, do something
 			fbRef.child( "Players" ).on( "child_added", function( playerData ) 
 			{	if ( playerData.val() ) 
-				{	if ( playerID != playerData.key && !otherPlayers[playerData.key] ) 
-					{	otherPlayers[playerData.key] = new Player( playerData.key,playerData.val().avatar,playerData.val().username );
-						otherPlayers[playerData.key].init(xpos,ypos,zpos);
+				{	if ( playerID != playerData.key && !window.otherPlayers[playerData.key] ) 
+					{	window.otherPlayers[playerData.key] = new Player( playerData.key,playerData.val().avatar,playerData.val().username );
+						window.otherPlayers[playerData.key].init(xpos,ypos,zpos);
 						fbRef.child( "Players/" + playerData.key ).on( "value", this.listenToPlayer );
 					}
 				}
@@ -105,17 +99,17 @@ var otherPlayers = {};
 			fbRef.child( "Players" ).on( "child_removed", function( playerData ) 
 			{	if ( playerData.val() ) 
 				{	fbRef.child( "Players/" + playerData.key ).off( "value", this.listenToPlayer );
-					//myapp.remove( otherPlayers[playerData.key].mesh );
-					myapp.getScene().remove( otherPlayers[playerData.key].meshgroup );
-					delete otherPlayers[playerData.key];
+					//myapp.remove( window.otherPlayers[playerData.key].mesh );
+					myapp.getScene().remove( window.otherPlayers[playerData.key].meshgroup );
+					delete window.otherPlayers[playerData.key];
 				}
 			}.bind(this));
 		}
 
 		listenToPlayer( playerData ) 
 		{	if ( playerData.val() ) 
-			{	otherPlayers[playerData.key].setOrientation( playerData.val().orientation.position, playerData.val().orientation.rotation );
-				//otherPlayers[playerData.key].update();
+			{	window.otherPlayers[playerData.key].setOrientation( playerData.val().orientation.position, playerData.val().orientation.rotation );
+				//window.otherPlayers[playerData.key].update();
 			}
 		}		
 	}
