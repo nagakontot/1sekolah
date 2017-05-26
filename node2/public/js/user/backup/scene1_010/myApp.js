@@ -26,7 +26,7 @@
 			//super.createHelper();
 			
 			///////////////////////////////////////////////////////////////////////
-			/*
+			
 			var videos = [	'video/baby_1.webm',
 							'video/monkey_1.webm',
 							'video/robot_1.webm',
@@ -42,7 +42,7 @@
 				//window.movieMaterial[i].side	= THREE.BackSide;
 				//window.movieMaterial[i+4].side= THREE.BackSide;
 			}
-			*/
+			
 			///////////////////////////////////////////////////////////////////////
 			/*
 			Architect.proxy(videos, function(data) 
@@ -178,7 +178,6 @@
         	//this.cs_italy = new CLoadModel_WWObj2(this.pivot,this.glscene,'cs_italy','models/cs_italy/','cs_italy.obj.mtl','cs_italy.obj',pos4,rot4,scale4);
 
 			////////////////////////////////////////////////////////////////////
-
             return this;
 
 		}
@@ -191,12 +190,12 @@
 			//this.app.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			/////////////////////////////////////////////////////////
 			//var anis = this.glrenderer.getMaxAnisotropy();
-			//var anis = this.msmapp.getMaxAnisotropy();
+			var anis = this.msmapp.getMaxAnisotropy();
 			
 			//this.createMinecraft(anis);
 			
 			//super.addMesh(new CMinecraft(200,200,anis));
-			//super.addMesh(new CPlane({width:1000,height:1000},anis));
+			super.addMesh(new CPlane({width:1000,height:1000},anis));
 			//super.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			//super.addMesh(new CText({width:20,height:20,depth:2,rotx:0.1,roty:0.1,rotz:0}));
 			
@@ -207,28 +206,7 @@
 			this.glscene.add( this.pivot );
 			
 			//////////////////////////////////////////////////////////
-
-			//setTimeout(this.create_pivot.bind(this),0);
-			setTimeout(this.create_blocker.bind(this),0);
-			setTimeout(this.create_plane.bind(this),250);
-			setTimeout(this.create_videostuff.bind(this),500);
-			setTimeout(this.create_css3Diframe_rchat.bind(this),750);
-			
-			//////////////////////////////////////////////////////////
-			/*
-			var job = myFunction("https://rchat.1sekolah.xyz",600,110,600, -Math.PI/2);
-			
-			console.log("outside job.done");
-			//job.done = function (result) 
-			job.done = (result) =>
-			{	//console.log(result);
-				console.log("inside job.done");
-				this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
-	    		this.css3Diframe = new result;//new CElement("https://rchat.1sekolah.xyz",600,110,600, -Math.PI/2 );
-				this.cssgroup.add( this.css3Diframe );
-				this.cssscene.add( this.cssgroup );
-			};
-			*/
+			setTimeout(this.create_css3Diframe_rchat.bind(this),0);
 			//////////////////////////////////////////////////////////
 			/*
 			this.cssgroup = new THREE.Group();//new THREE.Object3D();//
@@ -244,56 +222,20 @@
 			this.cssscene.add( this.cssgroup );
 			*/
 			//////////////////////////////////////////////////////////
-			//this.blocker = document.getElementById( 'blocker' );
-			//this.blocker.style.display = 'none';
-			//document.addEventListener( 'mousedown', function () { this.blocker.style.display = ''; }.bind(this));//,     false );
-			//document.addEventListener( 'mouseup',   function () { this.blocker.style.display = 'none'; }.bind(this));//, false );
+			this.blocker = document.getElementById( 'blocker' );
+			this.blocker.style.display = 'none';
+			document.addEventListener( 'mousedown', function () { this.blocker.style.display = ''; }.bind(this));//,     false );
+			document.addEventListener( 'mouseup',   function () { this.blocker.style.display = 'none'; }.bind(this));//, false );
 			
 		}
 
 	    create_css3Diframe_rchat()
 	    {	this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
-	    	this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
+	    	this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,110,600, -Math.PI/2 );
 			this.cssgroup.add( this.css3Diframe );
 			this.cssscene.add( this.cssgroup );
 	    }
 	    
-	    create_videostuff()
-	    {	var videos = [	'video/baby_1.webm',
-							'video/monkey_1.webm',
-							'video/robot_1.webm',
-							'video/billcat_1.webm'];
-
-			window.movieMaterial		= [];
-
-			for(var i=0;i<videos.length;i++)
-			{	window.movieMaterial[i]			= new ChromaKeyMaterial(videos[i],128,128,0xd400,i);
-			
-				window.movieMaterial[i].side	= THREE.DoubleSide;
-				//window.movieMaterial[i].side	= THREE.FrontSide;
-				//window.movieMaterial[i].side	= THREE.BackSide;
-				//window.movieMaterial[i+4].side= THREE.BackSide;
-			}
-	    }
-
-		create_pivot()
-		{	this.pivot			= new THREE.Object3D();
-			this.pivot.name 	= 'Pivot';
-			this.glscene.add( this.pivot );
-		}
-		
-		create_plane()
-		{	var anis = this.msmapp.getMaxAnisotropy();
-			super.addMesh(new CPlane({width:1000,height:1000},anis));	
-		}
-
-		create_blocker()
-		{	this.blocker = document.getElementById( 'blocker' );
-			this.blocker.style.display = 'none';
-			document.addEventListener( 'mousedown', function () { this.blocker.style.display = ''; }.bind(this));//,     false );
-			document.addEventListener( 'mouseup',   function () { this.blocker.style.display = 'none'; }.bind(this));//, false );
-		}
-		
 		createMinecraft(anis)
 		{	this.mymc = new CMinecraft(100,100,anis);
 			this.glscene.add(this.mymc.getMesh());
@@ -372,14 +314,15 @@
 					var campos = this.cam.getWorldPosition();
 					//this.css3Diframe.lookAt (this.cam.getWorldPosition());
 					//this.css3Diframe.rotation.setFromRotationMatrix( this.cam.matrix );
-
+					
 					//this.css3Diframe.lookAt (player.getPosition());
 					//this.css3Diframe.lookAt (this.cam.getWorldPosition());
 					this.css3Diframe.lookAt (campos);
 					
+					
 					//this.css3Diframe.quaternion.copy( this.cam.quaternion );
 					this.css3Diframe.position.x = this.cam.position.x+800;
-
+					
 					//this.light_.followTarget(this.glscene,player.getPosition(),'player_moviemesh');
 					//var pos = player.getPosition();
 					//this.light.position.set(pos.x,10,pos.z-10);

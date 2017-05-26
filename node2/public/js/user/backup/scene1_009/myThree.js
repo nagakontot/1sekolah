@@ -169,14 +169,14 @@ class CThreejs
 				
           		document.body.appendChild( this._ );         	
 
-          		//return this;
+          		return this;
 			}
 		}
 		
 		class CCSSScene extends CBase
 		{	constructor()
 			{	super(new THREE.Scene());
-	        	//return this;
+	        	return this;
 			}		
 		}
 
@@ -205,7 +205,7 @@ class CThreejs
 				//							//physics_stats.update();
 				//						}.bind(this));
 														
-	        	//return this;
+	        	return this;
 			}		
 		}
 		
@@ -218,7 +218,7 @@ class CThreejs
             	this._.domElement.style.position		= 'absolute';
     			//this._.domElement.style.zIndex		= 1;
     			this._.domElement.style.top 			= 0;
-            	//return this;
+            	return this;
 			}
 		}
 		
@@ -239,7 +239,7 @@ class CThreejs
     			this._.domElement.style.top 			= 0;
     			this._.domElement.style.pointerEvents	= 'none';
     			
-            	//return this;
+            	return this;
 			}
 			
 			exit()
@@ -281,7 +281,7 @@ class CThreejs
 				this._.domElement.style.left 		= '5px';
 				this._.domElement.style.top			= height;//'5px';
 						
-				//return this;
+				return this;
 			}
 				
 		}
@@ -290,7 +290,7 @@ class CThreejs
 		{	constructor(viewangle,ratio,near,far)
 			{	super(new THREE.PerspectiveCamera(viewangle,ratio,near,far));
 
-				//return this;
+				return this;
 			}
 		}
 		
@@ -299,7 +299,7 @@ class CThreejs
 			{	super(new RafThrottler());
 				this._.fps   	= fps;
 
-				//return this;
+				return this;
 			}
 		}		
 		
@@ -331,7 +331,7 @@ class CThreejs
             	
             	scene.add( new THREE.CameraHelper( this._.shadow.camera ) );
         	
-            	//return this;
+            	return this;
 			}            	
 			
 			enableShadow(SHADOW_MAP_WIDTH=512,SHADOW_MAP_HEIGHT=512)

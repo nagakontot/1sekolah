@@ -151,13 +151,29 @@ function createLabel(message, fontSize=9)
 		ChromaKeyMaterial.prototype = Object.create(THREE.ShaderMaterial.prototype);
 
 //////////////////////////////////////////////////////////////////////////////////
+/*
+<script>
+(function(d){
+  var iframe = d.body.appendChild(d.createElement('iframe')),
+  doc = iframe.contentWindow.document;
+  // style the iframe with some CSS
+  iframe.style.cssText = "position:absolute;width:200px;height:100px;left:0px;";
+  
+  doc.open().write('<body onload="' + 
+  'var d = document;d.getElementsByTagName(\'head\')[0].' + 
+  'appendChild(d.createElement(\'script\')).src' + 
+  '=\'\/path\/to\/file\'">');
+  
+  doc.close(); //iframe onload event happens
+  })(document);
+</script>
+*/
 //////////////////////////////////////////////////////////////////////////////////
 		class CElement
 		{	constructor( id, x, y, z, ry ) 
-			{	
-				var w = ''+(window.innerWidth*0.90).toFixed(0)+'px';	//'1250px';//'1100px';
-				var h = ''+(window.innerHeight*0.35).toFixed(0)+'px';	//'450px';//'425px';
-
+			{	var w = ''+(window.innerWidth*0.90).toFixed(0)+'px';	//'1250px';//'1100px';
+				var h = ''+(window.innerHeight*0.4).toFixed(0)+'px';	//'450px';//'425px';
+				
 				var div 					= document.createElement( 'div' );
 				div.style.width 			= w;//'1100px';//'1024px';//'800px';
 				div.style.height			= h;//'425px';//'768px';
@@ -172,11 +188,32 @@ function createLabel(message, fontSize=9)
 
             	div.appendChild( iframe );	
             	//setTimeout(this.setIframeSrc("cssiframe",id).bind(this), 5);
+            	
+				this.object = new THREE.CSS3DObject( div );
+				this.object.position.set( x, y, z );
+				this.object.rotation.y = ry;
+				return this.object;
+			}
+			
+			//setIframeSrc(iframe_name,id) 
+			//{	var s = id;//"path/to/file";
+			//	var iframe1 = document.getElementById(iframe_name);
+			//	if ( -1 == navigator.userAgent.indexOf("MSIE") ) 
+			//	{	iframe1.src = s;
+			//	}
+			//	else 
+			//	{	iframe1.location = s;
+			//	}
+			//}
 
-				var object = new THREE.CSS3DObject( div );
-				object.position.set( x, y, z );
-				object.rotation.y = ry;
-				return object;
+			followTarget(pos,target)
+			//followTarget(scene,pos,ObjName)
+			{	//var pos = player.getPosition();
+				//this._.position.set(pos.x,10,pos.z-10);
+				//this.object.position.set(pos.x,pos.y+10,pos.z-10);
+				this.object.target	= target;
+				//this._.target	= scene.getObjectByName(ObjName);
+				//this._.target	= this.glscene.getObjectByName('player_moviemesh');
 			}
 		}
 //////////////////////////////////////////////////////////////////////////////////
@@ -807,7 +844,7 @@ this.mesh.name = 'text';
 	{	constructor()
 		{	super(new THREE.GridHelper ( 200 , 50 )); // size, step
     		//this.scene.add ( this.gridHelper );
-    		//return this;
+    		return this;
 		}
 	}
 		
@@ -815,7 +852,7 @@ this.mesh.name = 'text';
 	{	constructor()
 		{	super(new THREE.AxisHelper ( 200 , 50 ));
     		//this.scene.add ( this.axisHelper );    			
-    		//return this;
+    		return this;
 		}
 	}
 		
@@ -823,7 +860,7 @@ this.mesh.name = 'text';
 	{	constructor(light)
 		{	super(new THREE.DirectionalLightHelper ( light , 20 ));
     		//this.scene.add ( this.lightHelper );
-    		//return this;
+    		return this;
 		}
 	}
 		
@@ -841,7 +878,7 @@ class CGPUPicker extends CBase
         
         this.createMesh(scene);
         */
-	    //return this;
+	    return this;
     }
 /*
     createMesh(scene)
