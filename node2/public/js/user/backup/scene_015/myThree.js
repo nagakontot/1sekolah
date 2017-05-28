@@ -192,6 +192,7 @@ class CThreejs
 				//this._.fog				= new THREE.Fog( 0xffffff, 0.015, 300 );
 				
 				//this._.fog				= new THREE.Fog( 0xffffff, 125, 250 );
+				//this._.fog				= new THREE.Fog( 0xaaccff,2000,5000);
 	        	
 	        	//this._.fog          	= new THREE.FogExp2( 0xffffff, 0.01 );//new THREE.FogExp2( 0x9999ff, 0.00025 );
 	        	

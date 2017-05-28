@@ -3,24 +3,22 @@
     class CScene1 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp,msmapp.width,msmapp.height);
-            this.i;	//use as counter to save some iteration
-            return this;
+            //this.i;	//use as counter to save some iteration
+            //return this;
         }
 
 		init() 
 		{	//super.init();
 			//super.createStdLight();    			
 			//////////////////////////////////////////////////////////////////////
-			//this.glrenderer.setClearColor(this.glscene.fog.color);
+			//this.msmapp.glrenderer.setClearColor(this.glscene.fog.color);
 			//this.glrenderer.autoClear = false;
 			//this.glrenderer.setClearColor(0x000000, 0.0);
   
 			//super.enableShadow();
 			//var isShadow=true;
 			//super.createStdLight(isShadow);
-			
 			//super.createStdLight(this.msmapp.isShadow);
-			
 			//super.createStdLight(true);
 
 			//super.createHelper();
@@ -116,18 +114,94 @@
         	//window.addEventListener( "resize", super.onWindowResize.bind(this), false );
         	
         	///////////////////////////////////////
-			/*
-			this.params1=	[	[ [1.0,  0.2,  0.5], texLoader.load("textures/sprites/snowflake1.png"), 0.8],
-								[ [0.95, 0.1,  0.5], texLoader.load("textures/sprites/snowflake2.png"), 0.5],
-								[ [0.90, 0.05, 0.5], texLoader.load("textures/sprites/snowflake3.png"), 0.3],
-								[ [0.85, 0,    0.5], texLoader.load("textures/sprites/snowflake4.png"), 0.2],
-								[ [0.80, 0,    0.5], texLoader.load("textures/sprites/snowflake5.png"), 0.1]
-							];
-        						
-        	this.mysp		= new CSpritePoint(this.glscene,this.params1);
-        	*/
+
         	
-        	//var pos = {x:83,y:-3,z:66};
+
+			////////////////////////////////////////////////////////////////////
+
+            return this;
+
+		}
+  
+		loadEnvironment() 
+		{	//var sphere_geometry = new THREE.SphereGeometry( 1 );
+			//var sphere_material = new THREE.MeshNormalMaterial();
+			//var sphere			= new THREE.Mesh( sphere_geometry, sphere_material );
+			//this.app.add( sphere );
+			//this.app.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
+			/////////////////////////////////////////////////////////
+			//var anis = this.glrenderer.getMaxAnisotropy();
+			//var anis = this.msmapp.getMaxAnisotropy();
+			
+			//this.createMinecraft(anis);
+			
+			//super.addMesh(new CMinecraft(200,200,anis));
+			//super.addMesh(new CPlane({width:1000,height:1000},anis));
+			//super.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
+			//super.addMesh(new CText({width:20,height:20,depth:2,rotx:0.1,roty:0.1,rotz:0}));
+			
+			//this.createShaderSkybox();
+			/////////////////////////////////////////////////////////
+			this.pivot			= new THREE.Object3D();
+			this.pivot.name 	= 'Pivot';
+			this.glscene.add( this.pivot );
+			
+			//////////////////////////////////////////////////////////
+
+			//setTimeout(this.create_pivot.bind(this),0);
+			setTimeout(this.create_blocker.bind(this),0);
+			setTimeout(this.create_plane.bind(this),0);
+			setTimeout(this.create_videostuff.bind(this),0);
+			setTimeout(this.create_css3Diframe_rchat.bind(this),0);
+			setTimeout(this.create_house1.bind(this),0);
+			setTimeout(this.create_particle1.bind(this),0);
+		}
+
+	    create_css3Diframe_rchat()
+	    {	this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
+	    	this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
+			this.cssgroup.add( this.css3Diframe );
+			this.cssscene.add( this.cssgroup );
+	    }
+	    
+	    create_videostuff()
+	    {	var videos = [	'video/baby_1.webm',
+							'video/monkey_1.webm',
+							'video/robot_1.webm',
+							'video/billcat_1.webm'];
+
+			window.movieMaterial		= [];
+
+			for(var i=0;i<videos.length;i++)
+			{	window.movieMaterial[i]			= new ChromaKeyMaterial(videos[i],128,128,0xd400,i);
+			
+				window.movieMaterial[i].side	= THREE.DoubleSide;
+				//window.movieMaterial[i].side	= THREE.FrontSide;
+				//window.movieMaterial[i].side	= THREE.BackSide;
+				//window.movieMaterial[i+4].side= THREE.BackSide;
+			}
+	    }
+
+		create_pivot()
+		{	this.pivot			= new THREE.Object3D();
+			this.pivot.name 	= 'Pivot';
+			this.glscene.add( this.pivot );
+		}
+		
+		create_plane()
+		{	var anis = this.msmapp.getMaxAnisotropy();
+			super.addMesh(new CPlane({width:1000,height:1000},anis));	
+		}
+
+		create_blocker()
+		{	this.blocker = document.getElementById( 'blocker' );
+			this.blocker.style.display = 'none';
+			document.addEventListener( 'mousedown', function () { this.blocker.style.display = ''; }.bind(this));//,     false );
+			document.addEventListener( 'mouseup',   function () { this.blocker.style.display = 'none'; }.bind(this));//, false );
+		}
+		
+		create_house1()
+		{	//var pos = {x:83,y:-3,z:66};
         	//this.mymodel_1  = new CLoadModel_Obj(this.glscene,'models/male02/','male02_dds.mtl','male02.obj',pos);
         	//this.kiosk  = new CLoadModel_Obj(this.glscene,'models/kiosk/','Kiosk1.obj.mtl','Kiosk1.obj',pos);
         	//this.kiosk  = new CLoadModel_Obj(this.glscene,'models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos);
@@ -176,122 +250,17 @@
         	//var rot4	= {x:0,		y:Math.PI,  z:0};		
         	//var scale4  = {x:0.02,	    y:0.02,		z:0.02};		
         	//this.cs_italy = new CLoadModel_WWObj2(this.pivot,this.glscene,'cs_italy','models/cs_italy/','cs_italy.obj.mtl','cs_italy.obj',pos4,rot4,scale4);
-
-			////////////////////////////////////////////////////////////////////
-
-            return this;
-
-		}
-  
-		loadEnvironment() 
-		{	//var sphere_geometry = new THREE.SphereGeometry( 1 );
-			//var sphere_material = new THREE.MeshNormalMaterial();
-			//var sphere			= new THREE.Mesh( sphere_geometry, sphere_material );
-			//this.app.add( sphere );
-			//this.app.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
-			/////////////////////////////////////////////////////////
-			//var anis = this.glrenderer.getMaxAnisotropy();
-			//var anis = this.msmapp.getMaxAnisotropy();
-			
-			//this.createMinecraft(anis);
-			
-			//super.addMesh(new CMinecraft(200,200,anis));
-			//super.addMesh(new CPlane({width:1000,height:1000},anis));
-			//super.addMesh(new CCube({width:2,height:2,depth:2,rotx:0.1,roty:0.1,rotz:0}));
-			//super.addMesh(new CText({width:20,height:20,depth:2,rotx:0.1,roty:0.1,rotz:0}));
-			
-			//this.createShaderSkybox();
-			/////////////////////////////////////////////////////////
-			this.pivot			= new THREE.Object3D();
-			this.pivot.name 	= 'Pivot';
-			this.glscene.add( this.pivot );
-			
-			//////////////////////////////////////////////////////////
-
-			//setTimeout(this.create_pivot.bind(this),0);
-			setTimeout(this.create_blocker.bind(this),0);
-			setTimeout(this.create_plane.bind(this),250);
-			setTimeout(this.create_videostuff.bind(this),500);
-			setTimeout(this.create_css3Diframe_rchat.bind(this),750);
-			
-			//////////////////////////////////////////////////////////
-			/*
-			var job = myFunction("https://rchat.1sekolah.xyz",600,110,600, -Math.PI/2);
-			
-			console.log("outside job.done");
-			//job.done = function (result) 
-			job.done = (result) =>
-			{	//console.log(result);
-				console.log("inside job.done");
-				this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
-	    		this.css3Diframe = new result;//new CElement("https://rchat.1sekolah.xyz",600,110,600, -Math.PI/2 );
-				this.cssgroup.add( this.css3Diframe );
-				this.cssscene.add( this.cssgroup );
-			};
-			*/
-			//////////////////////////////////////////////////////////
-			/*
-			this.cssgroup = new THREE.Group();//new THREE.Object3D();//
-			//this.cssgroup.add( new CElement("https://rchat.1sekolah.xyz",1000,250,400, -Math.PI/2 ) );
-			
-			this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,110,600, -Math.PI/2 );
-			this.cssgroup.add( this.css3Diframe );
-
-			//this.cssgroup.add( new CElement( 'njCDZWTI-xg', 0, 0, 240, 0 ) );
-			//this.cssgroup.add( new CElement( 'HDh4uK9PvJU', 240, 0, 0, Math.PI / 2 ) );
-			//this.cssgroup.add( new CElement( 'OX9I1KyNa8M', 0, 0, - 240, Math.PI ) );
-			//this.cssgroup.add( new CElement( 'nhORZ6Ep_jE', - 240, 0, 0, - Math.PI / 2 ) );			
-			this.cssscene.add( this.cssgroup );
-			*/
-			//////////////////////////////////////////////////////////
-			//this.blocker = document.getElementById( 'blocker' );
-			//this.blocker.style.display = 'none';
-			//document.addEventListener( 'mousedown', function () { this.blocker.style.display = ''; }.bind(this));//,     false );
-			//document.addEventListener( 'mouseup',   function () { this.blocker.style.display = 'none'; }.bind(this));//, false );
-			
-		}
-
-	    create_css3Diframe_rchat()
-	    {	this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
-	    	this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
-			this.cssgroup.add( this.css3Diframe );
-			this.cssscene.add( this.cssgroup );
-	    }
-	    
-	    create_videostuff()
-	    {	var videos = [	'video/baby_1.webm',
-							'video/monkey_1.webm',
-							'video/robot_1.webm',
-							'video/billcat_1.webm'];
-
-			window.movieMaterial		= [];
-
-			for(var i=0;i<videos.length;i++)
-			{	window.movieMaterial[i]			= new ChromaKeyMaterial(videos[i],128,128,0xd400,i);
-			
-				window.movieMaterial[i].side	= THREE.DoubleSide;
-				//window.movieMaterial[i].side	= THREE.FrontSide;
-				//window.movieMaterial[i].side	= THREE.BackSide;
-				//window.movieMaterial[i+4].side= THREE.BackSide;
-			}
-	    }
-
-		create_pivot()
-		{	this.pivot			= new THREE.Object3D();
-			this.pivot.name 	= 'Pivot';
-			this.glscene.add( this.pivot );
 		}
 		
-		create_plane()
-		{	var anis = this.msmapp.getMaxAnisotropy();
-			super.addMesh(new CPlane({width:1000,height:1000},anis));	
-		}
-
-		create_blocker()
-		{	this.blocker = document.getElementById( 'blocker' );
-			this.blocker.style.display = 'none';
-			document.addEventListener( 'mousedown', function () { this.blocker.style.display = ''; }.bind(this));//,     false );
-			document.addEventListener( 'mouseup',   function () { this.blocker.style.display = 'none'; }.bind(this));//, false );
+		create_particle1()
+		{	this.params1=	[	[ [1.0,  0.2,  0.5], texLoader.load("textures/sprites/snowflake1.png"), 0.8],
+								[ [0.95, 0.1,  0.5], texLoader.load("textures/sprites/snowflake2.png"), 0.5],
+								[ [0.90, 0.05, 0.5], texLoader.load("textures/sprites/snowflake3.png"), 0.3],
+								[ [0.85, 0,    0.5], texLoader.load("textures/sprites/snowflake4.png"), 0.2],
+								[ [0.80, 0,    0.5], texLoader.load("textures/sprites/snowflake5.png"), 0.1]
+							];
+        						
+        	this.mysp		= new CSpritePoint(this.glscene,this.params1);
 		}
 		
 		createMinecraft(anis)
@@ -326,6 +295,8 @@
 		
 		update()
 		{	super.update();
+			
+			var time = Date.now() * 0.00001;
 			
 			//for(var i=0,len=window.movieMaterial.length;i<len;i++)
 			//{	window.movieMaterial[i].update();
@@ -391,7 +362,7 @@
 					//this.skyBox.position.x = player.getPosition().x;
 					//this.skyBox.position.z = player.getPosition().z;
 				
-					//this.mysp.update(time,this.glscene,this.params1,pos);	
+					this.mysp.update(time,this.glscene,this.params1,this.msmapp.mygamemodel.player.getPosition());	
 
 					//if(this.i++>1)
 					//{	this.i=0;
@@ -434,34 +405,5 @@
 		}
     }	
     
-	///////////////////////////////////////////////////////////////////////
-	class CApp extends MSMApp
-	{ 	constructor(canvas="canvas",fps=30,width=window.innerWidth,height=window.innerHeight) 
-		{	super(canvas,fps,width,height);
-			super.enableShadow();
-			
-			//this.clock = new THREE.Clock();
-			//this.oldpos = new THREE.Vector3();
-			//this.isInit =false;
-			//this.clumpy = new Clumpy();
-			//this.counter = 0;
-			
-			//+//////////////////////////////////////////////////////////////+
-			//| create objs which will exist as singleton across many scenes |
-			//+//////////////////////////////////////////////////////////////+
-			this.mygamemodel = new CGameModel(this);
-			var xpos=50,ypos=0,zpos=50;
-			this.mygamemodel.init(xpos,ypos,zpos);
 
-			//+//////////////////////////////////////////////////////////////+
-			
-		}
-	}    	
-
-//////////////////////////////////////////////////////////////////////////
-
-var myapp	= new CApp();
-var s1		= new CScene1(myapp);
-
-myapp.setScene(s1.init()).start();
 
