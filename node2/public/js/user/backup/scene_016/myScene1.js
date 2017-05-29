@@ -3,7 +3,6 @@
     class CScene1 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp,msmapp.width,msmapp.height);
-			
             //this.i;	//use as counter to save some iteration
             //return this;
         }
@@ -335,21 +334,17 @@
 					
 					//this.css3Diframe.followTarget(player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
 					
-					//var campos = this.cam.getWorldPosition();
-					var campos = this.msmapp.mygamemodel.player.getPosition();
-					
+					var campos = this.cam.getWorldPosition();
 					//this.css3Diframe.lookAt (this.cam.getWorldPosition());
 					//this.css3Diframe.rotation.setFromRotationMatrix( this.cam.matrix );
 
-					if(this.css3Diframe)
-					{	//this.css3Diframe.lookAt (player.getPosition());
-						//this.css3Diframe.lookAt (this.cam.getWorldPosition());
-						this.css3Diframe.lookAt (campos);
+					//this.css3Diframe.lookAt (player.getPosition());
+					//this.css3Diframe.lookAt (this.cam.getWorldPosition());
+					this.css3Diframe.lookAt (campos);
 					
-						//this.css3Diframe.quaternion.copy( this.cam.quaternion );
-						this.css3Diframe.position.x = this.cam.position.x+800;
-					}
-					
+					//this.css3Diframe.quaternion.copy( this.cam.quaternion );
+					this.css3Diframe.position.x = this.cam.position.x+800;
+
 					//this.light_.followTarget(this.glscene,player.getPosition(),'player_moviemesh');
 					//var pos = player.getPosition();
 					//this.light.position.set(pos.x,10,pos.z-10);
@@ -361,7 +356,7 @@
 					//this.skyBox.position.x = player.getPosition().x;
 					//this.skyBox.position.z = player.getPosition().z;
 				
-					if(this.mysp)this.mysp.update(time,this.glscene,this.params1,this.msmapp.mygamemodel.player.getPosition());	
+					this.mysp.update(time,this.glscene,this.params1,this.msmapp.mygamemodel.player.getPosition());	
 
 					//if(this.i++>1)
 					//{	this.i=0;
@@ -379,6 +374,7 @@
 				}					
 			//}
 		
+			//this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.fps));
         	return [[this.glscene, this.cam],[this.cssscene, this.cam]];		
 		}
 		
@@ -396,8 +392,10 @@
 		//}
 		
 		exit()
-		{	super.exit();
-			this.msmapp.exit();
+		{	for(var i=0;i<window.movieMaterial.length;i++)
+			{	window.movieMaterial[i].exit();
+			}
+			super.exit();
 		}
     }	
     

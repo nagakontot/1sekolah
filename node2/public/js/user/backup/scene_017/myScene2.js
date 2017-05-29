@@ -1,9 +1,9 @@
 "use strict"
 
-    class CScene1 extends MSMScene
+    class CScene2 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp,msmapp.width,msmapp.height);
-			
+			this.toggle_counter=0;
             //this.i;	//use as counter to save some iteration
             //return this;
         }
@@ -155,9 +155,9 @@
 			//setTimeout(this.create_Minecraft.bind(this),0);
 
 			//setTimeout(this.create_videostuff.bind(this),0);
-			setTimeout(this.create_css3Diframe_rchat.bind(this),0);
-			setTimeout(this.create_house1.bind(this),0);
-			setTimeout(this.create_particle1.bind(this),0);
+			//setTimeout(this.create_css3Diframe_rchat.bind(this),0);
+			//setTimeout(this.create_house1.bind(this),0);
+			//setTimeout(this.create_particle1.bind(this),0);
 		}
 
 	    create_css3Diframe_rchat()
@@ -303,41 +303,42 @@
 			var time = Date.now() * 0.00001;
 			
 			//this.mysp.update(time,this.glscene,this.params1);
-			//this.mygame.updatePlayers();
 			this.msmapp.mygamemodel.updatePlayers();
-			
 			//if(this.mymc)
 			//{	
 				if(this.msmapp.mygamemodel.player)
-				{	if(this.mymc)
-					{	var pos  = this.msmapp.mygamemodel.player.getPosition();
-						var newh = this.mymc.getY( Math.round(pos.x),Math.round(pos.z))+1.07;
-				
-						//if(this.counter++>1)
-						//{	this.counter = 0;
-						//	console.log("pos.x="+Math.round(pos.x)+" pos.y="+this.mymc.getY( Math.round(pos.x), Math.round(pos.y) )+" pos.z="+Math.round(pos.z));
-						//}	
-				
-						if(newh>this.controls.GroundHeight && this.controls.isOnGround())
-						{	this.msmapp.mygamemodel.player.setPositionY(pos.y+1.25);
-							this.controls.StartJump();
-						}
-						else 
-						{	this.controls.GroundHeight = newh;
-						}
-					}
+				{	
+					//if(this.mymc)
+					//{	var pos  = this.msmapp.mygamemodel.player.getPosition();
+					//	var newh = this.mymc.getY( Math.round(pos.x),Math.round(pos.z))+1.07;
+                    // 				
+					//	//if(this.counter++>1)
+					//	//{	this.counter = 0;
+					//	//	console.log("pos.x="+Math.round(pos.x)+" pos.y="+this.mymc.getY( Math.round(pos.x), Math.round(pos.y) )+" pos.z="+Math.round(pos.z));
+					//	//}	
+				    //
+					//	if(newh>this.controls.GroundHeight && this.controls.isOnGround())
+					//	{	this.msmapp.mygamemodel.player.setPositionY(pos.y+1.25);
+					//		this.controls.StartJump();
+					//	}
+					//	else 
+					//	{	this.controls.GroundHeight = newh;
+					//	}
+					//}
 					//this.controls.GroundHeight   = this.mymc.getY( Math.round(pos.x),Math.round(pos.z))+1.075;
 					//this.controls.GroundOffset   = 0;	//not use
+
+					//var campos = this.cam.getWorldPosition();
+					var campos = this.msmapp.mygamemodel.player.getPosition();
 				
 					//this.light_.followTarget(pos,this.glscene.getObjectByName('player_moviemesh'));
-				
+/*							
 					this.light_.followTarget(this.msmapp.mygamemodel.player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
+*/
 					
 					//this.css3Diframe.followTarget(player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
 					
-					//var campos = this.cam.getWorldPosition();
-					var campos = this.msmapp.mygamemodel.player.getPosition();
-					
+
 					//this.css3Diframe.lookAt (this.cam.getWorldPosition());
 					//this.css3Diframe.rotation.setFromRotationMatrix( this.cam.matrix );
 
@@ -362,7 +363,7 @@
 					//this.skyBox.position.z = player.getPosition().z;
 				
 					if(this.mysp)this.mysp.update(time,this.glscene,this.params1,this.msmapp.mygamemodel.player.getPosition());	
-
+	
 					//if(this.i++>1)
 					//{	this.i=0;
 						//for (var key in window.otherPlayers) 
@@ -374,11 +375,13 @@
 						//using ES7
 						//Object.entries(window.otherPlayers).forEach(([key, value]) => window.otherPlayers[key].lookAt(this.cam.getWorldPosition()));
 						Object.entries(window.otherPlayers).forEach(([key, value]) => window.otherPlayers[key].lookAt(campos));
+
 						//////////
 					//}	
+						
 				}					
 			//}
-		
+
         	return [[this.glscene, this.cam],[this.cssscene, this.cam]];		
 		}
 		

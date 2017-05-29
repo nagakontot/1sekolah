@@ -16,7 +16,7 @@ class MSMScene                                                              //|
   
 		this.controls;
 		this.objects 				= [];
-		
+	
     this.glscene_		    = new CGLScene();        	  	
    	this.glscene		    = this.glscene_._;
         		
@@ -106,21 +106,17 @@ class MSMScene                                                              //|
     this.cssscene		  = null;
     this.cam		      = null;
     this.controls	    = null;
-
-    this.kb.destroy();
-    
     //window.empty(this.container);
-    
 	}
 //|___________________________________________________________________________|
 //|                                                                           |
 	update() 
-  { this.msmapp.update();
-  
-    this.stats.update();
+  { this.stats.update();
 		this.objects.forEach((object) => {	object.update();});
 			
 		if ( this.controls )this.controls.update();
+		
+		this.msmapp.update();
 		
 		//if(this.isShadow)
 		//{	//if(this.light_)this.light_.update(this.glrenderer);
@@ -162,8 +158,6 @@ class MSMApp                                                                //|
   	this.requestId        = null;
 		this.isShadow         = false;    
     
-		this.kb               = new THREEx.KeyboardState();
-
     //////////////////////////////////////////////////////////
    	this.glrenderer_      = new CGLRenderer(width,height);          	      
     this.glrenderer       = this.glrenderer_._;
@@ -231,17 +225,16 @@ class MSMApp                                                                //|
         //var len = result.length;
         //for (var i = 0; i < len; i++) 
         
-        for (var i = 0; i < result.length; i++) 
-        { //sc = result[i];(ref = _this.renderer).render.apply(ref, sc);
+        //for (var i = 0; i < result.length; i++) 
+        //{ //sc = result[i];(ref = _this.renderer).render.apply(ref, sc);
           //(this.ref = _this.renderer).render.apply(this.ref,result[i]);
           //ref.render.apply(ref,result[i]);
           //ref[i].render.apply(ref[i],result[i]);
-          
-          _this.renderer[i].render.apply(_this.renderer[i],result[i]);
-        }
+        //  _this.renderer[i].render.apply(_this.renderer[i],result[i]);
+        //}
         
-        //_this.renderer[0].render.apply(_this.renderer[0],result[0]);
-        //_this.renderer[1].render.apply(_this.renderer[1],result[1]);
+        _this.renderer[0].render.apply(_this.renderer[0],result[0]);
+        _this.renderer[1].render.apply(_this.renderer[1],result[1]);
 
         //////////////////////////////////////////////
         return null;  //why ?

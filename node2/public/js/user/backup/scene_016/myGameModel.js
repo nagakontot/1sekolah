@@ -77,11 +77,6 @@ window.otherPlayers = {};
 			this.player = new Player( playerID,this.avatar,this.username);
 			this.player.isMainPlayer = true;
 			this.player.init(xpos,ypos,zpos);
-			
-			//myapp.getScene().add( this.moviemesh );
-			//this.app.getScene().add( this.player.moviemesh );
-			//if ( this.isMainPlayer )myapp.getScene().createControl(this.moviemesh);	
-
 		}
 
 		updatePlayers()

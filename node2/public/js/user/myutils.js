@@ -1,4 +1,41 @@
 ///////////////////////////////////  
+function isObjEquals(a, b) {
+    // Create arrays of property names
+    var aProps = Object.getOwnPropertyNames(a);
+    var bProps = Object.getOwnPropertyNames(b);
+
+    // If number of properties is different,
+    // objects are not equivalent
+    if (aProps.length != bProps.length) {
+        return false;
+    }
+
+    for (var i = 0; i < aProps.length; i++) {
+        var propName = aProps[i];
+
+        // If values of same property are not equal,
+        // objects are not equivalent
+        if (a[propName] !== b[propName]) {
+            return false;
+        }
+    }
+
+    // If we made it this far, objects
+    // are considered equivalent
+    return true;
+}
+    
+    /*
+    //https://stackoverflow.com/questions/201183/how-to-determine-equality-for-two-javascript-objects
+    function isObjEquals(obj1, obj2) 
+    {   function _equals(obj1, obj2) 
+        {   var clone = $.extend(true, {}, obj1),cloneStr = JSON.stringify(clone);
+            return cloneStr === JSON.stringify($.extend(true, clone, obj2));
+        }
+        return _equals(obj1, obj2) && _equals(obj2, obj1);
+    }
+    */
+///////////////////////////////////  
 //http://stackoverflow.com/questions/32518102/passing-an-instance-method-to-super-with-es6-classes
 //fake virtual function:
 /*

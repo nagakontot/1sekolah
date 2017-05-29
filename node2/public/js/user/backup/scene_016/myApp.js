@@ -1,16 +1,10 @@
 "use strict"
 
-
-        
 	///////////////////////////////////////////////////////////////////////
 	class CApp extends MSMApp
 	{ 	constructor(canvas="canvas",fps=30,width=window.innerWidth,height=window.innerHeight) 
 		{	super(canvas,fps,width,height);
 			super.enableShadow();
-			
-	        this.value=1;
-	        this.toggle_counter=0;
-
 			
 			//this.clock = new THREE.Clock();
 			//this.oldpos = new THREE.Vector3();
@@ -24,26 +18,11 @@
 			
 			setTimeout(this.create_GameModel.bind(this),0);
 			setTimeout(this.create_videostuff.bind(this),0);
+
 		}
 
- 	    toggle(scene_number)
-	    {   //this.value=(this.value==1)?2:1;
-	    	if(this.toggle_counter>=5)
-			{	this.toggle_counter=0;
-	    		this.setScene(this.getScene()).stop();
-	    		scene_number--;	//array start with 0-index
-	    		this.setScene(gscenes[scene_number]).start();
-			}	
-	    }
-	    
 		update()
-		{	if(this.toggle_counter++>10000)this.toggle_counter=5;
-			if( this.kb.pressed("1") )	this.toggle(1);
-			if( this.kb.pressed("2") )	this.toggle(2);
-			if( this.kb.pressed("3") )	this.toggle(3);
-			if( this.kb.pressed("4") )	this.toggle(4);
-				
-			if(window.movieMaterial)
+		{	if(window.movieMaterial)
 			{	//for(var i=0,len=window.movieMaterial.length;i<len;i++)
 				//{	window.movieMaterial[i].update();
 				//}
@@ -51,17 +30,6 @@
 				var len = window.movieMaterial.length;
 				while(len--) 
 				{	window.movieMaterial[len].update();
-				}
-			}
-			
-			//if( keyboard.pressed("1") )     displayHelp();
-		}
-		
-		exit()
-		{	super.exit();
-			if(window.movieMaterial)
-			{	for(var i=0;i<window.movieMaterial.length;i++)
-				{	window.movieMaterial[i].exit();
 				}
 			}
 		}
@@ -95,19 +63,6 @@
 //////////////////////////////////////////////////////////////////////////
 
 var myapp	= new CApp();
-
 var s1		= new CScene1(myapp);
-var s2		= new CScene2(myapp);
-var s3		= new CScene3(myapp);
-var s4		= new CScene4(myapp);
 
-var gscenes = [s1,s2,s3,s4];
-
-s1.init();
-s2.init();
-s3.init();
-s4.init();
-
-myapp.setScene(s1).start();
-
-
+myapp.setScene(s1.init()).start();
