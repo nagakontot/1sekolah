@@ -15,31 +15,13 @@
 			//this.isInit =false;
 			//this.clumpy = new Clumpy();
 			//this.counter = 0;
-
-			var s1		= new CScene1(this);
-			var s2		= new CScene2(this);
-			var s3		= new CScene3(this);
-			var s4		= new CScene4(this);
-			this.gscenes = [s1,s2,s3,s4];
 			
-			this.init();
-			
-		}
-		
-		init()
-		{	//+-//////////////////////////////////////////////////////////////-+
+			//+-//////////////////////////////////////////////////////////////-+
 			//| create objs which will exist as singleton across many scenes   |
 			//+-//////////////////////////////////////////////////////////////-+
-			//setTimeout(this.create_GameModel.bind(this),0);
-			this.create_GameModel();
 			
-			/////////////////////////////////////////////////////////////////////
-			for(var i=0;i<this.gscenes.length;i++)
-			{	this.gscenes[i].init();
-			}
-
-			this.setScene(this.gscenes[0]).start();
-			
+			setTimeout(this.create_GameModel.bind(this),0);
+			setTimeout(this.create_videostuff.bind(this),0);
 		}
 
  	    toggle(scene_number)
@@ -47,14 +29,8 @@
 	    	if(this.toggle_counter>=5)
 			{	this.toggle_counter=0;
 	    		this.setScene(this.getScene()).stop();
-	    		
 	    		scene_number--;	//array start with 0-index
-	    		//this.setScene(this.gscenes[scene_number]).start();
-	    		////////////////////////////////////////////////////////////////
-	    		this.setScene(this.gscenes[scene_number]);
-	    		this.getScene().add( this.mygamemodel.player.moviemesh );
-	    		this.setScene(this.gscenes[scene_number]).start();
-
+	    		this.setScene(gscenes[scene_number]).start();
 			}	
 	    }
 	    
@@ -90,9 +66,7 @@
 		}
 
 		create_GameModel()
-		{	this.create_videostuff();
-		
-			this.mygamemodel = new CGameModel(this);
+		{	this.mygamemodel = new CGameModel(this);
 			var xpos=50,ypos=0,zpos=50;
 			this.mygamemodel.init(xpos,ypos,zpos);
 		}
@@ -118,7 +92,21 @@
 	}    	
 
 //////////////////////////////////////////////////////////////////////////
+
 var myapp	= new CApp();
 
+var s1		= new CScene1(myapp);
+var s2		= new CScene2(myapp);
+var s3		= new CScene3(myapp);
+var s4		= new CScene4(myapp);
+
+var gscenes = [s1,s2,s3,s4];
+
+s1.init();
+s2.init();
+s3.init();
+s4.init();
+
+myapp.setScene(s1).start();
 
 

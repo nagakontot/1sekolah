@@ -152,8 +152,9 @@
 			}
 			
 			myapp.getScene().add( this.moviemesh );
-			//if ( this.isMainPlayer )myapp.getScene().createControl(this.moviemesh);	
-
+			if ( this.isMainPlayer )myapp.getScene().createControl(this.moviemesh);	
+			
+			
 			this.setPosition(new THREE.Vector3(xpos,ypos,zpos));
 		}
 

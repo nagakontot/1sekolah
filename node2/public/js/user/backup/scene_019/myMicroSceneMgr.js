@@ -78,8 +78,7 @@ class MSMScene                                                              //|
 //|___________________________________________________________________________|
 //|                                                                           |
 	createControl(mesh)
-  {	if(this.controls)return;
-    this.controls				= new THREE.PlayerControls( this.cam , mesh );
+  {	this.controls				= new THREE.PlayerControls( this.cam , mesh );
 		this.controls.init();
   }	
 //|___________________________________________________________________________|

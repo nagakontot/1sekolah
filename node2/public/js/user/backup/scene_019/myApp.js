@@ -47,14 +47,8 @@
 	    	if(this.toggle_counter>=5)
 			{	this.toggle_counter=0;
 	    		this.setScene(this.getScene()).stop();
-	    		
 	    		scene_number--;	//array start with 0-index
-	    		//this.setScene(this.gscenes[scene_number]).start();
-	    		////////////////////////////////////////////////////////////////
-	    		this.setScene(this.gscenes[scene_number]);
-	    		this.getScene().add( this.mygamemodel.player.moviemesh );
 	    		this.setScene(this.gscenes[scene_number]).start();
-
 			}	
 	    }
 	    
