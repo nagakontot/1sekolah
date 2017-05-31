@@ -39,10 +39,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/architect/0.0.6/workers/proxy_worker.min.js"></script>
     -->
 
-    <script src="https://www.gstatic.com/firebasejs/3.5.0/firebase.js"></script>
+    <!--script src="https://www.gstatic.com/firebasejs/3.5.0/firebase.js"></script-->
+    <script src="https://www.gstatic.com/firebasejs/4.1.0/firebase.js"></script>
     
-	<script src="js/user/myutils.js"></script>
-	<script src="js/lib/db/myfirebase.js"></script>
+    <script src="js/lib/myutils.js"></script>
+    <script src="js/lib/db/myfirebase.js"></script>
 	<script src="js/lib/smallipop/lib/jquery.smallipop.min.js"></script>    <!--http://www.jqueryscript.net/demo/Versatile-Beautiful-Tooltip-Plugin-smallipop/-->
 
 	<!-------------------------------------------------------------------------------------->
@@ -162,14 +163,21 @@
             //focusit();
             breakout();
             
+            /*
             //var username_ = ejs.render('<%=username%>');
             //setCookie("username",username_,1)
 
+			const mysession		= new CSession();
+			mysession.set("username","<%=username%>");
+
             window.setTimeout( function() 
-			{   setCookie("username","<%=username%>",1);
-			    console.log("getCookie('avatar')="    + getCookie("avatar"));
-                console.log("getCookie('username')="  + getCookie("username"));
+			{   //setCookie("username","<%=username%>",1);
+			    //console.log("getCookie('avatar')="    + getCookie("avatar"));
+                //console.log("getCookie('username')="  + getCookie("username"));
+			    console.log("getCookie('avatar')="    + mysession.get("avatar"));
+                console.log("getCookie('username')="  + mysession.get("username"));
 			},1000);
+			*/
         }
     </script>
 
@@ -321,7 +329,19 @@
     <!------------------------------------------------------------------>
     <!------------------------------------------------------------------>
     <!------------------------------------------------------------------>
+    <script>
+		const mysession	= new CSession();
+		mysession.set("username","<%=username%>");
 
+        window.setTimeout( function() 
+		{   //setCookie("username","<%=username%>",1);
+		    //console.log("getCookie('avatar')="    + getCookie("avatar"));
+            //console.log("getCookie('username')="  + getCookie("username"));
+		    console.log("getCookie('avatar')="    + mysession.get("avatar"));
+            console.log("getCookie('username')="  + mysession.get("username"));
+		},1000);
+    </script>
+    
     <script src="js/user/scene/myThree.js"></script>
     <script src="js/user/scene/myPlugin.js"></script>
     <script src="js/user/scene/myPlayer.js"></script>

@@ -12,12 +12,8 @@ window.otherPlayers = {};
 			this.player;
 			//this.otherPlayers	= [];//{};
 			
-			//this.avatar		=+getCookie("avatar");
-			//this.username		= getCookie("username");
-			
-			this.mysession		= new CSession();
-			this.avatar			=+this.mysession.get("avatar");
-			this.username		= this.mysession.get("username");
+			this.avatar			=+getCookie("avatar");
+			this.username		= getCookie("username");
 		}
 		
 		init(xpos=50,ypos=0,zpos=50) 

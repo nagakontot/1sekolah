@@ -306,7 +306,11 @@ a:hover
 
   </div>
   
+  <script src="js/index/myindex.js"></script>
+  <script src="js/lib/myutils.js"></script>
+
   <script type="text/javascript">
+    const mysession = new CSession();
     function setBorderToDefault() 
     {  document.getElementById('headvid1a').style.border = '2px solid #FFF';
        document.getElementById('headvid2a').style.border = '2px solid #FFF';
@@ -314,10 +318,19 @@ a:hover
        document.getElementById('headvid4a').style.border = '2px solid #FFF';
        return true;
     }
+    
+    
+
+    function handleMDown1()     {  setBorderToDefault();document.getElementById('headvid1a').style.border = '5px solid red';mysession.set('avatar','0');return true;}
+    function handleMDown2()     {  setBorderToDefault();document.getElementById('headvid2a').style.border = '5px solid red';mysession.set('avatar','1');return true;}
+    function handleMDown3()     {  setBorderToDefault();document.getElementById('headvid3a').style.border = '5px solid red';mysession.set('avatar','2');return true;}
+    function handleMDown4()     {  setBorderToDefault();document.getElementById('headvid4a').style.border = '5px solid red';mysession.set('avatar','3');return true;}
+/*    
     function handleMDown1()     {  setBorderToDefault();document.getElementById('headvid1a').style.border = '5px solid red';setCookie("avatar",0,1);return true;}
     function handleMDown2()     {  setBorderToDefault();document.getElementById('headvid2a').style.border = '5px solid red';setCookie("avatar",1,1);return true;}
     function handleMDown3()     {  setBorderToDefault();document.getElementById('headvid3a').style.border = '5px solid red';setCookie("avatar",2,1);return true;}
     function handleMDown4()     {  setBorderToDefault();document.getElementById('headvid4a').style.border = '5px solid red';setCookie("avatar",3,1);return true;}
+*/    
 /*
     function changeImage1()     {  document.getElementById('headvid1a').style.border = '0.5em solid green';return true;}
     function changeImageBack1() {  document.getElementById('headvid1a').style.border = 'none';return true;}
@@ -340,7 +353,9 @@ a:hover
     function handleMUp4()       {  document.getElementById('headvid4a').style.border = '0.5em solid green';return true;}
 */
     //default value set to headvid1
-    var x=~~getCookie("avatar");
+    //var x=~~getCookie("avatar");
+    //var x=~~getCookie("avatar");
+    var x=~~mysession.get('avatar');
     
 /*
     if(!x)x="0";

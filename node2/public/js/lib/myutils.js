@@ -1,4 +1,43 @@
+///////////////////////////////////  
+//https://stackoverflow.com/questions/6193574/save-javascript-objects-in-sessionstorage
+    Storage.prototype.setObj = function(key, obj) 
+    {   return this.setItem(key, JSON.stringify(obj))
+    };
 
+    Storage.prototype.getObj = function(key) 
+    {   return JSON.parse(this.getItem(key))
+    };
+    
+    //usage:
+    //  sesssionStorage.setObj(1,{date:Date.now(),action:'save firstObject'});
+    //  sesssionStorage.setObj(2,{date:Date.now(),action:'save 2nd object'}); 
+    //Retrieve date created of 2nd object
+    //  new Date(sesssionStorage.getObj(1).date)
+///////////////////////////////////
+    class CSession extends Map 
+    {   constructor()
+        {   super();
+        }
+        
+        set(id, value) 
+        {   if ( typeof value === 'object' ) value= JSON.stringify(value);
+            sessionStorage.setItem(id, value);
+        }
+
+        get(id) 
+        {   const value = sessionStorage.getItem(id);
+            try 
+            {   return JSON.parse(value);
+            } 
+            catch(e) 
+            {   return value; 
+            }
+        } 
+    }
+    //usage:
+    //const session = new CSession();
+    //session.set('name', {first: 'Ahmed', last : 'Toumi'});
+    //session.get('name');    
 ///////////////////////////////////  
 //http://stackoverflow.com/questions/32518102/passing-an-instance-method-to-super-with-es6-classes
 //fake virtual function:

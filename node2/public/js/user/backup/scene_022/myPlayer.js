@@ -141,9 +141,9 @@
 		{	//myapp.add( this.moviemesh );
 			//if ( this.isMainPlayer )myapp.createControl(this.moviemesh);	
 			
-			//for(var i=0;i<myapp.gscenes.length;i++)
-			//{	//myapp.gscenes[i].add( this.moviemesh );
-			//}
+			for(var i=0;i<myapp.gscenes.length;i++)
+			{	myapp.gscenes[i].add( this.moviemesh );
+			}
 
 			if ( this.isMainPlayer )
 			{	for(var i=0;i<myapp.gscenes.length;i++)
