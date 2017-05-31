@@ -23,7 +23,8 @@ window.otherPlayers = {};
 		init(xpos=50,ypos=0,zpos=50) 
 		{	////////////////////////////////////////////////////////////////	
 			// Load game world
-			firebase.auth().onAuthStateChanged(function( user ) 
+			//firebase.auth().onAuthStateChanged(function( user ) 
+			firebase.auth().onAuthStateChanged(( user ) =>
 			{	////////////////////////////////////////////////////////////////
 				////////////////////////////////////////////////////////////////
 				if ( user ) 
@@ -31,21 +32,23 @@ window.otherPlayers = {};
 					console.log( "Player is signed in " );
 					playerID = user.uid;
 
-					fbRef.child( "Players/" + playerID + "/isOnline" ).once( "value" ).then( function( isOnline ) 
+					//fbRef.child( "Players/" + playerID + "/isOnline" ).once( "value" ).then( function( isOnline ) 
+					fbRef.child( "Players/" + playerID + "/isOnline" ).once( "value" ).then( (isOnline) =>
 					{	var isOnlinetrue = ( isOnline.val() === null || isOnline.val() === false );
 						if(isOnlinetrue)	this.loadPlayers(xpos,ypos,zpos);
 						else				console.log( "Hey, only one session at a time buddy!" );				
-					}.bind(this));
+					});
+					//}.bind(this));
 				} 
 				else 
 				{	// User is signed out
 					console.log( "Player is signed out " );
 	
-					firebase.auth().signInAnonymously().catch(function(error) 
-					{	console.log( error.code + ": " + error.message );
-					})
+					//firebase.auth().signInAnonymously().catch(function(error) 
+					firebase.auth().signInAnonymously().catch((error) =>{ console.log( error.code + ": " + error.message );})
 				}
-			}.bind(this));
+			});
+			//}.bind(this));
 		}
 		//////////////////////////////////
 		//////////////////////////////////
@@ -55,13 +58,16 @@ window.otherPlayers = {};
 			this.initMainPlayer(xpos,ypos,zpos);				// load the player
 			this.listenToOtherPlayers();
 
-			window.onunload = function() 
-			{	fbRef.child( "Players/" + playerID ).remove();
-			}.bind(this);
+			window.onunload 		= () =>{ fbRef.child( "Players/" + playerID ).remove();};
+			window.onbeforeunload	= () =>{ fbRef.child( "Players/" + playerID ).remove();};
 
-			window.onbeforeunload = function() 
-			{	fbRef.child( "Players/" + playerID ).remove();
-			}.bind(this);
+			//window.onunload = function() 
+			//{	fbRef.child( "Players/" + playerID ).remove();
+			//}.bind(this);
+
+			//window.onbeforeunload = function() 
+			//{	fbRef.child( "Players/" + playerID ).remove();
+			//}.bind(this);
 		}
 	
 		initMainPlayer(xpos,ypos,zpos) 
@@ -96,7 +102,8 @@ window.otherPlayers = {};
 		
 		listenToOtherPlayers(xpos,ypos,zpos) 
 		{	// when a player is added, do something
-			fbRef.child( "Players" ).on( "child_added", function( playerData ) 
+			//fbRef.child( "Players" ).on( "child_added", function( playerData ) 
+			fbRef.child( "Players" ).on( "child_added", ( playerData ) =>
 			{	if ( playerData.val() ) 
 				{	if ( playerID != playerData.key && !window.otherPlayers[playerData.key] ) 
 					{	window.otherPlayers[playerData.key] = new Player( playerData.key,playerData.val().avatar,playerData.val().username );
@@ -104,10 +111,12 @@ window.otherPlayers = {};
 						fbRef.child( "Players/" + playerData.key ).on( "value", this.listenToPlayer );
 					}
 				}
-			}.bind(this));
+			});
+			//}.bind(this));
 
 			// when a player is removed, do something
-			fbRef.child( "Players" ).on( "child_removed", function( playerData ) 
+			//fbRef.child( "Players" ).on( "child_removed", function( playerData ) 
+			fbRef.child( "Players" ).on( "child_removed", ( playerData ) =>
 			{	if ( playerData.val() ) 
 				{	fbRef.child( "Players/" + playerData.key ).off( "value", this.listenToPlayer );
 					//myapp.remove( window.otherPlayers[playerData.key].mesh );
@@ -115,7 +124,8 @@ window.otherPlayers = {};
 					myapp.getScene().remove( window.otherPlayers[playerData.key].moviemesh );
 					delete window.otherPlayers[playerData.key];
 				}
-			}.bind(this));
+			});
+			//}.bind(this));
 		}
 
 		listenToPlayer( playerData ) 

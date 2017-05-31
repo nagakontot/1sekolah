@@ -16,7 +16,7 @@ class MSMScene                                                              //|
   
 		this.controls;
 		this.objects 				= [];
-	
+		
     this.glscene_		    = new CGLScene();        	  	
    	this.glscene		    = this.glscene_._;
         		
@@ -27,10 +27,6 @@ class MSMScene                                                              //|
 		this.cam 			      = this.cam_._;
 		this.cam.position.z = 5;
 				
-		this.stats_         = new CStat();
-  	this.stats          = this.stats_._;
-  	this.msmapp.appendChild( this.stats.dom );
-
 		this.createStdLight();    	
 		
 		window.addEventListener( "resize", this.onWindowResize.bind(this), false );
@@ -82,7 +78,8 @@ class MSMScene                                                              //|
 //|___________________________________________________________________________|
 //|                                                                           |
 	createControl(mesh)
-  {	this.controls				= new THREE.PlayerControls( this.cam , mesh );
+  {	if(this.controls)return;
+    this.controls				= new THREE.PlayerControls( this.cam , mesh );
 		this.controls.init();
   }	
 //|___________________________________________________________________________|
@@ -106,12 +103,15 @@ class MSMScene                                                              //|
     this.cssscene		  = null;
     this.cam		      = null;
     this.controls	    = null;
+
     //window.empty(this.container);
+    
 	}
 //|___________________________________________________________________________|
 //|                                                                           |
 	update() 
-  { this.stats.update();
+  { this.msmapp.update();
+  
 		this.objects.forEach((object) => {	object.update();});
 			
 		if ( this.controls )this.controls.update();
@@ -130,7 +130,7 @@ class MSMScene                                                              //|
     this.cam.aspect 	= this.width / this.height;
 		this.cam.updateProjectionMatrix();
 
-		this.msmapp.resize(this.width, this.height);
+		this.msmapp.onWindowResize(this.width, this.height);
 	}
 }
 
@@ -156,6 +156,8 @@ class MSMApp                                                                //|
   	this.requestId        = null;
 		this.isShadow         = false;    
     
+		this.kb               = new THREEx.KeyboardState();
+
     //////////////////////////////////////////////////////////
    	this.glrenderer_      = new CGLRenderer(width,height);          	      
     this.glrenderer       = this.glrenderer_._;
@@ -173,6 +175,10 @@ class MSMApp                                                                //|
     //////////////////////////////////////////////////////////
     this.renderer         = [this.glrenderer,this.cssrenderer];
 
+		this.stats_           = new CStat();
+  	this.stats            = this.stats_._;
+  	this.container.appendChild( this.stats.dom );
+  	
     //return this;
   }
 //|___________________________________________________________________________|
@@ -223,16 +229,17 @@ class MSMApp                                                                //|
         //var len = result.length;
         //for (var i = 0; i < len; i++) 
         
-        //for (var i = 0; i < result.length; i++) 
-        //{ //sc = result[i];(ref = _this.renderer).render.apply(ref, sc);
+        for (var i = 0; i < result.length; i++) 
+        { //sc = result[i];(ref = _this.renderer).render.apply(ref, sc);
           //(this.ref = _this.renderer).render.apply(this.ref,result[i]);
           //ref.render.apply(ref,result[i]);
           //ref[i].render.apply(ref[i],result[i]);
-        //  _this.renderer[i].render.apply(_this.renderer[i],result[i]);
-        //}
+          
+          _this.renderer[i].render.apply(_this.renderer[i],result[i]);
+        }
         
-        _this.renderer[0].render.apply(_this.renderer[0],result[0]);
-        _this.renderer[1].render.apply(_this.renderer[1],result[1]);
+        //_this.renderer[0].render.apply(_this.renderer[0],result[0]);
+        //_this.renderer[1].render.apply(_this.renderer[1],result[1]);
 
         //////////////////////////////////////////////
         return null;  //why ?
@@ -251,7 +258,9 @@ class MSMApp                                                                //|
 //|___________________________________________________________________________|
 //|                                                                           |
 	exit()
-	{	//window.cancelAnimationFrame(this.requestId);// Stop the animation
+	{	this.kb.destroy();
+
+	  //window.cancelAnimationFrame(this.requestId);// Stop the animation
 		this.glrenderer_.exit();
     window.empty(this.container);
 	}  
@@ -281,12 +290,17 @@ class MSMApp                                                                //|
   }  
 //|___________________________________________________________________________|
 //|                                                                           |
-  resize(w,h)         	
+  onWindowResize(w,h)         	
   { this.width    = w;
     this.height   = h;
     this.glrenderer.setSize(w,h);
   	this.cssrenderer.setSize(w,h);
   }  
+//|___________________________________________________________________________|
+//|                                                                           |
+  update()
+  { this.stats.update();
+  }
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////

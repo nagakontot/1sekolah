@@ -3,8 +3,6 @@
     class CScene1 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp,msmapp.width,msmapp.height);
-            //this.i;	//use as counter to save some iteration
-            //return this;
         }
 
 		init() 
@@ -23,102 +21,8 @@
 
 			//super.createHelper();
 			
-			///////////////////////////////////////////////////////////////////////
-			/*
-			var videos = [	'video/baby_1.webm',
-							'video/monkey_1.webm',
-							'video/robot_1.webm',
-							'video/billcat_1.webm'];
-
-			window.movieMaterial		= [];
-
-			for(var i=0;i<videos.length;i++)
-			{	window.movieMaterial[i]			= new ChromaKeyMaterial(videos[i],128,128,0xd400,i);
-			
-				window.movieMaterial[i].side	= THREE.DoubleSide;
-				//window.movieMaterial[i].side	= THREE.FrontSide;
-				//window.movieMaterial[i].side	= THREE.BackSide;
-				//window.movieMaterial[i+4].side= THREE.BackSide;
-			}
-			*/
-			///////////////////////////////////////////////////////////////////////
-			/*
-			Architect.proxy(videos, function(data) 
-			{	//console.log(data)
-				// => ['foo.png', 'bar.png', 'twiz.png', 'foozle.png', 'barzle.png', 'twizle.png']
-				var i=0;
-				data.forEach(function(vid) 
-				{	//img = document.createElement('img')
-    				//img.src = vid
-    				//document.body.appendChild(img)
-					window.movieMaterial[i]			= new ChromaKeyMaterial(vid,128,128,0xd400,i);
-					window.movieMaterial[i].side	= THREE.DoubleSide;  
-					i++;
-				})
-			});			
-			*/
-			///////////////////////////////////////////////////////////////////////
-			/*
-			var jobName		= 'appendVideos';
-			var videosCount = 0;
-			window.movieMaterial		= [];
-			videos.forEach(function(vid) 
-			{	Architect.proxyOn(jobName,vid,function(data) 
-				{	videosCount++;
-    				//img 		= document.createElement('img')
-    				//img.src	= data
-    				//document.body.appendChild(img)
-    	
-					window.movieMaterial[videosCount]			= new ChromaKeyMaterial(data,128,128,0xd400,videosCount);
-					window.movieMaterial[videosCount].side		= THREE.DoubleSide;
-					//window.movieMaterial[videosCount].side	= THREE.FrontSide;
-					//window.movieMaterial[videosCount].side	= THREE.BackSide;
-					//window.movieMaterial[videosCount+4].side	= THREE.BackSide;    	
-    				if(videosCount == videos.length)Architect.endJob(jobName);
-				});
-			});
-			*/
-			//////////////////////////////////////////////////////////////////////
-			//////////////////////////////////////////////////////////////////////
-			/*
-			this.mygame = new CGameModel(this);
-			var xpos=50,ypos=0,zpos=50;
-			this.mygame.init(xpos,ypos,zpos);
-			*/
 			this.loadEnvironment();
 			
-			//////////////////////////////////////////////////////////////////////
-			/*
-			var images = ['foo.png']
-			Architect.proxy(images, function(data) 
-			{	//console.log(data)
-				// => ['foo.png', 'bar.png', 'twiz.png', 'foozle.png', 'barzle.png', 'twizle.png']
-				data.forEach(function(image) 
-				{	//img = document.createElement('img')
-    				//img.src = image
-    				//document.body.appendChild(img)
-    				this.loadEnvironment();
-				}.bind(this));
-			}.bind(this));
-			*/
-			//////////////////////////////////////////////////////////////////////
-			//Architect.proxy(function() 
-			//{	this.loadEnvironment();
-			//}.bind(this));
-			//////////////////////////////////////////////////////////////////////
-			
-        	//this.onWindowResize = this.onWindowResize.bind(this);
-        	//window.addEventListener( "resize", this.onWindowResize, false );
-
-        	//window.addEventListener( "resize", this.onWindowResize.bind(this), false );
-        	//window.addEventListener( "resize", super.onWindowResize.bind(this), false );
-        	
-        	///////////////////////////////////////
-
-        	
-
-			////////////////////////////////////////////////////////////////////
-
             return this;
 
 		}
@@ -133,7 +37,7 @@
 			//var anis = this.glrenderer.getMaxAnisotropy();
 			//var anis = this.msmapp.getMaxAnisotropy();
 			
-			//this.createMinecraft(anis);
+			//this.create_Minecraft(anis);
 			
 			//super.addMesh(new CMinecraft(200,200,anis));
 			//super.addMesh(new CPlane({width:1000,height:1000},anis));
@@ -151,7 +55,9 @@
 			//setTimeout(this.create_pivot.bind(this),0);
 			setTimeout(this.create_blocker.bind(this),0);
 			setTimeout(this.create_plane.bind(this),0);
-			setTimeout(this.create_videostuff.bind(this),0);
+			//setTimeout(this.create_Minecraft.bind(this),0);
+
+			//setTimeout(this.create_videostuff.bind(this),0);
 			setTimeout(this.create_css3Diframe_rchat.bind(this),0);
 			setTimeout(this.create_house1.bind(this),0);
 			setTimeout(this.create_particle1.bind(this),0);
@@ -162,24 +68,6 @@
 	    	this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
 			this.cssgroup.add( this.css3Diframe );
 			this.cssscene.add( this.cssgroup );
-	    }
-	    
-	    create_videostuff()
-	    {	var videos = [	'video/baby_1.webm',
-							'video/monkey_1.webm',
-							'video/robot_1.webm',
-							'video/billcat_1.webm'];
-
-			window.movieMaterial		= [];
-
-			for(var i=0;i<videos.length;i++)
-			{	window.movieMaterial[i]			= new ChromaKeyMaterial(videos[i],128,128,0xd400,i);
-			
-				window.movieMaterial[i].side	= THREE.DoubleSide;
-				//window.movieMaterial[i].side	= THREE.FrontSide;
-				//window.movieMaterial[i].side	= THREE.BackSide;
-				//window.movieMaterial[i+4].side= THREE.BackSide;
-			}
 	    }
 
 		create_pivot()
@@ -263,8 +151,9 @@
         	this.mysp		= new CSpritePoint(this.glscene,this.params1);
 		}
 		
-		createMinecraft(anis)
-		{	this.mymc = new CMinecraft(100,100,anis);
+		create_Minecraft()
+		{	var anis = this.msmapp.getMaxAnisotropy();
+			this.mymc = new CMinecraft(100,100,anis);
 			this.glscene.add(this.mymc.getMesh());
 		}
 
@@ -298,59 +187,65 @@
 			
 			var time = Date.now() * 0.00001;
 			
-			//for(var i=0,len=window.movieMaterial.length;i<len;i++)
-			//{	window.movieMaterial[i].update();
-			//}
-
-			var len = window.movieMaterial.length;
-			while(len--) 
-			{	window.movieMaterial[len].update();
-			}
-			
 			//this.mysp.update(time,this.glscene,this.params1);
 			//this.mygame.updatePlayers();
-			this.msmapp.mygamemodel.updatePlayers();
+			
+			var gamemodel=this.msmapp.mygamemodel;
+			//this.msmapp.mygamemodel.updatePlayers();
+			gamemodel.updatePlayers();
+			
 			
 			//if(this.mymc)
 			//{	
-				if(this.msmapp.mygamemodel.player)
-				{	/*
-					var pos  = player.getPosition();
-					var newh = this.mymc.getY( Math.round(pos.x),Math.round(pos.z))+1.07;
+				//if(this.msmapp.mygamemodel.player)
+				if(gamemodel.player)
+				{	if(this.mymc)
+					{	var pos  = gamemodel.player.getPosition();		// this.msmapp.mygamemodel.player.getPosition();
+						var newh = this.mymc.getY( Math.round(pos.x),Math.round(pos.z))+1.07;
 				
-					if(this.counter++>1)
-					{	this.counter = 0;
-						console.log("pos.x="+Math.round(pos.x)+" pos.y="+this.mymc.getY( Math.round(pos.x), Math.round(pos.y) )+" pos.z="+Math.round(pos.z));
-					}	
+						//if(this.counter++>1)
+						//{	this.counter = 0;
+						//	console.log("pos.x="+Math.round(pos.x)+" pos.y="+this.mymc.getY( Math.round(pos.x), Math.round(pos.y) )+" pos.z="+Math.round(pos.z));
+						//}	
 				
-					if(newh>this.controls.GroundHeight && this.controls.isOnGround())
-					{	player.setPositionY(pos.y+1.25);
-						this.controls.StartJump();
+						if(newh>this.controls.GroundHeight && this.controls.isOnGround())
+						{	//this.msmapp.mygamemodel.player.setPositionY(pos.y+1.25);
+							gamemodel.player.setPositionY(pos.y+1.25);
+						
+							this.controls.StartJump();
+						}
+						else 
+						{	this.controls.GroundHeight = newh;
+						}
 					}
-					else 
-					{	this.controls.GroundHeight = newh;
-					}
-					*/
 					//this.controls.GroundHeight   = this.mymc.getY( Math.round(pos.x),Math.round(pos.z))+1.075;
 					//this.controls.GroundOffset   = 0;	//not use
 				
 					//this.light_.followTarget(pos,this.glscene.getObjectByName('player_moviemesh'));
 				
-					this.light_.followTarget(this.msmapp.mygamemodel.player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
+					//this.light_.followTarget(this.msmapp.mygamemodel.player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
+					this.light_.followTarget(gamemodel.player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
+					
 					
 					//this.css3Diframe.followTarget(player.getPosition(),this.glscene.getObjectByName('player_moviemesh'));
 					
 					var campos = this.cam.getWorldPosition();
+					//var campos = this.msmapp.mygamemodel.player.getPosition();
+					//var campos = gamemodel.player.getPosition();
+					
+					
 					//this.css3Diframe.lookAt (this.cam.getWorldPosition());
 					//this.css3Diframe.rotation.setFromRotationMatrix( this.cam.matrix );
 
-					//this.css3Diframe.lookAt (player.getPosition());
-					//this.css3Diframe.lookAt (this.cam.getWorldPosition());
-					this.css3Diframe.lookAt (campos);
+					if(this.css3Diframe)
+					{	//this.css3Diframe.lookAt (player.getPosition());
+						//this.css3Diframe.lookAt (this.cam.getWorldPosition());
+						this.css3Diframe.lookAt (campos);
 					
-					//this.css3Diframe.quaternion.copy( this.cam.quaternion );
-					this.css3Diframe.position.x = this.cam.position.x+800;
-
+						//this.css3Diframe.quaternion.copy( this.cam.quaternion );
+						this.css3Diframe.position.x = this.cam.position.x+800;
+					}
+					
 					//this.light_.followTarget(this.glscene,player.getPosition(),'player_moviemesh');
 					//var pos = player.getPosition();
 					//this.light.position.set(pos.x,10,pos.z-10);
@@ -362,7 +257,8 @@
 					//this.skyBox.position.x = player.getPosition().x;
 					//this.skyBox.position.z = player.getPosition().z;
 				
-					this.mysp.update(time,this.glscene,this.params1,this.msmapp.mygamemodel.player.getPosition());	
+					//if(this.mysp)this.mysp.update(time,this.glscene,this.params1,this.msmapp.mygamemodel.player.getPosition());	
+					if(this.mysp)this.mysp.update(time,this.glscene,this.params1,gamemodel.player.getPosition());	
 
 					//if(this.i++>1)
 					//{	this.i=0;
@@ -380,7 +276,6 @@
 				}					
 			//}
 		
-			//this.obj.rotation.y += THREE.Math.degToRad(360 / (this.game.fps));
         	return [[this.glscene, this.cam],[this.cssscene, this.cam]];		
 		}
 		
@@ -398,10 +293,8 @@
 		//}
 		
 		exit()
-		{	for(var i=0;i<window.movieMaterial.length;i++)
-			{	window.movieMaterial[i].exit();
-			}
-			super.exit();
+		{	super.exit();
+			this.msmapp.exit();
 		}
     }	
     

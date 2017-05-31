@@ -43,12 +43,23 @@
 		}
 
  	    toggle(scene_number)
-	    {   //this.value=(this.value==1)?2:1;
+	    {   //anti-spammer for input
 	    	if(this.toggle_counter>=5)
 			{	this.toggle_counter=0;
 	    		this.setScene(this.getScene()).stop();
-	    		scene_number--;	//array start with 0-index
+	    		
+	    		////////////////////////////////////////////////////////////////
+	    		//remove the actor on current scene
+	    		this.getScene().remove( this.mygamemodel.player.moviemesh );
+	    		
+	    		//scene_number-1, 1 is offset bcause array start index 0, input is exact value
+	    		scene_number=scene_number-1;
+	    		
+	    		//set new scene and add actor in it
+	    		this.setScene(this.gscenes[scene_number]);
+	    		this.getScene().add( this.mygamemodel.player.moviemesh );
 	    		this.setScene(this.gscenes[scene_number]).start();
+
 			}	
 	    }
 	    
@@ -112,7 +123,8 @@
 	}    	
 
 //////////////////////////////////////////////////////////////////////////
-var myapp	= new CApp();
+
+window.setTimeout(()=>{window.myapp	= new CApp();},0);
 
 
 

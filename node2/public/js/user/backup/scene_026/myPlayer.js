@@ -12,7 +12,7 @@
 			this.avatar			= ~~avatar;
 			this.username		= username;
 			////////////////////////////////////////////
-//if ( this.mesh ) return;
+			//if ( this.mesh ) return;
 			//if ( this.meshgroup ) return;
 			if ( this.moviemesh ) return;
 			
@@ -141,10 +141,19 @@
 		{	//myapp.add( this.moviemesh );
 			//if ( this.isMainPlayer )myapp.createControl(this.moviemesh);	
 			
+			//for(var i=0;i<myapp.gscenes.length;i++)
+			//{	//myapp.gscenes[i].add( this.moviemesh );
+			//}
+
+			if ( this.isMainPlayer )
+			{	for(var i=0;i<myapp.gscenes.length;i++)
+				{	myapp.gscenes[i].createControl(this.moviemesh);
+				}
+			}
+			
 			myapp.getScene().add( this.moviemesh );
-			if ( this.isMainPlayer )myapp.getScene().createControl(this.moviemesh);	
-			
-			
+			//if ( this.isMainPlayer )myapp.getScene().createControl(this.moviemesh);	
+
 			this.setPosition(new THREE.Vector3(xpos,ypos,zpos));
 		}
 
