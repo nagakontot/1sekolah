@@ -1,6 +1,6 @@
 "use strict"
 
-    class CScene1 extends MSMScene
+    class CScene2 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp,msmapp.width,msmapp.height);
         }
@@ -55,13 +55,11 @@
 			//setTimeout(this.create_pivot.bind(this),0);
 			setTimeout(this.create_blocker.bind(this),0);
 			setTimeout(this.create_plane.bind(this),0);
-			//setTimeout(this.create_Minecraft.bind(this),0);
+			setTimeout(this.create_Minecraft.bind(this),0);
 
-			//setTimeout(this.create_videostuff.bind(this),0);
-			setTimeout(this.create_css3Diframe_rchat.bind(this),0);
-			setTimeout(this.create_house1.bind(this),0);
-			setTimeout(this.create_particle1.bind(this),0);
-			setTimeout(this.create_doors.bind(this),0);
+			//setTimeout(this.create_css3Diframe_rchat.bind(this),0);
+			//setTimeout(this.create_house1.bind(this),0);
+			//setTimeout(this.create_particle1.bind(this),0);
 		}
 
 	    create_css3Diframe_rchat()
@@ -183,57 +181,10 @@
 			this.glscene.add(this.mysky.getMesh());
 		}
 		
-		create_doors()
-		{	this.doors = [];
-			//var door		= {width: 100,height: 100,depth: 10}
-			var door		= {width: 1.5,height: 1.5,depth: 0.1}
-    		// use geometry for a door mesh many times
-			var geometry	= new THREE.CubeGeometry(door.width, door.height, door.depth);
-			// this offsets the pivot point so doors don't rotate around their center
-			geometry.applyMatrix(new THREE.Matrix4().makeTranslation(door.width / 2, 0, 0));
-
-			// make doors!
-			//for (let i = 0; i < 30; i++) 
-			for (let i = 0; i < 18; i++) 
-			{	let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
-    			let mesh			= new THREE.Mesh(geometry, material);
-    			mesh.castShadow		= true;			
-				mesh.receiveShadow	= false;//true;//
-				
-    			this.glscene.add(mesh);
-    			this.doors.push(mesh);
-
-    			// arrange in a grid
-    			mesh.position.x = 4.00 + (i % 6) * (door.width + door.depth);
-    			mesh.position.y = 4.00 + Math.floor(i / 6) * -(door.height + door.depth);
-			}
-		}
-		/////////////////////////////////////////////////////////////////////////////////
 		update()
 		{	super.update();
 			
 			var time = Date.now() * 0.00001;
-			
-			//TWEEN.update(time);
-			TWEEN.update();
-			/////////////////////////////////////////////////////////
-			// handle mouseover interactions
-			this.raycaster.setFromCamera(this.mouse, this.cam);
-			var intersects = this.raycaster.intersectObjects(this.glscene.children);
-
-			if (intersects.length > 0) 
-			{	if (this.INTERSECTED != intersects[0].object) 
-				{	//if (this.INTERSECTED) this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex);
-    				this.INTERSECTED = intersects[0].object;
-    				//this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
-    				//this.INTERSECTED.material.emissive.setHex(0xff0000);
-    			}
-			} 
-			else 
-			{	//if (this.INTERSECTED) this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex);
-    			this.INTERSECTED = null;
-			}			
-			/////////////////////////////////////////////////////////
 			
 			//this.mysp.update(time,this.glscene,this.params1);
 			//this.mygame.updatePlayers();
@@ -320,10 +271,6 @@
 						//Object.entries(window.otherPlayers).forEach(([key, value]) => window.otherPlayers[key].lookAt(this.cam.getWorldPosition()));
 						//Object.entries(window.otherPlayers).forEach(([key, value]) => window.otherPlayers[key].lookAt(campos));
 						//////////
-						//Object.entries(window.otherPlayers).forEach(([key, value]) => 
-						//{	window.otherPlayers[key].lookAt(campos);
-						//	//console.log("key="+key+", value.zone="+value.zone);
-						//});
 						this.msmapp.updateOtherPlayers(campos);
 					//}	
 				}					
