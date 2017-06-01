@@ -23,7 +23,7 @@ var redbird = require('redbird')
 // iptables -t nat -A  DOCKER -p tcp --dport 80 -j DNAT --to-destination 172.18.0.3:3000
 // iptables -t nat -A  DOCKER -p tcp --dport 443 -j DNAT --to-destination 172.18.0.3:3443
 //////////////////////////////////////////////////////////////////////
-
+redbird.register("1sekolah.xyz",                "http://172.18.0.3:3001",   {ssl: true});
 redbird.register("www.1sekolah.xyz",            "http://172.18.0.3:3001",   {ssl: true});
 redbird.register("ide.1sekolah.xyz",            "http://172.18.0.3:8181",   {ssl: true});
 

@@ -6,9 +6,9 @@
 		{	super(canvas,fps,width,height);
 			super.enableShadow();
 			
-	        this.value			= 1;
-	        this.toggle_counter	= 0;
-			this.scene_number	= 0;
+	        this.value=1;
+	        this.toggle_counter=0;
+
 			
 			//this.clock = new THREE.Clock();
 			//this.oldpos = new THREE.Vector3();
@@ -38,8 +38,7 @@
 			{	this.gscenes[i].init();
 			}
 
-			//this.scene_number=0 -> start with lobby!
-			this.setScene(this.gscenes[this.scene_number]).start();
+			this.setScene(this.gscenes[0]).start();
 			
 		}
 
@@ -47,13 +46,15 @@
 	    {   //anti-spammer for input
 	    	if(this.toggle_counter>=5)
 			{	this.toggle_counter=0;
-			
+	    		this.setScene(this.getScene()).stop();
+	    		
 	    		////////////////////////////////////////////////////////////////
 	    		//remove the actor on current scene
-	    		this.setScene(this.getScene()).stop();
 	    		this.getScene().remove( this.mygamemodel.player.moviemesh );
-
-	    		this.scene_number=scene_number;
+	    		
+	    		//scene_number-1, 1 is offset bcause array start index 0, input is exact value
+	    		//scene_number=scene_number-1;
+	    		
 	    		//set new scene and add actor in it
 	    		this.setScene(this.gscenes[scene_number]);
 	    		this.getScene().add( this.mygamemodel.player.moviemesh );
@@ -81,22 +82,20 @@
 			else if( this.kb.pressed("3") )	this.toggle(3);
 				
 			if(window.movieMaterial)
-			{	for(var i=0,len=window.movieMaterial.length;i<len;i++)
-				{	window.movieMaterial[i].update();
-				}
-				
-				//var len = window.movieMaterial.length;
-				//while(len--) 
-				//{	window.movieMaterial[len].update();
+			{	//for(var i=0,len=window.movieMaterial.length;i<len;i++)
+				//{	window.movieMaterial[i].update();
 				//}
+				
+				var len = window.movieMaterial.length;
+				while(len--) 
+				{	window.movieMaterial[len].update();
+				}
 			}
 		}
 
 		updateOtherPlayers(campos)
 		{	Object.entries(window.otherPlayers).forEach(([key, value]) => 
-			{	//if(value.zone!=this.scene_number)
-				
-				window.otherPlayers[key].lookAt(campos);
+			{	window.otherPlayers[key].lookAt(campos);
 				//console.log("key="+key+", value.zone="+value.zone);
 			});
 		}

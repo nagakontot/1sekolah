@@ -83,8 +83,7 @@ window.otherPlayers = {};
 								},
 				avatar:			this.avatar,
 				username:		this.username,
-				zone:			{	map:0
-								}
+				zone:			{	map:		0}
 			});
 
 			this.player = new Player( playerID,this.avatar,this.username);
@@ -132,7 +131,7 @@ window.otherPlayers = {};
 		listenToPlayer( playerData ) 
 		{	if ( playerData.val() ) 
 			{	window.otherPlayers[playerData.key].setOrientation	( playerData.val().orientation.position, playerData.val().orientation.rotation );
-				window.otherPlayers[playerData.key].setZone			( playerData.val().zone.map);
+				window.otherPlayers[playerData.key].setZone			( playerData.val().zone.map );
 				//window.otherPlayers[playerData.key].update();
 			}
 		}		

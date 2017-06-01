@@ -12,7 +12,6 @@
 			this.avatar			= ~~avatar;
 			this.username		= username;
 			this.zone			= 0;
-			this.old_zone		= 0;	
 			this.isVisible		= true;
 			////////////////////////////////////////////
 			//if ( this.mesh ) return;
@@ -160,14 +159,8 @@
 			this.setPosition(new THREE.Vector3(xpos,ypos,zpos));
 		}
 
-		setZone( map ) 
-		{	this.old_zone	= this.zone;
-			this.zone		= map;
-			
-			if ( !this.isMainPlayer )
-    		{	myapp.gscenes[this.old_zone].remove( this.moviemesh );
-    			myapp.gscenes[this.zone].add( this.moviemesh );
-    		}    			
+		setZone( zone ) 
+		{	this.zone = zone;
 		}
 		
 		setOrientation( position, rotation) 
