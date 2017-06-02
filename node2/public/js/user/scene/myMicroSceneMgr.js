@@ -31,7 +31,7 @@ class MSMScene                                                              //|
  		this.cssscene_		  = new CCSSScene();        	  	
  		this.cssscene		    = this.cssscene_._;  
  		
-		this.cam_ 			    = new CCamera( 62,this.width/this.height,1,5000 );						
+		this.cam_ 			    = new CCamera( 62,this.width/this.height,0.1,1000 );						
 		this.cam 			      = this.cam_._;
 		this.cam.position.z = 5;
 				
@@ -161,14 +161,16 @@ class MSMScene                                                              //|
     intersects.forEach(clickedObject => 
     { const name = clickedObject.object.name;
       //if(clickedObject.object.name!='ground_desert_mesh' && clickedObject.object.name!='player_moviemesh')
-      console.log(name);
-      if(name!='ground_desert_mesh' && name!='player_moviemesh')
-      { // is door open or closed already?
-        //var targetAngle = clickedObject.object.rotation.y === -100 * degToRad ? 0 : -100 * degToRad;
-        var targetAngle = clickedObject.object.rotation.y === -62 * degToRad ? 0 : -62 * degToRad;
-        new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
-                                                      .to({ y: targetAngle}, 500)
-                                                      .start();
+      //console.log(name);
+      if(name!='ground_desert_mesh')
+      { if(name!='player_moviemesh')
+        { // is door open or closed already?
+          //var targetAngle = clickedObject.object.rotation.y === -100 * degToRad ? 0 : -100 * degToRad;
+          var targetAngle = clickedObject.object.rotation.y === -62 * degToRad ? 0 : -62 * degToRad;
+          new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
+                                                        .to({ y: targetAngle}, 500)
+                                                        .start();
+        }                                                        
       }                                                        
     });
   }

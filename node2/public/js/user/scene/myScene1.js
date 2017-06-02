@@ -130,15 +130,21 @@
         	//var scale2  	= {x:2,y:2,z:2};		//new THREE.Vector3(2,2,2);		//
         	//this.newstand   = new CLoadModel_WWObj2(this.pivot,this.glscene,'newstand','models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos2,scale2);
 			
-        	var pos3	= {x:6,		y:6.6,		z:85};		
-        	var rot3	= {x:0,		y:Math.PI,z:0};		
-        	var scale3  = {x:0.02,	y:0.02,		z:0.02};		
-        	this.house1 = new CLoadModel_WWObj2(this.pivot,this.glscene,'house1','models/house1/','house1.mtl','house1.obj',pos3,rot3,scale3);
+        	//var pos3	= {x:6,		y:6.6,		z:85};		
+        	//var rot3	= {x:0,		y:Math.PI,z:0};		
+        	//var scale3  = {x:0.02,	y:0.02,		z:0.02};		
+        	//this.house1 = new CLoadModel_WWObj2(this.pivot,this.glscene,'house1','models/house1/','house1.mtl','house1.obj',pos3,rot3,scale3);
 
         	//var pos4	= {x:6,		y:-25,		z:85};		
         	//var rot4	= {x:0,		y:Math.PI,  z:0};		
         	//var scale4  = {x:0.02,	    y:0.02,		z:0.02};		
         	//this.cs_italy = new CLoadModel_WWObj2(this.pivot,this.glscene,'cs_italy','models/cs_italy/','cs_italy.obj.mtl','cs_italy.obj',pos4,rot4,scale4);
+			///////////////////////////////////////
+        	var pos			= {x:6,			y:-1.59,		z:85};		
+        	var rot			= {x:0.000355,	y:Math.PI,  z:-0.004};
+        	var scale		= {x:12,		y:12,		z:12};		
+        	this.buidling	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building4','models/building4/','building4.obj.mtl','building4.obj',pos,rot,scale);
+			
 		}
 		
 		create_particle1()
@@ -186,7 +192,7 @@
 		create_doors()
 		{	this.doors = [];
 			//var door		= {width: 100,height: 100,depth: 10}
-			var door		= {width: 1.5,height: 1.5,depth: 0.1}
+			var door		= {width: 2.5,height: 4,depth: 0.15}
     		// use geometry for a door mesh many times
 			var geometry	= new THREE.CubeGeometry(door.width, door.height, door.depth);
 			// this offsets the pivot point so doors don't rotate around their center
@@ -194,7 +200,7 @@
 
 			// make doors!
 			//for (let i = 0; i < 30; i++) 
-			for (let i = 0; i < 18; i++) 
+			for (let i = 0; i < 10; i++) 
 			{	let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
     			let mesh			= new THREE.Mesh(geometry, material);
     			mesh.castShadow		= true;			
@@ -204,8 +210,8 @@
     			this.doors.push(mesh);
 
     			// arrange in a grid
-    			mesh.position.x = 4.00 + (i % 6) * (door.width + door.depth);
-    			mesh.position.y = 4.00 + Math.floor(i / 6) * -(door.height + door.depth);
+    			mesh.position.x = 2.00 + (i % 10) * (door.width + door.depth);
+    			mesh.position.y = 2.00 + Math.floor(i / 10) * -(door.height + door.depth);
     			
     			mesh.name = "door"+ i;
 			}
