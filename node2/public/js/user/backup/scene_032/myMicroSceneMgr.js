@@ -17,13 +17,21 @@ class MSMScene                                                              //|
 		this.controls;
 		this.objects 				= [];
 		
+		//////////////////////////////////////////////////////
+    this.raycaster        = new THREE.Raycaster();
+    this.mouse            = new THREE.Vector2();
+    this.mouseClick       = new THREE.Vector2();
+    this.INTERSECTED;
+
+		//////////////////////////////////////////////////////
+		
     this.glscene_		    = new CGLScene();        	  	
    	this.glscene		    = this.glscene_._;
         		
  		this.cssscene_		  = new CCSSScene();        	  	
  		this.cssscene		    = this.cssscene_._;  
  		
-		this.cam_ 			    = new CCamera( 62,this.width/this.height,1,5000 );						
+		this.cam_ 			    = new CCamera( 62,this.width/this.height,0.1,1000 );						
 		this.cam 			      = this.cam_._;
 		this.cam.position.z = 5;
 				
@@ -31,6 +39,10 @@ class MSMScene                                                              //|
 		
 		window.addEventListener( "resize", this.onWindowResize.bind(this), false );
 		window.dispatchEvent( new Event("resize") );
+		
+  	window.addEventListener('mousemove', this.onDocumentMouseMove.bind(this), false);
+    //window.addEventListener('click', this.onDocumentClick.bind(this), false);
+		
   }
 //|___________________________________________________________________________|
 //|                                                                           |
@@ -95,17 +107,11 @@ class MSMScene                                                              //|
 //|___________________________________________________________________________|
 //|                                                                           |
 	exit()
-	{	//window.cancelAnimationFrame(this.requestId);// Stop the animation
-		//this.glrenderer_.exit();
-		
- 		//this.projector  = null;
+	{	//this.projector  = null;
     this.glscene		  = null;
     this.cssscene		  = null;
     this.cam		      = null;
     this.controls	    = null;
-
-    //window.empty(this.container);
-    
 	}
 //|___________________________________________________________________________|
 //|                                                                           |
@@ -132,6 +138,14 @@ class MSMScene                                                              //|
 
 		this.msmapp.onWindowResize(this.width, this.height);
 	}
+//|___________________________________________________________________________|
+//|                                                                           |
+  onDocumentMouseMove() 
+  { event.preventDefault();
+    this.mouse.x = (event.clientX / window.innerWidth)  * 2 - 1;
+    this.mouse.y =-(event.clientY / window.innerHeight) * 2 + 1;
+  }
+  
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -157,7 +171,7 @@ class MSMApp                                                                //|
 		this.isShadow         = false;    
     
 		this.kb               = new THREEx.KeyboardState();
-
+		
     //////////////////////////////////////////////////////////
    	this.glrenderer_      = new CGLRenderer(width,height);          	      
     this.glrenderer       = this.glrenderer_._;
@@ -179,7 +193,8 @@ class MSMApp                                                                //|
   	this.stats            = this.stats_._;
   	this.container.appendChild( this.stats.dom );
   	
-    //return this;
+  	//////////////////////////////////////////////////////////
+  	
   }
 //|___________________________________________________________________________|
 //|                                                                           |

@@ -41,7 +41,7 @@ class MSMScene                                                              //|
 		window.dispatchEvent( new Event("resize") );
 		
   	window.addEventListener('mousemove', this.onDocumentMouseMove.bind(this), false);
-    window.addEventListener('click', this.onDocumentClick.bind(this), false);
+    //window.addEventListener('click', this.onDocumentClick.bind(this), false);
 		
   }
 //|___________________________________________________________________________|
@@ -145,36 +145,6 @@ class MSMScene                                                              //|
     this.mouse.x = (event.clientX / window.innerWidth)  * 2 - 1;
     this.mouse.y =-(event.clientY / window.innerHeight) * 2 + 1;
   }
-//|___________________________________________________________________________|
-//|                                                                           |
-  onDocumentClick() 
-  { event.preventDefault();
-    this.mouseClick.x = (event.clientX / window.innerWidth)  * 2 - 1;
-    this.mouseClick.y =-(event.clientY / window.innerHeight) * 2 + 1;
-
-    // figure out which objects in the scene were clicked
-    this.raycaster.setFromCamera(this.mouseClick, this.cam);
-    var intersects  = this.raycaster.intersectObjects(this.glscene.children);
-    var degToRad    = Math.PI / 180;
-
-    // make clicked things open/close with a tweened animation
-    intersects.forEach(clickedObject => 
-    { const name = clickedObject.object.name;
-      //if(clickedObject.object.name!='ground_desert_mesh' && clickedObject.object.name!='player_moviemesh')
-      //console.log(name);
-      if(name!='ground_desert_mesh')
-      { if(name!='player_moviemesh')
-        { // is door open or closed already?
-          //var targetAngle = clickedObject.object.rotation.y === -100 * degToRad ? 0 : -100 * degToRad;
-          var targetAngle = clickedObject.object.rotation.y === -85 * degToRad ? 0 : -85 * degToRad;
-          new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
-                                                        .to({ y: targetAngle}, 500)
-                                                        .start();
-        }                                                        
-      }                                                        
-    });
-  }
-
   
 }
 

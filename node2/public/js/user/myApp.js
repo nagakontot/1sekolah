@@ -43,7 +43,7 @@
 			
 		}
 
- 	    toggle(scene_number)
+ 	    toggleScene(scene_number)
 	    {   //anti-spammer for input
 	    	if(this.toggle_counter>=5)
 			{	this.toggle_counter=0;
@@ -74,10 +74,10 @@
 		{	super.update();
 		
 			if(this.toggle_counter++>10000)this.toggle_counter=5;
-				 if( this.kb.pressed("0") )	this.toggle(0);
-			else if( this.kb.pressed("1") )	this.toggle(1);
-			else if( this.kb.pressed("2") )	this.toggle(2);
-			else if( this.kb.pressed("3") )	this.toggle(3);
+				 if( this.kb.pressed("0") )	this.toggleScene(0);
+			else if( this.kb.pressed("1") )	this.toggleScene(1);
+			else if( this.kb.pressed("2") )	this.toggleScene(2);
+			else if( this.kb.pressed("3") )	this.toggleScene(3);
 				
 			if(window.movieMaterial)
 			{	for(var i=0,len=window.movieMaterial.length;i<len;i++)

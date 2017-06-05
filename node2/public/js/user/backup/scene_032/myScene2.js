@@ -1,6 +1,6 @@
 "use strict"
 
-    class CScene1 extends MSMScene
+    class CScene2 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp,msmapp.width,msmapp.height);
         }
@@ -58,9 +58,11 @@
 			//setTimeout(this.create_Minecraft.bind(this),0);
 
 			//setTimeout(this.create_videostuff.bind(this),0);
-			setTimeout(this.create_css3Diframe_rchat.bind(this),0);
-			setTimeout(this.create_house1.bind(this),0);
-			setTimeout(this.create_particle1.bind(this),0);
+			//setTimeout(this.create_css3Diframe_rchat.bind(this),0);
+			//setTimeout(this.create_house1.bind(this),0);
+			//setTimeout(this.create_particle1.bind(this),0);
+			//setTimeout(this.create_doors.bind(this),0);
+			//setTimeout(this.create_castle01.bind(this),0);
 		}
 
 	    create_css3Diframe_rchat()
@@ -129,15 +131,36 @@
         	//var scale2  	= {x:2,y:2,z:2};		//new THREE.Vector3(2,2,2);		//
         	//this.newstand   = new CLoadModel_WWObj2(this.pivot,this.glscene,'newstand','models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos2,scale2);
 			
-        	var pos3	= {x:6,		y:6.6,		z:85};		
-        	var rot3	= {x:0,		y:Math.PI,z:0};		
-        	var scale3  = {x:0.02,	y:0.02,		z:0.02};		
-        	this.house1 = new CLoadModel_WWObj2(this.pivot,this.glscene,'house1','models/house1/','house1.mtl','house1.obj',pos3,rot3,scale3);
+        	//var pos3	= {x:6,		y:6.6,		z:85};		
+        	//var rot3	= {x:0,		y:Math.PI,z:0};		
+        	//var scale3  = {x:0.02,	y:0.02,		z:0.02};		
+        	//this.house1 = new CLoadModel_WWObj2(this.pivot,this.glscene,'house1','models/house1/','house1.mtl','house1.obj',pos3,rot3,scale3);
 
         	//var pos4	= {x:6,		y:-25,		z:85};		
         	//var rot4	= {x:0,		y:Math.PI,  z:0};		
         	//var scale4  = {x:0.02,	    y:0.02,		z:0.02};		
         	//this.cs_italy = new CLoadModel_WWObj2(this.pivot,this.glscene,'cs_italy','models/cs_italy/','cs_italy.obj.mtl','cs_italy.obj',pos4,rot4,scale4);
+			///////////////////////////////////////
+        	var pos			= {x:6,			y:-1.59,		z:85};		
+        	var rot			= {x:0.000355,	y:Math.PI,  z:-0.004};
+        	var scale		= {x:12,		y:12,		z:12};		
+        	this.buidling	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building4','models/building4/','building4.obj.mtl','building4.obj',pos,rot,scale);
+		}
+
+		create_castle01()
+		{	var pos			= {x:0,			y:-1,		z:0};		
+        	var rot			= {x:0,			y:Math.PI,  z:0};
+        	var scale		= {x:0.0025,			y:0.0025,		z:0.0025};		
+        	this.castle01	= new CLoadModel_WWObj2(this.pivot,this.glscene,'castle01','models/castle01/','castle01.obj.mtl','castle01.obj',pos,rot,scale);
+			
+		}
+		
+		create_building1()
+		{	var pos			= {x:0,			y:-1.5,		z:0};		
+        	var rot			= {x:0,			y:Math.PI,  z:0};
+        	var scale		= {x:1,			y:1,		z:1};		
+        	this.building1	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building1','models/building1/','building1.mtl','building1.obj',pos,rot,scale);
+			
 		}
 		
 		create_particle1()
@@ -182,10 +205,67 @@
 			this.glscene.add(this.mysky.getMesh());
 		}
 		
+		create_doors()
+		{	this.doors = [];
+			//var door		= {width: 100,height: 100,depth: 10}
+			var door		= {width: 2.5,height: 4,depth: 0.15}
+    		// use geometry for a door mesh many times
+			var geometry	= new THREE.CubeGeometry(door.width, door.height, door.depth);
+			// this offsets the pivot point so doors don't rotate around their center
+			geometry.applyMatrix(new THREE.Matrix4().makeTranslation(door.width / 2, 0, 0));
+
+			// make doors!
+			//for (let i = 0; i < 30; i++) 
+			for (let i = 0; i < 10; i++) 
+			{	let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
+    			let mesh			= new THREE.Mesh(geometry, material);
+    			mesh.castShadow		= true;			
+				mesh.receiveShadow	= false;//true;//
+				
+    			this.glscene.add(mesh);
+    			this.doors.push(mesh);
+
+    			// arrange in a grid
+    			mesh.position.x = 2.00 + (i % 10) * (door.width + door.depth);
+    			mesh.position.y = 2.00 + Math.floor(i / 10) * -(door.height + door.depth);
+    			
+    			mesh.name = "door"+ i;
+			}
+		}
+		/////////////////////////////////////////////////////////////////////////////////
 		update()
 		{	super.update();
 			
 			var time = Date.now() * 0.00001;
+			
+			//TWEEN.update(time);
+			TWEEN.update();
+			/////////////////////////////////////////////////////////
+			// handle mouseover interactions
+			/*
+			this.raycaster.setFromCamera(this.mouse, this.cam);
+			var intersects = this.raycaster.intersectObjects(this.glscene.children);
+
+			if (intersects.length > 0) 
+			{	if (this.INTERSECTED != intersects[0].object) 
+				{	//if (this.INTERSECTED) this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex);
+					//if (this.INTERSECTED) this.INTERSECTED.material.color.setHex(this.INTERSECTED.currentHex);
+				
+    				this.INTERSECTED = intersects[0].object;
+    				//this.INTERSECTED.currentHex = this.INTERSECTED.material.emissive.getHex();
+    				//this.INTERSECTED.material.emissive.setHex(0xff0000);
+    				///////////////////////////////////////////////////////////////////////
+    				//this.INTERSECTED.currentHex = this.INTERSECTED.material.color.getHex();
+    				//this.INTERSECTED.material.color.setHex(0xff0000);
+    			}
+			} 
+			else 
+			{	//if (this.INTERSECTED) this.INTERSECTED.material.emissive.setHex(this.INTERSECTED.currentHex);
+				//if (this.INTERSECTED) this.INTERSECTED.material.color.setHex(this.INTERSECTED.currentHex);
+    			this.INTERSECTED = null;
+			}
+			*/
+			/////////////////////////////////////////////////////////
 			
 			//this.mysp.update(time,this.glscene,this.params1);
 			//this.mygame.updatePlayers();
@@ -270,8 +350,13 @@
 						//////////
 						//using ES7
 						//Object.entries(window.otherPlayers).forEach(([key, value]) => window.otherPlayers[key].lookAt(this.cam.getWorldPosition()));
-						Object.entries(window.otherPlayers).forEach(([key, value]) => window.otherPlayers[key].lookAt(campos));
+						//Object.entries(window.otherPlayers).forEach(([key, value]) => window.otherPlayers[key].lookAt(campos));
 						//////////
+						//Object.entries(window.otherPlayers).forEach(([key, value]) => 
+						//{	window.otherPlayers[key].lookAt(campos);
+						//	//console.log("key="+key+", value.zone="+value.zone);
+						//});
+						this.msmapp.updateOtherPlayers(campos);
 					//}	
 				}					
 			//}

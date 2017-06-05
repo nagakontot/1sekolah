@@ -22,6 +22,7 @@
 			//super.createHelper();
 			
 			this.loadEnvironment();
+			window.addEventListener('click', this.onDocumentClick.bind(this), false);
 			
             return this;
 
@@ -448,6 +449,88 @@
 		//	this.update(time);
 		//	super.render();
 		//}
+		
+//|___________________________________________________________________________|
+//|                                                                           |
+  onDocumentClick() 
+  { event.preventDefault();
+    this.mouseClick.x = (event.clientX / window.innerWidth)  * 2 - 1;
+    this.mouseClick.y =-(event.clientY / window.innerHeight) * 2 + 1;
+
+    // figure out which objects in the scene were clicked
+    this.raycaster.setFromCamera(this.mouseClick, this.cam);
+    //var intersects  = this.raycaster.intersectObjects(this.glscene.children);
+    var intersects  = this.raycaster.intersectObjects(this.glscene.children,true);
+    var degToRad    = Math.PI / 180;
+
+//////////////////////////////////////
+//try {
+//  [1, 2, 3].forEach(function(el) {
+//    console.log(el);
+//    if (el === 2) throw BreakException;
+//  });
+//} catch (e) {
+//  if (e !== BreakException) throw e;
+//}
+//////////////////////////////////////
+ //try
+ {
+    // make clicked things open/close with a tweened animation
+    //throw is the only way to stop foreach loop!!!
+    intersects.forEach(clickedObject => 
+    { const name = clickedObject.object.name;
+      //if(clickedObject.object.name!='ground_desert_mesh' && clickedObject.object.name!='player_moviemesh')
+      //console.log(name);
+      //if(name!=' '||name!=''||name!=null)
+      //{ if(name!='ground_desert_mesh')
+      //  { if(name!='player_moviemesh')
+      //    { // is door open or closed already?
+      
+      var isFirstContact=false;
+      if(name=="door_A0"||name=="door_A1"||name=="door_A2"||name=="door_A3"||name=="door_A4"||name=="door_A5"||name=="door_A6"||
+         name=="door_B0"||name=="door_B1"||name=="door_B2"||name=="door_B3"||name=="door_B4"||name=="door_B5"||name=="door_B6")    
+      {   if(isFirstContact===false)  
+          { isFirstContact=true;
+            var targetAngle = clickedObject.object.rotation.y === -80 * degToRad ? 0 : -80 * degToRad;
+            this.mytween = new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
+                                                                         .to({ y: targetAngle}, 500)
+                                                                         .start();
+            this.door_name = name;
+            console.log("door="+name);
+
+            this.mytween.onComplete(() => 
+            { console.log('door='+this.door_name+' is done!! ')
+              if(clickedObject.object.rotation.y === -80 * degToRad)
+              { this.mytween = new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
+                                                                             .to({ y: 0}, 500)
+                                                                             .start();
+				switch(this.door_name)
+				{	case "door_A0":		this.msmapp.toggleScene(0);break;
+					case "door_A1":		this.msmapp.toggleScene(1);break;
+					case "door_A2":		this.msmapp.toggleScene(2);break;
+					case "door_A3":		this.msmapp.toggleScene(3);break;
+				}
+              }
+            });
+          
+        	throw BreakException;
+            //return;
+            //throw BreakException;
+          }  
+      }            
+      //    }                                                        
+      //  }                                                        
+      //}  
+    });
+ }    
+ //catch (e) 
+ //{	if (e !== BreakException) throw e;
+ //}
+  }
+//|___________________________________________________________________________|
+//|                                                                           |
+
+
 		
 		exit()
 		{	super.exit();
