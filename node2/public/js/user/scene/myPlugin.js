@@ -240,7 +240,7 @@ function createLabel(message, fontSize=9)
 			
 			bufferGeometry.scale ( this.scale.x,this.scale.y,this.scale.z );
 			bufferGeometry.translate (this.pos.x,this.pos.y,this.pos.z);
-
+		
 		}
 		
 		completedLoading() 

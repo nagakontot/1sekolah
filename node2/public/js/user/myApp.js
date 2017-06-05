@@ -65,9 +65,6 @@
 	    			//console.log("(JSON.stringify(rot) != JSON.stringify(window.rot))");
 	    			fbRef.child( "Players/" + playerID + "/zone" ).update({	map:scene_number});	    	
 	    			
-					//this.player.rotation.x=rot.x;
-					//this.player.rotation.y=rot.y;
-					//this.player.rotation.z=rot.z;
 	    		}				
 				////////////////////////////////////////////////////////////////
 			}	

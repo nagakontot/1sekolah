@@ -59,7 +59,8 @@
 
 			//setTimeout(this.create_videostuff.bind(this),0);
 			setTimeout(this.create_css3Diframe_rchat.bind(this),0);
-			setTimeout(this.create_house1.bind(this),0);
+			//setTimeout(this.create_house1.bind(this),0);
+			setTimeout(this.create_building1.bind(this),0);
 			setTimeout(this.create_particle1.bind(this),0);
 			setTimeout(this.create_doors.bind(this),0);
 		}
@@ -147,6 +148,35 @@
 			
 		}
 		
+		create_castle01()
+		{	var pos			= {x:0,			y:-1,		z:0};		
+        	var rot			= {x:0,			y:Math.PI,  z:0};
+        	var scale		= {x:0.0025,			y:0.0025,		z:0.0025};		
+        	this.castle01	= new CLoadModel_WWObj2(this.pivot,this.glscene,'castle01','models/castle01/','castle01.obj.mtl','castle01.obj',pos,rot,scale);
+			
+		}
+		
+		create_building1()
+		{	var pos			= {x:0,			y:-1.95,	z:-24.25};		
+        	var rot			= {x:0,			y:0,		z:0};
+        	var scale		= {x:1,			y:1,		z:1};		
+        	this.building1	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building1','models/building1/','building1.mtl','building1.obj',pos,rot,scale);
+
+        	//var pos1	= {x:83,y:-3.5,z:66};
+        	//var scale1  = {x:2,y:2,z:2};
+        	//this.building1  = new CLoadModel_Obj(this.glscene,'models/building1/','building1.mtl','building1.obj',pos,scale);
+        	//this.building1  = new CLoadModel_Obj2(this.pivot,this.glscene,'models/building1/','building1.mtl','building1.obj',pos,scale);
+
+
+        	//this.building1.traverse( ( child ) =>
+        	//{	if ( child instanceof THREE.Mesh ) 
+        	//	{	child.material.map = texture;
+        	//		child.castShadow = true;
+    		//	}
+			//} );
+			
+		}
+		
 		create_particle1()
 		{	this.params1=	[	[ [1.0,  0.2,  0.5], texLoader.load("textures/sprites/snowflake1.png"), 0.8],
 								[ [0.95, 0.1,  0.5], texLoader.load("textures/sprites/snowflake2.png"), 0.5],
@@ -192,29 +222,87 @@
 		create_doors()
 		{	this.doors = [];
 			//var door		= {width: 100,height: 100,depth: 10}
-			var door		= {width: 2.5,height: 4,depth: 0.15}
+			//var door		= {width: 2.5,height: 4,depth: 0.15}
+			var door		= {width: 3,height: 5,depth: 0.15}
     		// use geometry for a door mesh many times
 			var geometry	= new THREE.CubeGeometry(door.width, door.height, door.depth);
 			// this offsets the pivot point so doors don't rotate around their center
 			geometry.applyMatrix(new THREE.Matrix4().makeTranslation(door.width / 2, 0, 0));
 
+			///////////////////////////////////////////////
+			var doortex 	= texLoader.load( 'images/house/door004.jpg' );
+            //floorTexture.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            //floorTexture.repeat.set( 200,200 );
+			var params = 
+	        {   map:                doortex,
+                bumpMap:        	doortex,
+                //aoMap:              floorTextureOCC,         
+                //normalMap:			floorTextureBump,
+                //specularMap:        floorTextureSPEC,
+                //displacementMap:    floorTextureDISP,
+                //displacementBias:   1,//0.618,
+                //displacementScale:  1,//0.618,  
+              
+                //ambient:			0xffffff,	
+                bumpScale:			1,
+                //normalScale:        new THREE.Vector2( 1,1),
+                shininess:          10,//35.0,
+                //color:              0xdddddd,
+				//specular:           0x101010,
+				//emissive:			'#333333'
+                //side:               THREE.BackSide
+            };
+            
+            
+            //this.material			= new THREE.MeshStandardMaterial( params );
+            //this.material			= new THREE.MeshLambertMaterial( params );
+            var material			= new THREE.MeshPhongMaterial( params );            
+			///////////////////////////////////////////////
 			// make doors!
 			//for (let i = 0; i < 30; i++) 
-			for (let i = 0; i < 10; i++) 
-			{	let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
+			var len = 7;
+			for (let i = 0; i < len; i++) 
+			{	//let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
     			let mesh			= new THREE.Mesh(geometry, material);
-    			mesh.castShadow		= true;			
-				mesh.receiveShadow	= false;//true;//
+    			//mesh.castShadow		= true;			
+				//mesh.receiveShadow	= false;//true;//
 				
     			this.glscene.add(mesh);
     			this.doors.push(mesh);
 
     			// arrange in a grid
-    			mesh.position.x = 2.00 + (i % 10) * (door.width + door.depth);
-    			mesh.position.y = 2.00 + Math.floor(i / 10) * -(door.height + door.depth);
+    			//mesh.position.x = 10.00 + (i % len) * (door.width + door.depth);
+    			//mesh.position.y = 0 + Math.floor(i / len) * -(door.height + door.depth);
+    			////////////////
+    			//mesh.position.x = -22.35+(i % len) * (door.width + door.depth + 4);
+    			mesh.position.x = -22.5+(i % len) * (door.width + door.depth + 3.85);
+    			mesh.position.y = 1.55 + Math.floor(i / len) * -(door.height + door.depth);
+    			mesh.position.z = -2.85;
     			
-    			mesh.name = "door"+ i;
+    			mesh.name = "door_A"+ i;
 			}
+			///////////////////////////////////////////////////
+			for (let i = 0; i < len; i++) 
+			{	//let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
+    			let mesh			= new THREE.Mesh(geometry, material);
+    			//mesh.castShadow		= true;			
+				//mesh.receiveShadow	= false;//true;//
+				
+    			this.glscene.add(mesh);
+    			this.doors.push(mesh);
+
+    			// arrange in a grid
+    			//mesh.position.x = 10.00 + (i % len) * (door.width + door.depth);
+    			//mesh.position.y = 0 + Math.floor(i / len) * -(door.height + door.depth);
+    			////////////////
+    			//mesh.position.x = -22.35+(i % len) * (door.width + door.depth + 4);
+    			mesh.position.x = -22.5+(i % len) * (door.width + door.depth + 3.85);
+    			mesh.position.y = 1.55 + Math.floor(i / len) * -(door.height + door.depth);
+    			mesh.position.z = -15.85;
+    			
+    			mesh.name = "door_B"+ i;
+			}
+			
 		}
 		/////////////////////////////////////////////////////////////////////////////////
 		update()

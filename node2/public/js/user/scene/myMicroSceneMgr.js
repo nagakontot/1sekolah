@@ -166,7 +166,7 @@ class MSMScene                                                              //|
       { if(name!='player_moviemesh')
         { // is door open or closed already?
           //var targetAngle = clickedObject.object.rotation.y === -100 * degToRad ? 0 : -100 * degToRad;
-          var targetAngle = clickedObject.object.rotation.y === -62 * degToRad ? 0 : -62 * degToRad;
+          var targetAngle = clickedObject.object.rotation.y === -85 * degToRad ? 0 : -85 * degToRad;
           new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
                                                         .to({ y: targetAngle}, 500)
                                                         .start();
