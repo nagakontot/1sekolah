@@ -1,4 +1,15 @@
 ///////////////////////////////////  
+//https://stackoverflow.com/questions/9370606/javascript-error-handling-can-i-throw-an-error-inside-a-ternary-operator    
+    function _throw(m) { throw new Error(m); }
+
+    //usage:
+    //function foo({ msg = _throw('msg parameter not defined') } = {}) 
+    //{   console.log(msg);
+    //}
+    //
+    //foo({ msg : 'party people!' }); // :D
+    //foo({}); // throws!
+///////////////////////////////////  
 //https://stackoverflow.com/questions/6193574/save-javascript-objects-in-sessionstorage
     Storage.prototype.setObj = function(key, obj) 
     {   return this.setItem(key, JSON.stringify(obj))

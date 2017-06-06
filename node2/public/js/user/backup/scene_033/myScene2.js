@@ -1,6 +1,6 @@
 "use strict"
 
-    class CScene_Lobby extends MSMScene
+    class CScene2 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp,msmapp.width,msmapp.height);
         }
@@ -22,7 +22,6 @@
 			//super.createHelper();
 			
 			this.loadEnvironment();
-			window.addEventListener('click', this.onDocumentClick.bind(this), false);
 			
             return this;
 
@@ -59,11 +58,11 @@
 			//setTimeout(this.create_Minecraft.bind(this),0);
 
 			//setTimeout(this.create_videostuff.bind(this),0);
-			setTimeout(this.create_css3Diframe_rchat.bind(this),0);
+			//setTimeout(this.create_css3Diframe_rchat.bind(this),0);
 			//setTimeout(this.create_house1.bind(this),0);
-			setTimeout(this.create_building1.bind(this),0);
-			setTimeout(this.create_particle1.bind(this),0);
-			setTimeout(this.create_doors.bind(this),0);
+			//setTimeout(this.create_particle1.bind(this),0);
+			//setTimeout(this.create_doors.bind(this),0);
+			//setTimeout(this.create_castle01.bind(this),0);
 		}
 
 	    create_css3Diframe_rchat()
@@ -146,9 +145,8 @@
         	var rot			= {x:0.000355,	y:Math.PI,  z:-0.004};
         	var scale		= {x:12,		y:12,		z:12};		
         	this.buidling	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building4','models/building4/','building4.obj.mtl','building4.obj',pos,rot,scale);
-			
 		}
-		
+
 		create_castle01()
 		{	var pos			= {x:0,			y:-1,		z:0};		
         	var rot			= {x:0,			y:Math.PI,  z:0};
@@ -158,23 +156,10 @@
 		}
 		
 		create_building1()
-		{	var pos			= {x:0,			y:-1.95,	z:-24.25};		
-        	var rot			= {x:0,			y:0,		z:0};
+		{	var pos			= {x:0,			y:-1.5,		z:0};		
+        	var rot			= {x:0,			y:Math.PI,  z:0};
         	var scale		= {x:1,			y:1,		z:1};		
         	this.building1	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building1','models/building1/','building1.mtl','building1.obj',pos,rot,scale);
-
-        	//var pos1	= {x:83,y:-3.5,z:66};
-        	//var scale1  = {x:2,y:2,z:2};
-        	//this.building1  = new CLoadModel_Obj(this.glscene,'models/building1/','building1.mtl','building1.obj',pos,scale);
-        	//this.building1  = new CLoadModel_Obj2(this.pivot,this.glscene,'models/building1/','building1.mtl','building1.obj',pos,scale);
-
-
-        	//this.building1.traverse( ( child ) =>
-        	//{	if ( child instanceof THREE.Mesh ) 
-        	//	{	child.material.map = texture;
-        	//		child.castShadow = true;
-    		//	}
-			//} );
 			
 		}
 		
@@ -221,111 +206,31 @@
 		}
 		
 		create_doors()
-		{	this.doors		= [];
-			this.door_name1	= ["Lobby",	"Math",	"Add Math",	"Physics",	"Biology",	"Chemistry",	"Science"];
-			this.door_name2	= ["BM",	"BI",	"Account",	"History",	"Robotic",	"Website",		"Misc"];
-			
-			//////////////////////////////////////////////
+		{	this.doors = [];
 			//var door		= {width: 100,height: 100,depth: 10}
-			//var door		= {width: 2.5,height: 4,depth: 0.15}
-			var door		= {width: 3,height: 5,depth: 0.15}
+			var door		= {width: 2.5,height: 4,depth: 0.15}
     		// use geometry for a door mesh many times
 			var geometry	= new THREE.CubeGeometry(door.width, door.height, door.depth);
 			// this offsets the pivot point so doors don't rotate around their center
 			geometry.applyMatrix(new THREE.Matrix4().makeTranslation(door.width / 2, 0, 0));
 
-			///////////////////////////////////////////////
-			var doortex 	= texLoader.load( 'images/house/door004.jpg' );
-            //floorTexture.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
-            //floorTexture.repeat.set( 200,200 );
-			var params = 
-	        {   map:                doortex,
-                bumpMap:        	doortex,
-                //aoMap:              floorTextureOCC,         
-                //normalMap:			floorTextureBump,
-                //specularMap:        floorTextureSPEC,
-                //displacementMap:    floorTextureDISP,
-                //displacementBias:   1,//0.618,
-                //displacementScale:  1,//0.618,  
-              
-                //ambient:			0xffffff,	
-                bumpScale:			1,
-                //normalScale:        new THREE.Vector2( 1,1),
-                shininess:          5,//35.0,
-                //color:              0xdddddd,
-				//specular:           0x101010,
-				//emissive:			'#333333'
-                //side:               THREE.BackSide
-            };
-            
-            
-            //this.material			= new THREE.MeshStandardMaterial( params );
-            //this.material			= new THREE.MeshLambertMaterial( params );
-            var material			= new THREE.MeshPhongMaterial( params );            
-			///////////////////////////////////////////////
 			// make doors!
 			//for (let i = 0; i < 30; i++) 
-			var len = 7;
-			for (let i = 0; i < len; i++) 
-			{	//let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
+			for (let i = 0; i < 10; i++) 
+			{	let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
     			let mesh			= new THREE.Mesh(geometry, material);
-    			//mesh.castShadow		= true;			
-				//mesh.receiveShadow	= false;//true;//
+    			mesh.castShadow		= true;			
+				mesh.receiveShadow	= false;//true;//
 				
     			this.glscene.add(mesh);
     			this.doors.push(mesh);
 
     			// arrange in a grid
-    			//mesh.position.x = 10.00 + (i % len) * (door.width + door.depth);
-    			//mesh.position.y = 0 + Math.floor(i / len) * -(door.height + door.depth);
-    			////////////////
-    			//mesh.position.x = -22.35+(i % len) * (door.width + door.depth + 4);
-    			mesh.position.x = -22.5+(i % len) * (door.width + door.depth + 3.85);
-    			mesh.position.y = 1.55 + Math.floor(i / len) * -(door.height + door.depth);
-    			mesh.position.z = -2.85;
+    			mesh.position.x = 2.00 + (i % 10) * (door.width + door.depth);
+    			mesh.position.y = 2.00 + Math.floor(i / 10) * -(door.height + door.depth);
     			
-    			mesh.name = "door_A"+ i;
-    			
-				//////////////////////////////
-				var label = createLabel(this.door_name1[i],23,128,64,true);
-				//label.scale.set(1,0.25,1);
-				label.scale.set(4,2,4);
-    			label.position.set(1.25,1.75,2.25);
-    			
-    			//////////////////////////////    			
-    			mesh.add( label );
+    			mesh.name = "door"+ i;
 			}
-			///////////////////////////////////////////////////
-			for (let i = 0; i < len; i++) 
-			{	//let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
-    			let mesh			= new THREE.Mesh(geometry, material);
-    			//mesh.castShadow		= true;			
-				//mesh.receiveShadow	= false;//true;//
-				
-    			this.glscene.add(mesh);
-    			this.doors.push(mesh);
-
-    			// arrange in a grid
-    			//mesh.position.x = 10.00 + (i % len) * (door.width + door.depth);
-    			//mesh.position.y = 0 + Math.floor(i / len) * -(door.height + door.depth);
-    			////////////////
-    			//mesh.position.x = -22.35+(i % len) * (door.width + door.depth + 4);
-    			mesh.position.x = -22.5+(i % len) * (door.width + door.depth + 3.85);
-    			mesh.position.y = 1.55 + Math.floor(i / len) * -(door.height + door.depth);
-    			mesh.position.z = -15.85;
-    			
-    			mesh.name = "door_B"+ i;
-    			
-				//////////////////////////////
-				var label = createLabel(this.door_name2[i],23,128,64,true);
-				//label.scale.set(1,0.25,1);
-				label.scale.set(4,2,4);
-    			label.position.set(1.25,1.75,-2.25);
-    			
-    			//////////////////////////////    			
-    			mesh.add( label );    			
-			}
-			
 		}
 		/////////////////////////////////////////////////////////////////////////////////
 		update()
@@ -471,81 +376,6 @@
 		//	this.update(time);
 		//	super.render();
 		//}
-		
-//|___________________________________________________________________________|
-//|                                                                           |
-  onDocumentClick() 
-  { super.onDocumentClick();
-  
-    var degToRad    = Math.PI / 180;
-
-//////////////////////////////////////
-//try {
-//  [1, 2, 3].forEach(function(el) {
-//    console.log(el);
-//    if (el === 2) throw BreakException;
-//  });
-//} catch (e) {
-//  if (e !== BreakException) throw e;
-//}
-//////////////////////////////////////
- //try
- {
-    // make clicked things open/close with a tweened animation
-    //throw is the only way to stop foreach loop!!!
-    this.intersects.forEach(clickedObject => 
-    { const name = clickedObject.object.name;
-      //if(clickedObject.object.name!='ground_desert_mesh' && clickedObject.object.name!='player_moviemesh')
-      //console.log(name);
-      //if(name!=' '||name!=''||name!=null)
-      //{ if(name!='ground_desert_mesh')
-      //  { if(name!='player_moviemesh')
-      //    { // is door open or closed already?
-      
-      var isFirstContact=false;
-      if(name=="door_A0"||name=="door_A1"||name=="door_A2"||name=="door_A3"||name=="door_A4"||name=="door_A5"||name=="door_A6"||
-         name=="door_B0"||name=="door_B1"||name=="door_B2"||name=="door_B3"||name=="door_B4"||name=="door_B5"||name=="door_B6")    
-      {   if(isFirstContact===false)  
-          { isFirstContact=true;
-            var targetAngle = clickedObject.object.rotation.y === -80 * degToRad ? 0 : -80 * degToRad;
-            this.mytween = new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
-                                                                         .to({ y: targetAngle}, 500)
-                                                                         .start();
-            this.door_name = name;
-            console.log("door="+name);
-
-            this.mytween.onComplete(() => 
-            { console.log('door='+this.door_name+' is done!! ')
-              if(clickedObject.object.rotation.y === -80 * degToRad)
-              { this.mytween = new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
-                                                                             .to({ y: 0}, 500)
-                                                                             .start();
-				switch(this.door_name)
-				{	case "door_A0":		this.msmapp.toggleScene(0);break;
-					case "door_A1":		this.msmapp.toggleScene(1);break;
-					case "door_A2":		this.msmapp.toggleScene(2);break;
-					case "door_A3":		this.msmapp.toggleScene(3);break;
-				}
-              }
-            });
-          
-        	throw 100;	//throw is the only way to stop foreach loop!!!
-            //return;
-          }  
-      }            
-      //    }                                                        
-      //  }                                                        
-      //}  
-    });
- }    
- //catch (e) 
- //{	if (e !== 100) throw e;
- //}
-  }
-//|___________________________________________________________________________|
-//|                                                                           |
-
-
 		
 		exit()
 		{	super.exit();
