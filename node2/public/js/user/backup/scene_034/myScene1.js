@@ -158,8 +158,7 @@
 		}
 		
 		create_building1()
-		{	//var pos		= {x:0,			y:-1.95,	z:-24.25};		
-			var pos			= {x:39.75,			y:-24.05,		z:-24.325};		
+		{	var pos			= {x:0,			y:-1.95,	z:-24.25};		
         	var rot			= {x:0,			y:0,		z:0};
         	var scale		= {x:1,			y:1,		z:1};		
         	this.building1	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building1','models/building1/','building1.mtl','building1.obj',pos,rot,scale);

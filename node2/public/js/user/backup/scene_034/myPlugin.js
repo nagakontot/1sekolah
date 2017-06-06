@@ -20,7 +20,7 @@ function createLabel(message,color="white",bgcolor="black",fontSize=9,W=64,H=16,
     // document.body.appendChild(canvas);
     canvas.width	= W;//64;//320;//300;
     canvas.height	= H;//16;//32;//240;//300;
-    //Svar canvasSize	= W;//64;//300;
+    var canvasSize	= W;//64;//300;
     myglobal_ctx=canvas.getContext("2d");                      // get 2D drawing context.
 
 	if(bgcolor)
