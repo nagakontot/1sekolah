@@ -16,11 +16,25 @@
 			//this.clumpy = new Clumpy();
 			//this.counter = 0;
 
-			var s1		= new CScene1_Lobby(this);
-			var s2		= new CScene2_Math(this);
-			var s3		= new CScene3_AddMath(this);
-			this.gscenes = [s1,s2,s3];
-			
+			//var s1		= new CScene1(this);
+			//var s2		= new CScene2(this);
+			//var s3		= new CScene3(this);
+			//this.gscenes = [s1,s2,s3];
+			this.gscenes = [new CScene1(this),
+							new CScene2(this),
+							new CScene3(this),
+							new CScene4(this),
+							new CScene5(this),
+							new CScene6(this),
+							new CScene7(this),
+							new CScene8(this),
+							new CScene9(this),
+							new CScene10(this),
+							new CScene11(this),
+							new CScene12(this),
+							new CScene13(this),
+							new CScene14(this)];
+
 			this.init();
 			
 		}
@@ -48,7 +62,7 @@
 			{	this.toggle_counter=0;
 			
 				//if( JSON.stringify(scene_number) != JSON.stringify(this.scene_number) )
-				if( scene_number!= this.scene_number )
+				if( scene_number!= this.scene_number && this.scene_number>=0 && this.scene_number<this.gscenes.length)
 	    		{	////////////////////////////////////////////////////////////////
 		    		//remove the actor on current scene
 		    		this.setScene(this.getScene()).stop();

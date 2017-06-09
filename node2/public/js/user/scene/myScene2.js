@@ -1,6 +1,6 @@
 "use strict"
 
-    class CScene2_Math extends MSMScene
+    class CScene2 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp);
         }

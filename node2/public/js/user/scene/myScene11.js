@@ -1,6 +1,6 @@
 "use strict"
 
-    class CScene3 extends MSMScene
+    class CScene11 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp);
         }
@@ -60,8 +60,8 @@
 
 			//setTimeout(this.create_videostuff.bind(this),0);
 			setTimeout(this.create_css3Diframe_rchat.bind(this),0);
-			setTimeout(this.create_house1.bind(this),0);
-			//setTimeout(this.create_building3.bind(this),0);
+			//setTimeout(this.create_house1.bind(this),0);
+			setTimeout(this.create_building3.bind(this),0);
 			//setTimeout(this.create_building1.bind(this),0);
 			//setTimeout(this.create_doors.bind(this),0);
 			setTimeout(this.create_particle1.bind(this),0);
@@ -523,6 +523,17 @@
 					case "door_A1":		this.msmapp.toggleScene(1);break;
 					case "door_A2":		this.msmapp.toggleScene(2);break;
 					case "door_A3":		this.msmapp.toggleScene(3);break;
+					case "door_A4":		this.msmapp.toggleScene(4);break;
+					case "door_A5":		this.msmapp.toggleScene(5);break;
+					case "door_A6":		this.msmapp.toggleScene(6);break;
+
+					case "door_B0":		this.msmapp.toggleScene(7+0);break;
+					case "door_B1":		this.msmapp.toggleScene(7+1);break;
+					case "door_B2":		this.msmapp.toggleScene(7+2);break;
+					case "door_B3":		this.msmapp.toggleScene(7+3);break;
+					case "door_B4":		this.msmapp.toggleScene(7+4);break;
+					case "door_B5":		this.msmapp.toggleScene(7+5);break;
+					case "door_B6":		this.msmapp.toggleScene(7+6);break;
 				}
               }
             });
