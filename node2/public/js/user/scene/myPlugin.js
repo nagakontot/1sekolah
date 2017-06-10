@@ -414,7 +414,7 @@ function createLabel(message,color="white",bgcolor="black",fontSize=9,W=64,H=16,
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 	class CLoadModel_Obj
-	{	constructor(scene,path,filename_mtl,filename_obj,pos,scale)
+	{	constructor(scene,path,filename_mtl,filename_obj,pos,scale,isShadow=true)
 		{	THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
 			var mtlLoader = new THREE.MTLLoader();
 			mtlLoader.setPath(path);//( 'obj/male02/' );
@@ -439,6 +439,15 @@ function createLabel(message,color="white",bgcolor="black",fontSize=9,W=64,H=16,
 									object.scale.x = scale.x;
 									object.scale.y = scale.y;
 									object.scale.z = scale.z;
+									
+									if(isShadow)
+									{	object.traverse( function ( child ) 
+										{	if ( child instanceof THREE.Mesh ) 
+											{	child.castShadow	= true;
+        										child.receiveShadow = true;
+    										}
+										} );
+									}										
 									
 									scene.add( object );
 								}.bind(this), 

@@ -348,8 +348,8 @@ class CThreejs
 				this._.shadow.mapSize.width =  SHADOW_MAP_WIDTH;
 				this._.shadow.mapSize.height=  SHADOW_MAP_HEIGHT;
 				
-				this._.shadow.bias			=  -0.0001;				
-				
+				this._.shadow.bias			=  -0.01;//-0.0001;		
+
 				//scene.add( new THREE.CameraHelper( this._.shadow.camera ) );
 				//this.createHUD(SHADOW_MAP_WIDTH,SHADOW_MAP_HEIGHT); 
 			}

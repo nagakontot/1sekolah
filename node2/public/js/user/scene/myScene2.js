@@ -169,7 +169,8 @@
 		{	var pos			= {x:0,			y:-1.99,	z:0};		
         	var rot			= {x:0,			y:0,		z:0};
         	var scale		= {x:1,			y:1,		z:1};		
-        	this.building3	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building3','models/building3/','building3.mtl','building3.obj',pos,rot,scale);
+        	//this.building3	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building3','models/building3/','building3.mtl','building3.obj',pos,rot,scale);
+        	this.building3  = new CLoadModel_Obj(this.glscene,'models/building3/','building3.mtl','building3.obj',pos,scale);
 		}
 		
 		create_particle1()

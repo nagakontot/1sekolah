@@ -159,17 +159,20 @@
 		}
 		
 		create_building1()
-		{	var pos			= {x:39.75,			y:-24.05,		z:-24.325};		
+		{	var pos			= {x:39.75,		y:-24.05,		z:-24.325};		
         	var rot			= {x:0,			y:0,		z:0};
         	var scale		= {x:1,			y:1,		z:1};		
-        	this.building1	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building1','models/building1/','building1.mtl','building1.obj',pos,rot,scale);
+        	//this.building1	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building1','models/building1/','building1.mtl','building1.obj',pos,rot,scale);
+        	
+        	this.building1  = new CLoadModel_Obj(this.glscene,'models/building1/','building1.mtl','building1.obj',pos,scale);
 		}
 
 		create_building3()
 		{	var pos			= {x:0,			y:-1.99,	z:0};		
         	var rot			= {x:0,			y:0,		z:0};
         	var scale		= {x:1,			y:1,		z:1};		
-        	this.building3	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building3','models/building3/','building3.mtl','building3.obj',pos,rot,scale);
+        	//this.building3	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building3','models/building3/','building3.mtl','building3.obj',pos,rot,scale);
+        	this.building3  = new CLoadModel_Obj(this.glscene,'models/building3/','building3.mtl','building3.obj',pos,scale);
 		}
 		
 		create_particle1()
@@ -263,8 +266,8 @@
 			for (let i = 0; i < len; i++) 
 			{	//let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
     			let mesh			= new THREE.Mesh(geometry, material);
-    			//mesh.castShadow		= true;			
-				//mesh.receiveShadow	= false;//true;//
+    			mesh.castShadow		= true;			
+				mesh.receiveShadow	= false;//true;
 				
     			this.glscene.add(mesh);
     			this.doors.push(mesh);
