@@ -185,7 +185,6 @@ function createLabel(message,color="white",bgcolor="black",fontSize=9,W=64,H=16,
 				var object = new THREE.CSS3DObject( div );
 				object.position.set( x, y, z );
 				object.rotation.y = ry;
-
 				return object;
 			}
 		}
@@ -721,44 +720,35 @@ this.mesh.name = 'text';
 
 ////////////////////////
 	class CPlane
-	{	constructor(name,size,maxAnisotropy,floorTexturefn,floorTextureBumpfn,floorTextureOCCfn) 
+	{	constructor(size,maxAnisotropy) 
 		{	//////////////////////////////////////////////////
 			//var maxAnisotropy = renderer.getMaxAnisotropy();
 			
-			
-			var floorTexture		= window.gfloorTexture;
-			var floorTextureBump	= window.gfloorTextureBump;
-			var floorTextureOCC		= window.gfloorTextureOCC;
-			
-			if(floorTexturefn&&!window.gfloorTexture)
-	        {	floorTexture      		= window.gTexLoader.load( floorTexturefn );
-	            floorTexture.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
-    	        floorTexture.repeat.set( 200,200 );
-    			floorTexture.magFilter	= THREE.NearestFilter;
-				floorTexture.minFilter	= THREE.LinearMipMapLinearFilter;
-   				floorTexture.anisotropy = maxAnisotropy;
-	        }
-	        
-	        if(floorTextureBumpfn&& !floorTextureBump)
-	        {	floorTextureBump    = window.gTexLoader.load( floorTextureBumpfn );
-            	//floorTextureBump.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
-            	//floorTextureBump.repeat.set( 100,100 );
-   				//floorTextureBump.anisotropy = maxAnisotropy;
-	        }
-	        
-	        if(floorTextureOCCfn && !floorTextureOCC)
-            {	floorTextureOCC     = window.gTexLoader.load( floorTextureOCCfn );
-	            //floorTextureOCC.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
-    	        //floorTextureOCC.repeat.set( 100,100 );
-   				//floorTextureOCC.anisotropy = maxAnisotropy;
-            }
+	        var floorTexture        = texLoader.load( 'images/dirt/ori/dirt_COLOR.png' );
+            floorTexture.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            floorTexture.repeat.set( 200,200 );
+    		
+    		//floorTexture.magFilter	= THREE.NearestFilter;
+			//floorTexture.minFilter	= THREE.LinearMipMapLinearFilter;
+
+   			floorTexture.anisotropy = maxAnisotropy;
+
+	        var floorTextureBump    = texLoader.load( 'images/dirt/ori/dirt_NRM.png' );
+            //floorTextureBump.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            //floorTextureBump.repeat.set( 100,100 );
+   			//floorTextureBump.anisotropy = maxAnisotropy;
+
+            var floorTextureOCC     = texLoader.load( 'images/dirt/dirt_OCC.jpg' );
+            //floorTextureOCC.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
+            //floorTextureOCC.repeat.set( 100,100 );
+   			//floorTextureOCC.anisotropy = maxAnisotropy;
             
-            //var floorTextureSPEC    = window.gTexLoader.load( 'images/dirt/dirt_SPEC.jpg' );
+            //var floorTextureSPEC    = texLoader.load( 'images/dirt/dirt_SPEC.jpg' );
             //floorTextureSPEC.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             //floorTextureSPEC.repeat.set( 100,100 );
    			//floorTextureSPEC.anisotropy = maxAnisotropy;
 
-	        //var floorTextureDISP    = window.gTexLoader.load( 'images/dirt/ori/dirt_DISP.png' );
+	        //var floorTextureDISP    = texLoader.load( 'images/dirt/ori/dirt_DISP.png' );
             //floorTextureDISP.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             //floorTextureDISP.repeat.set( 100,100 );
    			//floorTextureDISP.anisotropy = maxAnisotropy;
@@ -800,11 +790,9 @@ this.mesh.name = 'text';
 			//this.geometry 			= new THREE.PlaneGeometry(size.width, size.height);	//this work for physijs
             
             //make 2nd uv for aomap to function
-            if(floorTextureOCC)
-            {	var uvs = this.geometry.attributes.uv.array;
-            	this.geometry.addAttribute( 'uv2', new THREE.BufferAttribute( uvs, 2 ) );
-            }
-            
+            var uvs = this.geometry.attributes.uv.array;
+            this.geometry.addAttribute( 'uv2', new THREE.BufferAttribute( uvs, 2 ) );
+
 			//////////////////////////////////////////////////
 			//this.mesh				= new Physijs.ConvexMesh(this.geometry,this.material);
 			//this.mesh				= new Physijs.BoxMesh(this.geometry,this.material);
@@ -819,7 +807,7 @@ this.mesh.name = 'text';
     	    //this.roty		= size.roty;
     	    //this.rotz		= size.rotz;
     	    ////////////////////////////////////////////////////
-    	    this.mesh.name			= name;//'ground_desert_mesh';			
+    	    this.mesh.name			= 'ground_desert_mesh';			
 		}
   
 		update() 
@@ -833,21 +821,6 @@ this.mesh.name = 'text';
 		}
 	}
 	
-	class CPlane2 
-	{	constructor(w, h, position, rotation)
-    	{	var material	= new THREE.MeshBasicMaterial({color: 0x000000,opacity: 0.0,side: THREE.DoubleSide});
-    		var geometry	= new THREE.PlaneGeometry(w, h);
-    		this.mesh		= new THREE.Mesh(geometry, material);
-    		
-    		this.mesh.position.x = position.x;
-    		this.mesh.position.y = position.y;
-    		this.mesh.position.z = position.z;
-    		this.mesh.rotation.x = rotation.x;
-    		this.mesh.rotation.y = rotation.y;
-    		this.mesh.rotation.z = rotation.z;
-    		return this.mesh;
-    	}    		
-  }	
 ////////////////////////////////////////////////////////
 	class CGridHelper extends CBase
 	{	constructor()
@@ -1206,27 +1179,27 @@ class CMinecraft
 		//scene.add( this.mesh );
 		////////////////////////////////////////////////////////////////////////////////////////
 		/*
-	        var floorTexture        = window.gTexLoader.load( 'images/dirt/ori/dirt_COLOR.png' );
+	        var floorTexture        = texLoader.load( 'images/dirt/ori/dirt_COLOR.png' );
             floorTexture.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             //floorTexture.repeat.set( 200,200 );
 			
 			floorTexture.magFilter	= THREE.NearestFilter;
 			floorTexture.minFilter	= THREE.LinearMipMapLinearFilter;
    			floorTexture.anisotropy = maxAnisotropy;
-	        var floorTextureBump    = window.gTexLoader.load( 'images/dirt/ori/dirt_NRM.png' );
+	        var floorTextureBump    = texLoader.load( 'images/dirt/ori/dirt_NRM.png' );
             //floorTextureBump.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             //floorTextureBump.repeat.set( 100,100 );
    			//floorTextureBump.anisotropy = maxAnisotropy;
-            //var floorTextureOCC     = window.gTexLoader.load( 'images/dirt/dirt_OCC.jpg' );
+            //var floorTextureOCC     = texLoader.load( 'images/dirt/dirt_OCC.jpg' );
             //floorTextureOCC.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             //floorTextureOCC.repeat.set( 100,100 );
    			//floorTextureOCC.anisotropy = maxAnisotropy;
             
-            //var floorTextureSPEC    = window.gTexLoader.load( 'images/dirt/dirt_SPEC.jpg' );
+            //var floorTextureSPEC    = texLoader.load( 'images/dirt/dirt_SPEC.jpg' );
             //floorTextureSPEC.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             //floorTextureSPEC.repeat.set( 100,100 );
    			//floorTextureSPEC.anisotropy = maxAnisotropy;
-	        //var floorTextureDISP    = window.gTexLoader.load( 'images/dirt/ori/dirt_DISP.png' );
+	        //var floorTextureDISP    = texLoader.load( 'images/dirt/ori/dirt_DISP.png' );
             //floorTextureDISP.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
             //floorTextureDISP.repeat.set( 100,100 );
    			//floorTextureDISP.anisotropy = maxAnisotropy;

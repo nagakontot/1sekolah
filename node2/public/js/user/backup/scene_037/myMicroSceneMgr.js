@@ -196,8 +196,6 @@ class MSMApp                                                                //|
     //this setup will make css3d clickable inside webgl        
 		this.container.appendChild( this.cssrenderer.domElement );		
 		this.cssrenderer.domElement.appendChild( this.glrenderer.domElement );	
-
-		//this.container.appendChild( this.glrenderer.domElement );		
 		
     //////////////////////////////////////////////////////////
     this.renderer         = [this.glrenderer,this.cssrenderer];

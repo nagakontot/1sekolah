@@ -1,6 +1,6 @@
 "use strict"
 
-    class CScene2 extends MSMScene
+    class CScene1 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp);
         }
@@ -61,47 +61,18 @@
 			//setTimeout(this.create_videostuff.bind(this),0);
 			setTimeout(this.create_css3Diframe_rchat.bind(this),0);
 			//setTimeout(this.create_house1.bind(this),0);
-			setTimeout(this.create_building3.bind(this),0);
-			//setTimeout(this.create_building1.bind(this),0);
-			//setTimeout(this.create_doors.bind(this),0);
+			//setTimeout(this.create_building3.bind(this),0);
+			setTimeout(this.create_building1.bind(this),0);
+			setTimeout(this.create_doors.bind(this),0);
 			setTimeout(this.create_particle1.bind(this),0);
 		}
 
-	    create_css3Diframe_rchat1()
-	    {	//this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
-	    	this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,100,10, -Math.PI/2 );
-	    
-			//this.glPlane2D	 = new CPlane2(600,120,  new THREE.Vector3(600,120,600),new THREE.Vector3(0,-Math.PI/2,0));
-			this.glPlane2D	 = new CPlane2(600,120,  new THREE.Vector3(600,100,10),new THREE.Vector3(0,-Math.PI/2,0));
-			this.glscene.add( this.glPlane2D );
-			
-	    	this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
-			this.cssgroup.add( this.css3Diframe );
-
-			this.cssscene.add( this.cssgroup );
-	    }
-
 	    create_css3Diframe_rchat()
 	    {	this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
 	    	this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
 			this.cssgroup.add( this.css3Diframe );
 			this.cssscene.add( this.cssgroup );
 	    }
-
-
-	    
-	    create_css3Diframe_rchat()
-	    {	this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
-	    
-			var plane2D = CPlane2(w, h,  new THREE.Vector3(600,120,600),new THREE.Vector3(0,-Math.PI/2,0));
-
-	    	this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
-			this.cssgroup.add( this.css3Diframe );
-			this.cssgroup.add(plane2D);
-			
-			this.cssscene.add( this.cssgroup );
-	    }
-	    
 
 		create_pivot()
 		{	this.pivot			= new THREE.Object3D();
@@ -111,14 +82,7 @@
 		
 		create_plane()
 		{	var anis = this.msmapp.getMaxAnisotropy();
-			//super.addMesh(new CPlane({width:1000,height:1000},anis));	
-			super.addMesh(new CPlane('ground_desert_mesh',
-									 {width:1000,height:1000},
-									 anis,
-									 'images/dirt/dirt_COLOR.jpg',
-									 'images/dirt/dirt_NRM.jpg',
-									 'images/dirt/dirt_OCC.jpg'
-									 ));	
+			super.addMesh(new CPlane({width:1000,height:1000},anis));	
 		}
 
 		create_blocker()
@@ -195,10 +159,12 @@
 		}
 		
 		create_building1()
-		{	var pos			= {x:39.75,			y:-24.05,		z:-24.325};		
+		{	var pos			= {x:39.75,		y:-24.05,		z:-24.325};		
         	var rot			= {x:0,			y:0,		z:0};
         	var scale		= {x:1,			y:1,		z:1};		
-        	this.building1	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building1','models/building1/','building1.mtl','building1.obj',pos,rot,scale);
+        	//this.building1	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building1','models/building1/','building1.mtl','building1.obj',pos,rot,scale);
+        	
+        	this.building1  = new CLoadModel_Obj(this.glscene,'models/building1/','building1.mtl','building1.obj',pos,scale);
 		}
 
 		create_building3()
@@ -300,8 +266,8 @@
 			for (let i = 0; i < len; i++) 
 			{	//let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
     			let mesh			= new THREE.Mesh(geometry, material);
-    			//mesh.castShadow		= true;			
-				//mesh.receiveShadow	= false;//true;//
+    			mesh.castShadow		= true;			
+				mesh.receiveShadow	= false;//true;
 				
     			this.glscene.add(mesh);
     			this.doors.push(mesh);
@@ -451,10 +417,9 @@
 					{	//this.css3Diframe.lookAt (player.getPosition());
 						//this.css3Diframe.lookAt (this.cam.getWorldPosition());
 						this.css3Diframe.lookAt (campos);
-						//if(this.glPlane2D)this.glPlane2D.lookAt (campos);					
-						
+					
 						//this.css3Diframe.quaternion.copy( this.cam.quaternion );
-						//this.css3Diframe.position.x = this.cam.position.x+800;
+						this.css3Diframe.position.x = this.cam.position.x+800;
 					}
 					
 					//this.light_.followTarget(this.glscene,player.getPosition(),'player_moviemesh');
@@ -561,6 +526,17 @@
 					case "door_A1":		this.msmapp.toggleScene(1);break;
 					case "door_A2":		this.msmapp.toggleScene(2);break;
 					case "door_A3":		this.msmapp.toggleScene(3);break;
+					case "door_A4":		this.msmapp.toggleScene(4);break;
+					case "door_A5":		this.msmapp.toggleScene(5);break;
+					case "door_A6":		this.msmapp.toggleScene(6);break;
+
+					case "door_B0":		this.msmapp.toggleScene(7+0);break;
+					case "door_B1":		this.msmapp.toggleScene(7+1);break;
+					case "door_B2":		this.msmapp.toggleScene(7+2);break;
+					case "door_B3":		this.msmapp.toggleScene(7+3);break;
+					case "door_B4":		this.msmapp.toggleScene(7+4);break;
+					case "door_B5":		this.msmapp.toggleScene(7+5);break;
+					case "door_B6":		this.msmapp.toggleScene(7+6);break;
 				}
               }
             });

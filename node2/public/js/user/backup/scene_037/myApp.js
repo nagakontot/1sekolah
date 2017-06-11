@@ -1,9 +1,5 @@
 "use strict"
 
-	window.gfloorTexture;
-	window.gfloorTextureBump;
-	window.gfloorTextureOCC;
-			
 	///////////////////////////////////////////////////////////////////////
 	class CApp extends MSMApp
 	{ 	constructor(canvas="canvas",fps=30,width=window.innerWidth,height=window.innerHeight) 
@@ -47,19 +43,6 @@
 		{	//+-//////////////////////////////////////////////////////////////-+
 			//| create objs which will exist as singleton across many scenes   |
 			//+-//////////////////////////////////////////////////////////////-+
-			var anis = super.getMaxAnisotropy();
-
-			window.gfloorTexture      		= window.gTexLoader.load( 'images/dirt/dirt_COLOR.jpg' );
-	        window.gfloorTexture.wrapS      = window.gfloorTexture.wrapT = THREE.RepeatWrapping; 
-    	    window.gfloorTexture.repeat.set( 200,200 );
-    		window.gfloorTexture.magFilter	= THREE.NearestFilter;
-			window.gfloorTexture.minFilter	= THREE.LinearMipMapLinearFilter;
-   			window.gfloorTexture.anisotropy = anis;//maxAnisotropy;
-	        
-	        window.gfloorTextureBump    	= window.gTexLoader.load( 'images/dirt/dirt_NRM.jpg' );
-	        window.gfloorTextureOCC     	= window.gTexLoader.load( 'images/dirt/dirt_OCC.jpg' );
-
-
 			//setTimeout(this.create_GameModel.bind(this),0);
 			this.create_GameModel();
 			
