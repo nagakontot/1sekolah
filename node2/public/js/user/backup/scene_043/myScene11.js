@@ -1,6 +1,6 @@
 "use strict"
 
-    class CScene1 extends MSMScene
+    class CScene11 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp);
         }
@@ -47,36 +47,166 @@
 			
 			//this.create_ShaderSkybox();
 			/////////////////////////////////////////////////////////
-			//this.pivot			= new THREE.Object3D();
-			//this.pivot.name 	= 'Pivot';
-			//this.glscene.add( this.pivot );
+			this.pivot			= new THREE.Object3D();
+			this.pivot.name 	= 'Pivot';
+			this.glscene.add( this.pivot );
 			
 			//////////////////////////////////////////////////////////
 
-			this.pivot=this.msmapp.create_pivot(this.glscene);
 			//setTimeout(this.create_pivot.bind(this),0);
-			//setTimeout(this.create_blocker.bind(this),0);
-			//setTimeout(this.create_plane.bind(this),0);
-			this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC).then((done)=> {super.addMesh(done);});	
+			setTimeout(this.create_blocker.bind(this),0);
+			setTimeout(this.create_plane.bind(this),0);
 			//setTimeout(this.create_Minecraft.bind(this),0);
 
 			//setTimeout(this.create_videostuff.bind(this),0);
-			//setTimeout(this.create_css3Diframe_rchat.bind(this),0);
-			//////////////////////////////////////////////////////////////
-			this.msmapp.create_css3Diframe_rchat(this.cssscene).then((done)=> {	this.css3Diframe = done;});			
-			//////////////////////////////////////////////////////////////
+			setTimeout(this.create_css3Diframe_rchat.bind(this),0);
 			//setTimeout(this.create_house1.bind(this),0);
-			//this.msmapp.create_house1(this.pivot,this.glscene).then((done)=> {	this.house1 = done;});			
-			//setTimeout(this.create_building3.bind(this),0);
-			//this.msmapp.create_building3(this.glscene).then((done)=> {	this.building3 = done;});			
+			setTimeout(this.create_building3.bind(this),0);
 			//setTimeout(this.create_building1.bind(this),0);
-			this.msmapp.create_building1(this.glscene).then((done)=> {	this.building1 = done;});			
-			setTimeout(this.create_doors.bind(this,this.msmapp.doortex),0);
-			//setTimeout(this.create_particle1.bind(this),0);
-			this.param1 = [];
-			this.msmapp.create_particle1(this.glscene).then((done)=> {	this.params1 = done.params1; this.mysp = done.mysp;});			
+			//setTimeout(this.create_doors.bind(this),0);
+			setTimeout(this.create_particle1.bind(this),0);
 		}
 
+	    create_css3Diframe_rchat1()
+	    {	//this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
+	    	this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,100,10, -Math.PI/2 );
+	    
+			//this.glPlane2D	 = new CPlane2(600,120,  new THREE.Vector3(600,120,600),new THREE.Vector3(0,-Math.PI/2,0));
+			this.glPlane2D	 = new CPlane2(600,120,  new THREE.Vector3(600,100,10),new THREE.Vector3(0,-Math.PI/2,0));
+			this.glscene.add( this.glPlane2D );
+			
+	    	this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
+			this.cssgroup.add( this.css3Diframe );
+
+			this.cssscene.add( this.cssgroup );
+	    }
+
+	    create_css3Diframe_rchat()
+	    {	this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
+	    	this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
+			this.cssgroup.add( this.css3Diframe );
+			this.cssscene.add( this.cssgroup );
+	    }
+
+		create_pivot()
+		{	this.pivot			= new THREE.Object3D();
+			this.pivot.name 	= 'Pivot';
+			this.glscene.add( this.pivot );
+		}
+		
+		create_plane()
+		{	var anis = this.msmapp.getMaxAnisotropy();
+			//super.addMesh(new CPlane({width:1000,height:1000},anis));	
+			super.addMesh(new CPlane('ground_desert_mesh',
+									 {width:1000,height:1000},
+									  anis,
+									  this.msmapp.floorTexture,			//'images/dirt/dirt_COLOR.jpg',
+									  this.msmapp.floorTextureBump,		//'images/dirt/dirt_NRM.jpg',
+									  this.msmapp.floorTextureOCC		//'images/dirt/dirt_OCC.jpg'
+									 ));	
+		}
+
+		create_blocker()
+		{	this.blocker = document.getElementById( 'blocker' );
+			this.blocker.style.display = 'none';
+			document.addEventListener( 'mousedown', function () { this.blocker.style.display = ''; }.bind(this));//,     false );
+			document.addEventListener( 'mouseup',   function () { this.blocker.style.display = 'none'; }.bind(this));//, false );
+		}
+		
+		create_house1()
+		{	//var pos = {x:83,y:-3,z:66};
+        	//this.mymodel_1  = new CLoadModel_Obj(this.glscene,'models/male02/','male02_dds.mtl','male02.obj',pos);
+        	//this.kiosk  = new CLoadModel_Obj(this.glscene,'models/kiosk/','Kiosk1.obj.mtl','Kiosk1.obj',pos);
+        	//this.kiosk  = new CLoadModel_Obj(this.glscene,'models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos);
+        	
+        	//good!
+        	//var pos1	= {x:83,y:-3.5,z:66};
+        	//var scale1  = {x:2,y:2,z:2};
+        	//this.kiosk  = new CLoadModel_Obj(this.glscene,'models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos1,scale1);
+        	//this.kiosk  = new CLoadModel_Obj2(this.pivot,this.glscene,'models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos1,scale1);
+
+        	//var pos1	= {x:109,y:-2.15,z:62};
+        	//var scale1  = {x:0.05,y:0.05,z:0.05};
+        	//this.house = new CLoadModel_Obj(this.glscene,'models/house_02/','House_02.obj.mtl','House_02.obj',pos1,scale1);
+        	
+        	//var pos1	= {x:109,y:-3,z:62};
+        	//var scale1  = {x:1,y:1,z:1};
+        	//this.StreetScene = new CLoadModel_Obj(this.glscene,'models/StreetScene/','StreetScene.obj.mtl','StreetScene.obj',pos1,scale1);
+
+        	//var pos1	= {x:109,y:-5,z:62};
+        	//var scale1  = {x:0.1,y:0.1,z:0.1};
+        	//this.TheCity = new CLoadModel_Obj(this.glscene,'models/TheCity/','TheCity.obj.mtl','TheCity.obj',pos1,scale1);
+
+        	//var pos1	= {x:109,y:0,z:62};
+        	//var scale1  = {x:1,y:1,z:1};
+        	//this.cs_italy = new CLoadModel_Obj(this.glscene,'models/cs_italy/','cs_italy.obj.mtl','cs_italy.obj',pos1,scale1);
+
+        	//var pos1	= {x:109,y:0,z:62};
+        	//var scale1  = {x:1,y:1,z:1};
+        	//this.kiosk2	= new CLoadModel_Obj(this.glscene,'models/kiosk2/','CoffeeKiosk.obj.mtl','CoffeeKiosk.obj',pos1,scale1);
+
+        	//this.label   = createLabel(this.glscene,"bodoooooo", 40) ;
+        	//this.glscene.add(createLabel(this.glscene,"bodoooooo", 40));
+
+			////////////////////////////////////////////////////////////////////
+
+        	//var pos2		= {x:50,y:-1.5,z:50};		//new THREE.Vector3(50,-2,50);	//
+        	//var scale2  	= {x:2,y:2,z:2};		//new THREE.Vector3(2,2,2);		//
+        	//this.newstand   = new CLoadModel_WWObj2(this.pivot,this.glscene,'newstand','models/newstand/','NewsStand.obj.mtl','NewsStand.obj',pos2,scale2);
+			
+        	//var pos3	= {x:6,		y:6.6,		z:85};		
+        	//var rot3	= {x:0,		y:Math.PI,z:0};		
+        	//var scale3  = {x:0.02,	y:0.02,		z:0.02};		
+        	//this.house1 = new CLoadModel_WWObj2(this.pivot,this.glscene,'house1','models/house1/','house1.mtl','house1.obj',pos3,rot3,scale3);
+
+        	//var pos4	= {x:6,		y:-25,		z:85};		
+        	//var rot4	= {x:0,		y:Math.PI,  z:0};		
+        	//var scale4  = {x:0.02,	    y:0.02,		z:0.02};		
+        	//this.cs_italy = new CLoadModel_WWObj2(this.pivot,this.glscene,'cs_italy','models/cs_italy/','cs_italy.obj.mtl','cs_italy.obj',pos4,rot4,scale4);
+			///////////////////////////////////////
+        	var pos			= {x:6,			y:-1.59,		z:85};		
+        	var rot			= {x:0.000355,	y:Math.PI,  z:-0.004};
+        	var scale		= {x:12,		y:12,		z:12};		
+        	this.buidling	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building4','models/building4/','building4.obj.mtl','building4.obj',pos,rot,scale);
+			
+		}
+		
+		create_castle01()
+		{	var pos			= {x:0,			y:-1,		z:0};		
+        	var rot			= {x:0,			y:Math.PI,  z:0};
+        	var scale		= {x:0.0025,			y:0.0025,		z:0.0025};		
+        	this.castle01	= new CLoadModel_WWObj2(this.pivot,this.glscene,'castle01','models/castle01/','castle01.obj.mtl','castle01.obj',pos,rot,scale);
+			
+		}
+		
+		create_building1()
+		{	var pos			= {x:39.75,		y:-24.05,		z:-24.325};		
+        	var rot			= {x:0,			y:0,		z:0};
+        	var scale		= {x:1,			y:1,		z:1};		
+        	//this.building1	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building1','models/building1/','building1.mtl','building1.obj',pos,rot,scale);
+        	
+        	this.building1  = new CLoadModel_Obj(this.glscene,'models/building1/','building1.mtl','building1.obj',pos,scale);
+		}
+
+		create_building3()
+		{	var pos			= {x:0,			y:-1.99,	z:0};		
+        	var rot			= {x:0,			y:0,		z:0};
+        	var scale		= {x:1,			y:1,		z:1};		
+        	//this.building3	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building3','models/building3/','building3.mtl','building3.obj',pos,rot,scale);
+        	this.building3  = new CLoadModel_Obj(this.glscene,'models/building3/','building3.mtl','building3.obj',pos,scale);
+		}
+		
+		create_particle1()
+		{	this.params1=	[	[ [1.0,  0.2,  0.5], window.gTexLoader.load("textures/sprites/snowflake1.png"), 0.8],
+								[ [0.95, 0.1,  0.5], window.gTexLoader.load("textures/sprites/snowflake2.png"), 0.5],
+								[ [0.90, 0.05, 0.5], window.gTexLoader.load("textures/sprites/snowflake3.png"), 0.3],
+								[ [0.85, 0,    0.5], window.gTexLoader.load("textures/sprites/snowflake4.png"), 0.2],
+								[ [0.80, 0,    0.5], window.gTexLoader.load("textures/sprites/snowflake5.png"), 0.1]
+							];
+        						
+        	this.mysp		= new CSpritePoint(this.glscene,this.params1);
+		}
+		
 		create_Minecraft()
 		{	var anis = this.msmapp.getMaxAnisotropy();
 			this.mymc = new CMinecraft(100,100,anis);
@@ -349,7 +479,7 @@
 					//}	
 				}					
 			//}
-	
+		
         	return [[this.glscene, this.cam],[this.cssscene, this.cam]];		
 		}
 		

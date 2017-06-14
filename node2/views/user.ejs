@@ -336,14 +336,16 @@
     <script>
 		const mysession	= new CSession();
 		mysession.set("username","<%=username%>");
+	    console.log("mysession.get('avatar')="    + mysession.get("avatar"));
+        console.log("mysession.get('username')="  + mysession.get("username"));
 
-        window.setTimeout( function() 
-		{   //setCookie("username","<%=username%>",1);
-		    //console.log("getCookie('avatar')="    + getCookie("avatar"));
-            //console.log("getCookie('username')="  + getCookie("username"));
-		    console.log("getCookie('avatar')="    + mysession.get("avatar"));
-            console.log("getCookie('username')="  + mysession.get("username"));
-		},1000);
+        //window.setTimeout( function() 
+		//{   //setCookie("username","<%=username%>",1);
+		//    //console.log("getCookie('avatar')="    + getCookie("avatar"));
+        //    //console.log("getCookie('username')="  + getCookie("username"));
+		//    console.log("getCookie('avatar')="    + mysession.get("avatar"));
+        //    console.log("getCookie('username')="  + mysession.get("username"));
+		//},1000);
     </script>
     
     <script src="js/user/scene/myThree.js"></script>
