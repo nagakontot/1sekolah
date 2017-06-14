@@ -1,6 +1,6 @@
 "use strict"
 
-    class CScene3 extends MSMScene
+    class CScene2 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp);
         }
@@ -63,13 +63,13 @@
 			//setTimeout(this.create_house1.bind(this),0);
 			setTimeout(this.create_building3.bind(this),0);
 			//setTimeout(this.create_building1.bind(this),0);
-			//setTimeout(this.create_doors.bind(this),0);
+			//setTimeout(this.create_building1.bind(this),0);
 			setTimeout(this.create_particle1.bind(this),0);
 		}
 
 	    create_css3Diframe_rchat1()
 	    {	//this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
-	    	this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,100,10, -Math.PI/2 );
+	    	this.css3Diframe = new CElement("https://rchat.1sekolah.xyz/channel/math",600,100,10, -Math.PI/2 );
 	    
 			//this.glPlane2D	 = new CPlane2(600,120,  new THREE.Vector3(600,120,600),new THREE.Vector3(0,-Math.PI/2,0));
 			this.glPlane2D	 = new CPlane2(600,120,  new THREE.Vector3(600,100,10),new THREE.Vector3(0,-Math.PI/2,0));
@@ -99,10 +99,10 @@
 			//super.addMesh(new CPlane({width:1000,height:1000},anis));	
 			super.addMesh(new CPlane('ground_desert_mesh',
 									 {width:1000,height:1000},
-									  anis,
-									  this.msmapp.floorTexture,			//'images/dirt/dirt_COLOR.jpg',
-									  this.msmapp.floorTextureBump,		//'images/dirt/dirt_NRM.jpg',
-									  this.msmapp.floorTextureOCC		//'images/dirt/dirt_OCC.jpg'
+									  anis
+									 //'images/dirt/dirt_COLOR.jpg',
+									 //'images/dirt/dirt_NRM.jpg',
+									 //'images/dirt/dirt_OCC.jpg'
 									 ));	
 		}
 

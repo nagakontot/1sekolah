@@ -318,7 +318,7 @@ class MSMApp                                                                //|
     this.mouse.y =-(event.clientY / window.innerHeight) * 2 + 1;
 
     if(this.currentScene)
-    { if (typeof this.currentScene.onDocumentMouseMove === "function")this.currentScene.onDocumentMouseMove(); 
+    { this.currentScene.onDocumentMouseMove();
     }
   }
 //|___________________________________________________________________________|
@@ -334,7 +334,7 @@ class MSMApp                                                                //|
     
     if(this.currentScene)
     { this.intersects  = this.raycaster.intersectObjects(this.currentScene.glscene.children,true);
-      if (typeof this.currentScene.onDocumentClick === "function")this.currentScene.onDocumentClick(); 
+      this.currentScene.onDocumentClick(); 
     }
   }
 //|___________________________________________________________________________|

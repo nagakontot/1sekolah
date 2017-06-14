@@ -1,70 +1,7 @@
 "use strict"
 
 	///////////////////////////////////////////////////////////////////////
-	//class cration via preposition
-	const CCreator = CBase => class extends CBase
-	{	constructor(canvas,fps,width,height)
-		{	super(canvas,fps,width,height);
-		}
-		
-		create_plane(name='ground_desert_mesh',x=1000,y=1000,floorTexture=null,floorTextureBump=null,floorTextureOCC=null)
-		{	var promise = new Promise((resolve, reject) =>
-			{	window.setTimeout(()=>
-				{	var anis = this.getMaxAnisotropy();
-					//super.addMesh(new CPlane({width:1000,height:1000},anis));	
-					//super.addMesh(new CPlane(name,{width:x,height:y},anis,floorTexture,floorTextureBump,floorTextureOCC));	
-					var plane = new CPlane(name,{width:x,height:y},anis,floorTexture,floorTextureBump,floorTextureOCC);
-					resolve(plane);
-				});
-			});
-			return promise;
-		}
-		
-		create_css3Diframe_rchat(cssscene,url="https://rchat.1sekolah.xyz",x=600,y=120,z=600,ry=-Math.PI/2) 
-		{	var promise = new Promise((resolve, reject) =>
-			{	window.setTimeout(()=>
-				{	//var css3Diframe = new CElement(url,600,120,600, -Math.PI/2 );
-					var css3Diframe = new CElement(url,x,y,z,ry);
-	    			var cssgroup    = new THREE.Group();//new THREE.Object3D();//
-					cssgroup.add( css3Diframe );
-					cssscene.add( cssgroup );		
-					resolve(css3Diframe);
-				});
-			});
-			return promise;
-		}
-
-	    create_css3Diframe_rchat1()
-	    {	//this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
-	    	this.css3Diframe = new CElement("https://rchat.1sekolah.xyz/channel/lobby",600,100,10, -Math.PI/2 );
-	    
-			//this.glPlane2D	 = new CPlane2(600,120,  new THREE.Vector3(600,120,600),new THREE.Vector3(0,-Math.PI/2,0));
-			this.glPlane2D	 = new CPlane2(600,120,  new THREE.Vector3(600,100,10),new THREE.Vector3(0,-Math.PI/2,0));
-			this.glscene.add( this.glPlane2D );
-			
-	    	this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
-			this.cssgroup.add( this.css3Diframe );
-
-			this.cssscene.add( this.cssgroup );
-	    }
-
-	    create_css3Diframe_rchat2(cssscene)
-	    {	//this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
-	    	//this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
-			//this.cssgroup.add( this.css3Diframe );
-			//this.cssscene.add( this.cssgroup );
-			
-			var css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
-	    	var cssgroup    = new THREE.Group();//new THREE.Object3D();//
-			cssgroup.add( this.css3Diframe );
-			cssscene.add( this.cssgroup );
-			
-			return css3Diframe;
-	    }		
-	}
-	
-	///////////////////////////////////////////////////////////////////////
-	class CApp extends CCreator(MSMApp)
+	class CApp extends MSMApp
 	{ 	constructor(canvas="canvas",fps=30,width=window.innerWidth,height=window.innerHeight) 
 		{	super(canvas,fps,width,height);
 			super.enableShadow();
@@ -124,7 +61,7 @@
 			{	this.gscenes[i].init();
 			}
 
-			//this.scene_number=0 //-> start with lobby!
+			//this.scene_number=0 -> start with lobby!
 			this.setScene(this.gscenes[this.scene_number]).start();
 			
 		}

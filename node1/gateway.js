@@ -25,6 +25,7 @@ var redbird = require('redbird')
 //////////////////////////////////////////////////////////////////////
 redbird.register("1sekolah.xyz",                "http://172.18.0.3:3001",   {ssl: true});
 redbird.register("www.1sekolah.xyz",            "http://172.18.0.3:3001",   {ssl: true});
+
 redbird.register("ide.1sekolah.xyz",            "http://172.18.0.3:8181",   {ssl: true});
 
 redbird.register("rchat.1sekolah.xyz",          "http://172.18.0.4:3000",   {ssl: true});
@@ -38,7 +39,8 @@ redbird.register("test2.1sekolah.xyz",           "http://172.18.0.3:8080",  {ssl
 
 //////////////////////////////////////////////////////////////////////
 //redbird.register("nodebb.1sekolah.xyz",           "http://172.18.0.6:4567",  {ssl: true});
-//redbird.register("express.1sekolah.xyz",          "http://172.18.0.7:8081",  {ssl: true});
+//redbird.register("express.1sekolah.xyz",          "http://172.18.0.6:8081",  {ssl: true});
+//redbird.register("mongoclient.1sekolah.xyz",        "http://172.18.0.6:3000",  {ssl: true});
 
 //////////////////////////////////////////////////////////////////////
 /*

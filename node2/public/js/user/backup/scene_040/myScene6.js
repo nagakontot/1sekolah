@@ -1,6 +1,6 @@
 "use strict"
 
-    class CScene3 extends MSMScene
+    class CScene6 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp);
         }
@@ -99,10 +99,10 @@
 			//super.addMesh(new CPlane({width:1000,height:1000},anis));	
 			super.addMesh(new CPlane('ground_desert_mesh',
 									 {width:1000,height:1000},
-									  anis,
-									  this.msmapp.floorTexture,			//'images/dirt/dirt_COLOR.jpg',
-									  this.msmapp.floorTextureBump,		//'images/dirt/dirt_NRM.jpg',
-									  this.msmapp.floorTextureOCC		//'images/dirt/dirt_OCC.jpg'
+									  anis
+									 //'images/dirt/dirt_COLOR.jpg',
+									 //'images/dirt/dirt_NRM.jpg',
+									 //'images/dirt/dirt_OCC.jpg'
 									 ));	
 		}
 
@@ -355,7 +355,6 @@
 			
 			var time = Date.now() * 0.00001;
 			this.cam = this.msmapp.camera();
-
 			
 			//TWEEN.update(time);
 			TWEEN.update();
