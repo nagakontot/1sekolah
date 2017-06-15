@@ -32,7 +32,7 @@
 	})(this);	
 	*/
 	///////////////////////////////////////////////////////////////////////
-	//class cration via preposition
+	//class creation via preposition
 	const CCreator = CBase => class extends CBase
 	{	constructor(canvas,fps,width,height)
 		{	super(canvas,fps,width,height);
@@ -72,7 +72,7 @@
 					else
 					{	reject("mysky is undefined!");
 					}
-				});
+				},0);
 			});
 			return promise;    			
 		}
@@ -85,7 +85,7 @@
 					glscene.add(mymc.getMesh());
         			
 					resolve(mymc);
-				});
+				},0);
 			});
 			return promise;           				
 		}
@@ -103,7 +103,7 @@
         			var mysp		= new CSpritePoint(glscene,params1);
         			
 					resolve({params1:params1,mysp:mysp});
-				});
+				},0);
 			});
 			return promise;           	
 		}
@@ -172,7 +172,7 @@
         			var scale		= {x:12,		y:12,		z:12};		
         			//this.buidling	= new CLoadModel_WWObj2(pivot,glscene,'building4','models/building4/','building4.obj.mtl','building4.obj',pos,rot,scale);
 					resolve(new CLoadModel_WWObj2(pivot,glscene,'building4','models/building4/','building4.obj.mtl','building4.obj',pos,rot,scale));
-				});
+				},0);
 			});
 			return promise;        	
 		}
@@ -192,7 +192,7 @@
         			//this.castle01	= new CLoadModel_WWObj2(pivot,glscene,'castle01','models/castle01/','castle01.obj.mtl','castle01.obj',pos,rot,scale);
         			
 					resolve(new CLoadModel_WWObj2(pivot,glscene,'castle01','models/castle01/','castle01.obj.mtl','castle01.obj',pos,rot,scale));
-				});
+				},0);
 			});
 			return promise;           	
 		}
@@ -216,7 +216,7 @@
         			//return new CLoadModel_Obj(glscene,'models/building1/','building1.mtl','building1.obj',pos,scale);
         			
 					resolve(new CLoadModel_Obj(glscene,'models/building1/','building1.mtl','building1.obj',pos,scale));
-				});
+				},0);
 			});
 			return promise;           	
 		}
@@ -239,7 +239,7 @@
         			//return new CLoadModel_Obj(glscene,'models/building3/','building3.mtl','building3.obj',pos,scale);
         			
 					resolve(new CLoadModel_Obj(glscene,'models/building3/','building3.mtl','building3.obj',pos,scale));
-				});
+				},0);
 			});
 			return promise;           	
 		}
@@ -266,7 +266,7 @@
 					//super.addMesh(new CPlane(name,{width:x,height:y},anis,floorTexture,floorTextureBump,floorTextureOCC));	
 					var plane = new CPlane(name,{width:x,height:y},anis,floorTexture,floorTextureBump,floorTextureOCC);
 					resolve(plane);
-				});
+				},0);
 			});
 			return promise;
 		}
@@ -280,7 +280,7 @@
 					cssgroup.add( css3Diframe );
 					cssscene.add( cssgroup );		
 					resolve(css3Diframe);
-				});
+				},0);
 			});
 			return promise;
 		}
