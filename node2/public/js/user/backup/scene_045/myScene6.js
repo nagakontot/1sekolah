@@ -1,6 +1,6 @@
 "use strict"
 
-    class CScene1 extends MSMScene
+    class CScene6 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp);
         }
@@ -39,6 +39,7 @@
 			//////////////////////////////////////////////////////////
 
 			this.pivot=this.msmapp.create_pivot(this.glscene);
+
 			//setTimeout(this.create_pivot.bind(this),0);
 			//setTimeout(this.create_blocker.bind(this),0);
 			//setTimeout(this.create_plane.bind(this),0);
@@ -50,21 +51,18 @@
 			//setTimeout(this.create_building1.bind(this),0);
 			//setTimeout(this.create_particle1.bind(this),0);
 
-			//////////////////////////////////////////////////////////////
 			this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC).then((done)=> {super.addMesh(done);});	
 			//this.msmapp.create_Minecraft(this.glscene).then((done)=> {	this.mymc = done;});	
-			this.msmapp.create_css3Diframe_rchat(this.cssscene).then((done)=> {	this.css3Diframe = done;});			
 
 			//////////////////////////////////////////////////////////////
+			this.msmapp.create_css3Diframe_rchat(this.cssscene).then((done)=> {	this.css3Diframe = done;});			
+			//////////////////////////////////////////////////////////////
 			//this.msmapp.create_house1(this.pivot,this.glscene).then((done)=> {	this.house1 = done;});			
-			//this.msmapp.create_building3(this.glscene).then((done)=> {	this.building3 = done;});			
-			this.msmapp.create_building1(this.glscene).then((done)=> {	this.building1 = done;});			
-			setTimeout(this.create_doors.bind(this,this.msmapp.doortex),0);
+			this.msmapp.create_building3(this.glscene).then((done)=> {	this.building3 = done;});			
+			//this.msmapp.create_building1(this.glscene).then((done)=> {	this.building1 = done;});			
+			//setTimeout(this.create_doors.bind(this,this.msmapp.doortex),0);
 			this.msmapp.create_particle1(this.glscene).then((done)=> {	this.params1 = done.params1; this.mysp = done.mysp;});			
-
-			this.msmapp.create_ShaderSkybox(this.glscene)
-				.then((done)=>	 {	this.mysky = done;})
-				.catch((error)=> {	console.log(error);});
+			this.msmapp.create_ShaderSkybox(this.glscene).then((done)=> {	this.mysky = done;});			
 
             return this;
 
