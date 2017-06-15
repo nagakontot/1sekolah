@@ -38,7 +38,7 @@
 		{	super(canvas,fps,width,height);
 		}
 		
-		create_ShaderSkybox(glscene)
+		async create_ShaderSkybox(glscene)
 		{	/*
 			// prepare ShaderMaterial without textures
 			var vertexShader	= document.getElementById('sky-vertex').textContent, 
@@ -59,7 +59,7 @@
 
 			//////////////////////////////////
 			//var promise = new Promise((resolve, reject) =>
-			var promise = new Promise((resolve, reject) =>
+			var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
 				{	//var size	= {radius:250,widthSegments:60,heightSegments:40};
 					var size	= {radius:900,widthSegments:60,heightSegments:40};
@@ -77,8 +77,8 @@
 			return promise;    			
 		}
 		
-		create_Minecraft(glscene)
-		{	var promise = new Promise((resolve, reject) =>
+		async create_Minecraft(glscene)
+		{	var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
 				{	var anis = this.getMaxAnisotropy();
 					var mymc = new CMinecraft(100,100,anis);
@@ -90,8 +90,8 @@
 			return promise;           				
 		}
 		
-		create_particle1(glscene)
-		{	var promise = new Promise((resolve, reject) =>
+		async create_particle1(glscene)
+		{	var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
 				{	var params1=	[	[ [1.0,  0.2,  0.5], window.gTexLoader.load("textures/sprites/snowflake1.png"), 0.8],
 										[ [0.95, 0.1,  0.5], window.gTexLoader.load("textures/sprites/snowflake2.png"), 0.5],
@@ -108,7 +108,7 @@
 			return promise;           	
 		}
 		
-		create_house1(pivot,glscene)
+		async create_house1(pivot,glscene)
 		{	//var pos = {x:83,y:-3,z:66};
         	//this.mymodel_1  = new CLoadModel_Obj(this.glscene,'models/male02/','male02_dds.mtl','male02.obj',pos);
         	//this.kiosk  = new CLoadModel_Obj(this.glscene,'models/kiosk/','Kiosk1.obj.mtl','Kiosk1.obj',pos);
@@ -165,7 +165,7 @@
         	//this.buidling	= new CLoadModel_WWObj2(pivot,glscene,'building4','models/building4/','building4.obj.mtl','building4.obj',pos,rot,scale);
         	//return new CLoadModel_WWObj2(pivot,glscene,'building4','models/building4/','building4.obj.mtl','building4.obj',pos,rot,scale);
         	//////////////////////////////////////////
-			var promise = new Promise((resolve, reject) =>
+			var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
 				{	var pos			= {x:6,			y:-1.59,		z:85};		
         			var rot			= {x:0.000355,	y:Math.PI,  z:-0.004};
@@ -177,14 +177,14 @@
 			return promise;        	
 		}
 		
-		create_castle01(pivot,glscene)
+		async create_castle01(pivot,glscene)
 		{	//var pos			= {x:0,			y:-1,		z:0};		
         	//var rot			= {x:0,			y:Math.PI,  z:0};
         	//var scale		= {x:0.0025,			y:0.0025,		z:0.0025};		
         	//this.castle01	= new CLoadModel_WWObj2(pivot,glscene,'castle01','models/castle01/','castle01.obj.mtl','castle01.obj',pos,rot,scale);
         	//return new CLoadModel_WWObj2(pivot,glscene,'castle01','models/castle01/','castle01.obj.mtl','castle01.obj',pos,rot,scale);
         	//////////////////////////////////////////
-			var promise = new Promise((resolve, reject) =>
+			var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
 				{	var pos			= {x:0,			y:-1,		z:0};		
         			var rot			= {x:0,			y:Math.PI,  z:0};
@@ -197,7 +197,7 @@
 			return promise;           	
 		}
 		
-		create_building1(glscene)
+		async create_building1(glscene)
 		{	//var pos			= {x:39.75,		y:-24.05,		z:-24.325};		
         	//var rot			= {x:0,			y:0,		z:0};
         	//var scale		= {x:1,			y:1,		z:1};		
@@ -206,7 +206,7 @@
         	//this.building1  = new CLoadModel_Obj(glscene,'models/building1/','building1.mtl','building1.obj',pos,scale);
         	//return new CLoadModel_Obj(glscene,'models/building1/','building1.mtl','building1.obj',pos,scale);
         	//////////////////////////////////////////
-			var promise = new Promise((resolve, reject) =>
+			var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
 				{	var pos			= {x:39.75,		y:-24.05,		z:-24.325};		
         			var rot			= {x:0,			y:0,		z:0};
@@ -221,7 +221,7 @@
 			return promise;           	
 		}
 
-		create_building3(glscene)
+		async create_building3(glscene)
 		{	//var pos			= {x:0,			y:-1.99,	z:0};		
         	//var rot			= {x:0,			y:0,		z:0};
         	//var scale		= {x:1,			y:1,		z:1};		
@@ -229,7 +229,7 @@
         	//this.building3  = new CLoadModel_Obj(glscene,'models/building3/','building3.mtl','building3.obj',pos,scale);
         	//return new CLoadModel_Obj(glscene,'models/building3/','building3.mtl','building3.obj',pos,scale);
         	//////////////////////////////////////////
-			var promise = new Promise((resolve, reject) =>
+			var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
 				{	var pos			= {x:0,			y:-1.99,	z:0};		
         			var rot			= {x:0,			y:0,		z:0};
@@ -258,8 +258,8 @@
 			document.addEventListener( 'mouseup',   ()=> { this.blocker.style.display = 'none'; });	//, false );
 		}
 		
-		create_plane(name='ground_desert_mesh',x=1000,y=1000,floorTexture=null,floorTextureBump=null,floorTextureOCC=null)
-		{	var promise = new Promise((resolve, reject) =>
+		async create_plane(name='ground_desert_mesh',x=1000,y=1000,floorTexture=null,floorTextureBump=null,floorTextureOCC=null)
+		{	var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
 				{	var anis = this.getMaxAnisotropy();
 					//super.addMesh(new CPlane({width:1000,height:1000},anis));	
@@ -271,8 +271,8 @@
 			return promise;
 		}
 		
-		create_css3Diframe_rchat(cssscene,url="https://rchat.1sekolah.xyz",x=600,y=120,z=600,ry=-Math.PI/2) 
-		{	var promise = new Promise((resolve, reject) =>
+		async create_css3Diframe_rchat(cssscene,url="https://rchat.1sekolah.xyz",x=600,y=120,z=600,ry=-Math.PI/2) 
+		{	var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
 				{	//var css3Diframe = new CElement(url,600,120,600, -Math.PI/2 );
 					var css3Diframe = new CElement(url,x,y,z,ry);
