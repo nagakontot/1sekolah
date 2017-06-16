@@ -1,6 +1,6 @@
 "use strict"
 
-    class CScene3 extends MSMScene
+    class CScene4 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp);
         }
@@ -39,7 +39,6 @@
 			//////////////////////////////////////////////////////////
 
 			this.pivot=this.msmapp.create_pivot(this.glscene);
-
 			//setTimeout(this.create_pivot.bind(this),0);
 			//setTimeout(this.create_blocker.bind(this),0);
 			//setTimeout(this.create_plane.bind(this),0);
@@ -66,36 +65,33 @@
 			//this.msmapp.create_ShaderSkybox(this.glscene)
 			//	.then((done)=>	 {	this.mysky = done;})
 			//	.catch((error)=> {	console.log(error);});
-
 			//////////////////////////////////////////////////////////////////
-    
-			try 
-			{	let [plane,rchat,building3,particle1,skybox] = await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
-    												    							this.msmapp.create_css3Diframe_rchat(this.cssscene),
-    												    							this.msmapp.create_building3(this.glscene,this.pivot),
-    												    							this.msmapp.create_particle1(this.glscene),
-    												    							this.msmapp.create_ShaderSkybox(this.glscene)
-    											    							 ]);
+    		let [plane,rchat,building3,particle1,skybox] = await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
+    											    							this.msmapp.create_css3Diframe_rchat(this.cssscene),
+    											    							this.msmapp.create_building3(this.glscene),
+    											    							this.msmapp.create_particle1(this.glscene),
+    											    							this.msmapp.create_ShaderSkybox(this.glscene)
+    											    						  ]);
 			
-				super.addMesh(plane);
-				this.css3Diframe	= rchat;
-				this.building3		= building3;			
+			super.addMesh(plane);
+			this.css3Diframe	= rchat;
+			this.building3		= building3;			
 			
-				this.params1		= particle1.params1; 
-				this.mysp			= particle1.mysp;
+			this.params1		= particle1.params1; 
+			this.mysp			= particle1.mysp;
 			
-				this.mysky			= skybox;
-			} 
-			catch (err) 
-			{	console.log(err);
-			}
+			this.mysky			= skybox;
 			
+			//plane.then((done)=> {super.addMesh(done);});
+			//rchat.then((done)=> {this.css3Diframe = done;});
+
+
             return this;
 
 		}
-
-  		async create_door_async()
-		{	var promise = await new Promise((resolve, reject) =>
+  
+  		create_door_async()
+		{	var promise = new Promise((resolve, reject) =>
 			{	//window.setTimeout(this.create_doors.bind(this,this.msmapp.doortex),0);
 				window.setTimeout(()=>
 				{	this.create_doors(this.msmapp.doortex);
