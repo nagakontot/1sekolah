@@ -1,6 +1,6 @@
 "use strict"
 
-    class CScene1 extends MSMScene
+    class CScene9 extends MSMScene
     {	constructor(msmapp) 
         {   super(msmapp);
         }
@@ -70,23 +70,21 @@
 			//////////////////////////////////////////////////////////////////
     
 			try 
-			{	//let [plane,rchat,building1,particle1,skybox,doors]  = await Promise.all([this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
-    			let [plane,rchat,building1,particle1,doors]  = await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
+			{	let [plane,rchat,building3,particle1,skybox] = await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
     												    							this.msmapp.create_css3Diframe_rchat(this.cssscene),
-    												    							this.msmapp.create_building1(this.pivot,this.glscene),
+    												    							this.msmapp.create_building3(this.pivot,this.glscene),
     												    							this.msmapp.create_particle1(this.glscene),
-    												    							//this.msmapp.create_ShaderSkybox(this.glscene),
-    												    							this.create_door_async()
-    												    						 ]);
+    												    							this.msmapp.create_ShaderSkybox(this.glscene)
+    											    							 ]);
 			
 				super.addMesh(plane);
 				this.css3Diframe	= rchat;
-				this.building1		= building1;			
+				this.building3		= building3;			
 			
 				this.params1		= particle1.params1; 
 				this.mysp			= particle1.mysp;
 			
-				//this.mysky			= skybox;
+				this.mysky			= skybox;
 			} 
 			catch (err) 
 			{	console.log(err);
@@ -219,11 +217,10 @@
 			
 		}
 		/////////////////////////////////////////////////////////////////////////////////
-		update(dt)
-		{	super.update(dt);
+		update()
+		{	super.update();
 			
-			//var time = Date.now() * 0.00001;
-			var time = dt;//window.performance.now()*0.00001;//
+			var time = Date.now() * 0.00001;
 			this.cam = this.msmapp.camera();
 			
 			//TWEEN.update(time);
@@ -367,81 +364,104 @@
 		//	this.update(time);
 		//	super.render();
 		//}
+	
 //|___________________________________________________________________________|
 //|                                                                           |
-		onDocumentMouseMove() 
-		{
-		}
+  onDocumentMouseMove() 
+  {
+  }
+
 //|___________________________________________________________________________|
 //|                                                                           |
-		onDocumentClick() 
-		{	//super.onDocumentClick();
+  onDocumentClick() 
+  { //super.onDocumentClick();
   
-		    var degToRad    = Math.PI / 180;
+    var degToRad    = Math.PI / 180;
 
-			try
-			{	// make clicked things open/close with a tweened animation
-		    	//throw is the only way to stop foreach loop!!!
-    			this.msmapp.intersects.forEach(clickedObject => 
-    			{	const name = clickedObject.object.name;
+//////////////////////////////////////
+//try {
+//  [1, 2, 3].forEach(function(el) {
+//    console.log(el);
+//    if (el === 2) throw BreakException;
+//  });
+//} catch (e) {
+//  if (e !== BreakException) throw e;
+//}
+//////////////////////////////////////
+ //try
+ {
+    // make clicked things open/close with a tweened animation
+    //throw is the only way to stop foreach loop!!!
+    this.msmapp.intersects.forEach(clickedObject => 
+    { const name = clickedObject.object.name;
+      //if(clickedObject.object.name!='ground_desert_mesh' && clickedObject.object.name!='player_moviemesh')
+      //console.log(name);
+      //if(name!=' '||name!=''||name!=null)
+      //{ if(name!='ground_desert_mesh')
+      //  { if(name!='player_moviemesh')
+      //    { // is door open or closed already?
+      
+      var isFirstContact=false;
+      if(name=="door_A0"||name=="door_A1"||name=="door_A2"||name=="door_A3"||name=="door_A4"||name=="door_A5"||name=="door_A6"||
+         name=="door_B0"||name=="door_B1"||name=="door_B2"||name=="door_B3"||name=="door_B4"||name=="door_B5"||name=="door_B6")    
+      {   if(isFirstContact===false)  
+          { isFirstContact=true;
+            var targetAngle = clickedObject.object.rotation.y === -80 * degToRad ? 0 : -80 * degToRad;
+            this.mytween = new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
+                                                                         .to({ y: targetAngle}, 500)
+                                                                         .start();
+            this.door_name = name;
+            console.log("door="+name);
 
-    				var isFirstContact=false;
-    				if(name=="door_A0"||name=="door_A1"||name=="door_A2"||name=="door_A3"||name=="door_A4"||name=="door_A5"||name=="door_A6"||
-        			name=="door_B0"||name=="door_B1"||name=="door_B2"||name=="door_B3"||name=="door_B4"||name=="door_B5"||name=="door_B6")    
-    				{   if(isFirstContact===false)  
-        				{	isFirstContact=true;
-            				var targetAngle = clickedObject.object.rotation.y === -80 * degToRad ? 0 : -80 * degToRad;
-            				this.mytween = new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
-                                                                        				 .to({ y: targetAngle}, 500)
-                                                                        				 .start();
-            				this.door_name = name;
-            				console.log("door="+name);
+            this.mytween.onComplete(() => 
+            { console.log('door='+this.door_name+' is done!! ')
+              if(clickedObject.object.rotation.y === -80 * degToRad)
+              { this.mytween = new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
+                                                                             .to({ y: 0}, 500)
+                                                                             .start();
+				switch(this.door_name)
+				{	case "door_A0":		this.msmapp.toggleScene(0);break;
+					case "door_A1":		this.msmapp.toggleScene(1);break;
+					case "door_A2":		this.msmapp.toggleScene(2);break;
+					case "door_A3":		this.msmapp.toggleScene(3);break;
+					case "door_A4":		this.msmapp.toggleScene(4);break;
+					case "door_A5":		this.msmapp.toggleScene(5);break;
+					case "door_A6":		this.msmapp.toggleScene(6);break;
 
-            				this.mytween.onComplete(() => 
-            				{	console.log('door='+this.door_name+' is done!! ')
-            					if(clickedObject.object.rotation.y === -80 * degToRad)
-            					{	this.mytween = new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
-                                                                            					 .to({ y: 0}, 500)
-                                                                            					 .start();
-									switch(this.door_name)
-									{	case "door_A0":		this.msmapp.toggleScene(0);break;
-										case "door_A1":		this.msmapp.toggleScene(1);break;
-										case "door_A2":		this.msmapp.toggleScene(2);break;
-										case "door_A3":		this.msmapp.toggleScene(3);break;
-										case "door_A4":		this.msmapp.toggleScene(4);break;
-										case "door_A5":		this.msmapp.toggleScene(5);break;
-										case "door_A6":		this.msmapp.toggleScene(6);break;
-
-										case "door_B0":		this.msmapp.toggleScene(7+0);break;
-										case "door_B1":		this.msmapp.toggleScene(7+1);break;
-										case "door_B2":		this.msmapp.toggleScene(7+2);break;
-										case "door_B3":		this.msmapp.toggleScene(7+3);break;
-										case "door_B4":		this.msmapp.toggleScene(7+4);break;
-										case "door_B5":		this.msmapp.toggleScene(7+5);break;
-										case "door_B6":		this.msmapp.toggleScene(7+6);break;
-									}
-    	        				}
-        	    			});
+					case "door_B0":		this.msmapp.toggleScene(7+0);break;
+					case "door_B1":		this.msmapp.toggleScene(7+1);break;
+					case "door_B2":		this.msmapp.toggleScene(7+2);break;
+					case "door_B3":		this.msmapp.toggleScene(7+3);break;
+					case "door_B4":		this.msmapp.toggleScene(7+4);break;
+					case "door_B5":		this.msmapp.toggleScene(7+5);break;
+					case "door_B6":		this.msmapp.toggleScene(7+6);break;
+				}
+              }
+            });
           
-        					throw 100;	//throw is the only way to stop foreach loop!!!
-            				//return;
-	        			}  
-    				}            
-    			});
-			}    
-			catch (e) 
-			{	//if (e !== 100) throw e;
-			}
-		}
+        	throw 100;	//throw is the only way to stop foreach loop!!!
+            //return;
+          }  
+      }            
+      //    }                                                        
+      //  }                                                        
+      //}  
+    });
+ }    
+ //catch (e) 
+ //{	if (e !== 100) throw e;
+ //}
+  }
 //|___________________________________________________________________________|
 //|                                                                           |
+
+
+		
 		exit()
 		{	super.exit();
 			this.msmapp.exit();
 		}
-//|___________________________________________________________________________|
-//|                                                                           |
-	}	
+    }	
     
 
 
