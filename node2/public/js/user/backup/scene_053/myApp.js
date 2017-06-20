@@ -300,23 +300,16 @@
 			return promise;
 		}
 		
-		async create_css3Diframe_rchat(cssscene,frameID,url="https://rchat.1sekolah.xyz",x=600,y=120,z=600,ry=-Math.PI/2) 
+		async create_css3Diframe_rchat(cssscene,url="https://rchat.1sekolah.xyz",x=600,y=120,z=600,ry=-Math.PI/2) 
 		{	var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
 				{	//var css3Diframe = new CElement(url,600,120,600, -Math.PI/2 );
-					var css3Diframe = new CElement(frameID,url,x,y,z,ry);
-
+					var css3Diframe = new CElement(url,x,y,z,ry);
+					
 					if(css3Diframe)
 					{	var cssgroup    = new THREE.Group();//new THREE.Object3D();//
 						cssgroup.add( css3Diframe );
 						cssscene.add( cssgroup );		
-		
-						//var name = "#"+frameID;
-						//$(name).attr('style','display: none');
-						//css3Diframe.traverse( function ( object ) { object.visible = false; } );
-						
-						//$(name).attr('style','visibility:	hidden');
-						//$(name).attr('style','height:		0');
 
 						resolve(css3Diframe);
 					}
@@ -421,9 +414,6 @@
 			//this.scene_number=0 //-> start with lobby!
 			this.setScene(this.gscenes[this.scene_number]).start();
 			
-			//var name = "#"+this.getScene().id;
-   			//$(name).show();			
-		
 		}
 
  	    toggleScene(scene_number)
@@ -434,40 +424,19 @@
 				//if( JSON.stringify(scene_number) != JSON.stringify(this.scene_number) )
 				if( scene_number!= this.scene_number && this.scene_number>=0 && this.scene_number<this.gscenes.length)
 	    		{	////////////////////////////////////////////////////////////////
-	    			//var name1 = "#"+this.getScene().id;
-	    			//$(name1).attr('src','');
-					//$(name1).attr('style','zIndex: -1');	    			
-					
-	    			
-	    			//$(name).hide();
-					//$(name).attr('style','display: none');
-					//$(name).attr('style','visibility: 0');
-	    			
-	    			
 		    		//remove the actor on current scene
 		    		this.setScene(this.getScene()).stop();
 	    			this.getScene().remove( this.mygamemodel.player.moviemesh );
-	    			if (typeof this.getScene().hideIframe === "function")this.getScene().hideIframe(); 
 
 	    			this.scene_number=scene_number;
 	    			//set new scene and add actor in it
 		    		this.setScene(this.gscenes[scene_number]);
 		    		this.getScene().add( this.mygamemodel.player.moviemesh );
-
+	    			this.setScene(this.gscenes[scene_number]).start();
 					////////////////////////////////////////////////////////////////
+	    			
 	    			//console.log("(JSON.stringify(rot) != JSON.stringify(window.rot))");
 	    			fbRef.child( "Players/" + playerID + "/zone" ).update({	map:scene_number});	    	
-	    			
-	    			if (typeof this.getScene().showIframe === "function")this.getScene().showIframe(); 
-
-					////////////////////////////////////////////////////////////////
-	    			this.setScene(this.gscenes[scene_number]).start();
-	    			
-	    			//var name2 = "#"+this.getScene().id;
-	    			//$(name2).attr('src',this.getScene().url);
-	    			//$(name2).attr('style','zIndex: 0');	    			
-	    			//$(name2).show();
-	    			
 	    			
 	    		}				
 				////////////////////////////////////////////////////////////////

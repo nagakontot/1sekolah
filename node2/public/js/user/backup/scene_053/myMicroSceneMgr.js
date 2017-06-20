@@ -9,12 +9,11 @@ class MSMScene                                                              //|
 //|___________________________________________________________________________|
 //|###########################################################################|
 //|                                                                           |
-{ constructor(g,id="ifscene",url="https://rchat.1sekolah.xyz") 
+{ constructor(g) 
   { this.msmapp         = g;      
     this.width          = g.width;
     this.height         = g.height;
-    this.id             = id;
-    this.url            = url;
+  
 		this.objects 				= [];
 		
 		//////////////////////////////////////////////////////
@@ -34,7 +33,6 @@ class MSMScene                                                              //|
     //window.addEventListener('click', this.onDocumentClick.bind(this), false);
 		
   }
-
 //|___________________________________________________________________________|
 //|                                                                           |
   init(isHelper=false)

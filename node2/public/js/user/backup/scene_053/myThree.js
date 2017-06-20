@@ -217,7 +217,7 @@ class CThreejs
     			this._.setSize( width,height);
 
             	this._.domElement.style.position		= 'absolute';
-    			this._.domElement.style.zIndex			=-1;
+    			this._.domElement.style.zIndex			= 0;
     			this._.domElement.style.top 			= 0;
             	//return this;
 			}

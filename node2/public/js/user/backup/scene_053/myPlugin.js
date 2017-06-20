@@ -162,7 +162,7 @@ function createLabel(message,color="white",bgcolor="black",fontSize=9,W=64,H=16,
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 		class CElement
-		{	constructor( id,src, x, y, z, ry ) 
+		{	constructor( id, x, y, z, ry ) 
 			{	
 				var w = ''+(window.innerWidth*0.90).toFixed(0)+'px';	//'1250px';//'1100px';
 				var h = ''+(window.innerHeight*0.35).toFixed(0)+'px';	//'450px';//'425px';
@@ -177,8 +177,7 @@ function createLabel(message,color="white",bgcolor="black",fontSize=9,W=64,H=16,
 				iframe.style.height 		= h;//'425px';//'768px';
 				iframe.style.border 		= '0px';
 				//iframe.src				= [ 'https://www.youtube.com/embed/', id, '?rel=0' ].join( '' );
-				iframe.src					= src;
-				iframe.setAttribute('id', id);
+				iframe.src					= id;
 
             	div.appendChild( iframe );	
             	//setTimeout(this.setIframeSrc("cssiframe",id).bind(this), 5);

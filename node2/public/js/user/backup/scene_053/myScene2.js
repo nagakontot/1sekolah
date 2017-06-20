@@ -1,8 +1,8 @@
 "use strict"
 
-    class CScene7 extends MSMScene
+    class CScene2 extends MSMScene
     {	constructor(msmapp) 
-        {   super(msmapp,"ifScene7");
+        {   super(msmapp);
         }
 
 		async init() 
@@ -71,8 +71,9 @@
     
 			try 
 			{	let [plane,rchat,building3,particle1,skybox] = await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
-    												    							this.msmapp.create_css3Diframe_rchat(this.cssscene,this.id),
+    												    							this.msmapp.create_css3Diframe_rchat(this.cssscene),
     												    							this.msmapp.create_building3(this.pivot,this.glscene),
+    												    							//this.msmapp.create_castle01(this.pivot,this.glscene),
     												    							this.msmapp.create_particle1(this.glscene),
     												    							this.msmapp.create_ShaderSkybox(this.glscene)
     											    							 ]);
