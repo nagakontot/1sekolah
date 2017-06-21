@@ -162,11 +162,10 @@ function createLabel(message,color="white",bgcolor="black",fontSize=9,W=64,H=16,
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 		class CElement
-		{	constructor( src, x, y, z, ry ) 
-			{	this.url = src;
-			
+		{	constructor( id,src, x, y, z, ry ) 
+			{	
 				this.w = ''+(window.innerWidth*0.90).toFixed(0)+'px';	//'1250px';//'1100px';
-				this.h = ''+(window.innerHeight*0.325).toFixed(0)+'px';	//'450px';//'425px';
+				this.h = ''+(window.innerHeight*0.35).toFixed(0)+'px';	//'450px';//'425px';
 
 				this.div 						= document.createElement( 'div' );
 				this.div.style.width 			= this.w;//'1100px';//'1024px';//'800px';
@@ -175,14 +174,12 @@ function createLabel(message,color="white",bgcolor="black",fontSize=9,W=64,H=16,
 				//this.div.style.opacity		= 0.5;
 
 				this.iframe						= document.createElement( 'iframe' );
-				this.iframe.style.width			= "100%";//this.w;//'1100px';//'1024px';//'800px';
-				this.iframe.style.height 		= "100%";//this.h;//'425px';//'768px';
-				this.iframe.style.border 		= "0px";
-				this.iframe.style.frameborder	= "0" ;
-
+				this.iframe.style.width			= this.w;//'1100px';//'1024px';//'800px';
+				this.iframe.style.height 		= this.h;//'425px';//'768px';
+				this.iframe.style.border 		= '0px';
 				//this.iframe.src				= [ 'https://www.youtube.com/embed/', id, '?rel=0' ].join( '' );
 				this.iframe.src					= src;
-				//this.iframe.setAttribute('id', id);
+				this.iframe.setAttribute('id', id);
 
             	this.div.appendChild( this.iframe );	
             	//setTimeout(this.setIframeSrc("cssiframe",id).bind(this), 5);

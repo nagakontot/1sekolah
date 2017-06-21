@@ -1,8 +1,8 @@
 "use strict"
 
-    class CScene2 extends MSMScene
+    class CScene1 extends MSMScene
     {	constructor(msmapp) 
-        {   super(msmapp);//,"ifscene2","https://rchat.1sekolah.xyz");
+        {   super(msmapp,"ifscene1","https://www.youtube.com/embed/bkk6cHrkcFE?enablejsapi=1");
         }
 
 		async init() 
@@ -70,18 +70,18 @@
 			//////////////////////////////////////////////////////////////////
     
 			try 
-			{	//let [plane,rchat,building3,particle1,skybox] = await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
-				let [plane,rchat,building3,particle1] = await Promise.all([			this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
-    												    							this.msmapp.create_css3Diframe_rchat(this.cssscene,"https://rchat.1sekolah.xyz"),
-    												    							this.msmapp.create_building3(this.pivot,this.glscene),
-    												    							//this.msmapp.create_castle01(this.pivot,this.glscene),
-    												    							this.msmapp.create_particle1(this.glscene)
-    												    							//this.msmapp.create_ShaderSkybox(this.glscene)
-    											    							 ]);
+			{	//let [plane,rchat,building1,particle1,skybox,doors]  = await Promise.all([this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
+				let [plane,rchat,building1,particle1,doors]  = await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
+    												    							this.msmapp.create_css3Diframe_rchat(this.cssscene,this.id,this.url),
+    												    							this.msmapp.create_building1(this.pivot,this.glscene),
+    												    							this.msmapp.create_particle1(this.glscene),
+    												    							//this.msmapp.create_ShaderSkybox(this.glscene),
+    												    							this.create_door_async()
+    												    						 ]);
 			
 				super.addMesh(plane);
 				this.css3Diframe	= rchat;
-				this.building3		= building3;			
+				this.building1		= building1;			
 			
 				this.params1		= particle1.params1; 
 				this.mysp			= particle1.mysp;
@@ -101,15 +101,10 @@
 			//this.css3Diframe.hide();
 			//this.css3Diframe.traverse( function ( object ) { object.visible = false; } );
 
-			//var name = "#"+this.id;
-	    	//$(name).attr('src','');
-			//$(name).attr('style','zIndex: -1');
+			var name = "#"+this.id;
+	    	$(name).attr('src','');
 			
-			this.css3Diframe.div.style.opacity		= 0.0;
-			this.css3Diframe.div.style.display		= "none";
-			this.css3Diframe.div.style.zIndex		= -1;
-
-			this.css3Diframe.iframe.src				= '';
+			//$(name).attr('style','zIndex: -1');
 
 			//this.css3Diframe.position.set(0,-1000,0);
 			//this.css3Diframe.visible = false;
@@ -125,18 +120,10 @@
 			//this.css3Diframe.hide();
 			//this.css3Diframe.traverse( function ( object ) { object.visible = true; } );
 
-			//var name = "#"+this.id;
-	    	//$(name).attr('src',this.url);
+			var name = "#"+this.id;
+	    	$(name).attr('src',this.url);
+
 			//$(name).attr('style','zIndex: 0');
-
-			this.css3Diframe.div.style.opacity		= 1.0;
-			this.css3Diframe.div.style.display		= "inline";
-			this.css3Diframe.div.style.zIndex		= 0;
-
-			this.css3Diframe.iframe.src				= this.css3Diframe.url;
-			this.css3Diframe.iframe.style.width		= "100%";//this.w;//'1100px';//'1024px';//'800px';
-			this.css3Diframe.iframe.style.height 	= "100%";//this.h;//'425px';//'768px';
-			
 
 			//this.css3Diframe.position.set(600,120,600);
 			//this.css3Diframe.visible = true;
@@ -157,6 +144,7 @@
 			var name = "#"+this.id;
 			$(name)[0].contentWindow.postMessage('{"event":"command","func":"' + func + '","args":""}','*');
 		}
+
 
   		async create_door_async()
 		{	var promise = await new Promise((resolve, reject) =>
@@ -219,7 +207,7 @@
 			{	//let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
     			let mesh			= new THREE.Mesh(geometry, material);
     			mesh.castShadow		= true;			
-				mesh.receiveShadow	= false;//true;
+				mesh.receiveShadow	= true;//false;//
 				
     			this.glscene.add(mesh);
     			this.doors.push(mesh);
@@ -250,8 +238,8 @@
 			for (let i = 0; i < len; i++) 
 			{	//let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
     			let mesh			= new THREE.Mesh(geometry, material);
-    			//mesh.castShadow		= true;			
-				//mesh.receiveShadow	= false;//true;//
+    			mesh.castShadow		= true;			
+				mesh.receiveShadow	= true;//false;//
 				
     			this.glscene.add(mesh);
     			this.doors.push(mesh);
@@ -281,10 +269,11 @@
 			
 		}
 		/////////////////////////////////////////////////////////////////////////////////
-		update()
-		{	super.update();
+		update(dt)
+		{	super.update(dt);
 			
-			var time = Date.now() * 0.00001;
+			//var time = Date.now() * 0.00001;
+			var time = dt;//window.performance.now()*0.00001;//
 			this.cam = this.msmapp.camera();
 			
 			//TWEEN.update(time);
@@ -390,7 +379,7 @@
 					//this.skyBox.position.z = player.getPosition().z;
 				
 					//if(this.mysp)this.mysp.update(time,this.glscene,this.params1,this.msmapp.mygamemodel.player.getPosition());	
-					if(this.mysp)this.mysp.update(time,this.glscene,this.params1,gamemodel.player.getPosition());	
+					if(this.mysp)this.mysp.update(time*0.01,this.glscene,this.params1,gamemodel.player.getPosition());	
 
 					//if(this.i++>1)
 					//{	this.i=0;
@@ -428,7 +417,6 @@
 		//	this.update(time);
 		//	super.render();
 		//}
-	
 //|___________________________________________________________________________|
 //|                                                                           |
 		onDocumentMouseMove() 
@@ -505,3 +493,5 @@
 //|                                                                           |
 	}	
     
+
+

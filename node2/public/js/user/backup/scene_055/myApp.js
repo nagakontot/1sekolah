@@ -300,12 +300,11 @@
 			return promise;
 		}
 		
-		//async create_css3Diframe_rchat(cssscene,url="https://rchat.1sekolah.xyz",x=650,y=120,z=600,ry=-Math.PI/2) 
-		async create_css3Diframe_rchat(cssscene,url="https://rchat.1sekolah.xyz",x=700,y=110,z=600,ry=-Math.PI/2) 
+		async create_css3Diframe_rchat(cssscene,frameID,url="https://rchat.1sekolah.xyz",x=600,y=120,z=600,ry=-Math.PI/2) 
 		{	var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
 				{	//var css3Diframe = new CElement(url,600,120,600, -Math.PI/2 );
-					var css3Diframe = new CElement(url,x,y,z,ry);
+					var css3Diframe = new CElement(frameID,url,x,y,z,ry);
 
 					if(css3Diframe)
 					{	var cssgroup    = new THREE.Group();//new THREE.Object3D();//
@@ -329,6 +328,33 @@
 			return promise;
 		}
 
+	    create_css3Diframe_rchat1()
+	    {	//this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
+	    	this.css3Diframe = new CElement("https://rchat.1sekolah.xyz/channel/lobby",600,100,10, -Math.PI/2 );
+	    
+			//this.glPlane2D	 = new CPlane2(600,120,  new THREE.Vector3(600,120,600),new THREE.Vector3(0,-Math.PI/2,0));
+			this.glPlane2D	 = new CPlane2(600,120,  new THREE.Vector3(600,100,10),new THREE.Vector3(0,-Math.PI/2,0));
+			this.glscene.add( this.glPlane2D );
+			
+	    	this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
+			this.cssgroup.add( this.css3Diframe );
+
+			this.cssscene.add( this.cssgroup );
+	    }
+
+	    create_css3Diframe_rchat2(cssscene)
+	    {	//this.css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
+	    	//this.cssgroup    = new THREE.Group();//new THREE.Object3D();//
+			//this.cssgroup.add( this.css3Diframe );
+			//this.cssscene.add( this.cssgroup );
+			
+			var css3Diframe = new CElement("https://rchat.1sekolah.xyz",600,120,600, -Math.PI/2 );
+	    	var cssgroup    = new THREE.Group();//new THREE.Object3D();//
+			cssgroup.add( this.css3Diframe );
+			cssscene.add( this.cssgroup );
+			
+			return css3Diframe;
+	    }		
 	}
 	
 	///////////////////////////////////////////////////////////////////////

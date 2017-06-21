@@ -9,10 +9,12 @@ class MSMScene                                                              //|
 //|___________________________________________________________________________|
 //|###########################################################################|
 //|                                                                           |
-{ constructor(g) 
+{ constructor(g,id="ifscene",url="https://rchat.1sekolah.xyz") 
   { this.msmapp         = g;      
     this.width          = g.width;
     this.height         = g.height;
+    this.id             = id;
+    this.url            = url;
 		this.objects 				= [];
 		
 		//////////////////////////////////////////////////////
