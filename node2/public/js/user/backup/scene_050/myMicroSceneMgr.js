@@ -241,6 +241,7 @@ class MSMApp                                                                //|
 
     return this;
   }
+  
   start3()
   { this.isRunning_ = true;
     this.requestId = window.requestAnimationFrame
