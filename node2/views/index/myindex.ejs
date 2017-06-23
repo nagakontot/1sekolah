@@ -36,7 +36,7 @@ video
 }
 
 h1 
-{ font-size:        3rem;
+{ font-size:        2.5rem;
   text-transform:   uppercase;
   margin-top:       0;
   margin-bottom:    0;
@@ -291,26 +291,36 @@ a:hover
           </a>  
       </div>  
   
-  <div id="polina">
+  <div id="polina" style="text-align: center; vertical-align: middle">
       <h1>
-          <p style="text-align: center; vertical-align: middle">Welcome to <%=title%></p><br/>
+          <p>Selamat datang ke <%=title%></p><br/>
       </h1>      
-    
+      
+      <span class="intro_rotate">daaa---taaaang!!!,Inilah website e-tuisyen SPM kegemaran ramai,Jika menarik bagitau orang, Kalu tak diam2 saja hahaha,Jangan lupa memilih avatar yang anda suka</span><br/><br/>
+      
       <button>Pause</button>
       <button onclick='signin()'>Login</button>
 
       <!--a href="/user/logout"><button>Logout</button></a-->
       <button onclick='$("html").fadeOut(function (){window.location.href = "/user/logout";});'>Logout</button></a>
       
-      <p style="text-align: center; vertical-align: middle">Dont forget to select your avatar</p><br/>
+      <!--p style="text-align: center; vertical-align: middle">Dont forget to select your avatar</p><br/-->
 
   </div>
   
+  <script src="js/lib/extjs/peachananr/jquery.simple-text-rotator.min.js"></script>
   <script src="js/index/myindex.js"></script>
   <!--script src="js/lib/myutils.js"></script-->
 
   <script type="text/javascript">
+  //////////////////////////////////////////////////////
+  $(".intro_rotate").textrotator({animation:   "dissolve",    // You can pick the way it animates when rotating through words. Options are dissolve (default), fade, flip, flipUp, flipCube, flipCubeUp and spin.
+                                  separator:     ",",         // If you don't want commas to be the separator, you can define a new separator (|, &, * etc.) by yourself using this field.
+                                  speed:         3500         // How many milliseconds until the next word show.
+  });  
+  //////////////////////////////////////////////////////
     const mysession = new CSession();
+
     function setBorderToDefault() 
     {  document.getElementById('headvid1a').style.border = '2px solid #FFF';
        document.getElementById('headvid2a').style.border = '2px solid #FFF';
@@ -319,8 +329,6 @@ a:hover
        return true;
     }
     
-    
-
     function handleMDown1()     {  setBorderToDefault();document.getElementById('headvid1a').style.border = '5px solid red';mysession.set('avatar','0');return true;}
     function handleMDown2()     {  setBorderToDefault();document.getElementById('headvid2a').style.border = '5px solid red';mysession.set('avatar','1');return true;}
     function handleMDown3()     {  setBorderToDefault();document.getElementById('headvid3a').style.border = '5px solid red';mysession.set('avatar','2');return true;}

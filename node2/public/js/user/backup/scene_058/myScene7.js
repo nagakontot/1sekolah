@@ -1,9 +1,8 @@
 "use strict"
 
-    class CScene1 extends MSMScene
+    class CScene7 extends MSMScene
     {	constructor(msmapp) 
-        {   //super(msmapp,"ifscene1","https://www.youtube.com/embed/bkk6cHrkcFE?enablejsapi=1");
-        	super(msmapp);
+        {   super(msmapp);
         }
 
 		async init() 
@@ -71,25 +70,18 @@
 			//////////////////////////////////////////////////////////////////
     
 			try 
-			{	
-				//var src =      'https://groups.google.com/forum/embed/?place=forum/1sekolah&showsearch=true&showpopout=true&showtabs=false&parenturl=' + encodeURIComponent(window.location.href);
-				var src =      "https://tympanus.net/Tutorials/MoleskineNotebook/";
-				
-				//let [plane,rchat,building1,particle1,skybox,doors]  = await Promise.all([this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
-				let [plane,rchat,building1,particle1,doors]  = await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
-    												    							//this.msmapp.create_css3Diframe_rchat(this.cssscene,"https://www.youtube.com/embed/bkk6cHrkcFE?enablejsapi=1&&modestbranding=1&&hd=1&rel=0&autohide=1&showinfo=0&&controls=0"),
-    												    							//this.msmapp.create_css3Diframe_rchat(this.cssscene,"https://hangouts.google.com/call/4h3xishhavbsnpx5scnmjh4kky4"),
-    												    							this.msmapp.create_css3Diframe_rchat(this.cssscene,src),
-    												    							
-    												    							this.msmapp.create_building1(this.pivot,this.glscene),
-    												    							this.msmapp.create_particle1(this.glscene),
-    												    							//this.msmapp.create_ShaderSkybox(this.glscene),
-    												    							this.create_door_async()
-    												    						 ]);
+			{	//let [plane,rchat,building3,particle1,skybox] = await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
+				let [plane,rchat,building3,particle1] = await Promise.all([			this.msmapp.create_plane('ground_desert_mesh',500,500,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
+    												    							this.msmapp.create_css3Diframe_rchat(this.cssscene,"https://rchat.1sekolah.xyz"),
+    												    							this.msmapp.create_building3(this.pivot,this.glscene),
+    												    							//this.msmapp.create_castle01(this.pivot,this.glscene),
+    												    							this.msmapp.create_particle1(this.glscene)
+    												    							//this.msmapp.create_ShaderSkybox(this.glscene)
+    											    							 ]);
 			
 				super.addMesh(plane);
 				this.css3Diframe	= rchat;
-				this.building1		= building1;			
+				this.building3		= building3;			
 			
 				this.params1		= particle1.params1; 
 				this.mysp			= particle1.mysp;
@@ -166,7 +158,6 @@
 			$(name)[0].contentWindow.postMessage('{"event":"command","func":"' + func + '","args":""}','*');
 		}
 
-
   		async create_door_async()
 		{	var promise = await new Promise((resolve, reject) =>
 			{	//window.setTimeout(this.create_doors.bind(this,this.msmapp.doortex),0);
@@ -228,7 +219,7 @@
 			{	//let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
     			let mesh			= new THREE.Mesh(geometry, material);
     			mesh.castShadow		= true;			
-				mesh.receiveShadow	= true;//false;//
+				mesh.receiveShadow	= false;//true;
 				
     			this.glscene.add(mesh);
     			this.doors.push(mesh);
@@ -259,8 +250,8 @@
 			for (let i = 0; i < len; i++) 
 			{	//let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
     			let mesh			= new THREE.Mesh(geometry, material);
-    			mesh.castShadow		= true;			
-				mesh.receiveShadow	= true;//false;//
+    			//mesh.castShadow		= true;			
+				//mesh.receiveShadow	= false;//true;//
 				
     			this.glscene.add(mesh);
     			this.doors.push(mesh);
@@ -290,11 +281,10 @@
 			
 		}
 		/////////////////////////////////////////////////////////////////////////////////
-		update(dt)
-		{	super.update(dt);
+		update()
+		{	super.update();
 			
-			//var time = Date.now() * 0.00001;
-			var time = dt*0.0001;//window.performance.now()*0.00001;//
+			var time = Date.now() * 0.00001;
 			this.cam = this.msmapp.camera();
 			
 			//TWEEN.update(time);
@@ -380,7 +370,7 @@
 					if(this.css3Diframe)
 					{	//this.css3Diframe.lookAt (player.getPosition());
 						//this.css3Diframe.lookAt (this.cam.getWorldPosition());
-						//this.css3Diframe.obj.lookAt (campos);
+						//this.css3Diframe.lookAt (campos);
 						//if(this.glPlane2D)this.glPlane2D.lookAt (campos);
 					
 						this.css3Diframe.obj.quaternion.copy( this.cam.quaternion );
@@ -400,7 +390,7 @@
 					//this.skyBox.position.z = player.getPosition().z;
 				
 					//if(this.mysp)this.mysp.update(time,this.glscene,this.params1,this.msmapp.mygamemodel.player.getPosition());	
-					if(this.mysp)this.mysp.update(time*0.01,this.glscene,this.params1,gamemodel.player.getPosition());	
+					if(this.mysp)this.mysp.update(time,this.glscene,this.params1,gamemodel.player.getPosition());	
 
 					//if(this.i++>1)
 					//{	this.i=0;
@@ -438,6 +428,7 @@
 		//	this.update(time);
 		//	super.render();
 		//}
+	
 //|___________________________________________________________________________|
 //|                                                                           |
 		onDocumentMouseMove() 
@@ -514,5 +505,3 @@
 //|                                                                           |
 	}	
     
-
-
