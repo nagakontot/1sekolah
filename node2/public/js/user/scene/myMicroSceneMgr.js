@@ -208,14 +208,14 @@ class MSMApp                                                                //|
 //|                                                                           |
  start() 
   { this.isRunning_ = true;
-    this.past       = Date.now();//window.performance.now();//
+    this.past       = window.performance.now();//Date.now();//
     
     this.requestId  = requestAnimationFrame(this.mainLoop = (()=>
     { return (()=>
       { if (this.isRunning_)
         { requestAnimationFrame(this.mainLoop);
 
-          var now = Date.now();//window.performance.now();//
+          var now = window.performance.now();//Date.now();//
           var dt  = now - (this.past||now);
           if ( dt > this.frameSpan)
           { this.past = now;

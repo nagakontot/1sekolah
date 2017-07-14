@@ -300,17 +300,27 @@
 			return promise;
 		}
 		
-		//async create_css3Diframe_rchat(cssscene,url="https://rchat.1sekolah.xyz",x=650,y=120,z=600,ry=-Math.PI/2) 
-		//async create_css3Diframe_rchat(cssscene,url="https://rchat.1sekolah.xyz",x=600,y=110,z=600,ry=-Math.PI/2) 
-		async create_css3Diframe_rchat(cssscene,url="https://rchat.1sekolah.xyz",x=600,y=60,z=600,ry=-Math.PI/2) 
+						//this.w = ''+(window.innerWidth *0.8).toFixed(0)+'px';	//'1250px';//'1100px';
+				//this.h = ''+(window.innerHeight*0.5).toFixed(0)+'px';	//'450px';//'425px';
+				
+		async create_css3Diframe_rchat(cssscene,url="https://rchat.1sekolah.xyz",w=(window.innerWidth*0.8),h=(window.innerHeight*0.5),x=600,y=30,z=600,ry=-Math.PI/2) 
+		//async create_css3Diframe_rchat(cssscene,url,w,h,x,y,z,ry) 
 		{	var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
 				{	//var css3Diframe = new CElement(url,600,120,600, -Math.PI/2 );
-					var css3Diframe = new CElement(url,x,y,z,ry);
+					//y = window.innerHeight*0.25-30;
+					var css3Diframe = new CElement(url,w,h,x,y,z,ry);
 
 					if(css3Diframe)
 					{	var cssgroup    = new THREE.Group();//new THREE.Object3D();//
+						//cssgroup.position.set( x,-100,500 );
+						cssgroup.position.set( x,y,z );
+						cssgroup.rotation.y = ry;
+						
+						//alert("url="+url+", w="+w+", h="+h+",x="+x+",y="+y+", z="+z+", ry="+ry);
+						
 						cssgroup.add( css3Diframe.obj );
+						
 						cssscene.add( cssgroup );		
 		
 						//var name = "#"+frameID;

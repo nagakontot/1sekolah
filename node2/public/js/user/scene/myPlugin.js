@@ -162,39 +162,85 @@ function createLabel(message,color="white",bgcolor="black",fontSize=9,W=64,H=16,
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 		class CElement
-		{	constructor( src, x, y, z, ry ) 
+		{	constructor( src, w, h, x, y, z, ry ) 
 			{	this.url = src;
-			
+
+				////////////////////
+				/*
 				this.w = ''+(window.innerWidth *0.8).toFixed(0)+'px';	//'1250px';//'1100px';
-				this.h = ''+(window.innerHeight*0.35).toFixed(0)+'px';	//'450px';//'425px';
+				this.h = ''+(window.innerHeight*0.5).toFixed(0)+'px';	//'450px';//'425px';
 
-				this.div 						= document.createElement( 'div' );
-				this.div.style.width 			= this.w;//'1100px';//'1024px';//'800px';
-				this.div.style.height			= this.h;//'425px';//'768px';
-				this.div.style.backgroundColor	= '#5af';//rgba(150, 200, 250);//'#000';
-				//this.div.style.opacity		= 0.5;
+				this.div 							= document.createElement( 'div' );
+				this.div.style.width 				= this.w;//'1100px';//'1024px';//'800px';
+				this.div.style.height				= this.h;//'425px';//'768px';
+				this.div.style.backgroundColor		= '#5af';//rgba(150, 200, 250);//'#000';
+				//this.div.style.opacity			= 0.5;
 
-				this.iframe						= document.createElement( 'iframe' );
-				this.iframe.style.width			= "100%";//this.w;//'1100px';//'1024px';//'800px';
-				this.iframe.style.height 		= "100%";//this.h;//'425px';//'768px';
-				this.iframe.style.border 		= "0px";
-				this.iframe.style.frameborder	= "0" ;
+				this.iframe	= document.createElement( 'iframe' );
+				const load = ()=> 
+				{	this.iframe.removeEventListener('did-finish-load', load);
+					//webview.src = "webview.html";
 
-				//this.iframe.src				= [ 'https://www.youtube.com/embed/', id, '?rel=0' ].join( '' );
-				this.iframe.src					= src;
+					//this.iframe						= document.createElement( 'iframe' );
+					this.iframe							= document.createElement( 'webview' );
+					this.iframe.style.width				= "100%";//this.w;//'1100px';//'1024px';//'800px';
+					this.iframe.style.height 			= "400px";//"100%";//this.h;//'425px';//'768px';
+					this.iframe.style.border 			= "0px";
+					this.iframe.style.frameborder		= "0" ;
+					this.iframe.style.allowfullscreen	= "true";
+					this.iframe.style.allowtransparency	= "true";
+					this.iframe.style.seamless			= "seamless";
+					this.iframe.style.sandbox			= "allow-scripts";
+
+					//this.iframe.src					= [ 'https://www.youtube.com/embed/', id, '?rel=0' ].join( '' );
+					this.iframe.src						= src;
+				};
+				this.iframe.addEventListener('did-finish-load', load)
+				*/
+				////////////////////
+				//this.w = ''+(window.innerWidth *0.8).toFixed(0)+'px';	//'1250px';//'1100px';
+				//this.h = ''+(window.innerHeight*0.5).toFixed(0)+'px';	//'450px';//'425px';
+				this.w = ''+(w).toFixed(0)+'px';	//'1250px';//'1100px';
+				this.h = ''+(h).toFixed(0)+'px';	//'450px';//'425px';
+
+				this.div 							= document.createElement( 'div' );
+				this.div.style.width 				= this.w;//'1100px';//'1024px';//'800px';
+				this.div.style.height				= this.h;//'425px';//'768px';
+				this.div.style.backgroundColor		= '#5af';//rgba(150, 200, 250);//'#000';
+				//this.div.style.opacity			= 0.5;
+
+				this.iframe							= document.createElement( 'iframe' );
+				this.iframe.style.width				= "100%";//this.w;//'1100px';//'1024px';//'800px';
+				this.iframe.style.height 			= "100%";//this.h;//'425px';//'768px';
+				this.iframe.style.border 			= "0px";
+				this.iframe.style.frameborder		= "0" ;
+				/*
+				this.iframe.style.allowfullscreen	= "allowfullscreen";//"true";
+				this.iframe.style.allowtransparency	= "true";
+				this.iframe.style.seamless			= "seamless";
+				this.iframe.style.sandbox			= "allow-scripts";
+				this.iframe.style.target			= "_top";
+				*/
+				//this.iframe.src					= [ 'https://www.youtube.com/embed/', id, '?rel=0' ].join( '' );
+				this.iframe.src						= src;//+"?enablejsapi=1&&modestbranding=1&&hd=1&rel=0&autohide=1&showinfo=0&&controls=0";
 				//this.iframe.setAttribute('id', id);
+				this.iframe.setAttribute('allowFullScreen', 	'');
+				this.iframe.setAttribute('allowtransparency',	'');
+				this.iframe.setAttribute('seamless', 			'');
 
             	this.div.appendChild( this.iframe );	
             	//setTimeout(this.setIframeSrc("cssiframe",id).bind(this), 5);
 
 				this.obj = new THREE.CSS3DObject( this.div );
-				this.obj.position.set( x, y, z );
+				//this.obj.position.set( x, y, z );
 				this.obj.rotation.y = ry;
-
+				
 				//return object;
 				return this;
 			}
 		}
+		
+
 //////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 	class CLoadModel_WWObj2
@@ -646,40 +692,39 @@ function createLabel(message,color="white",bgcolor="black",fontSize=9,W=64,H=16,
 			{
 				this.myfont = font;
 				
-			var params = {	material: 0,
-    						extrudeMaterial: 1,
-    						bevelEnabled: false,
-    						bevelThickness: 8,
-    						bevelSize: 4,
-    						font: this.myfont,
-    						weight: "normal",
-    						style: "normal",
-    						height: 0,
-    						size: 11,
-    						curveSegments: 4
-						};
+				var params = {	material: 0,
+    							extrudeMaterial: 1,
+    							bevelEnabled: false,
+    							bevelThickness: 8,
+    							bevelSize: 4,
+	    						font: this.myfont,
+    							weight: "normal",
+    							style: "normal",
+    							height: 0,
+    							size: 11,
+    							curveSegments: 4
+							};
 
-var textGeo = new THREE.TextGeometry("3D text", params);
-//console.log("3rd time "+this.myfont);
+				var textGeo = new THREE.TextGeometry("3D text", params);
+				//console.log("3rd time "+this.myfont);
 
-textGeo.computeBoundingBox();
-//console.log("4th time "+this.myfont);
+				textGeo.computeBoundingBox();
+				//console.log("4th time "+this.myfont);
 
-textGeo.computeVertexNormals();
-//console.log("5th time "+this.myfont);
-var material = new THREE.MeshFaceMaterial([
-    new THREE.MeshPhongMaterial({color: 0xff22cc, shading: THREE.FlatShading}), // front
-    new THREE.MeshPhongMaterial({color: 0xff22cc, shading: THREE.SmoothShading}) // side
-]);
-//console.log("6th time "+this.myfont);
-this.mesh = new THREE.Mesh(textGeo, material);
-//console.log("7th time "+this.myfont);
-this.mesh.position.x = -textGeo.boundingBox.max.x / 2;
-this.mesh.position.y = -5;
-this.mesh.position.z = 30;
-this.mesh.name = 'text';
-//scene.add(this.mesh);
-//console.log("8th time "+this.myfont);		
+				textGeo.computeVertexNormals();
+				//console.log("5th time "+this.myfont);
+				var material = new THREE.MeshFaceMaterial([	new THREE.MeshPhongMaterial({color: 0xff22cc, shading: THREE.FlatShading}), // front
+    														new THREE.MeshPhongMaterial({color: 0xff22cc, shading: THREE.SmoothShading}) // side
+														  ]);
+				//console.log("6th time "+this.myfont);
+				this.mesh = new THREE.Mesh(textGeo, material);
+				//console.log("7th time "+this.myfont);
+				this.mesh.position.x = -textGeo.boundingBox.max.x / 2;
+				this.mesh.position.y = -5;
+				this.mesh.position.z = 30;
+				this.mesh.name = 'text';
+				//scene.add(this.mesh);
+				//console.log("8th time "+this.myfont);		
 
 			}.bind(this));
 			/////////////////////////////////////////////////////////////////////////////////////
@@ -796,7 +841,7 @@ this.mesh.name = 'text';
 				//specular:           0x101010,
 				//emissive:			'#333333'
                 //side:               THREE.BackSide
-                opacity:			0.382 
+                //opacity:			0.382 
             };
             
             
@@ -873,7 +918,8 @@ this.mesh.name = 'text';
 		getMesh() 
 		{	return this.mesh;
 		}    	
-  }	
+	}	
+  
 ////////////////////////////////////////////////////////
 	class CGridHelper extends CBase
 	{	constructor()

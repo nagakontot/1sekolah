@@ -72,14 +72,24 @@
     
 			try 
 			{	
-				//var src =      'https://groups.google.com/forum/embed/?place=forum/1sekolah&showsearch=true&showpopout=true&showtabs=false&parenturl=' + encodeURIComponent(window.location.href);
-				var src =      "https://tympanus.net/Tutorials/MoleskineNotebook/";
+				//var src	=   'https://groups.google.com/forum/embed/?place=forum/1sekolah&showsearch=true&showpopout=true&showtabs=false&parenturl=' + encodeURIComponent(window.location.href);
+				//var src	=   "https://tympanus.net/Tutorials/MoleskineNotebook/";
+				//var src	=	"https://www.yumpu.com/en/embed/view/HLYUZrOvxWSkmAqD";
+				//var src	=	"https://s3.amazonaws.com/online.anyflip.com/qaoi/ltso/index.html";
+				//var src	=	"https://canvas.1sekolah.xyz/";
+				//var src	=	"//canvas.1sekolah.xyz/";
+				//var src	=	"https://h5p.org/presentation";
+				var src1	=	"//rchat.1sekolah.xyz/";
+				var src2	=	"https://www.youtube.com/embed/bkk6cHrkcFE?enablejsapi=1&&modestbranding=1&&hd=1&rel=0&autohide=1&showinfo=0&&controls=0";
 				
+
 				//let [plane,rchat,building1,particle1,skybox,doors]  = await Promise.all([this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
-				let [plane,rchat,building1,particle1,doors]  = await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
+				let [plane,rchat,rchat2,building1,particle1,doors]  = await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
     												    							//this.msmapp.create_css3Diframe_rchat(this.cssscene,"https://www.youtube.com/embed/bkk6cHrkcFE?enablejsapi=1&&modestbranding=1&&hd=1&rel=0&autohide=1&showinfo=0&&controls=0"),
     												    							//this.msmapp.create_css3Diframe_rchat(this.cssscene,"https://hangouts.google.com/call/4h3xishhavbsnpx5scnmjh4kky4"),
-    												    							this.msmapp.create_css3Diframe_rchat(this.cssscene,src),
+    												    							//this.msmapp.create_css3Diframe_rchat(this.cssscene,src),
+    												    							this.msmapp.create_css3Diframe_rchat(this.cssscene,src1,640,300,0,120,500,-Math.PI/2),
+    												    							this.msmapp.create_css3Diframe_rchat(this.cssscene,src2,640,300,0,120,-500,0),
     												    							
     												    							this.msmapp.create_building1(this.pivot,this.glscene),
     												    							this.msmapp.create_particle1(this.glscene),
@@ -94,16 +104,15 @@
 				this.params1		= particle1.params1; 
 				this.mysp			= particle1.mysp;
 			
-				this.mysky			= null;//skybox;
+				this.mysky			= null;//skybox;//
 			} 
 			catch (err) 
 			{	console.log(err);
 			}
 			
             return this;
-
 		}
-
+		
 		hideIframe()
 		{	//alert("hideIframe() child, id="+this.id);
 			//this.css3Diframe.hide();
@@ -165,7 +174,6 @@
 			var name = "#"+this.id;
 			$(name)[0].contentWindow.postMessage('{"event":"command","func":"' + func + '","args":""}','*');
 		}
-
 
   		async create_door_async()
 		{	var promise = await new Promise((resolve, reject) =>
@@ -293,8 +301,8 @@
 		update(dt)
 		{	super.update(dt);
 			
-			//var time = Date.now() * 0.00001;
-			var time = dt*0.0001;//window.performance.now()*0.00001;//
+			var time = Date.now() * 0.00001;
+			//var time = dt;//*0.0001;//window.performance.now()*0.00001;//
 			this.cam = this.msmapp.camera();
 			
 			//TWEEN.update(time);
@@ -381,9 +389,8 @@
 					{	//this.css3Diframe.lookAt (player.getPosition());
 						//this.css3Diframe.lookAt (this.cam.getWorldPosition());
 						//this.css3Diframe.obj.lookAt (campos);
-						//if(this.glPlane2D)this.glPlane2D.lookAt (campos);
-					
-						this.css3Diframe.obj.quaternion.copy( this.cam.quaternion );
+
+						//this.css3Diframe.obj.quaternion.copy( this.cam.quaternion );
 						//this.css3Diframe.position.x = this.cam.position.x+800;
 					}
 					
@@ -400,7 +407,7 @@
 					//this.skyBox.position.z = player.getPosition().z;
 				
 					//if(this.mysp)this.mysp.update(time,this.glscene,this.params1,this.msmapp.mygamemodel.player.getPosition());	
-					if(this.mysp)this.mysp.update(time*0.01,this.glscene,this.params1,gamemodel.player.getPosition());	
+					if(this.mysp)this.mysp.update(time,this.glscene,this.params1,gamemodel.player.getPosition());	
 
 					//if(this.i++>1)
 					//{	this.i=0;

@@ -174,10 +174,13 @@ THREE.PlayerControls = function ( camera, player, domElement )
 			//this.camera.position.y += this.autoRotateSpeed * ( ( this.player.position.y - this.camera.position.y+1 ));
 			//this.camera.position.z += this.autoRotateSpeed * ( ( this.player.position.z + 4*Math.cos( this.player.rotation.y ) ) - this.camera.position.z );			
 			
-			this.camera.position.x += this.autoRotateSpeed * ( ( this.player.position.x + 4*Math.sin( this.player.rotation.y ) ) - this.camera.position.x );
-			this.camera.position.y += this.autoRotateSpeed * ( ( this.player.position.y - this.camera.position.y)+1.1);//+2.5
-			this.camera.position.z += this.autoRotateSpeed * ( ( this.player.position.z + 4*Math.cos( this.player.rotation.y ) ) - this.camera.position.z );			
+			//this.camera.position.x += this.autoRotateSpeed * ( ( this.player.position.x + 4*Math.sin( this.player.rotation.y ) ) - this.camera.position.x );
+			//this.camera.position.y += this.autoRotateSpeed * ( ( this.player.position.y - this.camera.position.y)+1.1);//+2.5
+			//this.camera.position.z += this.autoRotateSpeed * ( ( this.player.position.z + 4*Math.cos( this.player.rotation.y ) ) - this.camera.position.z );			
 			
+			this.camera.position.x += this.autoRotateSpeed * ( ( this.player.position.x + 4*Math.sin( this.player.rotation.y ) ) - this.camera.position.x );
+			this.camera.position.y += this.autoRotateSpeed * ( ( this.player.position.y - this.camera.position.y+0.1));
+			this.camera.position.z += this.autoRotateSpeed * ( ( this.player.position.z + 4*Math.cos( this.player.rotation.y ) ) - this.camera.position.z );			
 		} 
 		else 
 		{	position.copy( this.center ).add( offset );
