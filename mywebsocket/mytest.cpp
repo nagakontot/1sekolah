@@ -1,11 +1,12 @@
+#include "MemMap.h"
 #include <uWS/uWS.h>
+
 #include <vector>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 
 
-//#include "MemMap.h"
 
 // test class
 class MyClass
@@ -83,30 +84,24 @@ int main()
     CConfig mycfg("config.txt");
     
     /////////////////////////
-/*    
-try {
+    try 
+    {   typedef MemMap::MemMapFilePtr<MyClass> MemMappedClass;
       
-      typedef MemMap::MemMapFilePtr<MyClass> MemMappedClass;
+        // create a object of wrapper class
+        MemMappedClass MemClass("/tmp/mymemmap");
       
-      // create a object of wrapper class
-      MemMappedClass MemClass("/tmp/mymemmap");
+        // now use MemClass as pointer of MyClass object.
+        MemClass->m_nInt        = 5;            // Write  int as pointer
+        (*MemClass).m_cChar     = 'a';          // dereference it and write char
+        strcpy(MemClass->m_sBuff, "12345678");  // write as buff
       
-      // now use MemClass as pointer of MyClass object.
-      // Write  int as pointer
-      MemClass->m_nInt = 5;
-      // dereference it and write char
-      (*MemClass).m_cChar = 'a';
-      // write as buff
-      strcpy(MemClass->m_sBuff, "12345678");
-      
-      std::cout << "m_nInt:"  << MemClass->m_nInt  << std::endl;
-      std::cout << "m_cChar:" << MemClass->m_cChar << std::endl;
-      std::cout << "m_sBuff:" << MemClass->m_sBuff << std::endl;
-      
-  }catch (MemMap::MemMapFileException &e) {
-      std::cout << e.what() << std::endl;
-  }    
-*/  
+        std::cout << "m_nInt:"  << MemClass->m_nInt  << std::endl;
+        std::cout << "m_cChar:" << MemClass->m_cChar << std::endl;
+        std::cout << "m_sBuff:" << MemClass->m_sBuff << std::endl;
+    }
+    catch (MemMap::MemMapFileException &e) 
+    {   std::cout << e.what() << std::endl;
+    }
     /////////////////////////
     
     uWS::Hub h;

@@ -32,6 +32,7 @@
 #include <cstdio>
 #include <cstdarg>
 #include <cstring>
+#include <string>
 
 //fix bus error from this stackoverflow question:
 //https://stackoverflow.com/questions/212466/what-is-a-bus-error
