@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>1sekolah</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script-->
+
+
+</head>
+
+<body>
+
+<div>
+    <h1>My First Heading</h1>
+    <p>My first paragraph.</p>
+    <img src="https://www.w3schools.com/images/w3schools_green.jpg" alt="W3Schools.com">
+</div> 
+
+
+<script>
+    const ws = new WebSocket('wss://socket.1sekolah.xyz');
+    
+    ws.onmessage = function (event) 
+    {   //console.log("ws.onmessage() client: "+ event.data);
+        //console.log(`ws.onmessage() client, Roundtrip time: ${Date.now() -event.data} ms`);
+        console.log(`ws.onmessage() client, Roundtrip msg: ${event.data}`);
+
+        //simulate sending data every 500ms
+        setTimeout(()=> 
+        {   //ws.send(Date.now());
+            //ws.send("test1");
+            ws.send(Math.floor(Math.random() * 1000) + 1);
+            
+        }, 500)
+    };   
+    
+    //ws.onopen = function(event) 
+    //{   ws.send(JSON.stringify({type: 'authenticate',payload: { token: YOUR_TOKEN }}));
+    //};
+
+    ws.onopen    = function()
+    {   console.log('ws.onopen() client: wss is connected');
+        //ws.send(Date.now());
+        ws.send(Math.floor(Math.random() * 1000) + 1);
+    };
+
+    ws.onclose  = function() 
+    {   console.log('ws.onclose() client: disconnected');
+    };    
+    
+    
+</script>
+
+</body>
+</html>
