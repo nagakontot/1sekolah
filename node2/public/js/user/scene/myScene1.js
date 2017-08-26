@@ -2,8 +2,7 @@
 
     class CScene1 extends MSMScene
     {	constructor(msmapp) 
-        {   //super(msmapp,"ifscene1","https://www.youtube.com/embed/bkk6cHrkcFE?enablejsapi=1");
-        	super(msmapp);
+        {   super(msmapp);
         }
 
 		async init() 
@@ -79,26 +78,36 @@
 				//var src	=	"https://canvas.1sekolah.xyz/";
 				//var src	=	"//canvas.1sekolah.xyz/";
 				//var src	=	"https://h5p.org/presentation";
-				var src1	=	"//rchat.1sekolah.xyz/";
-				var src2	=	"https://www.youtube.com/embed/bkk6cHrkcFE?enablejsapi=1&&modestbranding=1&&hd=1&rel=0&autohide=1&showinfo=0&&controls=0";
 				
+				//var src1	=	"//rchat.1sekolah.xyz/";
+				//var src2	=	"https://www.youtube.com/embed/bkk6cHrkcFE?enablejsapi=1&&modestbranding=1&&hd=1&rel=0&autohide=1&showinfo=0&&controls=0";
+				//var src3	=   'https://groups.google.com/forum/embed/?place=forum/1sekolah&showsearch=true&showpopout=true&showtabs=false&parenturl=' + encodeURIComponent(window.location.href);
+				//var src4	=	"https://www.twiddla.com/b75hq1";
+
+				var src1	=	"//droppy.1sekolah.xyz";				//"//rchat.1sekolah.xyz/channel/general";
+				var src2	=	"//droppy.1sekolah.xyz";				//"//rchat.1sekolah.xyz/channel/general";
+				var src3	=   "//droppy.1sekolah.xyz";				//"//rchat.1sekolah.xyz/channel/general";
+				var src4	=	"//droppy.1sekolah.xyz";				//"//rchat.1sekolah.xyz/channel/general";
+
 
 				//let [plane,rchat,building1,particle1,skybox,doors]  = await Promise.all([this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
-				let [plane,rchat,rchat2,building1,particle1,doors]  = await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
-    												    							//this.msmapp.create_css3Diframe_rchat(this.cssscene,"https://www.youtube.com/embed/bkk6cHrkcFE?enablejsapi=1&&modestbranding=1&&hd=1&rel=0&autohide=1&showinfo=0&&controls=0"),
-    												    							//this.msmapp.create_css3Diframe_rchat(this.cssscene,"https://hangouts.google.com/call/4h3xishhavbsnpx5scnmjh4kky4"),
-    												    							//this.msmapp.create_css3Diframe_rchat(this.cssscene,src),
-    												    							this.msmapp.create_css3Diframe_rchat(this.cssscene,src1,640,300,0,120,500,-Math.PI/2),
-    												    							this.msmapp.create_css3Diframe_rchat(this.cssscene,src2,640,300,0,120,-500,0),
+				let [plane,css3Diframe1,css3Diframe2,css3Diframe3,css3Diframe4,building1,particle1,doors]	=  
+					await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
+    									//this.msmapp.create_css3Diframe_rchat(this.cssscene,"https://www.youtube.com/embed/bkk6cHrkcFE?enablejsapi=1&&modestbranding=1&&hd=1&rel=0&autohide=1&showinfo=0&&controls=0"),
+    									//this.msmapp.create_css3Diframe_rchat(this.cssscene,"https://hangouts.google.com/call/4h3xishhavbsnpx5scnmjh4kky4"),
+    									//this.msmapp.create_css3Diframe_rchat(this.cssscene,src),
+    									this.msmapp.create_css3Diframe(this.cssscene,src1, 0,  130, 500,-Math.PI/2),//,800,300),
+    									this.msmapp.create_css3Diframe(this.cssscene,src2, 0,  130,-500, 0        ),// 800,300),
+    									this.msmapp.create_css3Diframe(this.cssscene,src3, 500,130, 0,  -Math.PI/4),//,800,300),
+    									this.msmapp.create_css3Diframe(this.cssscene,src4,-500,130, 0,   Math.PI/4),//,800,300),
     												    							
-    												    							this.msmapp.create_building1(this.pivot,this.glscene),
-    												    							this.msmapp.create_particle1(this.glscene),
-    												    							//this.msmapp.create_ShaderSkybox(this.glscene),
-    												    							this.create_door_async()
-    												    						 ]);
+    									this.msmapp.create_building1(this.pivot,this.glscene),
+    									this.msmapp.create_particle1(this.glscene),
+    									//this.msmapp.create_ShaderSkybox(this.glscene),
+    									this.create_door_async()	]);
 			
 				super.addMesh(plane);
-				this.css3Diframe	= rchat;
+				this.css3Diframe	= [css3Diframe1,css3Diframe2,css3Diframe3,css3Diframe4];
 				this.building1		= building1;			
 			
 				this.params1		= particle1.params1; 
@@ -122,16 +131,18 @@
 	    	//$(name).attr('src','');
 			//$(name).attr('style','zIndex: -1');
 			
-			this.css3Diframe.div.style.opacity		= 0.0;
-			this.css3Diframe.div.style.display		= "none";
-			this.css3Diframe.div.style.zIndex		= -1;
+			for(var i=0;i<this.css3Diframe.range;i++)
+			{	this.css3Diframe[i].div.style.opacity		= 0.0;
+				this.css3Diframe[i].div.style.display		= "none";
+				this.css3Diframe[i].div.style.zIndex		= -1;
+	
+				this.css3Diframe[i].iframe.src				= '';
 
-			this.css3Diframe.iframe.src				= '';
-
-			//this.css3Diframe.position.set(0,-1000,0);
-			//this.css3Diframe.visible = false;
-			//this.css3Diframe.translateY (-100000);
-			//this.css3Diframe.scale.set(0.001,0.001,0.001);
+				//this.css3Diframe[i].position.set(0,-1000,0);
+				//this.css3Diframe[i].visible = false;
+				//this.css3Diframe[i].translateY (-100000);
+				//this.css3Diframe[i].scale.set(0.001,0.001,0.001);
+			}
 
 			//this.toggleVideo('hide');
 			//this.pauseVideo();
@@ -146,19 +157,21 @@
 	    	//$(name).attr('src',this.url);
 			//$(name).attr('style','zIndex: 0');
 
-			this.css3Diframe.div.style.opacity		= 1.0;
-			this.css3Diframe.div.style.display		= "inline";
-			this.css3Diframe.div.style.zIndex		= 0;
+			for(var i=0;i<this.css3Diframe.range;i++)
+			{	this.css3Diframe[i].div.style.opacity		= 1.0;
+				this.css3Diframe[i].div.style.display		= "inline";
+				this.css3Diframe[i].div.style.zIndex		= 0;
 
-			this.css3Diframe.iframe.src				= this.css3Diframe.url;
-			this.css3Diframe.iframe.style.width		= "100%";//this.w;//'1100px';//'1024px';//'800px';
-			this.css3Diframe.iframe.style.height 	= "100%";//this.h;//'425px';//'768px';
+				this.css3Diframe[i].iframe.src				= this.css3Diframe[i].url;
+				this.css3Diframe[i].iframe.style.width		= "100%";//this.w;//'1100px';//'1024px';//'800px';
+				this.css3Diframe[i].iframe.style.height 	= "100%";//this.h;//'425px';//'768px';
 			
-
-			//this.css3Diframe.position.set(600,120,600);
-			//this.css3Diframe.visible = true;
-			//this.css3Diframe.translateZ (-100000);
-			//this.css3Diframe.scale.set(1,1,1);
+				//this.css3Diframe[i].position.set(600,120,600);
+				//this.css3Diframe[i].visible = true;
+				//this.css3Diframe[i].translateZ (-100000);
+				//this.css3Diframe[i].scale.set(1,1,1);
+			}
+			
 			//this.playVideo();
 			
 		}
@@ -385,14 +398,14 @@
 					//this.css3Diframe.lookAt (this.cam.getWorldPosition());
 					//this.css3Diframe.rotation.setFromRotationMatrix( this.cam.matrix );
 
-					if(this.css3Diframe)
-					{	//this.css3Diframe.lookAt (player.getPosition());
+					//if(this.css3Diframe)
+					//{	//this.css3Diframe.lookAt (player.getPosition());
 						//this.css3Diframe.lookAt (this.cam.getWorldPosition());
 						//this.css3Diframe.obj.lookAt (campos);
 
 						//this.css3Diframe.obj.quaternion.copy( this.cam.quaternion );
 						//this.css3Diframe.position.x = this.cam.position.x+800;
-					}
+					//}
 					
 					//this.light_.followTarget(this.glscene,player.getPosition(),'player_moviemesh');
 					//var pos = player.getPosition();

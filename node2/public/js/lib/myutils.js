@@ -219,7 +219,7 @@
         //| -->
         //|//////////////////////////////////|
         
-//////////////////////////////
+        //////////////////////////////
         //http://psoug.org/snippet/Javascript-Prevent-framing-a-page_114.htm
         function breakout()
         {   if(top.location != location) 
@@ -227,7 +227,37 @@
             }
         }
         
-//////////////////////////////        
+        //////////////////////////////        
         function focusit()
         {   if(document.activeElement)document.activeElement.blur();
         }        
+        
+        function myClickFunction() 
+        {   var elem = document.activeElement;
+            if(elem && elem.tagName == 'IFRAME')
+            {    document.activeElement.blur();    //<<-- this command will default to body focus
+                 //console.log('document.activeElement.blur();');
+            }
+        }        
+        
+        /*
+        $(document).ready(()=> 
+        {   $("IFRAME").click(document.activeElement.blur());
+        });        
+        */
+        
+        function blur_all_iframes()
+        {   var frames = document.getElementsByTagName("iframe");
+            for (var i = 0; i < frames.length; ++i)
+            {   
+                //frames[i].style.display = "none";                                   // The iFrame
+                //getElementById(frames[i].id + "-L").style.display = "";             // The corresponding DIV
+                frames[i].onload = ()=>
+                {   //getElementById(frames[i].id + "-L").style.display = "none";
+                    //frames[i].style.display = "";
+                    frames[i].onclick = ()=>
+                    {   document.activeElement.blur();
+                    }
+                }
+            }
+        }

@@ -1,0 +1,27 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'help', 'install' ]
+2 info using npm@4.1.2
+3 info using node@v7.5.0
+4 verbose stack Error: spawn man ENOENT
+4 verbose stack     at exports._errnoException (util.js:1023:11)
+4 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:193:32)
+4 verbose stack     at onErrorNT (internal/child_process.js:359:16)
+4 verbose stack     at _combinedTickCallback (internal/process/next_tick.js:74:11)
+4 verbose stack     at process._tickCallback (internal/process/next_tick.js:98:9)
+5 verbose cwd /workspace/gateway/node2
+6 error Linux 2.6.32-042stab120.18
+7 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "help" "install"
+8 error node v7.5.0
+9 error npm  v4.1.2
+10 error file man
+11 error path man
+12 error code ENOENT
+13 error errno ENOENT
+14 error syscall spawn man
+15 error enoent spawn man ENOENT
+16 error enoent spawn man ENOENT
+16 error enoent This is most likely not a problem with npm itself
+16 error enoent and is related to npm not being able to find a file.
+16 error enoent
+16 error enoent Check if the file 'man' is present.
+17 verbose exit [ 1, true ]

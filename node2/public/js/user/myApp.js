@@ -300,15 +300,10 @@
 			return promise;
 		}
 		
-						//this.w = ''+(window.innerWidth *0.8).toFixed(0)+'px';	//'1250px';//'1100px';
-				//this.h = ''+(window.innerHeight*0.5).toFixed(0)+'px';	//'450px';//'425px';
-				
-		async create_css3Diframe_rchat(cssscene,url="https://rchat.1sekolah.xyz",w=(window.innerWidth*0.8),h=(window.innerHeight*0.5),x=600,y=30,z=600,ry=-Math.PI/2) 
-		//async create_css3Diframe_rchat(cssscene,url,w,h,x,y,z,ry) 
+		async create_css3Diframe(cssscene,url="https://rchat.1sekolah.xyz",x=600,y=30,z=600,ry=-Math.PI/2,w=(window.innerWidth*0.6),h=(window.innerHeight*0.3)) 
 		{	var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
-				{	//var css3Diframe = new CElement(url,600,120,600, -Math.PI/2 );
-					//y = window.innerHeight*0.25-30;
+				{	//y = window.innerHeight*0.25-30;
 					var css3Diframe = new CElement(url,w,h,x,y,z,ry);
 
 					if(css3Diframe)
@@ -320,7 +315,6 @@
 						//alert("url="+url+", w="+w+", h="+h+",x="+x+",y="+y+", z="+z+", ry="+ry);
 						
 						cssgroup.add( css3Diframe.obj );
-						
 						cssscene.add( cssgroup );		
 		
 						//var name = "#"+frameID;
@@ -405,10 +399,11 @@
 
 			//this.scene_number=0 //-> start with lobby!
 			this.setScene(this.gscenes[this.scene_number]).start();
-			
+
 			//var name = "#"+this.getScene().id;
    			//$(name).show();			
-		
+   			
+   			blur_all_iframes();
 		}
 
  	    toggleScene(scene_number)
@@ -417,43 +412,44 @@
 			{	this.toggle_counter=0;
 			
 				//if( JSON.stringify(scene_number) != JSON.stringify(this.scene_number) )
-				if( scene_number!= this.scene_number && this.scene_number>=0 && this.scene_number<this.gscenes.length)
-	    		{	////////////////////////////////////////////////////////////////
-	    			//var name1 = "#"+this.getScene().id;
-	    			//$(name1).attr('src','');
-					//$(name1).attr('style','zIndex: -1');	    			
-					
-	    			
-	    			//$(name).hide();
-					//$(name).attr('style','display: none');
-					//$(name).attr('style','visibility: 0');
-	    			
-	    			
-		    		//remove the actor on current scene
-		    		this.setScene(this.getScene()).stop();
-	    			this.getScene().remove( this.mygamemodel.player.moviemesh );
-	    			if (typeof this.getScene().hideIframe === "function")this.getScene().hideIframe(); 
+				console.log("scene_number="+scene_number+", this.scene_number="+this.scene_number);
+				if( scene_number!= this.scene_number)
+	    		{	if(this.scene_number>=0 && this.scene_number<this.gscenes.length)
+	    			{	////////////////////////////////////////////////////////////////
+		    			//var name1 = "#"+this.getScene().id;
+		    			//$(name1).attr('src','');
+						//$(name1).attr('style','zIndex: -1');	    			
 
-	    			this.scene_number=scene_number;
-	    			//set new scene and add actor in it
-		    		this.setScene(this.gscenes[scene_number]);
-		    		this.getScene().add( this.mygamemodel.player.moviemesh );
+		    			//$(name).hide();
+						//$(name).attr('style','display: none');
+						//$(name).attr('style','visibility: 0');
 
-					////////////////////////////////////////////////////////////////
-	    			//console.log("(JSON.stringify(rot) != JSON.stringify(window.rot))");
-	    			fbRef.child( "Players/" + playerID + "/zone" ).update({	map:scene_number});	    	
-	    			
-	    			if (typeof this.getScene().showIframe === "function")this.getScene().showIframe(); 
+		    			//remove the actor on current scene
+			    		this.setScene(this.getScene()).stop();
+		    			this.getScene().remove( this.mygamemodel.player.moviemesh );
+	    				if (typeof this.getScene().hideIframe === "function")this.getScene().hideIframe(); 
 
-					////////////////////////////////////////////////////////////////
-	    			this.setScene(this.gscenes[scene_number]).start();
+	    				this.scene_number=scene_number;
+	    				//set new scene and add actor in it
+		    			this.setScene(this.gscenes[scene_number]);
+		    			this.getScene().add( this.mygamemodel.player.moviemesh );
+
+						////////////////////////////////////////////////////////////////
+	    				//console.log("(JSON.stringify(rot) != JSON.stringify(window.rot))");
+	    				fbRef.child( "Players/" + playerID + "/zone" ).update({	map:scene_number});	    	
 	    			
-	    			//var name2 = "#"+this.getScene().id;
-	    			//$(name2).attr('src',this.getScene().url);
-	    			//$(name2).attr('style','zIndex: 0');	    			
-	    			//$(name2).show();
+	    				if (typeof this.getScene().showIframe === "function")this.getScene().showIframe(); 
+
+						////////////////////////////////////////////////////////////////
+	    				this.setScene(this.gscenes[scene_number]).start();
 	    			
-	    			
+	    				//var name2 = "#"+this.getScene().id;
+	    				//$(name2).attr('src',this.getScene().url);
+	    				//$(name2).attr('style','zIndex: 0');	    			
+	    				//$(name2).show();
+   				        
+   				        blur_all_iframes();
+	    			}	
 	    		}				
 				////////////////////////////////////////////////////////////////
 			}	

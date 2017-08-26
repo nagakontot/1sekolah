@@ -70,32 +70,56 @@
 			//////////////////////////////////////////////////////////////////
     
 			try 
-			{	//let [plane,rchat,building3,particle1,skybox] = await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
-				let [plane,rchat,building3,particle1] = await Promise.all([			this.msmapp.create_plane('ground_desert_mesh',500,500,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
-    												    							this.msmapp.create_css3Diframe_rchat(this.cssscene,"https://rchat.1sekolah.xyz"),
-    												    							this.msmapp.create_building3(this.pivot,this.glscene),
-    												    							//this.msmapp.create_castle01(this.pivot,this.glscene),
-    												    							this.msmapp.create_particle1(this.glscene)
-    												    							//this.msmapp.create_ShaderSkybox(this.glscene)
-    											    							 ]);
+			{	
+				//var src	=   'https://groups.google.com/forum/embed/?place=forum/1sekolah&showsearch=true&showpopout=true&showtabs=false&parenturl=' + encodeURIComponent(window.location.href);
+				//var src	=   "https://tympanus.net/Tutorials/MoleskineNotebook/";
+				//var src	=	"https://www.yumpu.com/en/embed/view/HLYUZrOvxWSkmAqD";
+				//var src	=	"https://s3.amazonaws.com/online.anyflip.com/qaoi/ltso/index.html";
+				//var src	=	"https://canvas.1sekolah.xyz/";
+				//var src	=	"//canvas.1sekolah.xyz/";
+				//var src	=	"https://h5p.org/presentation";
+				
+				//var src1	=	"//rchat.1sekolah.xyz/";
+				//var src2	=	"https://www.youtube.com/embed/bkk6cHrkcFE?enablejsapi=1&&modestbranding=1&&hd=1&rel=0&autohide=1&showinfo=0&&controls=0";
+				//var src3	=   'https://groups.google.com/forum/embed/?place=forum/1sekolah&showsearch=true&showpopout=true&showtabs=false&parenturl=' + encodeURIComponent(window.location.href);
+				//var src4	=	"https://www.twiddla.com/b75hq1";
+
+				var src1	=	"//rchat.1sekolah.xyz/channel/matematik";
+				var src2	=	"//rchat.1sekolah.xyz/channel/matematik";
+				var src3	=   "//rchat.1sekolah.xyz/channel/matematik";
+				var src4	=	"//rchat.1sekolah.xyz/channel/matematik";
+
+
+				//let [plane,rchat,building1,particle1,skybox,doors]  = await Promise.all([this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
+				let [plane,css3Diframe1,css3Diframe2,css3Diframe3,css3Diframe4,building3,particle1]	=  
+					await Promise.all([	this.msmapp.create_plane('ground_desert_mesh',1000,1000,this.msmapp.floorTexture,this.msmapp.floorTextureBump,this.msmapp.floorTextureOCC),
+    									//this.msmapp.create_css3Diframe_rchat(this.cssscene,"https://www.youtube.com/embed/bkk6cHrkcFE?enablejsapi=1&&modestbranding=1&&hd=1&rel=0&autohide=1&showinfo=0&&controls=0"),
+    									//this.msmapp.create_css3Diframe_rchat(this.cssscene,"https://hangouts.google.com/call/4h3xishhavbsnpx5scnmjh4kky4"),
+    									//this.msmapp.create_css3Diframe_rchat(this.cssscene,src),
+    									this.msmapp.create_css3Diframe(this.cssscene,src1, 0,  130, 500,-Math.PI/2),//,800,300),
+    									this.msmapp.create_css3Diframe(this.cssscene,src2, 0,  130,-500, 0        ),// 800,300),
+    									this.msmapp.create_css3Diframe(this.cssscene,src3, 500,130, 0,  -Math.PI/4),//,800,300),
+    									this.msmapp.create_css3Diframe(this.cssscene,src4,-500,130, 0,   Math.PI/4),//,800,300),
+    												    							
+    									this.msmapp.create_building3(this.pivot,this.glscene),
+    									this.msmapp.create_particle1(this.glscene)	]);
 			
 				super.addMesh(plane);
-				this.css3Diframe	= rchat;
+				this.css3Diframe	= [css3Diframe1,css3Diframe2,css3Diframe3,css3Diframe4];
 				this.building3		= building3;			
 			
 				this.params1		= particle1.params1; 
 				this.mysp			= particle1.mysp;
 			
-				this.mysky			= null;//skybox;
+				this.mysky			= null;//skybox;//
 			} 
 			catch (err) 
 			{	console.log(err);
 			}
 			
             return this;
-
 		}
-
+		
 		hideIframe()
 		{	//alert("hideIframe() child, id="+this.id);
 			//this.css3Diframe.hide();
@@ -105,17 +129,19 @@
 	    	//$(name).attr('src','');
 			//$(name).attr('style','zIndex: -1');
 			
-			this.css3Diframe.div.style.opacity		= 0.0;
-			this.css3Diframe.div.style.display		= "none";
-			this.css3Diframe.div.style.zIndex		= -1;
+			for(var i=0;i<this.css3Diframe.range;i++)
+			{	this.css3Diframe[i].div.style.opacity		= 0.0;
+				this.css3Diframe[i].div.style.display		= "none";
+				this.css3Diframe[i].div.style.zIndex		= -1;
+	
+				this.css3Diframe[i].iframe.src				= '';
 
-			this.css3Diframe.iframe.src				= '';
-
-			//this.css3Diframe.position.set(0,-1000,0);
-			//this.css3Diframe.visible = false;
-			//this.css3Diframe.translateY (-100000);
-			//this.css3Diframe.scale.set(0.001,0.001,0.001);
-
+				//this.css3Diframe[i].position.set(0,-1000,0);
+				//this.css3Diframe[i].visible = false;
+				//this.css3Diframe[i].translateY (-100000);
+				//this.css3Diframe[i].scale.set(0.001,0.001,0.001);
+			}
+			
 			//this.toggleVideo('hide');
 			//this.pauseVideo();
 		}
@@ -129,19 +155,21 @@
 	    	//$(name).attr('src',this.url);
 			//$(name).attr('style','zIndex: 0');
 
-			this.css3Diframe.div.style.opacity		= 1.0;
-			this.css3Diframe.div.style.display		= "inline";
-			this.css3Diframe.div.style.zIndex		= 0;
+			for(var i=0;i<this.css3Diframe.range;i++)
+			{	this.css3Diframe[i].div.style.opacity		= 1.0;
+				this.css3Diframe[i].div.style.display		= "inline";
+				this.css3Diframe[i].div.style.zIndex		= 0;
 
-			this.css3Diframe.iframe.src				= this.css3Diframe.url;
-			this.css3Diframe.iframe.style.width		= "100%";//this.w;//'1100px';//'1024px';//'800px';
-			this.css3Diframe.iframe.style.height 	= "100%";//this.h;//'425px';//'768px';
+				this.css3Diframe[i].iframe.src				= this.css3Diframe[i].url;
+				this.css3Diframe[i].iframe.style.width		= "100%";//this.w;//'1100px';//'1024px';//'800px';
+				this.css3Diframe[i].iframe.style.height 	= "100%";//this.h;//'425px';//'768px';
 			
-
-			//this.css3Diframe.position.set(600,120,600);
-			//this.css3Diframe.visible = true;
-			//this.css3Diframe.translateZ (-100000);
-			//this.css3Diframe.scale.set(1,1,1);
+				//this.css3Diframe[i].position.set(600,120,600);
+				//this.css3Diframe[i].visible = true;
+				//this.css3Diframe[i].translateZ (-100000);
+				//this.css3Diframe[i].scale.set(1,1,1);
+			}
+			
 			//this.playVideo();
 			
 		}
@@ -158,137 +186,16 @@
 			$(name)[0].contentWindow.postMessage('{"event":"command","func":"' + func + '","args":""}','*');
 		}
 
-  		async create_door_async()
-		{	var promise = await new Promise((resolve, reject) =>
-			{	//window.setTimeout(this.create_doors.bind(this,this.msmapp.doortex),0);
-				window.setTimeout(()=>
-				{	this.create_doors(this.msmapp.doortex);
-					resolve("done");
-				},0);
-			});
-			return promise;    			
-		}
-		
-		create_doors(doortex)
-		{	this.doors		= [];
-			this.door_name1	= ["Lobby","Math",	"Add Math",	"Physics",	"Biology",	"Chemistry",	"Science"];
-			this.door_name2	= ["BM",	"BI",	"Account",	"History",	"Robotic",	"Website",		"Misc"];
-			
-			//////////////////////////////////////////////
-			//var door		= {width: 100,height: 100,depth: 10}
-			//var door		= {width: 2.5,height: 4,depth: 0.15}
-			var door		= {width: 3,height: 5,depth: 0.15}
-    		// use geometry for a door mesh many times
-			var geometry	= new THREE.CubeGeometry(door.width, door.height, door.depth);
-			// this offsets the pivot point so doors don't rotate around their center
-			geometry.applyMatrix(new THREE.Matrix4().makeTranslation(door.width / 2, 0, 0));
-
-			///////////////////////////////////////////////
-			//var doortex 	= window.gTexLoader.load( 'images/house/door004.jpg' );
-            //floorTexture.wrapS      = floorTexture.wrapT = THREE.RepeatWrapping; 
-            //floorTexture.repeat.set( 200,200 );
-			var params = 
-	        {   map:                doortex,
-                bumpMap:        	doortex,
-                //aoMap:              floorTextureOCC,         
-                //normalMap:			floorTextureBump,
-                //specularMap:        floorTextureSPEC,
-                //displacementMap:    floorTextureDISP,
-                //displacementBias:   1,//0.618,
-                //displacementScale:  1,//0.618,  
-              
-                //ambient:			0xffffff,	
-                bumpScale:			1,
-                //normalScale:        new THREE.Vector2( 1,1),
-                shininess:          5,//35.0,
-                //color:              0xdddddd,
-				//specular:           0x101010,
-				//emissive:			'#333333'
-                //side:               THREE.BackSide
-            };
-            
-            
-            //this.material			= new THREE.MeshStandardMaterial( params );
-            //this.material			= new THREE.MeshLambertMaterial( params );
-            var material			= new THREE.MeshPhongMaterial( params );            
-			///////////////////////////////////////////////
-			// make doors!
-			//for (let i = 0; i < 30; i++) 
-			var len = 7;
-			for (let i = 0; i < len; i++) 
-			{	//let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
-    			let mesh			= new THREE.Mesh(geometry, material);
-    			mesh.castShadow		= true;			
-				mesh.receiveShadow	= false;//true;
-				
-    			this.glscene.add(mesh);
-    			this.doors.push(mesh);
-
-    			// arrange in a grid
-    			//mesh.position.x = 10.00 + (i % len) * (door.width + door.depth);
-    			//mesh.position.y = 0 + Math.floor(i / len) * -(door.height + door.depth);
-    			////////////////
-    			//mesh.position.x = -22.35+(i % len) * (door.width + door.depth + 4);
-    			mesh.position.x = -22.5+(i % len) * (door.width + door.depth + 3.85);
-    			mesh.position.y = 1.55 + Math.floor(i / len) * -(door.height + door.depth);
-    			mesh.position.z = -2.85;
-    			
-    			mesh.name = "door_A"+ i;
-    			
-				//////////////////////////////
-				var label = createLabel(this.door_name1[i],"yellow","blue",20,128,32,true);
-				//label.scale.set(1,0.25,1);
-				//label.scale.set(4,2,4);
-				label.scale.set(4,1,0);
-    			//label.position.set(1.25,1.75,2.4);
-    			label.position.set(1.25,1.25,2);
-    			
-    			//////////////////////////////    			
-    			mesh.add( label );
-			}
-			///////////////////////////////////////////////////
-			for (let i = 0; i < len; i++) 
-			{	//let material		= new THREE.MeshLambertMaterial({color: 0xffffff * Math.random()});
-    			let mesh			= new THREE.Mesh(geometry, material);
-    			//mesh.castShadow		= true;			
-				//mesh.receiveShadow	= false;//true;//
-				
-    			this.glscene.add(mesh);
-    			this.doors.push(mesh);
-
-    			// arrange in a grid
-    			//mesh.position.x = 10.00 + (i % len) * (door.width + door.depth);
-    			//mesh.position.y = 0 + Math.floor(i / len) * -(door.height + door.depth);
-    			////////////////
-    			//mesh.position.x = -22.35+(i % len) * (door.width + door.depth + 4);
-    			mesh.position.x = -22.5+(i % len) * (door.width + door.depth + 3.85);
-    			mesh.position.y = 1.55 + Math.floor(i / len) * -(door.height + door.depth);
-    			mesh.position.z = -15.85;
-    			
-    			mesh.name = "door_B"+ i;
-    			
-				//////////////////////////////
-				var label = createLabel(this.door_name2[i],"yellow","blue",20,128,32,true);
-				//label.scale.set(1,0.25,1);
-				//label.scale.set(4,2,4);
-				label.scale.set(4,1,0);
-    			//label.position.set(1.25,1.75,-2.4);
-    			label.position.set(1.25,1.25,-2);
-    			
-    			//////////////////////////////    			
-    			mesh.add( label );    			
-			}
-			
-		}
 		/////////////////////////////////////////////////////////////////////////////////
-		update()
-		{	super.update();
+		update(dt)
+		{	super.update(dt);
 			
 			var time = Date.now() * 0.00001;
+			//var time = dt;//*0.0001;//window.performance.now()*0.00001;//
 			this.cam = this.msmapp.camera();
 			
 			//TWEEN.update(time);
-			TWEEN.update();
+			//TWEEN.update();
 			/////////////////////////////////////////////////////////
 			// handle mouseover interactions
 			/*
@@ -367,15 +274,14 @@
 					//this.css3Diframe.lookAt (this.cam.getWorldPosition());
 					//this.css3Diframe.rotation.setFromRotationMatrix( this.cam.matrix );
 
-					if(this.css3Diframe)
-					{	//this.css3Diframe.lookAt (player.getPosition());
+					//if(this.css3Diframe)
+					//{	//this.css3Diframe.lookAt (player.getPosition());
 						//this.css3Diframe.lookAt (this.cam.getWorldPosition());
-						//this.css3Diframe.lookAt (campos);
-						//if(this.glPlane2D)this.glPlane2D.lookAt (campos);
-					
-						this.css3Diframe.obj.quaternion.copy( this.cam.quaternion );
+						//this.css3Diframe.obj.lookAt (campos);
+
+						//this.css3Diframe.obj.quaternion.copy( this.cam.quaternion );
 						//this.css3Diframe.position.x = this.cam.position.x+800;
-					}
+					//}
 					
 					//this.light_.followTarget(this.glscene,player.getPosition(),'player_moviemesh');
 					//var pos = player.getPosition();
@@ -428,7 +334,6 @@
 		//	this.update(time);
 		//	super.render();
 		//}
-	
 //|___________________________________________________________________________|
 //|                                                                           |
 		onDocumentMouseMove() 
@@ -437,63 +342,7 @@
 //|___________________________________________________________________________|
 //|                                                                           |
 		onDocumentClick() 
-		{	//super.onDocumentClick();
-  
-		    var degToRad    = Math.PI / 180;
-
-			try
-			{	// make clicked things open/close with a tweened animation
-		    	//throw is the only way to stop foreach loop!!!
-    			this.msmapp.intersects.forEach(clickedObject => 
-    			{	const name = clickedObject.object.name;
-
-    				var isFirstContact=false;
-    				if(name=="door_A0"||name=="door_A1"||name=="door_A2"||name=="door_A3"||name=="door_A4"||name=="door_A5"||name=="door_A6"||
-        			name=="door_B0"||name=="door_B1"||name=="door_B2"||name=="door_B3"||name=="door_B4"||name=="door_B5"||name=="door_B6")    
-    				{   if(isFirstContact===false)  
-        				{	isFirstContact=true;
-            				var targetAngle = clickedObject.object.rotation.y === -80 * degToRad ? 0 : -80 * degToRad;
-            				this.mytween = new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
-                                                                        				 .to({ y: targetAngle}, 500)
-                                                                        				 .start();
-            				this.door_name = name;
-            				console.log("door="+name);
-
-            				this.mytween.onComplete(() => 
-            				{	console.log('door='+this.door_name+' is done!! ')
-            					if(clickedObject.object.rotation.y === -80 * degToRad)
-            					{	this.mytween = new TWEEN.Tween(clickedObject.object.rotation).easing(TWEEN.Easing.Circular.Out)
-                                                                            					 .to({ y: 0}, 500)
-                                                                            					 .start();
-									switch(this.door_name)
-									{	case "door_A0":		this.msmapp.toggleScene(0);break;
-										case "door_A1":		this.msmapp.toggleScene(1);break;
-										case "door_A2":		this.msmapp.toggleScene(2);break;
-										case "door_A3":		this.msmapp.toggleScene(3);break;
-										case "door_A4":		this.msmapp.toggleScene(4);break;
-										case "door_A5":		this.msmapp.toggleScene(5);break;
-										case "door_A6":		this.msmapp.toggleScene(6);break;
-
-										case "door_B0":		this.msmapp.toggleScene(7+0);break;
-										case "door_B1":		this.msmapp.toggleScene(7+1);break;
-										case "door_B2":		this.msmapp.toggleScene(7+2);break;
-										case "door_B3":		this.msmapp.toggleScene(7+3);break;
-										case "door_B4":		this.msmapp.toggleScene(7+4);break;
-										case "door_B5":		this.msmapp.toggleScene(7+5);break;
-										case "door_B6":		this.msmapp.toggleScene(7+6);break;
-									}
-    	        				}
-        	    			});
-          
-        					throw 100;	//throw is the only way to stop foreach loop!!!
-            				//return;
-	        			}  
-    				}            
-    			});
-			}    
-			catch (e) 
-			{	//if (e !== 100) throw e;
-			}
+		{	
 		}
 //|___________________________________________________________________________|
 //|                                                                           |
@@ -505,3 +354,5 @@
 //|                                                                           |
 	}	
     
+
+

@@ -204,7 +204,7 @@
 <!--------------------------------------------------------------------------------------------------------------->
 
 <body onload="myLoad();" onclick="myClickFunction();">
-    
+
     
     <!--div class="g-hangout" data-render="createhangout"></div-->
     <!--g:sharetoclassroom url="http://url-to-share" size="32"></g:sharetoclassroom-->
@@ -391,13 +391,7 @@
 
 
         /////////////////////////////////      
-        function myClickFunction() 
-        {   var elem = document.activeElement;
-            if(elem && elem.tagName == 'IFRAME')
-            {    document.activeElement.blur();    //<<-- this command will default to body focus
-                 //console.log('document.activeElement.blur();');
-            }
-        }
+
         
     </script>
 
@@ -414,6 +408,17 @@
 	        j.src         = 'https://rchat.1sekolah.xyz/packages/rocketchat_livechat/assets/rocket-livechat.js';
 	        h.parentNode.insertBefore(j, h);
         })(window, document, 'script', 'https://rchat.1sekolah.xyz/livechat');
+    </script>
+    -->
+    
+    <!--
+    <script type="text/javascript">
+        window.$crisp=[];
+        window.CRISP_WEBSITE_ID="cc956d09-a656-412c-ac2e-c26bb9945590";
+        (function()
+        {   d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;
+            d.getElementsByTagName("head")[0].appendChild(s);
+        })();
     </script>
     -->
     
