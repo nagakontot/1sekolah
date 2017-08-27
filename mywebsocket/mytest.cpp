@@ -53,7 +53,9 @@ int main()
     {   typedef MemMap::MemMapFilePtr<MyClass> MemMappedClass;
       
         // create a object of wrapper class
-        MemMappedClass MemClass("/tmp/mymemmap");
+        //MemMappedClass MemClass("/tmp/mymemmap");
+        //MemMappedClass MemClass("mytmp/mymemmap");
+        MemMappedClass MemClass("./data/mymemmap");
       
         // now use MemClass as pointer of MyClass object.
         MemClass->m_nInt        = 5;            // Write  int as pointer
@@ -212,20 +214,22 @@ int main()
     });    
     
     h.onHttpRequest([](uWS::HttpResponse* res, uWS::HttpRequest req, char* data, size_t, size_t) 
-    {   int len = req.getUrl().valueLength;
+    {   
         //std::cout<<"req.getUrl().valueLength = " << len << std::endl;
         //std::cout<<"req.getUrl().value = " << req.getUrl().value << std::endl;
         
-        //if (req.getUrl().valueLength == 1) 
-        if (len == 1) 
+        std::string url(req.getUrl().toString());
+        //std::cout << url.c_str() << std::endl;
+        if (url == "/") 
         {   res->end(indexHtml.str().data(), indexHtml.str().length());
         } 
-        else if (len == 10) 
+        else if (url == "/main.html") 
         {   res->end(mainHtml.str().data(), mainHtml.str().length());
         } 
         else 
         {   // i guess this should be done more gracefully?
-            res->end(nullptr, 0);
+            //res->end(nullptr, 0);
+            res->end(indexHtml.str().data(), indexHtml.str().length());
         }
     });
 
@@ -286,26 +290,24 @@ int main()
     h.onDisconnection([&defgroup](uWS::WebSocket<uWS::SERVER>* ws, int code, char *message, size_t length) 
     //h.onDisconnection([&h,group1_lobby](uWS::WebSocket<uWS::SERVER>* ws, int code, char *message, size_t length) 
     //h.onDisconnection([&h](uWS::WebSocket<uWS::SERVER>* ws, int code, char *message, size_t length) 
-    {   //std::cout << "Client got disconnected with data: " << ws->getUserData() << ", code: " << code << ", message: <" << std::string(message, length) << ">" << std::endl;
-        if (code == 1006) 
-        {   std::cout << "Server recives terminate close code after terminating" << std::endl;
-        } 
-        //else if (code != 1000) 
-        //{   std::cout << "FAILURE: Server does not receive correct close code!" << std::endl;
-        //    //exit(-1);
-        //} 
-        else 
-        {   std::cout << "Server receives correct close code after closing" << std::endl;
-            
-            // broadcast number of clients connected to everyone
-            std::string tmp = "S " + std::to_string(--connections) + " " +  std::to_string(getKb());
-            //h.getDefaultGroup<uWS::SERVER>().broadcast(tmp.data(), tmp.length(), uWS::TEXT);
-
-            defgroup->broadcast(tmp.data(), tmp.length(), uWS::TEXT);
-
-            //group1_lobby->broadcast(tmp.data(), tmp.length(), uWS::TEXT);
+    {        if (code == 1006)  {   std::cout << "Server recives terminate close code after terminating" << std::endl;} 
+        else if (code == 1001)  {   std::cout << "Closing browser tab abruptly" << std::endl;} 
+        else                    
+        {   if (code == 1000)   {   std::cout << "Server receives correct close code after closing" << std::endl;}
+            else                {   std::cout << "FAILURE: Server does not receive correct close code!" << std::endl;} 
+        }    
+        std::cout << "Client got disconnected with data: " << ws->getUserData() << ", code: " << code << ", message: <" << std::string(message, length) << ">" << std::endl;
         
-        }
+        
+        // broadcast number of clients connected to everyone
+        std::string tmp = "S " + std::to_string(--connections) + " " +  std::to_string(getKb());
+        //h.getDefaultGroup<uWS::SERVER>().broadcast(tmp.data(), tmp.length(), uWS::TEXT);
+
+        defgroup->broadcast(tmp.data(), tmp.length(), uWS::TEXT);
+
+        //group1_lobby->broadcast(tmp.data(), tmp.length(), uWS::TEXT);
+        
+        
     });
     
     //h.getDefaultGroup<uWS::SERVER>().startAutoPing(30000);
