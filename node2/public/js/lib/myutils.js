@@ -11,13 +11,8 @@
     //foo({}); // throws!
 ///////////////////////////////////  
 //https://stackoverflow.com/questions/6193574/save-javascript-objects-in-sessionstorage
-    Storage.prototype.setObj = function(key, obj) 
-    {   return this.setItem(key, JSON.stringify(obj))
-    };
-
-    Storage.prototype.getObj = function(key) 
-    {   return JSON.parse(this.getItem(key))
-    };
+    Storage.prototype.setObj = function(key, obj)   {   return this.setItem(key, JSON.stringify(obj))};
+    Storage.prototype.getObj = function(key)        {   return JSON.parse(this.getItem(key))};
     
     //usage:
     //  sesssionStorage.setObj(1,{date:Date.now(),action:'save firstObject'});
