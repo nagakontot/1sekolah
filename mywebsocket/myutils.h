@@ -6,6 +6,26 @@
 #include <sstream>
 
 //////////////////////////////////////////////////////////////////
+int getKb() 
+{   std::string     line;
+    std::ifstream   self("/proc/self/status");
+    int             vmData, 
+                    vmStk, 
+                    vmPte;
+
+    while(!self.eof()) 
+    {   std::getline(self, line, ':');
+             if (line == "VmPTE")   self >> vmPte;
+        else if (line == "VmData")  self >> vmData;
+        else if (line == "VmStk")   self >> vmStk;
+        
+        std::getline(self, line);
+    }
+    return vmData - vmStk - vmPte;
+}
+
+
+/////////////////////////////////////////////////////////////////
 //config.txt
 //Input name = image1.png
 //Num. of rows = 100

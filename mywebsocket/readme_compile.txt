@@ -5,4 +5,6 @@
 //g++ -std=c++11 main.cpp -O3 -lz -lssl -luv -luWS -o server
 
 //g++ -std=c++11 mytest.cpp -Wall -O3 -DUWS_THREADSAFE=1 -lpthread -lz -lssl -lcrypto -luWS -o mytest.exe
-g++ -std=c++11 mytest.cpp -Wall -pedantic -O3 -lpthread -lz -lssl -lcrypto -luWS -o mytest.exe
+//g++ -std=c++11 mytest.cpp -Wall -pedantic -O3 -lpthread -lz -lssl -lcrypto -luWS -o mytest.exe
+
+g++ -std=c++11 mytest.cpp -Wall -Wno-multichar -pedantic -O3 -lpthread -lz -lssl -lcrypto -luWS -o mytest.exe                              
