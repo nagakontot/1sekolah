@@ -30,8 +30,8 @@ var redbird = require('redbird')
 //redbird.register("1sekolah.xyz",                "http://172.18.0.2:3001",   {ssl: true});
 //redbird.register("www.1sekolah.xyz",            "http://172.18.0.2:3001",   {ssl: true});
 
-redbird.register("www.1sekolah.xyz",            "http://172.18.0.2:6000",   {ssl: true});
-redbird.register("ide.1sekolah.xyz",            "http://172.18.0.2:8181",   {ssl: true});
+redbird.register("www.1sekolah.xyz",            "http://172.18.0.3:6000",   {ssl: true});
+redbird.register("ide.1sekolah.xyz",            "http://172.18.0.3:8181",   {ssl: true});
 
 //redbird.register("test1.1sekolah.xyz",          "http://172.18.0.2:3500",   {ssl: true});
 //redbird.register("test1.1sekolah.xyz",          "http://172.18.0.2:6000",   {ssl: true});
@@ -39,7 +39,7 @@ redbird.register("ide.1sekolah.xyz",            "http://172.18.0.2:8181",   {ssl
 
 //redbird.register("socket.1sekolah.xyz",          "http://172.18.0.2:3500",   {ssl: true});    //using ws
 //redbird.register("socket.1sekolah.xyz",          "http://172.18.0.2:3600",   {ssl: true});      //using uws
-redbird.register("socket.1sekolah.xyz",          "http://172.18.0.2:6000",   {ssl: true});      //using uws
+redbird.register("socket.1sekolah.xyz",          "http://172.18.0.3:6000",   {ssl: true});      //using uws
 
 
 

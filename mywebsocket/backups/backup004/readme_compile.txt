@@ -1,5 +1,0 @@
-//-std=c++11 -O3 tests/main.cpp -Isrc -o testsBin -lpthread -luWS -lssl -lcrypto -lz -luv
-
-g++ -std=c++11 mytest.cpp -O3 -lpthread -lz -lssl -lcrypto -luWS -o mytest.exe    
-
-//g++ -std=c++11 main.cpp -O3 -lz -lssl -luv -luWS -o server
