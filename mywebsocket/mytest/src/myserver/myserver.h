@@ -1,222 +1,24 @@
-#include "lib/myutils.h"
-#include "lib/kult.h"
 #include <uWS/uWS.h>
-
-/*
-#include <vector>
-#include <thread>
-#include <algorithm>
-
-#include <cassert>
-#include <string>
-#include <iostream>
-*/
-
-////////////////////////////////////////////////////////////////////////////////
-// custom type
-struct vec2 
-{   float x, y;
-
-    template<typename T> friend T&operator<<( T &os, const vec2 &self ) {
-        return os << "(x:" << self.x << ",y:" << self.y << ")", os;
-    }
-};
-
-////////////////////////////////////////////////////////////////////////////////
-class CMyEntity
-{   
-public:    
-    //entities
-    kult::entity                            player; 
-    kult::entity                            enemy;
-
-    // components
-    kult::component<'name', std::string>    name;
-    kult::component<'desc', std::string>    description;
-    kult::component<'pos2', vec2>           position;
-    kult::component<'vel2', vec2>           velocity;
-    
-    // systems
-    kult::system<float>                     movement;
-    
-    CMyEntity()
-    {
-    }
-    
-    void init()
-    {   movement = [&]( float dt ) 
-        {   for( auto &entity : kult::join( position, velocity ) ) 
-            {   entity[ position ].x += entity[ velocity ].x * dt;
-                entity[ position ].y += entity[ velocity ].y * dt;
-            }
-        };
-    }
-
-    void test_entity() 
-    {   // assign properties dynamically
-        player[ name ]          = "player #1";
-        player[ position ]      = { 0, 0 };
-        player[ velocity ]      = { 2, 4 };
-        player[ description ]   = "this is our warrior";
-
-        enemy[ name ]           = "orc #1";
-        enemy[ position ]       = { 0, 0 };
-
-        // simulate 100 frames
-        for( int i = 0; i < 100; ++i ) 
-        {   movement( 1/60.f );
-        }
-
-        // print status
-        std::cout << player.dump() << std::endl;
-        std::cout << enemy.dump() << std::endl;
-
-        // purge entities
-        player.purge();
-        enemy.purge();
-
-        // print status
-        std::cout << player.dump() << std::endl;
-        std::cout << enemy.dump() << std::endl;
-    }
-    
-};
-
-////////////////////////////////////////////////////////////////////////////////
-
-// test class
-class CMyClass
-{
-public:
-    int  m_nInt;
-    char m_cChar;
-    char m_sBuff[10];
-};
-
-
-class CGame
-{   typedef MemMap::MemMapFilePtr<CMyClass> TMemMappedClass;
-    TMemMappedClass mymemmap;
-    
-    CMyEntity       myent;
-
-public:
-    CGame(const std::string& fn="./data/mymemmap"): mymemmap(fn.c_str())
-    {   
-    }
-    
-    void test()
-    {   try 
-        {   myent.init();
-            myent.test_entity();
-        
-            //myent.test1();
-            //myent.save();
-            //myent.load();
-
-            //typedef MemMap::MemMapFilePtr<MyClass> MemMappedClass;
-      
-            // create a object of wrapper class
-            //MemMappedClass mymemmap("./data/mymemmap");
-
-            // now use mymemmap as pointer of MyClass object.
-            mymemmap->m_nInt        = 5;            // Write  int as pointer
-            (*mymemmap).m_cChar     = 'a';          // dereference it and write char
-            strcpy(mymemmap->m_sBuff, "12345678");  // write as buff
-      
-            std::cout << "m_nInt:"  << mymemmap->m_nInt  << std::endl;
-            std::cout << "m_cChar:" << mymemmap->m_cChar << std::endl;
-            std::cout << "m_sBuff:" << mymemmap->m_sBuff << std::endl;
-        }
-        catch (MemMap::MemMapFileException &e) 
-        {   std::cout << e.what() << std::endl;
-        }
-    }
-};
-////////////////////////////////////////////////////////////////////////////////
-/*
-struct SGlobalUWS
-{   std::vector<std::string>    storedMessages;
-    std::vector<int>            excludedMessages;
-    std::stringstream           indexHtml;
-    std::stringstream           mainHtml;
-    
-    int connections;
-    
-    SGlobalUWS():   connections(0)
-    {
-    }
-}gUWSData;  
-*/
-
-//https://stackoverflow.com/questions/28226251/static-member-in-header-only-library
-//Example of the templated statics trick:
-/*
-template< class Dummy >
-struct Foo_statics
-{
-    static int n_instances;
-};
-
-template< class Dummy >
-int Foo_statics<Dummy>::n_instances;
-
-class Foo
-    : private Foo_statics<void>
-{
-public:
-    ~Foo() { --n_instances; }
-    Foo() { ++n_instances; }
-    Foo( Foo const& ) { ++n_instances; }
-};
-*/
-
-
-template< class T >
-struct baseUWS
-{   
-public:    
-    //https://stackoverflow.com/questions/28226251/static-member-in-header-only-library
-    static std::vector<std::string>    storedMessages;
-    static std::vector<int>            excludedMessages;
-    static std::stringstream           indexHtml;
-    static std::stringstream           mainHtml;
-    static int connections;
-    static int bodoh;
-    
-public:    
-    //baseUWS()
-    //{   
-    //}
-
-    //https://stackoverflow.com/questions/28226251/static-member-in-header-only-library
-    //inline static auto storedMessages()->std::vector<std::string>&  {    static std::vector<std::string> storedMessages_;return storedMessages_;}
-    //inline static auto excludedMessages()->std::vector<int>&        {    static std::vector<int>         excludedMessages_;return excludedMessages_;}
-    //inline static auto indexHtml()->std::stringstream&              {    static std::stringstream        indexHtml_;return indexHtml_;}
-    //inline static auto mainHtml()->std::stringstream&               {    static std::stringstream        mainHtml_;return mainHtml_;}
-    //inline static auto connections()->int&                          {    static int                      connections_;return connections_;}
-    //inline static auto bodoh()->int&                                {    static int                      bodoh_;return bodoh_;}
-
-};
-
-template<class T>std::vector<std::string>   baseUWS<T>::storedMessages;
-template<class T>std::vector<int>           baseUWS<T>::excludedMessages;
-template<class T>std::stringstream          baseUWS<T>::indexHtml;
-template<class T>std::stringstream          baseUWS<T>::mainHtml;
-template<class T>int                        baseUWS<T>::connections=0;
-template<class T>int                        baseUWS<T>::bodoh=0;
+#include "server_baseUWS.h"
+#include "server_webpage.h"
 
 template <typename T>
 struct CServer: public baseUWS<T>
 {   std::string mText;
     
 public:    
+    #define X(a) using baseUWS<T>::a;
+        #include "server_baseUWS.def"
+    #undef X
+public:
+    /*
     using baseUWS<T>::storedMessages;
     using baseUWS<T>::excludedMessages;
     using baseUWS<T>::indexHtml;
     using baseUWS<T>::mainHtml;
     using baseUWS<T>::connections;
     using baseUWS<T>::bodoh;
+    */
 
           T& derived()       { return *static_cast<T*>(this);       }
     const T& derived() const { return *static_cast<const T*>(this); }
@@ -388,67 +190,13 @@ public:
     }    
 };                                                                                 
 
-template <typename T>                                                              
-struct CWebpage: public baseUWS<T>
-{    std::string mText;
-
-public:
-    using baseUWS<T>::storedMessages;
-    using baseUWS<T>::excludedMessages;
-    using baseUWS<T>::indexHtml;
-    using baseUWS<T>::mainHtml;
-    using baseUWS<T>::connections;
-    using baseUWS<T>::bodoh;
-    
-          T& derived()       { return *static_cast<T*>(this);       }
-    const T& derived() const { return *static_cast<const T*>(this); }
-
-public:
-    CWebpage(const char* aText):   mText(aText)
-    {   //derived().val=90;
-	    //std::cout<<__FUNCTION__<<", derived().val="<<derived().val<<", bodoh="<<bodoh<<std::endl;
-	    //bodoh=derived().val;
-	    //std::cout<<__FUNCTION__<<", derived().val="<<derived().val<<", bodoh="<<bodoh<<", mText="<<mText<<std::endl;
-    }
-
-    auto initWebpage()   
-    {   return derived().initWebpage_();
-    }
-    
-    int initWebpage_()
-	{   indexHtml << std::ifstream ("./public/index.html").rdbuf();
-        if (!indexHtml.str().length()) 
-        {   std::cerr << "Failed to load index.html" << std::endl;
-            return -1;
-        }
-
-        mainHtml << std::ifstream ("./public/main.html").rdbuf();
-        if (!mainHtml.str().length()) 
-        {   std::cerr << "Failed to load main.html" << std::endl;
-            return -1;
-        }
-
-        return 1;
-    }    
-};     
-
 
 //https://stackoverflow.com/questions/19886094/how-to-derive-from-a-nested-class-of-a-variadic-template-argument
 template <template<class> class ... Ts>
 struct CmyUWS: Ts<CmyUWS<Ts...>>...
 {   int val;   
-public:    
-    //std::vector<std::string>    storedMessages;
-    //std::vector<int>            excludedMessages;
-    //std::stringstream           indexHtml;
-    //std::stringstream           mainHtml;
-    
-    //https://stackoverflow.com/questions/28226251/static-member-in-header-only-library
-    //inline static auto storedMessages()->std::vector<std::string>& {    static std::vector<std::string> storedMessages_;return storedMessages_;}
-    //inline static auto excludedMessages()->std::vector<int>&       {    static std::vector<int>         excludedMessages_;return excludedMessages_;}
-    //inline static auto indexHtml()->std::stringstream&             {    static std::stringstream        indexHtml_;return indexHtml_;}
-    //inline static auto mainHtml()->std::stringstream&              {    static std::stringstream        mainHtml_;return mainHtml_;}
 
+public:    
     uWS::Hub h;
     
     //uWS::Group<uWS::SERVER>*  group1_lobby    = h.createGroup<uWS::SERVER>();
@@ -461,24 +209,10 @@ public:
     {
     }
     
-    /*
-    int init()
-    {   if(!initWebpage())  return -1;
-        if(!initServer())   return -1;
-        return 1;
-    }
-    
-    int run()
-    {   if(!runServer())    return -1;
-        return 1;
-    }
-    */
-
 };   
+
 ////////////////////////////////////////////////////////////////////////////////
-
-
-    ///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 /*
     std::vector<std::thread *> threads(std::thread::hardware_concurrency());
     std::transform(threads.begin(), threads.end(), threads.begin(), [](std::thread *t) 
