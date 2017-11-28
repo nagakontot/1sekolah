@@ -26,7 +26,18 @@ public:
     }
     
     int initonHttpRequest_()
-	{   
+	{   indexHtml << std::ifstream ("./public/index.html").rdbuf();
+        if (!indexHtml.str().length()) 
+        {   std::cerr << "Failed to load index.html" << std::endl;
+            return -1;
+        }
+
+        mainHtml << std::ifstream ("./public/main.html").rdbuf();
+        if (!mainHtml.str().length()) 
+        {   std::cerr << "Failed to load main.html" << std::endl;
+            return -1;
+        }
+
 	    derived().h.onHttpRequest([](uWS::HttpResponse* res, uWS::HttpRequest req, char* data, size_t, size_t) 
         {   
             //std::cout<<"req.getUrl().valueLength = " << len << std::endl;
