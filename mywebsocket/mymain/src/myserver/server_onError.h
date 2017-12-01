@@ -1,7 +1,7 @@
 #pragma once
 
 template <typename T>                                                              
-struct CServerOnError: public baseUWS<T>
+struct CServeronError: public baseUWS<T>
 {    std::string mText;
 
 public:    
@@ -14,18 +14,18 @@ public:
     const T& derived() const { return *static_cast<const T*>(this); }
 
 public:
-    CServerOnError(const char* aText):   mText(aText)
+    CServeronError(const char* aText):   mText(aText)
     {   //derived().val=90;
 	    //std::cout<<__FUNCTION__<<", derived().val="<<derived().val<<", bodoh="<<bodoh<<std::endl;
 	    //bodoh=derived().val;
 	    //std::cout<<__FUNCTION__<<", derived().val="<<derived().val<<", bodoh="<<bodoh<<", mText="<<mText<<std::endl;
     }
 
-    auto initOnError()   
-    {   return derived().initOnError_();
+    auto initonError()   
+    {   return derived().initonError_();
     }
     
-    int initOnError_()
+    int initonError_()
 	{   derived().h.onError([](void *user) 
         {   switch ((long) user) 
             {   case 1:     std::cerr << "Client emitted error on invalid URI" << std::endl;break;

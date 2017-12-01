@@ -8,45 +8,7 @@
 #include "server_onConnection.h"
 #include "server_onDisconnection.h"
 
-template <typename T>
-struct CServer: public baseUWS<T>
-{   std::string mText;
-
-/*
-public:    
-    #define X(a) using baseUWS<T>::a;
-        #include "server_baseUWS.def"
-    #undef X    
-*/
-
-public:
-    /*
-    using baseUWS<T>::storedMessages;
-    using baseUWS<T>::excludedMessages;
-    using baseUWS<T>::indexHtml;
-    using baseUWS<T>::mainHtml;
-    using baseUWS<T>::connections;
-    using baseUWS<T>::bodoh;
-    */
-
-          T& derived()       { return *static_cast<T*>(this);       }
-    const T& derived() const { return *static_cast<const T*>(this); }
-
-public:
-    CServer(const char* aText):   mText(aText)
-    {   //derived().val=3;
-	    //std::cout<<__FUNCTION__<<", derived().val="<<derived().val<<", bodoh="<<bodoh<<std::endl;
-	    //bodoh=derived().val;
-	    //std::cout<<__FUNCTION__<<", derived().val="<<derived().val<<", bodoh="<<bodoh<<", mText="<<mText<<std::endl;
-    }
-    
-    auto initServer()   {   return derived().initServer_();}
-    auto runServer()    {   return derived().runServer_();}
-
-      
-};                                                                                 
-
-ISFUNCT_EXIST(initOnError)
+ISFUNCT_EXIST(initonError)
 ISFUNCT_EXIST(initonHttpRequest)
 ISFUNCT_EXIST(initonMessage)
 ISFUNCT_EXIST(initonConnection)
@@ -72,16 +34,16 @@ public:
     {
     }
     
-    int initServer_()
-	{   if(is_initOnError<CmyUWS<Ts...>>::value)            if(!this->initOnError())        return -1;
-	    if(is_initonHttpRequest<CmyUWS<Ts...>>::value)      if(!this->initonHttpRequest())  return -1;
-	    if(is_initonMessage<CmyUWS<Ts...>>::value)          if(!this->initonMessage())      return -1;
-	    if(is_initonConnection<CmyUWS<Ts...>>::value)       if(!this->initonConnection())   return -1;
-	    if(is_initonDisconnection<CmyUWS<Ts...>>::value)    if(!this->initonDisconnection())return -1;
+    int initServer()
+	{   if(is_initonError<CmyUWS<Ts...>>::value)        { if(!this->initonError())        return -1;}else return -10;
+	    if(is_initonHttpRequest<CmyUWS<Ts...>>::value)  { if(!this->initonHttpRequest())  return -2;}else return -20;
+	    if(is_initonMessage<CmyUWS<Ts...>>::value)      { if(!this->initonMessage())      return -3;}else return -30;
+	    if(is_initonConnection<CmyUWS<Ts...>>::value)   { if(!this->initonConnection())   return -4;}else return -40;
+	    if(is_initonDisconnection<CmyUWS<Ts...>>::value){ if(!this->initonDisconnection())return -5;}else return -50;
         return 1;
     }         
     
-    int runServer_()
+    int runServer()
     {   //h.getDefaultGroup<uWS::SERVER>().startAutoPing(30000);
         //derived().defgroup->startAutoPing(30000);
         defgroup->startAutoPing(30000);
