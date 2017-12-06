@@ -13,6 +13,4 @@
 
 //g++ -std=c++14 mymain.cpp -Wall -Wno-multichar -pedantic -O3 -lpthread -lz -lssl -lcrypto -luWS -o mymain.exe
 
-//g++ -std=c++14 mymain.cpp drecho.cpp -Wall -Wno-multichar -pedantic -O3 -lpthread -lz -lssl -lcrypto -luWS -o mymain.exe
-
-g++ -std=c++14 mymain.cpp drecho.cpp ltalloc.cpp -Wall -Wno-multichar -pedantic -O3 -flto -lpthread -lz -lssl -lcrypto -luWS -o mymain.exe
+g++ -std=c++14 mymain.cpp drecho.cpp -Wall -Wno-multichar -pedantic -O3 -lpthread -lz -lssl -lcrypto -luWS -o mymain.exe

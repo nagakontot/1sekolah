@@ -28,20 +28,23 @@ int main()
             
         TmyUWS myUWS("P1","P2","P3","P4","P5");
 
-        if(!myUWS.initServer())THROW1("initServer"); 
-        if(!myUWS.runServer()) THROW1("runServer"); 
+        if(!myUWS.initServer())throw exit_exception("initServer"); 
+        if(!myUWS.runServer()) throw exit_exception("runServer"); 
 
         dr::release( std::cout );        
+        return EXIT_SUCCESS;
     } 
     catch(std::exception const& e)
-    {   std::cout << "\n================================ exception caught ================================";
-        std::cout << "\n\tmessage:\r\t\t\t\t" << e.what()<<"\n";
-        std::cout << "\n\ttype:\r\t\t\t\t" << typeid(e).name()<<"\n";
-        std::cout << "\n=================================================================================="<<"\n";;
+    {   std::cout << "\n========== Exception caught ===========";
+        std::cout << "\n\tMessage:\r\t\t\t\t" << e.what()<<"\n";
+        std::cout << "\n\tType:\r\t\t\t\t" << typeid(e).name()<<"\n";
+        std::cout << "\n======================================="<<"\n";;
         
         dr::release( std::cout );
         
-        std::exit(EXIT_FAILURE);
+        //std::exit(e.c);
+        
+        return EXIT_FAILURE;
     }    
 
     return EXIT_SUCCESS;

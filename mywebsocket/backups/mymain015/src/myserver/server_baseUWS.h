@@ -5,6 +5,7 @@ enum
     EexcludedMessages,
     Econnections,
     Ehtmlpage,
+    Ehtmlpage1
 };
 
 memo::factory<int> myfactory;

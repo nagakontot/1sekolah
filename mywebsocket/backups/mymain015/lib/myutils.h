@@ -12,46 +12,12 @@
 */
 
 //+-------------------------------------------------------------------------------------------------------------+
-//| https://stackoverflow.com/questions/37181621/easy-way-of-constructing-information-message-for-throwing-stdexception-using-p
-//+-------------------------------------------------------------------------------------------------------------+
-//static inline std::string make_source_error( std::string msg,char const* file, char const* function,std::size_t line) 
-//{   return std::string{} + file + "(" + std::to_string(line) + "): [" + function + "] " + msg;
-//}
-//#define SOURCE_ERROR(...) make_source_error(__VA_ARGS__, __FILE__, __func__, __LINE__ )
-
-
-//+-------------------------------------------------------------------------------------------------------------+
-//| https://stackoverflow.com/questions/5590381/easiest-way-to-convert-int-to-string-in-c
-//+-------------------------------------------------------------------------------------------------------------+
-#define SSTR( x ) static_cast< std::ostringstream & >( ( std::ostringstream() << std::dec << x ) ).str()
-/*
-//Usage is as easy as could be:
-
-int i = 42;
-std::cout << SSTR( "i is: " << i );
-std::string s = SSTR( i );
-puts( SSTR( i ).c_str() );
-*/
-//+-------------------------------------------------------------------------------------------------------------+
-//| https://stackoverflow.com/questions/561997/determining-exception-type-after-the-exception-is-caught
-//+-------------------------------------------------------------------------------------------------------------+
-#define EXCEPTION_FACTORY( NE ) class NE  : public std::runtime_error\
-                                {\
-                                public:\
-                                    NE (std::string const& error_=std::string("error")) : runtime_error(error_) {}\
-                                }
-EXCEPTION_FACTORY( ErrorExit );
-EXCEPTION_FACTORY( ErrorCTLC );
-
-#define THROW(cls,msg)          throw cls(SSTR( msg<<" ["<<__FILE__<<" : "<<__func__<<" : "<<__LINE__<<"]" ))
-
-#define THROW1(msg)             THROW(ErrorExit,msg)
-#define THROW2(msg)             THROW(ErrorCTLC,msg)
-
-/*
-//+-------------------------------------------------------------------------------------------------------------+
 //| https://stackoverflow.com/questions/397075/what-is-the-difference-between-exit-and-abort
 //+-------------------------------------------------------------------------------------------------------------+
+
+//struct exit_exception 
+//struct exit_exception: public std::exception 
+
 struct exit_exception: public std::runtime_error  // derived from std::exception and has an implementation of what()
 {  //int c; 
    //exit_exception(int c):c(c) 
@@ -60,6 +26,7 @@ struct exit_exception: public std::runtime_error  // derived from std::exception
    } 
 };
 
+/*
 //Instead of calling exit(), arrange that code throw exit_exception(exit_code); instead.
 //usage:
 int main() 
@@ -85,14 +52,7 @@ static void  INThandler(int sig)
     
     std::fflush(stdin);
     //if ( std::getchar() == 'y')throw exit_exception("ctrl+c detected");
-    //if ( std::getchar() != 'r')throw exit_exception("ctrl+c detected");
-    //if ( std::getchar() != 'r')throw ErrorCTLC(SSTR( "ctrl+c detected"<<__FILE__<<":"<<__LINE__ ));
-    //if ( std::getchar() != 'r')throw ErrorCTLC(SSTR( "ctrl+c detected ["<<__FILE__<<":"<<__LINE__<<"]" ));
-    //if ( std::getchar() != 'r')throw ERR1("ctrl+c detected [");
-    //if ( std::getchar() != 'r')throw ErrorCTLC("ctrl+c detected");
-    //if ( std::getchar() != 'r')THROW(ErrorCTLC,"ctrl+c detected");
-    if ( std::getchar() != 'r')THROW2("ctrl+c detected");
-
+    if ( std::getchar() != 'r')throw exit_exception("ctrl+c detected");
     
     //std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     //if ( std::cin.get() == 'y')throw exit_exception(-1);
@@ -126,8 +86,8 @@ static inline void deleteVectorPointer(std::vector<T*> v)
 //|	https://stackoverflow.com/questions/17701197/how-to-run-code-inside-a-loop-only-once-without-external-flag  |
 //+-------------------------------------------------------------------------------------------------------------+
 struct RunOnce 
-{   template <typename T>
-    RunOnce(T &&f) { f(); }
+{ template <typename T>
+  RunOnce(T &&f) { f(); }
 };
 
 /*usage:
@@ -172,6 +132,7 @@ while(true)
 //+-------------------------------------------------------------------------------------------------------------+
 //| https://www.codeproject.com/Tips/894847/Policy-Design-Pattern-and-Variadic-Template-Techni
 //+-------------------------------------------------------------------------------------------------------------+
+
 template<typename... Policies>
 class VPolicy: public Policies...
 {
@@ -182,7 +143,19 @@ public:
     }
 };
 
+/*
+template<typename... Policies>
+class PolicyAndVariadic: public Policies...
+{
+public:
+    template<typename... Args>
+    PolicyAndVariadic(const Args... Arg): Policies(Arg)...
+    {
+    }
+};
+*/
 /*******USAGE**************
+
 class PolicyOne
 {   std::string mText;
 
@@ -208,7 +181,7 @@ public:
     {   std::cout << mText << std::endl;
     }
 };
-typedef VPolicy<PolicyOne, PolicyTwo> PolicyOneAndPolicyTwo;
+typedef PolicyAndVariadic<PolicyOne, PolicyTwo> PolicyOneAndPolicyTwo;
 PolicyOneAndPolicyTwo linstance("PolicyOne", "PolicyTwo");
 
 linstance.executePolicyOne();

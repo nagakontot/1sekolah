@@ -55,10 +55,20 @@ public:
 
 	    //indexHtml << std::ifstream ("./public/index.html").rdbuf();
 	    *DHTMLPAGE[0]<< std::ifstream ("./public/index.html").rdbuf();
-        if (!DHTMLPAGE[0]->str().length())  {   std::cerr << "Failed to load index.html" << std::endl;return -1;}
+	    
+        //if (!indexHtml.str().length()) 
+        if (!DHTMLPAGE[0]->str().length()) 
+        {   std::cerr << "Failed to load index.html" << std::endl;
+            return -1;
+        }
 
+        //mainHtml << std::ifstream ("./public/main.html").rdbuf();
 	    *DHTMLPAGE[1]<< std::ifstream ("./public/main.html").rdbuf();
-        if (!DHTMLPAGE[1]->str().length())  {   std::cerr << "Failed to load main.html" << std::endl;return -1;}
+        //if (!mainHtml.str().length()) 
+        if (!DHTMLPAGE[1]->str().length()) 
+        {   std::cerr << "Failed to load main.html" << std::endl;
+            return -1;
+        }
 
 	    derived().h.onHttpRequest([](uWS::HttpResponse* res, uWS::HttpRequest req, char* data, size_t, size_t) 
         {   
