@@ -27,24 +27,21 @@ var redbird = require('redbird')
 // iptables -t nat -A  DOCKER -p tcp --dport 80 -j DNAT --to-destination 172.18.0.2:3000
 // iptables -t nat -A  DOCKER -p tcp --dport 443 -j DNAT --to-destination 172.18.0.2:3443
 //////////////////////////////////////////////////////////////////////
-//redbird.register("1sekolah.xyz",                "http://172.18.0.2:3001",   {ssl: true});
-//redbird.register("www.1sekolah.xyz",            "http://172.18.0.2:3001",   {ssl: true});
+//redbird.register("1sekolah.xyz",                  "http://172.18.0.2:3001",   {ssl: true});
+//redbird.register("www.1sekolah.xyz",              "http://172.18.0.2:3001",   {ssl: true});
 
-redbird.register("www.1sekolah.xyz",            "http://172.18.0.3:6000",   {ssl: true});
-redbird.register("ide.1sekolah.xyz",            "http://172.18.0.3:8181",   {ssl: true});
+redbird.register("www.1sekolah.xyz",                "http://172.18.0.3:6000",   {ssl: true});
+redbird.register("ide.1sekolah.xyz",                "http://172.18.0.3:8181",   {ssl: true});
 
-//redbird.register("test1.1sekolah.xyz",          "http://172.18.0.2:3500",   {ssl: true});
-//redbird.register("test1.1sekolah.xyz",          "http://172.18.0.2:6000",   {ssl: true});
-
-
-//redbird.register("socket.1sekolah.xyz",          "http://172.18.0.2:3500",   {ssl: true});    //using ws
-//redbird.register("socket.1sekolah.xyz",          "http://172.18.0.2:3600",   {ssl: true});      //using uws
-redbird.register("socket.1sekolah.xyz",          "http://172.18.0.3:6000",   {ssl: true});      //using uws
+//redbird.register("test1.1sekolah.xyz",            "http://172.18.0.2:3500",   {ssl: true});
+//redbird.register("test1.1sekolah.xyz",            "http://172.18.0.2:6000",   {ssl: true});
 
 
+//redbird.register("socket.1sekolah.xyz",           "http://172.18.0.2:3500",   {ssl: true});    //using ws
+//redbird.register("socket.1sekolah.xyz",           "http://172.18.0.2:3600",   {ssl: true});      //using uws
+redbird.register("socket.1sekolah.xyz",             "http://172.18.0.3:6000",   {ssl: true});      //using uws
 
-
-//redbird.register("droppy.1sekolah.xyz",          "http://172.18.0.3:8989",   {ssl: true});
+//redbird.register("droppy.1sekolah.xyz",           "http://172.18.0.3:8989",   {ssl: true});
 
 //redbird.register("x11.1sekolah.xyz",            "http://172.18.0.3:10000",  {ssl: true});   ////Then visit https://x11.1sekolah.xyz/index.html?encoding=png&password=Keplaotak_1234
 

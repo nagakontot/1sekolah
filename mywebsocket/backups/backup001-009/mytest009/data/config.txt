@@ -1,3 +1,0 @@
-Input name = image1.png
-Num. of rows = 170
-Num. of cols = 150
