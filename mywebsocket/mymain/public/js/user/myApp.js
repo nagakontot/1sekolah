@@ -80,11 +80,11 @@
 		async create_particle1(glscene)
 		{	var promise = await new Promise((resolve, reject) =>
 			{	window.setTimeout(()=>
-				{	var params1=	[	[ [1.0,  0.2,  0.5], window.gTexLoader.load("textures/sprites/snowflake1.png"), 0.8],
-										[ [0.95, 0.1,  0.5], window.gTexLoader.load("textures/sprites/snowflake2.png"), 0.5],
-										[ [0.90, 0.05, 0.5], window.gTexLoader.load("textures/sprites/snowflake3.png"), 0.3],
-										[ [0.85, 0,    0.5], window.gTexLoader.load("textures/sprites/snowflake4.png"), 0.2],
-										[ [0.80, 0,    0.5], window.gTexLoader.load("textures/sprites/snowflake5.png"), 0.1]
+				{	var params1=	[	[ [1.0,  0.2,  0.5], window.gTexLoader.load("https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/textures/sprites/snowflake1.png"), 0.8],
+										[ [0.95, 0.1,  0.5], window.gTexLoader.load("https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/textures/sprites/snowflake2.png"), 0.5],
+										[ [0.90, 0.05, 0.5], window.gTexLoader.load("https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/textures/sprites/snowflake3.png"), 0.3],
+										[ [0.85, 0,    0.5], window.gTexLoader.load("https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/textures/sprites/snowflake4.png"), 0.2],
+										[ [0.80, 0,    0.5], window.gTexLoader.load("https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/textures/sprites/snowflake5.png"), 0.1]
 									];
         						
         			var mysp		= new CSpritePoint(glscene,params1);
@@ -164,7 +164,7 @@
         			var scale		= {x:12,		y:12,		z:12};		
         			//this.buidling	= new CLoadModel_WWObj2(pivot,glscene,'building4','models/building4/','building4.obj.mtl','building4.obj',pos,rot,scale);
 					//resolve(new CLoadModel_WWObj2(pivot,glscene,'building4','models/building4/','building4.obj.mtl','building4.obj',pos,rot,scale));
-					var obj = new CLoadModel_WWObj2(pivot,glscene,'building4','models/building4/','building4.obj.mtl','building4.obj',pos,rot,scale)
+					var obj = new CLoadModel_WWObj2(pivot,glscene,'building4','https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/models/building4/','building4.obj.mtl','building4.obj',pos,rot,scale)
 
 					if(obj)
 					{	resolve(obj);
@@ -191,7 +191,7 @@
         			var scale		= {x:0.0025,			y:0.0025,		z:0.0025};		
         			//this.castle01	= new CLoadModel_WWObj2(pivot,glscene,'castle01','models/castle01/','castle01.obj.mtl','castle01.obj',pos,rot,scale);
 					//resolve(new CLoadModel_WWObj2(pivot,glscene,'castle01','models/castle01/','castle01.obj.mtl','castle01.obj',pos,rot,scale));
-					var obj 		= new CLoadModel_WWObj2(pivot,glscene,'castle01','models/castle01/','castle01.obj.mtl','castle01.obj',pos,rot,scale);
+					var obj 		= new CLoadModel_WWObj2(pivot,glscene,'castle01','https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/models/castle01/','castle01.obj.mtl','castle01.obj',pos,rot,scale);
 					
 					if(obj)
 					{	resolve(obj);
@@ -223,7 +223,7 @@
         			//this.building1  = new CLoadModel_Obj(glscene,'models/building1/','building1.mtl','building1.obj',pos,scale);
         			//return new CLoadModel_Obj(glscene,'models/building1/','building1.mtl','building1.obj',pos,scale);
         			
-					var obj 		= new CLoadModel_Obj2(pivot,glscene,'models/building1/','building1.mtl','building1.obj',pos,scale);
+					var obj 		= new CLoadModel_Obj2(pivot,glscene,'https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/models/building1/','building1.mtl','building1.obj',pos,scale);
 					
 					if(obj)
 					{	resolve(obj);
@@ -253,7 +253,7 @@
         			//this.building3	= new CLoadModel_WWObj2(this.pivot,this.glscene,'building3','models/building3/','building3.mtl','building3.obj',pos,rot,scale);
         			//this.building3  = new CLoadModel_Obj(glscene,'models/building3/','building3.mtl','building3.obj',pos,scale);
         			//return new CLoadModel_Obj(glscene,'models/building3/','building3.mtl','building3.obj',pos,scale);
-					var obj			= new CLoadModel_Obj2(pivot,glscene,'models/building3/','building3.mtl','building3.obj',pos,scale);
+					var obj			= new CLoadModel_Obj2(pivot,glscene,'https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/models/building3/','building3.mtl','building3.obj',pos,scale);
 					
 					if(obj)
 					{	resolve(obj);
@@ -377,17 +377,17 @@
 			//+-//////////////////////////////////////////////////////////////-+
 			var anis = super.getMaxAnisotropy();
 
-			this.floorTexture      		 = window.gTexLoader.load( 'images/dirt/dirt_COLOR.jpg' );
+			this.floorTexture      		 = window.gTexLoader.load( 'https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/images/dirt/dirt_COLOR.jpg' );
 	        this.floorTexture.wrapS      = this.floorTexture.wrapT = THREE.RepeatWrapping; 
     	    this.floorTexture.repeat.set( 200,200 );
     		this.floorTexture.magFilter	= THREE.NearestFilter;
 			this.floorTexture.minFilter	= THREE.LinearMipMapLinearFilter;
    			this.floorTexture.anisotropy = anis;//maxAnisotropy;
 	        
-	        this.floorTextureBump    	= window.gTexLoader.load( 'images/dirt/dirt_NRM.jpg' );
-	        this.floorTextureOCC     	= window.gTexLoader.load( 'images/dirt/dirt_OCC.jpg' );
+	        this.floorTextureBump    	= window.gTexLoader.load( 'https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/images/dirt/dirt_NRM.jpg' );
+	        this.floorTextureOCC     	= window.gTexLoader.load( 'https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/images/dirt/dirt_OCC.jpg' );
 
-			this.doortex 				= window.gTexLoader.load( 'images/house/door004.jpg' );
+			this.doortex 				= window.gTexLoader.load( 'https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/images/house/door004.jpg' );
 			
 			this.create_blocker();
 			this.create_GameModel();
@@ -507,10 +507,10 @@
 		
 		//+-//////////////////////////////////////////////////////////////-+
 	    create_videostuff()
-	    {	var videos = [	'video/baby_1.webm',
-							'video/monkey_1.webm',
-							'video/robot_1.webm',
-							'video/billcat_1.webm'];
+	    {	var videos = [	'https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/video/baby_1.webm',
+							'https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/video/monkey_1.webm',
+							'https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/video/robot_1.webm',
+							'https://www.github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/video/billcat_1.webm'];
 
 			window.movieMaterial		= [];
 
