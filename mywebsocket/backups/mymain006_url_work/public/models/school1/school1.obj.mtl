@@ -1,0 +1,188 @@
+# File produced by Open Asset Import Library (http://www.assimp.sf.net)
+# (assimp v3.1.76522261)
+
+newmtl Mat_0_-1
+Kd 0.5 0.5 0.5
+Ka 0 0 0
+Ks 0.3 0.3 0.3
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_1_-1
+Kd 0.3882 0.0824 0.0549
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_3_-1
+Kd 0.898 0.898 0.8824
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_6_-1
+Kd 0 0 0
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_10_-1
+Kd 0.7804 0.7804 0.7804
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_13_-1
+Kd 1 0.8471 0.3961
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_14_-1
+Kd 0.3373 0.3373 0.3373
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_17_-1
+Kd 0.502 0.502 0.502
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 0.5
+Ns 120
+illum 2
+
+newmtl Mat_12_0
+Kd 0.5765 0.0706 0.0588
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/Brick_Antique.jpg
+
+newmtl Mat_15_1
+Kd 0.2627 0.2353 0.2431
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/Asphalt_New.jpg
+
+newmtl Mat_16_2
+Kd 0.5647 0.6275 0.3569
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/Vegetation_Grass1.jpg
+
+newmtl Mat_18_3
+Kd 0.549 0.6196 0.5647
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 0.8
+Ns 120
+illum 2
+map_Kd textures/Translucent_Glass_Corrugated.jpg
+
+newmtl Mat_19_4
+Kd 0.8 0.7529 0.6745
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/Concrete_Aggregate_Smoke.jpg
+
+newmtl Mat_2_-1
+Kd 0.3647 0.3647 0.3647
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_4_-1
+Kd 0.2039 0.2431 0.2471
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_5_-1
+Kd 0.1686 0.1686 0.1686
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_7_-1
+Kd 0.7922 0.6549 0.5216
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_8_-1
+Kd 0.2706 0.4078 0.4
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_9_-1
+Kd 0.2275 0.3137 0.4078
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_11_-1
+Kd 0.7725 0.8863 0.8706
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+

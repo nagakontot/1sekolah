@@ -31,6 +31,7 @@ var redbird = require('redbird')
 //redbird.register("www.1sekolah.xyz",              "http://172.18.0.2:3001",   {ssl: true});
 
 redbird.register("www.1sekolah.xyz",                "http://172.18.0.3:6000",   {ssl: true});
+//redbird.register("www.1sekolah.xyz",                "http://172.18.0.3:8080",   {ssl: true});
 redbird.register("ide.1sekolah.xyz",                "http://172.18.0.3:8181",   {ssl: true});
 
 //redbird.register("test1.1sekolah.xyz",            "http://172.18.0.2:3500",   {ssl: true});
@@ -41,8 +42,9 @@ redbird.register("ide.1sekolah.xyz",                "http://172.18.0.3:8181",   
 //redbird.register("socket.1sekolah.xyz",           "http://172.18.0.2:3600",   {ssl: true});      //using uws
 redbird.register("socket.1sekolah.xyz",             "http://172.18.0.3:6000",   {ssl: true});      //using uws
 
+//redbird.register("cdn.1sekolah.xyz",               "http://172.18.0.4:9000",   {ssl: true});      
 
-//redbird.register("cors.1sekolah.xyz",               "http://172.18.0.4:8080",   {ssl: true});      //using uws
+//redbird.register("cors.1sekolah.xyz",               "http://172.18.0.4:8080",   {ssl: true});    
 //redbird.register("droppy.1sekolah.xyz",           "http://172.18.0.3:8989",   {ssl: true});
 
 //redbird.register("x11.1sekolah.xyz",            "http://172.18.0.3:10000",  {ssl: true});   ////Then visit https://x11.1sekolah.xyz/index.html?encoding=png&password=Keplaotak_1234
