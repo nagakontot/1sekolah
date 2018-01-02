@@ -263,17 +263,6 @@ public:
 	                                                                    X,X,X,X,X,X,X,X,X,X,        //180x
 	                                                                    X,X,X,X,X,X,X,X,X,X,        //190x
 	                                                                    X,X,X,X,X,X,X,X,X,X,        //200x
-
-	                                                                    X,X,X,X,X,X,X,X,X,X,        //210x
-	                                                                    X,X,X,X,X,X,X,X,X,X,        //220x
-	                                                                    X,X,X,X,X,X,X,X,X,X,        //230x
-	                                                                    X,X,X,X,X,X,X,X,X,X,        //240x
-	                                                                    X,X,X,X,X,X,X,X,X,X,        //250x
-	                                                                    X,X,X,X,X,X,X,X,X,X,        //260x
-	                                                                    X,X,X,X,X,X,X,X,X,X,        //270x
-	                                                                    X,X,X,X,X,X,X,X,X,X,        //280x
-	                                                                    X,X,X,X,X,X,X,X,X,X,        //290x
-	                                                                    X,X,X,X,X,X,X,X,X,X         //300x
 	                                                                });
 #undef  X	    
 
@@ -441,8 +430,11 @@ public:
                                                     res->end(tempss.str().data(), tempss.str().length());
                                                     */
                                                     std::cout<<"\nPOST: "<<url;
-                                                    res->httpSocket->setUserData(new std::string);
-                                                    controlData(res, data, length, remainingBytes);
+                                                    
+                                                    if(url=="/id_token.html")
+                                                    {   res->httpSocket->setUserData(new std::string);
+                                                        controlData(res, data, length, remainingBytes);
+                                                    }
                                                 }
                                                 break;
                                                 /////////////////////////////////////////////////////////////////////

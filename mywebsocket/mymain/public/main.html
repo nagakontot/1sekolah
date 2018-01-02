@@ -205,6 +205,21 @@
 			},1000);
 			*/
 			////////////////
+            //fetch("https://www.1sekolah.xyz/iframes/main_chat_ori.html").then(function(response) 
+            //{   response.text().then(function(text) 
+            //    {   //poemDisplay.textContent = text;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //    });
+            //}/);			
+			////////////////
+            //var iframe1 = document.getElementById('chatFrame');
+            //var iframe2 = (iframe1.contentWindow || iframe1.contentDocument);
+            //iframe2.contentWindow.document.open();
+            //iframe2.contentWindow.document.write(text);
+            //iframe2.contentWindow.document.close(); 
+            
+			////////////////
             var x = document.getElementById("chatFrame");
             var y = (x.contentWindow || x.contentDocument);
             if (y.document)y = y.document;
@@ -270,79 +285,13 @@
                 setInterval(enablePointerEvent,1000);
 
                 function enablePointerEvent()
-                {   //if(window.isMouseDown==false)document.getElementById("chatFrame").style.pointerEvents = "auto";
-                    //if(window.isClickPassThru==false)   
-                    //{   document.getElementById("chatFrame").style.pointerEvents = "auto";
-                    //    $.notify("window.isClickPassThru==false, pointerEvents = 'auto'");
-                    //}
-                    //else                                
-                    //{   document.getElementById("chatFrame").style.pointerEvents = "null";
-                    //    $.notify("window.isClickPassThru==true, pointerEvents = 'null'");
-                    //}
-                    
-                    document.getElementById("chatFrame").style.pointerEvents = "auto";
+                {   document.getElementById("chatFrame").style.pointerEvents = "auto";
                     if(window.isClickPassThru==false)
                     {   document.getElementById("chatFrame").style.pointerEvents = "null";
                     }
                 }
-    
-                                
-                /*
-                if(elements[i].nodeName=="TEXTAREA")
-                {   
-                    elements[i].addEventListener("click",function(event) 
-                    {   document.getElementById("chatFrame").style.pointerEvents = "auto";
-                        //alert("elements[i].nodeName=TEXTAREA");
-                    });
-
-                    //mouseover/mouseout
-                    //elements[i].onmouseover = function(event) 
-                    //elements[i].onclick = function(event) 
-                    //{   document.getElementById("chatFrame").style.pointerEvents = "auto";
-                    //    //elements[i].style.pointerEvents="auto";
-                    //    //if (event.altKey && event.shiftKey) 
-                    //    //{   alert('Hooray!');
-                    //    //}
-                    //};                
-                    //elements[i].onmouseout = function(event) 
-                    //{   document.getElementById("chatFrame").style.pointerEvents = "none";
-                    //    //elements[i].style.pointerEvents="auto";
-                    //    //if (event.altKey && event.shiftKey) 
-                    //    //{   alert('Hooray!');
-                    //    //}
-                    //};
-                }			
-                else
-                {   //elements[i].onclick = function(event) 
-                    elements[i].addEventListener("click",function(event) 
-                    {   document.getElementById("chatFrame").style.pointerEvents = "none";
-                        alert("elements[i].nodeName=!TEXTAREA");
-                    });
-                }    
-                */
-
-			}    
-			////////////////
-            //var iframeBody  = document.getElementById("chatFrame").contentDocument,
-            //    elements    = iframeBody.querySelectorAll("*"),
-            //    len         = elements.length,
-            //    i;
-
-            //var x = document.getElementById("chatFrame").querySelectorAll(".example");  
-            //var elements    = document.getElementById("chatFrame").contentDocument.querySelectorAll("*");  
-            //var len         = elements.length;
-            //var i;
-            
-            //for(i=0;i<len;i++)
-            //{   alert(elements[i].nodeName);
-                //console.log(elements[i].nodeName);
-                //alert("i="+i);
-                //console.log("elements="+elements[i]);
-                //elements[i].style.pointerEvents="auto";
-            //    elements[i].style.pointerEvents="none";
-            //}			
-	
-        }
+ 			}    
+       }
     </script>
 
 </head>
@@ -407,7 +356,7 @@
             <!--iframe style="opacity:0.5;width:100%;height:50%;border:0;frameborder:0;scrolling:none;pointer-events:none;" src="./main_chat.html"></iframe-->
             <script>
 			//////////////////////////////////////////////
-            $('<iframe>',   {   src:            './main_chat.html',
+            $('<iframe>',   {   src:            './iframes/main_chat_ori.html',
                                 id:             'chatFrame',
                                 frameborder:    0,
                                 scrolling:      'no',
