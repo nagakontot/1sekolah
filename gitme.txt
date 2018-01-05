@@ -2,5 +2,5 @@ git add *
 git commit -am "your commit message"
 git push origin master
 
-user:   n-g-t
-pswd:   K..._..4
+user:   n...
+pswd:   K..._....

@@ -1,3 +1,7 @@
+git add *
+git commit -am "your commit message"
+git push origin master
+
 //-std=c++11 -O3 tests/main.cpp -Isrc -o testsBin -lpthread -luWS -lssl -lcrypto -lz -luv
 
 //g++ -std=c++11 mytest.cpp -O3 -lpthread -lz -lssl -lcrypto -luWS -o mytest.exe    

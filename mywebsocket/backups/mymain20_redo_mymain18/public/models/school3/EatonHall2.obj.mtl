@@ -1,0 +1,400 @@
+# File produced by Open Asset Import Library (http://www.assimp.sf.net)
+# (assimp v3.1.76522261)
+
+newmtl Mat_0_-1
+Kd 0.5 0.5 0.5
+Ka 0 0 0
+Ks 0.3 0.3 0.3
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_19_-1
+Kd 0.4471 0.4471 0.4471
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_2_1
+Kd 0.5529 0.3216 0.302
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/north-side.jpg
+
+newmtl Mat_5_4
+Kd 0.3961 0.4039 0.4157
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/IMG_6179-roof-1.jpg
+
+newmtl Mat_10_8
+Kd 0.5451 0.4902 0.4706
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/north-side1.jpg
+
+newmtl Mat_11_9
+Kd 0.6314 0.5137 0.451
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/east-tower.jpg
+
+newmtl Mat_10_10
+Kd 0.5451 0.4902 0.4706
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/north-side2.jpg
+
+newmtl Mat_10_11
+Kd 0.5451 0.4902 0.4706
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/north-side3.jpg
+
+newmtl Mat_10_12
+Kd 0.5451 0.4902 0.4706
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/north-side5.jpg
+
+newmtl Mat_10_13
+Kd 0.5451 0.4902 0.4706
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/north-side4.jpg
+
+newmtl Mat_12_14
+Kd 0.5569 0.4824 0.451
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/west-side6.jpg
+
+newmtl Mat_12_15
+Kd 0.5569 0.4824 0.451
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/west-side5.jpg
+
+newmtl Mat_12_16
+Kd 0.5569 0.4824 0.451
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/west-side7.jpg
+
+newmtl Mat_13_17
+Kd 0.8118 0.7333 0.7255
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/west-side.jpg
+
+newmtl Mat_14_18
+Kd 0.5529 0.4235 0.3922
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/tower-window-on-red-brick.jpg
+
+newmtl Mat_15_19
+Kd 0.5882 0.4627 0.4196
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/IMG_6185-fromLr-21.jpg
+
+newmtl Mat_15_20
+Kd 0.5882 0.4627 0.4196
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/IMG_6185-fromLr-22.jpg
+
+newmtl Mat_16_21
+Kd 0.6039 0.4627 0.4039
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/south-entrance-12.jpg
+
+newmtl Mat_16_22
+Kd 0.6039 0.4627 0.4039
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/south-entrance-11.jpg
+
+newmtl Mat_17_23
+Kd 0.2549 0.2353 0.2118
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/west-side4.jpg
+
+newmtl Mat_18_24
+Kd 0.5176 0.3804 0.3373
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/side-middle-bottom-window2.jpg
+
+newmtl Mat_18_25
+Kd 0.5176 0.3804 0.3373
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/side-middle-bottom-window3.jpg
+
+newmtl Mat_18_26
+Kd 0.5176 0.3804 0.3373
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/side-middle-bottom-window4.jpg
+
+newmtl Mat_18_27
+Kd 0.5176 0.3804 0.3373
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/side-middle-bottom-window1.jpg
+
+newmtl Mat_20_28
+Kd 0.6392 0.5137 0.4627
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/south-middle1.jpg
+
+newmtl Mat_20_29
+Kd 0.6392 0.5137 0.4627
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/south-middle2.jpg
+
+newmtl Mat_21_30
+Kd 0.5412 0.4471 0.3961
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/south-right1.jpg
+
+newmtl Mat_21_31
+Kd 0.5412 0.4471 0.3961
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/south-right2.jpg
+
+newmtl Mat_22_32
+Kd 0.549 0.4431 0.4157
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/side-top-window1.jpg
+
+newmtl Mat_22_33
+Kd 0.549 0.4431 0.4157
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/side-top-window2.jpg
+
+newmtl Mat_23_34
+Kd 0.4824 0.3529 0.302
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/IMG_6185-fromLr-2.jpg
+
+newmtl Mat_23_35
+Kd 0.4824 0.3529 0.302
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/IMG_6185-fromLr-24.jpg
+
+newmtl Mat_23_36
+Kd 0.4824 0.3529 0.302
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/IMG_6185-fromLr-23.jpg
+
+newmtl Mat_1_0
+Kd 0.6275 0.6353 0.651
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/Google%20Earth%20Snapshot1.jpg
+
+newmtl Mat_3_2
+Kd 0.8275 0.8275 0.8275
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/east-tower%231.jpg
+
+newmtl Mat_4_3
+Kd 0.2078 0.1882 0.1765
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/north-side6.jpg
+
+newmtl Mat_6_-1
+Kd 0.2471 0.2471 0.2471
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+
+newmtl Mat_7_5
+Kd 0.3922 0.3333 0.3176
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/IMG_6150-fromLR-northDormer.jpg
+
+newmtl Mat_8_6
+Kd 0.6314 0.6314 0.6157
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/south-dormer.jpg
+
+newmtl Mat_9_7
+Kd 0.3137 0.3765 0.302
+Ka 0 0 0
+Ks 0 0 0
+Ke 0 0 0
+d 1
+Ns 120
+illum 2
+map_Kd textures/Google%20Earth%20Snapshot.jpg
+
