@@ -1,0 +1,289 @@
+body 
+{   margin: 0;
+    background: #000; 
+}
+
+h1 
+{ font-size:        2.5rem;
+  text-transform:   uppercase;
+  margin-top:       0;
+  margin-bottom:    0;
+  letter-spacing:   .3rem;
+}
+
+.g-signin2
+{  width:           100%;
+}
+
+.g-signin2 > div
+{  margin:           0 auto;
+   padding:          0;
+}
+
+/*.abcRioButton.abcRioButtonLightBlue { margin: 0 auto;}*/
+
+video
+{   position:     fixed;
+    top:          50%;
+    left:         50%;
+    min-width:    100%;
+    min-height:   100%;
+    width:        auto;
+    height:       auto;
+    z-index:      -100;
+    transform:    translateX(-50%) translateY(-50%);
+    /*background: url('https://github.com/nagakontot/1sekolah/raw/master/mywebsocket/mymain/public/assets/firebase.png') no-repeat;*/
+    /*background: url('https://www.1sekolah.xyz/assets/firebase.png') no-repeat;*/
+    /*background:   url('data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==') no-repeat;*/
+    /*background-size: cover;*/
+    transition:   1s opacity;
+}
+
+.stopfade 
+{  opacity: .5;
+}
+
+.flexbox 
+{   display:        -ms-flex;
+    display:        -webkit-flex;
+    display:        flex;
+    width:          100%;
+}
+
+.left 
+{   /*background: #a0ffa0;*/
+    width:          30%;
+    min-width:      75px;
+    flex-grow:      0;
+}
+
+.right 
+{   /*background: #a0a0ff;*/
+    width:          50%;
+    flex-grow: 1;
+}
+
+.polina 
+{   /*font-family: Agenda-Light, Agenda Light, Agenda, Arial Narrow, sans-serif;*/
+    position:           relative;/*absolute;*/
+    font-family:        sans-serif;
+    font-weight:        100; 
+    background:         rgba(0,0,0,0.3);
+    color:              white;
+    padding:            1%;/*2rem;*/
+    /*width:              45%;*//*38%;*//*33%;*/
+    margin:             1%;/*5%;*//*2rem;*/
+    /*float:            right;*/
+    font-size:          1.2rem;
+    text-align:         center; 
+    vertical-align:     middle  
+}
+
+.polina button 
+{ display:         block;
+  width:           62%;
+  /*padding:         .4rem;*/
+  padding:         0;
+  border:          1px solid white;/*none; */
+  margin:          1rem auto;
+  font-size:       1.3rem;
+  background:      rgba(255,255,255,0.23);
+  color:           #fff;
+  border-radius:   3px; 
+  cursor:          pointer;
+  transition:      .3s background;
+}
+
+.polina button:hover 
+{  background: rgba(0,0,0,0.5);
+}
+
+/*
+.icon-screen:before 
+{ content: "\e600";
+}
+
+.icon-headphones:before 
+{ content: "\e601";
+}
+
+.icon-pencil:before 
+{ content: "\e602";
+}
+
+.icon-user:before 
+{ content: "\e603";
+}
+
+.icon-camera:before 
+{ content: "\e604";
+}
+*/
+.item 
+{ cursor:     pointer;
+  position:   relative;
+  /*
+  width:      100px;
+  height:     100px;
+  */
+  width:      200px;
+  height:     150px;
+  overflow:   hidden;
+  /*transform:  skew(-30deg);*/
+  transform:  skew(-5deg);
+  display:    inline-block;
+  border:     2px solid #FFF;
+  transition: width .5s;
+  margin:     1%;
+}
+
+.item:after 
+{ position: absolute;
+  /*
+  left: 12px;
+  top: 59px;
+  */
+  left: 20px;
+  top:  50px;
+  color: #FFF;
+  /*
+  font-size: 40px;
+  font-family: 'icomoon';
+  */
+  /*transform: skew(30deg);*/
+  transform: skew(-5deg);
+  -webkit-text-stroke: 1px black;
+}
+
+/*
+.item:nth-of-type(1) 
+{ 
+}
+
+.item:nth-of-type(1):after 
+{ content: "\e600";
+}
+
+.item:nth-of-type(2) 
+{ 
+}
+
+.item:nth-of-type(2):after 
+{ content: "\e601";
+}
+
+.item:nth-of-type(3) 
+{ 
+}
+
+.item:nth-of-type(3):after 
+{ content: "\e602";
+}
+
+.item:nth-of-type(3) video 
+{ 
+}
+
+.item:nth-of-type(4) 
+{ 
+}
+
+.item:nth-of-type(4):after 
+{ content: "\e603";
+}
+
+.item:nth-of-type(4) video 
+{ 
+}
+*/
+
+.item:hover,
+.item .active 
+{ width:         300px;
+}
+
+.item video 
+{ position:      absolute;
+  left:          0px;
+  top:           0px;
+  /*transform:     skew(-5deg);*/
+  transform:     skew(-0deg);
+}
+
+/*    
+        .container 
+        {   position:                  relative;
+            -webkit-transform:         translateZ(1000px);
+        }
+
+        .text-area 
+        {   margin:                    5vh auto;
+            max-width:                 400px;
+            color:                     #000;
+            transform-style:           preserve-3d;
+            -webkit-transform-style:   preserve-3d;
+            font-size:                 50px;
+            color:                     #fff;
+        }
+
+        .text-area span 
+        {   display:                   inline-block;
+            transform:                 translateZ(0);
+            -webkit-transform:         translateZ(0);
+        }
+
+        .text-area .text-area-word 
+        {   position:                  relative;
+        }
+
+        .text-area .text-area-letter 
+        {   opacity:                   0;
+        }
+
+        #again-please 
+        {   color:                     #fff;
+            display:                   block;
+            margin:                    0 auto;
+        }
+*/
+/*
+        .teaser.lazyload 
+        {   opacity:                   0;
+	        transform:                 scale(0.1);
+        }
+
+        .teaser.lazyloaded 
+        {   opacity:                   1;
+	        transform:                 scale(1);
+	        transition:                all 1000ms;
+        }
+*/        
+
+/*
+.bg-stage 
+{   position:           fixed; 
+    top:                -50%; 
+    left:               -50%; 
+    width:               200%; 
+    height:              200%;
+}
+.bg-stage img 
+{   position:            absolute; 
+    top:                 0; 
+    left:                0; 
+    right:               0; 
+    bottom:              0; 
+    margin:              auto; 
+    min-width:           50%;
+    min-height:          50%;
+}
+
+.bg-stage.lazyloaded 
+{ */  
+    /*background-image:   url(assets/tile24.jpg);*/
+    /*background-image:   url(assets/tile26_a.jpg);*/                               /*GOOD*/
+    /*background-image:     url('https://www.1sekolah.xyz/assets/tile32_a.jpg');*/  /*GOOD*/
+    /*background:         no-repeat center center fixed; */
+    /*background-repeat:  no-repeat;*/
+/*}*/
+	
