@@ -1,0 +1,132 @@
+		/*body * { pointer-events: auto;}*/
+
+		p 
+		{	margin: 			0.2em;/*0.25em;*/
+			padding: 			0.2em;/*0.25em;*/
+			border-radius: 		0.382em;/*0.2em;*/
+        	transition: 		opacity 0.618s ease-out;
+			opacity: 			0;
+			white-space: 		pre-wrap;
+		}
+		
+		p.show 
+		{	opacity: 			1;
+		}
+
+		body 
+		{	height: 			100vh;
+			margin: 			0.0em;
+			background-color: 	#FFFFFF;
+			display: 			flex;
+			flex-direction: 	column;
+			/*
+			font-family: 		'Helvetiva', sans-serif;
+  			font-size: 			1.0em;
+  			*/
+  			font: 				1.0em arial, sans-serif;
+		}
+
+		textarea 
+		{	/*
+			font-family: 		'Helvetiva', sans-serif;
+  			font-size: 			1.0em;
+  			*/
+  			font: 				1.0em arial, sans-serif;
+			/*font-weight: 		bold;*/
+  			/*border-width: 	0px;*/
+  			/*border: 			2px solid #dadada;*/
+  			white-space: 		pre-wrap;
+  			margin: 			0.1em;/*0.2em;*/
+  			height: 			2em;
+  			width: 				100%;/*99%;*/
+  			resize: 			none;
+  			overflow: 			hidden;
+
+			/*https://stackoverflow.com/questions/43214124/how-to-play-video-from-google-drive-using-javascript*/
+			/*background-image: 	linear-gradient(rgba(256,256,256, 0.75),rgba(256,256,256, 0.75)),url("https://drive.google.com/uc?export=download&id=1adx7KntI9SsV48XuRK00JObUui4NS7jQ");*/
+			
+			/*long gif version*/
+			/*background-image: 	linear-gradient(rgba(256,256,256, 0.75),rgba(256,256,256, 0.75)),url("https://media.giphy.com/media/xUOxfb7BdQXu1WXRDi/giphy.gif");*/
+			
+			/*small gif version*/
+			/*background-image: 	linear-gradient(rgba(256,256,256, 0.7),rgba(256,256,256, 0.7)),url("https://media.giphy.com/media/l3mZ5TAkMNTFxnysU/giphy.gif");*/
+			background-image: 	linear-gradient(rgba(256,256,256, 0.7),rgba(256,256,256, 0.7)),url("img/oneliner_1.gif");
+    		background-size: 	100% 100%;
+    		background-repeat:  no-repeat;
+    		
+    		/*
+            background-image:   -o-linear-gradient(-90deg, #FFD414 0%, #FFD414 12%, #FDBF13 63%, #FDB813 100%);
+            background-image:   -moz-linear-gradient(-90deg, #FFD414 0%, #FFD414 12%, #FDBF13 63%, #FDB813 100%);
+            background-image:   -webkit-linear-gradient(-90deg, #FFD414 0%, #FFD414 12%, #FDBF13 63%, #FDB813 100%);
+            background-image:   -ms-linear-gradient(-90deg, #FFD414 0%, #FFD414 12%, #FDBF13 63%, #FDB813 100%);
+            background-image:   linear-gradient(-180deg, #FFD414 0%, #FFD414 12%, #FDBF13 63%, #FDB813 100%);
+            */
+    		
+    		border: 			none;
+    		-webkit-box-sizing: border-box; /* <=iOS4, <= Android  2.3 */
+       		-moz-box-sizing: 	border-box; /* FF1+ */
+            box-sizing: 		border-box; /* Chrome, IE8, Opera, Safari 5.1*/
+            
+			-webkit-border-radius: 5px;
+    		-moz-border-radius: 5px;
+    		border-radius: 		5px;            
+
+            -webkit-transition: all linear .618s;
+            transition: 		all linear .618s;
+		}
+
+		textarea:focus 
+		{	outline: 			none;
+    		border-color: 		#9ecaed;
+    		box-shadow: 		0 0 30px #9ecaed;
+		}
+
+		#messagesPanel 
+		{	border-top: 		1px solid black;
+			overflow-y: 		scroll;
+			color: 				black;
+			flex: 				1;
+		}
+		
+		#statusBar 
+		{	background-color: 	white;
+			height: 			2em;
+			min-height: 		2em;
+			
+			/*
+			font-family: 		'Helvetiva', sans-serif;
+  			font-size: 			1.0em;
+  			*/
+  			font: 				1.0em arial, sans-serif;
+
+			color:				black;
+			justify-content: 	center;
+			align-items: 		center;
+			
+			display: 			flex;
+		}
+
+		/*		
+		.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button 
+		{	font-size: 0.5em !important;
+    		font-weight:normal !important;
+		}		
+		*/
+		
+		.ui-tabs .ui-tabs-panel
+		{	/*padding: 1em 1.4em 1em 0;*/
+			margin: 			1px;/*-0.3em; */
+    		padding: 			1px; 
+		}
+		
+		.ui-tabs .ui-tabs-nav li
+		{	height:  			20px; 
+			font-size: 			10px; 
+		}
+		
+		.ui-tabs
+		{ 	border: 			none; 
+			padding: 			0px; 
+			margin:             0px; 
+		}
+

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>1sekolah</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-corner-indicator.min.css"></link>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-text-rotator/1.0.0/simpletextrotator.min.css"></link>
+	<link rel="stylesheet" href="stylesheets/index/index.css"></link>
+	
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+ 	<script src="https://cdnjs.cloudflare.com/ajax/libs/simple-text-rotator/1.0.0/jquery.simple-text-rotator.min.js"></script>
+ 	             
+    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.0.1/plugins/include/ls.include.min.js"></script-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.0.1/plugins/unveilhooks/ls.unveilhooks.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.0.1/lazysizes.min.js"></script>
+    
+    <!--script src="js/lib/snabbt/snabbt.min.js"></script-->
+    <script src="js/lib/myutils.js"></script>
+</head>
+
+<body>
+
+    <div id="content-wrapper" style="display:none;"> 
+        <video id="bgvid" class="lazyload" preload="none" playsinline autoplay muted loop>
+            <!--source src="assets/video/glacier.webm" type="video/webm"-->
+            <!--source src="assets/video/bg4_1b.webm" type="video/webm"-->    <!--good 200kb/-->
+            <source src="assets/video/bg14_a.webm" type="video/webm">         <!--good 75kb/-->
+            <!--source src="assets/video/bg2_3a.webm" type="video/webm"-->
+        </video>
+
+        <!--
+        <div id="bgvid" class="bg-stage lazyload">
+        </div>
+        -->
+        
+        <div class="item" id="headvid1a">
+            <a href="javascript:" onMouseDown="return handleMDown1()">
+                <video id="headvid1" class="lazyload" preload="none" loop muted>
+                    <source src="assets/video/baby.webm" type="video/webm">
+                </video>
+            </a>  
+            <span class="icon-screen"></span>
+        </div>
+        
+        <div class="item" id="headvid2a">
+            <a href="javascript:" onMouseDown="return handleMDown2()">
+                <video id="headvid2" class="lazyload" preload="none" loop muted>
+                    <source src="assets/video/monkey.webm" type="video/webm">
+                </video>
+            </a>
+        </div>
+      
+        <div class="item" id="headvid3a">
+            <a href="javascript:" onMouseDown="return handleMDown3()">
+                <video id="headvid3" class="lazyload" preload="none" loop muted>
+                    <source src="assets/video/robot.webm" type="video/webm">
+                </video>
+            </a>            
+        </div>
+      
+        <div class="item"  id="headvid4a">
+            <a href="javascript:" onMouseDown="return handleMDown4()">
+                <video id="headvid4" class="lazyload" preload="none" loop muted>
+                    <source src="assets/video/billcat.webm" type="video/webm">
+                </video>
+            </a>  
+        </div>  
+
+    <!--div style="columns: 2 200px;text-align: center; vertical-align: middle"-->
+    <div style="display: flex;">
+        <div class="polina left">
+            <h1><p>Selamat datang ke 1Sekolah</p><br/></h1>      
+            <!--
+            <h1>
+            <div class="container">
+                <div class="text-area">Selamat datang ke 1Sekolah</div>
+            </div>
+            <button class="button button-primary" id="again-please" onclick="animate()">Again please!</button>
+            <br/></h1>
+            -->
+
+            <img class="lazyload" data-srcset="assets/images/dacing-banana-32x32_2.gif"/>
+            <!--img class="lazyload" src="data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Red dot" /-->
+            <!--img class="lazyload" src="data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6MEVBMTczNDg3QzA5MTFFNjk3ODM5NjQyRjE2RjA3QTkiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MEVBMTczNDk3QzA5MTFFNjk3ODM5NjQyRjE2RjA3QTkiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDowRUExNzM0NjdDMDkxMUU2OTc4Mzk2NDJGMTZGMDdBOSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDowRUExNzM0NzdDMDkxMUU2OTc4Mzk2NDJGMTZGMDdBOSIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PjjUmssAAAGASURBVHjatJaxTsMwEIbpIzDA6FaMMPYJkDKzVYU+QFeEGPIKfYU8AETkCYI6wANkZQwIKRNDB1hA0Jrf0rk6WXZ8BvWkb4kv99vn89kDrfVexBSYgVNwDA7AN+jAK3gEd+AlGMGIBFDgFvzouK3JV/lihQTOwLtOtw9wIRG5pJn91Tbgqk9kSk7GViADrTD4HCyZ0NQnomi51sb0fUyCMQEbp2WpU67IjfNjwcYyoUDhjJVcZBjYBy40j4wXgaobWoe8Z6Y80CJBwFpunepIzt2AUgFjtXXshNXjVmMh+K+zzp/CMs0CqeuzrxSRpbOKfdCkiMTS1VBQ41uxMyQR2qbrXiiwYN3ACh1FDmsdK2Eu4J6Tlo31dYVtCY88h5ELZIJJ+IRMzBHfyJINrigNkt5VsRiub9nXICdsYyVd2NcVvA3ScE5t2rb5JuEeyZnAhmLt9NK63vX1O5Pe8XaPSuGq1uTrfUgMEp9EJ+CQvr+BJ/AAKvAcCiAR+bf9CjAAluzmdX4AEIIAAAAASUVORK5CYII=" alt="Red dot" /-->
+            <!--img class="lazyload" data-srcset="assets/images/dancing-banana.gif" /-->
+            <!--img class="lazyload" data-srcset="data:image/png;base64,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" alt="Red dot" /-->
+            <!--img src="data:image/png;base64,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" alt="Red dot" /-->
+
+            <span class="intro_rotate">daaa---taaaang!!!,Inilah e-tuisyen SPM kegemaran ramai,Jika menarik bagitau orang, Kalu tak diam2 saja hahaha,Jgn lupa memilih avatar di atas</span><br/><br/>
+
+            <button>Pause</button>
+            <!--button onclick="login('google');">Login</button-->
+            <!--
+            <button>
+                <div id              ="my-signin2"
+                     class           ="g-signin2"
+                     data-width      ="235"
+                     data-height     ="30"
+                     data-longtitle  ="true"
+                     data-onsuccess  ="onSuccess"
+                     data-onfailure  ="onFailure"
+                     data-ux_mode    ="redirect"
+                </div>
+            </button>
+            -->
+            <!--button id="my-signin2">Signin</button-->
+
+            <!--button onclick="logout('google'),$('html').fadeOut(function (){window.location.href = '/';});">Logout</button></a-->
+            <!--button onclick="signOut(),$('html').fadeOut(function (){window.location.href = '/';});">Logout</button-->
+            
+            <!--button id="authorize-button"   style="display: none;">Authorize</button-->
+            <!--button id="signout-button"     style="display: none;">Sign Out</button-->
+            <button id="authorize-button">Login</button>
+            <button id="signout-button" >Logout</button>
+            
+            <div id="greeting"></div>
+
+        </div>
+        
+        <div class="polina right">
+            <iframe class="lazyload" style="opacity:0.8;display:block;width:100%;height:100%;border:0;frameborder:0;scrolling:none;" data-src="https://calendar.google.com/calendar/embed?src=my1sekolah%40gmail.com&ctz=Asia%2FKuala_Lumpur"></iframe>
+        </div>
+    </div>    
+    </div> <!--div id="content-wrapper"-->
+
+    <script src="js/index/index.js"></script>
+    <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad();" onreadystatechange="if (this.readyState === 'complete') this.onload();"></script>
+    
+</body>    
+    
+</html>

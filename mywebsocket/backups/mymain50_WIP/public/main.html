@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<head>
+	<title>1sekolah</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-corner-indicator.min.css"></link>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-text-rotator/1.0.0/simpletextrotator.min.css"></link>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/trontastic/jquery-ui.min.css"></link>
+	<!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css"></link-->
+	<!--link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/trontastic/jquery-ui.css"></link-->
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.3.1/jquery.jspanel.min.css"></link>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" media="all" title="Screen"></link>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css">    
+
+	<link rel="stylesheet" href="stylesheets/user/main.css"></link>
+	<!--link rel="stylesheet" href="js/lib/smallipop/css/jquery.smallipop.min.css" media="all" title="Screen"></link-->
+	<!--link rel="stylesheet" href="js/lib/peachananr/simpletextrotator.css"></link-->
+	<!--link rel="stylesheet" href="js/lib/pace/themes/blue/pace-theme-corner-indicator.css"></link-->	
+	
+	<!-------------------------------------------------------------------------------------->
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    
+    <!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.0.1/plugins/include/ls.include.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.0.1/lazysizes.min.js"></script>
+    -->
+    
+	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script-->
+	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script-->
+    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.3.1/jquery.jspanel-compiled.min.js"></script-->
+
+    <!--script src="https://apis.google.com/js/platform.js"></script-->
+    <script async defer src="https://apis.google.com/js/client:platform.js"></script>
+    <script async src="https://www.gstatic.com/firebasejs/4.1.0/firebase.js"></script>
+    
+    <!--script src="https://www.gstatic.com/firebasejs/4.1.0/firebase-app.js"></script-->
+    <!--script src="https://www.gstatic.com/firebasejs/4.1.0/firebase-auth.js"></script-->    
+    <!--script src="https://www.gstatic.com/firebasejs/4.1.0/firebase-database.js"></script-->
+
+    <!--script src="js/client-modules.js"></script-->
+    
+	<!-------------------------------------------------------------------------------------->
+	<!--script src="js/lib/hellojs/hello.polyfill.js"></script-->
+	<!--script src="js/lib/hellojs/hello.all.min.js"></script-->
+	<!--script src="js/lib/hellojs/hello.js"></script-->
+
+	<!--script src="js/lib/pace/pace.min.js"></script-->
+
+    <script src="js/lib/myutils.js"></script>
+    <script src="js/lib/db/myfirebase.js"></script>
+
+    <!--script src="js/lib/Notify/notify.min.js"></script-->
+    <script src="js/lib/rpc/iframeRPC.js"></script>
+    
+	<!-------------------------------------------------------------------------------------->
+	<!--script id="waitforthreejs" async src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js"></script-->
+	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js"></script-->
+	
+	<script src="js/lib/threejs/three_v86dev.min.js"></script>
+
+	<script src="js/lib/threejs/js/libs/stats.min.js"></script>
+	<script src="js/lib/threejs/js/libs/tween.min.js"></script>
+
+    <script src="js/lib/threejs/js/renderers/CSS3DRenderer.js"></script>
+	<script src="js/lib/threejs/js/shaders/UnpackDepthRGBAShader.js"></script>
+	
+    <script src="js/lib/threejs/js/loaders/DDSLoader.js"></script>
+	<script src="js/lib/threejs/js/loaders/MTLLoader.js"></script>
+	<script src="js/lib/threejs/js/loaders/OBJLoader.js"></script>
+
+    <!--script src="js/lib/extjs/flapper/jquery.flapper.js"></script-->
+	<!--script src="js/lib/taskjs/client/task.min.js"></script-->
+	<!--script src="js/lib/smallipop/lib/jquery.smallipop.min.js"></script-->    <!--http://www.jqueryscript.net/demo/Versatile-Beautiful-Tooltip-Plugin-smallipop/-->
+	<!--script src="js/lib/extjs/async.min.js"></script-->
+	<!--script src="js/lib/extjs/Clumpy.js"></script-->
+
+
+	<script src="js/lib/extjs/OBJLoader2.min.js"></script>
+	<script src="js/lib/extjs/WWOBJLoader2.min.js"></script>
+	<script src="js/lib/extjs/PlayerControls.js"></script>
+	
+    <script src="js/lib/extjs/THREEx/THREEx.KeyboardState.js"></script>
+    <script src="js/lib/extjs/THREEx/raf-throttler.js"></script>
+
+    
+    <!--script src="js/lib/extjs/xgui.min.js"></script-->
+    <!--script src="js/lib/extjs/ImprovedNoise.js"></script-->
+    <!--script src="js/lib/extjs/physi.js"></script-->
+    <!--script src="js/lib/extjs/ejs.min.js"></script-->
+    <!--script src="js/lib/extjs/mainloop.min.js"></script-->
+    
+    <!--script src="js/lib/GPUPicker/GPUPicker.js"></script-->
+    
+	<!-------------------------------------------------------------------------------------->
+    
+    <script>
+        //////////////////////////////////////////////////////
+        $(document).ready(function() 
+        {   // fade in content.
+            $('html').fadeIn("slow",function ()
+            {   $('#content-wrapper').fadeIn("slow");    
+            });
+            
+		    //$('#content-wrapper' ).fadeIn("slow");		
+		    //$('#myshaders').load('main-shaders.html');
+		    ///////////////////////////////////////////////
+            //var script = document.querySelector('#waitforthreejs');
+            //script.addEventListener('load', function() 
+            //{      
+             //});
+       });
+        
+        function myready()
+        {   
+            var services = 
+            {   'getPrice':     function(input, done) 
+                                {   return done(null, input-143.29);
+			                    },
+			    'sum':          function (nums, done) 
+			                    {   return done(null, nums.reduce(function (acc, cur) {return acc + cur;}));
+			                    }
+		    };
+	        iframeRPC.createService(services, 'https://www.1sekolah.xyz', window.frames.mtoc);
+	        
+            ////////////////////////////////////////////////////////////////////
+            /*
+            var container       = document.getElementById("container");
+            container.addEventListener("click",   function()
+            {   //if(document.activeElement)document.activeElement.focus();
+                if(document.activeElement == document.getElementsByTagName("iframe")[0]) 
+                {   console.log('iframe has focus');
+                } 
+                else 
+                {   console.log('iframe not focused');
+                    //document.activeElement.blur();
+                    //document.getElementById("iframecontent").blur();
+                    //document.getElementById("container").focus();
+                }      
+            });    
+            */
+            //////////////////////////////////////////////////////////////////////
+            //document.getElementById("container").addEventListener("click",   function(){ if(document.activeElement)document.activeElement.blur();});
+            //////////////////////////////////////////////////////////////////////
+            /*
+            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+            (function()
+            {   var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                s1.async=true;
+                s1.src='https://embed.tawk.to/580cd22be808d60cd071dff0/default';
+                s1.charset='UTF-8';
+                s1.setAttribute('crossorigin','*');
+                s0.parentNode.insertBefore(s1,s0);
+            })();
+            */
+            ///////////////////////////////////////////////////////////////////////
+            //$(".slide-menu").slidemenu();
+            /////////////////////////////////////////////////////////////////////// 
+            /*
+            (function(w, d, s, u) 
+            {   w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+	            var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+	            j.async = true; j.src = 'https://www.1sekolah.xyz/packages/rocketchat_livechat/assets/rocket-livechat.js';
+	            h.parentNode.insertBefore(j, h);
+            })(window, document, 'script', 'https://www.1sekolah.xyz/livechat');
+            */
+            ////////////////////////////////////////////////////////////////////////
+            // blur the iframe
+            //document.getElementById("iframecontent").blur();
+            // set focus on #foo
+            //document.getElementById("container").focus();
+            // when iframe tries to focus, focus #foo
+            //document.getElementById("container").onblur = function() {this.focus();};
+        };
+
+        $(window).resize(function()
+        {    
+        });
+        
+        /////////////////////////////////////////////////////
+        function myLoad()
+        {   //history.pushState({},'','main');
+            //history.pushState({},'','main.html');
+            myready();
+            //focusit();
+            breakout();
+            
+            //////////////////////////////////////////////////
+            window.isClickPassThru = true;
+            //document.body.onmousedown = function() 
+            //{   window.isClickPassThru = true;
+            //}
+            //document.body.onmouseup = function() 
+            //{   window.isMouseDown=false;
+            //}            
+            
+            //window.isMouseDown = false;
+            //document.addEventListener('mousedown', function(event) 
+            //{   if ( event.which ) window.isMouseDown = true;
+            //}, true);
+            //document.addEventListener('mouseup', function(event) 
+            //{   if ( event.which ) window.isMouseDown = false;
+            //}, true);            
+            //////////////////////////////////////////////////
+            
+            //alert(getFrameContents("chatFrame"));
+            
+            /*
+            //var username_ = ejs.render('<%=username%>');
+            //setCookie("username",username_,1)
+
+			const mysession		= new CSession();
+			mysession.set("username","<%=username%>");
+
+            window.setTimeout( function() 
+			{   //setCookie("username","<%=username%>",1);
+			    //console.log("getCookie('avatar')="    + getCookie("avatar"));
+                //console.log("getCookie('username')="  + getCookie("username"));
+			    console.log("getCookie('avatar')="    + mysession.get("avatar"));
+                console.log("getCookie('username')="  + mysession.get("username"));
+			},1000);
+			*/
+			////////////////
+            //fetch("https://www.1sekolah.xyz/iframes/main_chat_ori.html").then(function(response) 
+            //{   response.text().then(function(text) 
+            //    {   //poemDisplay.textContent = text;
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //    });
+            //}/);			
+			////////////////
+            //var iframe1 = document.getElementById('chatFrame');
+            //var iframe2 = (iframe1.contentWindow || iframe1.contentDocument);
+            //iframe2.contentWindow.document.open();
+            //iframe2.contentWindow.document.write(text);
+            //iframe2.contentWindow.document.close(); 
+            
+			////////////////
+            var x = document.getElementById("chatFrame");
+            var y = (x.contentWindow || x.contentDocument);
+            if (y.document)y = y.document;
+
+            var elements    = y.body.getElementsByTagName("*");
+            var len         = elements.length;
+			var i;
+
+            for(i=0;i<len;i++)
+            {   //alert(elements[i].nodeName);
+                //if(elements[i].nodeName=="TEXTAREA")elements[i].style.pointerEvents="auto";
+                //else                                elements[i].style.pointerEvents="none";
+                ///////////////
+                elements[i].style.pointerEvents="auto";
+                
+                if(elements[i].nodeName==="SECTION")
+                {   elements[i].addEventListener("click",function(event) 
+                    {   document.getElementById("chatFrame").style.pointerEvents = "none";
+                        window.isClickPassThru = true;
+                        //$.notify("SECTION:mouseenter, window.isClickPassThru = true;");
+                    }, true);                
+                    elements[i].addEventListener("mouseup",function(event) 
+                    {   document.getElementById("chatFrame").style.pointerEvents = "none";
+                        window.isClickPassThru = true;
+                        //$.notify("SECTION:mouseenter, window.isClickPassThru = true;");
+                    }, true);                
+                    elements[i].addEventListener("mousedown",function(event) 
+                    {   document.getElementById("chatFrame").style.pointerEvents = "none";
+                        window.isClickPassThru = true;
+                        //$.notify("SECTION:mouseenter, window.isClickPassThru = true;");
+                    }, true);                
+                    elements[i].addEventListener("mousemove",function(event) 
+                    {   document.getElementById("chatFrame").style.pointerEvents = "none";
+                        window.isClickPassThru = true;
+                        //$.notify("SECTION:mouseenter, window.isClickPassThru = true;");
+                    }, true);                
+                    elements[i].addEventListener("mouseenter",function(event) 
+                    {   document.getElementById("chatFrame").style.pointerEvents = "none";
+                        window.isClickPassThru = true;
+                        //$.notify("SECTION:mouseenter, window.isClickPassThru = true;");
+                    }, true);                
+                    elements[i].addEventListener("mouseover",function(event) 
+                    {   document.getElementById("chatFrame").style.pointerEvents = "none";
+                        window.isClickPassThru = true;
+                        //$.notify("SECTION:mouseover, window.isClickPassThru = true;");
+                    }, true);                
+                }
+                else
+                {   elements[i].addEventListener("mousemove",function(event) 
+                    {   document.getElementById("chatFrame").style.pointerEvents = "auto";
+                        window.isClickPassThru = false;
+                        //$.notify("mouseenter, window.isClickPassThru = false;");
+                    }, true);                
+                    elements[i].addEventListener("mouseenter",function(event) 
+                    {   document.getElementById("chatFrame").style.pointerEvents = "auto";
+                        window.isClickPassThru = false;
+                        //$.notify("mouseenter, window.isClickPassThru = false;");
+                    }, true);                
+                    elements[i].addEventListener("mouseover",function(event) 
+                    {   document.getElementById("chatFrame").style.pointerEvents = "auto";
+                        window.isClickPassThru = false;
+                        //$.notify("mouseover,window.isClickPassThru = false;");
+                    }, true);                
+                }
+                ///////////////////////
+                setInterval
+                (   () => 
+                    {   document.getElementById("chatFrame").style.pointerEvents = "auto";
+                        if(window.isClickPassThru==false)
+                        {   document.getElementById("chatFrame").style.pointerEvents = "null";
+                        } 
+                    },
+                1000);
+ 			}
+        }
+    </script>
+
+</head>
+
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<body onload="myLoad();" onclick="myClickFunction();">
+    <!--g:hangout render="createhangout"></g:hangout-->
+    
+    <!--div class="g-hangout" data-render="createhangout"></div-->
+    <!--g:sharetoclassroom url="http://url-to-share" size="32"></g:sharetoclassroom-->
+    <!--script type="text/javascript">
+        $(document).ready(function() 
+        {    var user = "<%=username%>";//hehe
+             //var user = $("#username").html(); 
+             alert(user);  // now JS variable 'x' has the uid that's passed from the node backend.
+             setCookie("username",user,1);
+             console.log("getCookie('username')=",  getCookie("username"));
+        });
+    </script-->
+
+    <!--h2 style="display:none;" id="username">"<%=username%>"</h2-->
+    <!--h2 style="display:none;" id="username">bodoh2</h2-->
+
+    <div id="container"></div>
+    <div id="blocker"></div>
+    
+    <!--div id="content-wrapper" style="display:none; z-index:100;"-->
+    
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <div id="content-wrapper">
+        <!--p>Send Message: <button id="message_button">Hi there iframe</button></p-->
+        <!--div id="results"></div-->
+
+        <!--%include user/mycontextmenu.ejs%-->
+        
+        <!--%include user/mypanel1.ejs%-->
+        <!--%include user/mymainmenu.ejs%-->
+        <!--%include user/myrightsidemenu.ejs%-->
+        
+        <!--%include user/myfsnav-overlay.ejs%-->
+        <!--%include user/myleftsidemenu.ejs%-->     <!--good-->
+        <!--%include user/myclassyfooter.ejs%-->     <!--good-->
+        <!--%include user/myhammenu.ejs%-->          <!--good-->
+        <!--%include user/mysidenavi.ejs--%>
+        <!--%include user/mymenu3D.ejs%-->
+        <!--%include user/mycabinet.ejs%-->
+        
+        <!--div id="iframecontent" style="position:absolute; left:10%; right:10%; bottom:10%; top:10%;">
+            <iframe width="100%" height="100%" frameborder="0" src="home"></iframe>
+        </div-->
+
+         
+        <div class="chatdiv" style="opacity:0.5;position:absolute; left:0%; right:0%; bottom:0%; top:48%;">
+        <!--div class="chatdiv" style="opacity:0.4;position:absolute; left:0%; right:0%; bottom:10%; top:50%;"-->
+            <!--iframe style="opacity:0.5;width:100%;height:50%;border:0;frameborder:0;scrolling:none;pointer-events:none;" src="./main_chat.html"></iframe-->
+            <script>
+			//////////////////////////////////////////////
+            $('<iframe>',   {   src:            './iframes/main_chat.html',
+                                id:             'chatFrame',
+                                name:           'mtoc',
+                                frameborder:    0,
+                                scrolling:      'no',
+                                width:          '100%',
+                                height:         ($(window).height()/2+$(window).height()/40),
+                                border:         0,
+                                overflow:       'hidden'
+                            }).appendTo('.chatdiv');
+            </script> 
+        </div>
+        
+    </div>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+
+   <!------------ video shaders --------------------------------------->
+	<script id="vertexShader" type="x-shader/x-vertex">
+		varying vec2 vUv;
+		void main()
+		{	vUv = uv;
+			//vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+			//gl_Position = projectionMatrix * mvPosition;
+			gl_Position = projectionMatrix * vec4(modelViewMatrix * vec4( position, 1.0 ));
+		}
+	</script>
+
+	<script id="fragmentShader" type="x-shader/x-fragment">
+		uniform sampler2D texture;
+		uniform vec3 color;
+		varying vec2 vUv;
+		void main()
+		{	vec3 tColor = texture2D( texture, vUv ).rgb;
+			//float a = (length(tColor - color) - 0.5) * 7.0;
+			//gl_FragColor = vec4(tColor, a);
+			gl_FragColor = vec4(tColor, ((length(tColor - color) - 0.5) * 7.0));
+		}
+	</script>
+    <!------------ /video shaders -------------------------------------->
+	
+    <!------------ ShaderDepth shaders ----------------------------------->
+	<script id="vertexShaderDepth" type="x-shader/x-vertex">
+		varying vec2 vUv;
+		void main() 
+		{	//vUv = 0.75 * uv;
+			//vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+			//gl_Position = projectionMatrix * mvPosition;
+			
+			vUv = uv;
+			gl_Position = projectionMatrix * vec4(modelViewMatrix * vec4( position, 1.0 ));
+		}
+	</script>	
+
+    <script id="fragmentShaderDepth" type="x-shader/x-fragment">
+		#include <packing>
+		uniform sampler2D texture;
+		uniform vec3 color;
+		varying vec2 vUv;
+		void main() 
+		{	/*
+		    //vec4 pixel = texture2D( texture, vUv );
+		    //if ( pixel.a < 0.5 ) discard;
+		    /////////////////////////////////////////////////////
+		    vec3 tColor = texture2D( texture, vUv ).rgb;
+		    float a = (length(tColor - color) - 0.5) * 7.0;
+			if ( a < 0.5 ) discard;
+			//////////////////////////////////////////////////////
+			gl_FragData[ 0 ] = packDepthToRGBA( gl_FragCoord.z );
+			*/
+			//vec3 tColor = texture2D( texture, vUv ).rgb;
+			//float a = (length(tColor - color) - 0.5) * 7.0;
+			//if ( a < 0.5 ) discard;
+			//if(((length(tColor - color) - 0.5) * 7.0)<0.5)discard;
+			if(((length(texture2D( texture, vUv ).rgb - color) - 0.5) * 7.0)<0.5)discard;
+			gl_FragData[ 0 ] = packDepthToRGBA( gl_FragCoord.z );
+			
+		}
+	</script>
+    <!------------ skybox shaders --------------------------------------->
+    <script id="sky-vertex" type="x-shader/x-vertex">
+        varying vec3 vWorldPosition;
+        void main() 
+        {   vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+            vWorldPosition = worldPosition.xyz;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        }
+    </script>
+    <script id="sky-fragment" type="x-shader/x-fragment">
+        uniform vec3 topColor;
+        uniform vec3 bottomColor;
+        uniform float offset;
+        uniform float exponent;
+        varying vec3 vWorldPosition;
+        void main() 
+        {    float h = normalize( vWorldPosition + offset ).y;
+            gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( h, exponent ), 0.0 ) ), 1.0 );
+        }
+    </script>
+    <!------------ /skybox shaders -------------------------------------->
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+
+    <script>
+		const mysession	= new CSession();
+		mysession.set("username",mysession.get("username"));
+		//mysession.set("username","<%=username%>");
+	    //console.log("mysession.get('avatar')="    + mysession.get("avatar"));
+        //console.log("mysession.get('username')="  + mysession.get("username"));
+
+        //window.setTimeout( function() 
+		//{   //setCookie("username","<%=username%>",1);
+		//    //console.log("getCookie('avatar')="    + getCookie("avatar"));
+        //    //console.log("getCookie('username')="  + getCookie("username"));
+		//    console.log("getCookie('avatar')="    + mysession.get("avatar"));
+        //    console.log("getCookie('username')="  + mysession.get("username"));
+		//},1000);
+    </script>
+
+    <script src="js/user/scene/myThree.js"></script>
+    <script src="js/user/scene/myPlugin.js"></script>
+    <script src="js/user/scene/myPlayer.js"></script>
+    <script src="js/user/scene/myGameModel.js"></script>
+    <script src="js/user/scene/myMicroSceneMgr.js"></script>
+
+    <script src="js/user/scene/myScene1.js"></script>
+    <script src="js/user/scene/myScene2.js"></script>
+    <script src="js/user/scene/myScene3.js"></script>
+    <script src="js/user/scene/myScene4.js"></script>
+    <script src="js/user/scene/myScene5.js"></script>
+    <script src="js/user/scene/myScene6.js"></script>
+    <script src="js/user/scene/myScene7.js"></script>
+    <script src="js/user/scene/myScene8.js"></script>
+    <script src="js/user/scene/myScene9.js"></script>
+    <script src="js/user/scene/myScene10.js"></script>
+    <script src="js/user/scene/myScene11.js"></script>
+    <script src="js/user/scene/myScene12.js"></script>
+    <script src="js/user/scene/myScene13.js"></script>
+    <script src="js/user/scene/myScene14.js"></script>
+
+    <script src="js/user/myApp.js"></script>
+    
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!-- Start of Rocket.Chat Livechat Script -->
+    <script type="text/javascript">
+        (function(w, d, s, u) 
+        {   w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+	        var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+	        j.async = true; j.src = 'https://rchat.1sekolah.xyz/packages/rocketchat_livechat/assets/rocketchat-livechat.min.js?_=201702160944';
+	        h.parentNode.insertBefore(j, h);
+        })(window, document, 'script', 'https://rchat.1sekolah.xyz/livechat');
+    </script>
+    <!-- End of Rocket.Chat Livechat Script -->
+    
+</body>
+</html>
