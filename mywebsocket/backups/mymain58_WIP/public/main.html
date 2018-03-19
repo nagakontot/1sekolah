@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<head>
+	<title>1sekolah</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-corner-indicator.min.css"></link>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-text-rotator/1.0.0/simpletextrotator.min.css"></link>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/trontastic/jquery-ui.min.css"></link>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.3.1/jquery.jspanel.min.css"></link>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" media="all" title="Screen"></link>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cerulean/bootstrap.min.css"></link>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/amaranjs@0.5.5/dist/css/amaran.min.css"></link>
+
+<!---
+    AmaranJS
+    defaults = {  position:         "bottom right",
+                  content:          " ",
+                  delay:            3000,
+                  sticky:           false,
+                  stickyButton:     false,
+                  inEffect:         "fadeIn",
+                  outEffect:        "fadeOut",
+                  theme:            "default",
+                  themeTemplate:    null,
+                  closeOnClick:     true,
+                  closeButton:      false,
+                  clearAll:         false,
+                  cssanimationIn:   false,            //'swing', 'bounceOut'
+                  cssanimationOut:  false,
+                  resetTimeout:     false,
+                  overlay:          false,
+                  beforeStart:      function() {},
+                  afterEnd:         function() {},
+                  onClick:          function() {}
+};
+--->
+	<link rel="stylesheet" href="stylesheets/user/main.css"></link>
+	<!--link rel="stylesheet" href="js/lib/smallipop/css/jquery.smallipop.min.css" media="all" title="Screen"></link-->
+
+	<!-------------------------------------------------------------------------------------->
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js"></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    
+    <!--
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.0.1/plugins/include/ls.include.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/4.0.1/lazysizes.min.js"></script>
+    -->
+    
+	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script-->
+	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/2.7.1/less.min.js"></script-->
+    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/jspanel3/3.3.1/jquery.jspanel-compiled.min.js"></script-->
+
+    <script defer src="https://apis.google.com/js/platform.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.1.0/firebase.js"></script>
+    
+    <!--script src="https://www.gstatic.com/firebasejs/4.1.0/firebase-app.js"></script-->
+    <!--script src="https://www.gstatic.com/firebasejs/4.1.0/firebase-auth.js"></script-->    
+    <!--script src="https://www.gstatic.com/firebasejs/4.1.0/firebase-database.js"></script-->
+
+	<!-------------------------------------------------------------------------------------->
+    <script src="js/lib/myutils.js"></script>
+    <script src="js/lib/db/myfirebase.js"></script>
+
+    <script src="js/lib/rpc/iframeRPC.js"></script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/amaranjs@0.5.5/dist/js/jquery.amaran.min.js"></script>
+    
+	<!-------------------------------------------------------------------------------------->
+	<!--script id="waitforthreejs" async src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js"></script-->
+	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/89/three.min.js"></script-->
+	
+	<script src="js/lib/threejs/three_v86dev.min.js"></script>
+
+	<script src="js/lib/threejs/js/libs/stats.min.js"></script>
+	<script src="js/lib/threejs/js/libs/tween.min.js"></script>
+
+    <script src="js/lib/threejs/js/renderers/CSS3DRenderer.js"></script>
+	<script src="js/lib/threejs/js/shaders/UnpackDepthRGBAShader.js"></script>
+	
+    <script src="js/lib/threejs/js/loaders/DDSLoader.js"></script>
+	<script src="js/lib/threejs/js/loaders/MTLLoader.js"></script>
+	<script src="js/lib/threejs/js/loaders/OBJLoader.js"></script>
+
+	<script src="js/lib/extjs/OBJLoader2.min.js"></script>
+	<script src="js/lib/extjs/WWOBJLoader2.min.js"></script>
+	<script src="js/lib/extjs/PlayerControls.js"></script>
+	
+    <script src="js/lib/extjs/THREEx/THREEx.KeyboardState.js"></script>
+    <script src="js/lib/extjs/THREEx/raf-throttler.js"></script>
+
+    <!--script src="js/lib/extjs/xgui.min.js"></script-->
+
+	<!-------------------------------------------------------------------------------------->
+    
+    <script>
+        //////////////////////////////////////////////////////
+        $(document).ready(function() 
+        {       
+            // fade in content.
+            $('html').fadeIn("slow",function ()
+            {   $('#content-wrapper').fadeIn("slow");    
+            });
+    
+        });
+        
+        function myready()
+        {   const mysession	= new CSession();
+        
+            var services = 
+            {   'getPrice':     function(input, done) 
+                                {   return done(null, input-143.29);
+			                    },
+			    'sum':          function (nums, done) 
+			                    {   return done(null, nums.reduce(function (acc, cur) {return acc + cur;}));
+			                    },
+			     'talk':        function(msg,done)
+			                    {   const [cindex,csubj,cimg,cuser,cmsg] = msg.split('@&%');
+                                    
+                                    $.amaran({  'theme'         : 'user blue',
+                                                'content'       : { img:        cimg,  //mysession.get("userimg"),  //'assets/images/dacing-banana-32x32_2.gif',
+                                                                    user:       csubj+": "+cuser, //mysession.get("username"),
+                                                                    message:    cmsg   //msg
+                                                                  },
+                                                'position'      : 'bottom right',
+                                                'outEffect'     : 'slideBottom',
+                                                //'sticky'      : true
+                                                'delay'         : 60000,
+                                                'closeOnClick'  : false,
+                                                'closeButton'   : true                                                
+                                                
+                                    });
+
+                                    //////////////////////////////////////////////////////////////
+                                    return done(null,"done");                    
+			                    }
+			                    
+		    };
+	        iframeRPC.createService(services, 'https://www.1sekolah.xyz', window.frames.mtoc);
+	        
+            ////////////////////////////////////////////////////////////////////
+        };
+
+        $(window).resize(function()
+        {    
+        });
+        
+        /////////////////////////////////////////////////////
+        function myLoad()
+        {   //history.pushState({},'','main');
+            //history.pushState({},'','main.html');
+            myready();
+            //focusit();
+            breakout();
+        }
+    </script>
+
+</head>
+
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
+<body onload="myLoad();" onclick="myClickFunction();">
+    
+    <div id="container"></div>
+    <div id="blocker"></div>
+    
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <div id="content-wrapper">
+        <!--p>Send Message: <button id="message_button">Hi there iframe</button></p-->
+        <!--div id="results"></div-->
+
+        <!--%include user/mycontextmenu.ejs%-->
+        
+        <!--%include user/mypanel1.ejs%-->
+        <!--%include user/mymainmenu.ejs%-->
+        <!--%include user/myrightsidemenu.ejs%-->
+        
+        <!--%include user/myfsnav-overlay.ejs%-->
+        <!--%include user/myleftsidemenu.ejs%-->     <!--good-->
+        <!--%include user/myclassyfooter.ejs%-->     <!--good-->
+        <!--%include user/myhammenu.ejs%-->          <!--good-->
+        <!--%include user/mysidenavi.ejs--%>
+        <!--%include user/mymenu3D.ejs%-->
+        <!--%include user/mycabinet.ejs%-->
+        
+        <div class="chatdiv" style="opacity:0.5;position:absolute; left:0%; right:0%; bottom:0%; top:89%;">
+            <script>
+            $('<iframe>',   {   src:            './iframes/main_chat.html',
+                                id:             'chatFrame',
+                                name:           'mtoc',
+                                frameborder:    0,
+                                scrolling:      'no',
+                                width:          '100%',
+                                height:         $(window).height()/9,
+                                border:         0,
+                                overflow:       'hidden'
+                            }).appendTo('.chatdiv');
+            </script> 
+        </div>
+        
+    </div>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+
+   <!------------ video shaders --------------------------------------->
+	<script id="vertexShader" type="x-shader/x-vertex">
+		varying vec2 vUv;
+		void main()
+		{	vUv = uv;
+			//vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+			//gl_Position = projectionMatrix * mvPosition;
+			gl_Position = projectionMatrix * vec4(modelViewMatrix * vec4( position, 1.0 ));
+		}
+	</script>
+
+	<script id="fragmentShader" type="x-shader/x-fragment">
+		uniform sampler2D texture;
+		uniform vec3 color;
+		varying vec2 vUv;
+		void main()
+		{	vec3 tColor = texture2D( texture, vUv ).rgb;
+			//float a = (length(tColor - color) - 0.5) * 7.0;
+			//gl_FragColor = vec4(tColor, a);
+			gl_FragColor = vec4(tColor, ((length(tColor - color) - 0.5) * 7.0));
+		}
+	</script>
+    <!------------ /video shaders -------------------------------------->
+	
+    <!------------ ShaderDepth shaders ----------------------------------->
+	<script id="vertexShaderDepth" type="x-shader/x-vertex">
+		varying vec2 vUv;
+		void main() 
+		{	//vUv = 0.75 * uv;
+			//vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+			//gl_Position = projectionMatrix * mvPosition;
+			
+			vUv = uv;
+			gl_Position = projectionMatrix * vec4(modelViewMatrix * vec4( position, 1.0 ));
+		}
+	</script>	
+
+    <script id="fragmentShaderDepth" type="x-shader/x-fragment">
+		#include <packing>
+		uniform sampler2D texture;
+		uniform vec3 color;
+		varying vec2 vUv;
+		void main() 
+		{	/*
+		    //vec4 pixel = texture2D( texture, vUv );
+		    //if ( pixel.a < 0.5 ) discard;
+		    /////////////////////////////////////////////////////
+		    vec3 tColor = texture2D( texture, vUv ).rgb;
+		    float a = (length(tColor - color) - 0.5) * 7.0;
+			if ( a < 0.5 ) discard;
+			//////////////////////////////////////////////////////
+			gl_FragData[ 0 ] = packDepthToRGBA( gl_FragCoord.z );
+			*/
+			//vec3 tColor = texture2D( texture, vUv ).rgb;
+			//float a = (length(tColor - color) - 0.5) * 7.0;
+			//if ( a < 0.5 ) discard;
+			//if(((length(tColor - color) - 0.5) * 7.0)<0.5)discard;
+			if(((length(texture2D( texture, vUv ).rgb - color) - 0.5) * 7.0)<0.5)discard;
+			gl_FragData[ 0 ] = packDepthToRGBA( gl_FragCoord.z );
+			
+		}
+	</script>
+    <!------------ skybox shaders --------------------------------------->
+    <script id="sky-vertex" type="x-shader/x-vertex">
+        varying vec3 vWorldPosition;
+        void main() 
+        {   vec4 worldPosition = modelMatrix * vec4( position, 1.0 );
+            vWorldPosition = worldPosition.xyz;
+            gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+        }
+    </script>
+    <script id="sky-fragment" type="x-shader/x-fragment">
+        uniform vec3 topColor;
+        uniform vec3 bottomColor;
+        uniform float offset;
+        uniform float exponent;
+        varying vec3 vWorldPosition;
+        void main() 
+        {    float h = normalize( vWorldPosition + offset ).y;
+            gl_FragColor = vec4( mix( bottomColor, topColor, max( pow( h, exponent ), 0.0 ) ), 1.0 );
+        }
+    </script>
+    <!------------ /skybox shaders -------------------------------------->
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+
+    <script src="js/user/scene/myThree.js"></script>
+    <script src="js/user/scene/myPlugin.js"></script>
+    <script src="js/user/scene/myPlayer.js"></script>
+    <script src="js/user/scene/myGameModel.js"></script>
+    <script src="js/user/scene/myMicroSceneMgr.js"></script>
+
+    <script src="js/user/scene/myScene1.js"></script>
+    <script src="js/user/scene/myScene2.js"></script>
+    <script src="js/user/scene/myScene3.js"></script>
+    <script src="js/user/scene/myScene4.js"></script>
+    <script src="js/user/scene/myScene5.js"></script>
+    <script src="js/user/scene/myScene6.js"></script>
+    <script src="js/user/scene/myScene7.js"></script>
+    <script src="js/user/scene/myScene8.js"></script>
+    <script src="js/user/scene/myScene9.js"></script>
+    <script src="js/user/scene/myScene10.js"></script>
+    <script src="js/user/scene/myScene11.js"></script>
+    <script src="js/user/scene/myScene12.js"></script>
+    <script src="js/user/scene/myScene13.js"></script>
+    <script src="js/user/scene/myScene14.js"></script>
+
+    <script src="js/user/main.js"></script>
+    
+    <!------------------------------------------------------------------>
+    <!------------------------------------------------------------------>
+    <!-- Start of Rocket.Chat Livechat Script -->
+    <script type="text/javascript">
+        (function(w, d, s, u) 
+        {   w.RocketChat = function(c) { w.RocketChat._.push(c) }; w.RocketChat._ = []; w.RocketChat.url = u;
+	        var h = d.getElementsByTagName(s)[0], j = d.createElement(s);
+	        j.async = true; j.src = 'https://rchat.1sekolah.xyz/packages/rocketchat_livechat/assets/rocketchat-livechat.min.js?_=201702160944';
+	        h.parentNode.insertBefore(j, h);
+        })(window, document, 'script', 'https://rchat.1sekolah.xyz/livechat');
+    </script>
+    <!-- End of Rocket.Chat Livechat Script -->
+    
+</body>
+</html>

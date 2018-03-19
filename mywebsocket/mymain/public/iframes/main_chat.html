@@ -8,13 +8,22 @@
  		<!--link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css"-->
  		<!--link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/hot-sneaks/jquery-ui.css"-->
  		<!--link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/trontastic/jquery-ui.css"-->
+ 		
  		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/trontastic/jquery-ui.min.css"></link>
  		<link rel="stylesheet" href="stylesheets/main_chat.css"></link>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    	<script src="https://www.1sekolah.xyz/js/lib/myutils.js"></script>
 
+ 		<!--script src="/cdn-cgi/apps/head/Y8iEO58aMYTDhkPG-quHkQ8TqBA.js"></script-->
+    	
+    	<!------------------------------------------------------------------------------------------------------->
+    	<!--script src="https://cdnjs.cloudflare.com/ajax/libs/string.js/3.3.3/string.min.js"></script-->
+    	<!--script src="https://unpkg.com/striptags@3.1.1/src/striptags.js"></script-->
+    	<!--script src="https://unpkg.com/string-strip-html@1.3.2/dist/string-strip-html.umd.js"></script-->
+    	<!------------------------------------------------------------------------------------------------------->
+    	
+    	<script src="https://www.1sekolah.xyz/js/lib/myutils.js"></script>
     	<script src="https://www.1sekolah.xyz/js/lib/rpc/iframeRPC.js"></script>
 
     	<!--script src="https://browserify.1sekolah.xyz/bundle/:underscore"></script-->
@@ -31,7 +40,7 @@
   		
   		<script>
 			$(document).ready(function()
-    		{	$("#tabs0, #tabs-top0, #tabs-top1, #tabs-top2, #tabs-top3, #tabs-top4, #tabs-top5, #tabs-top6, #tabs-top7, #tabs-top8, #tabs-top9, #tabs-top10").tabs
+    		{	$("#tabs0, #tabs-top0, #tabs-top1, #tabs-top2, #tabs-top3, #tabs-top4, #tabs-top5, #tabs-top6, #tabs-top7, #tabs-top8, #tabs-top9, #tabs-top10, #tabs-top11, #tabs-top12, #tabs-top13").tabs
     			({	beforeActivate: 	function (event, ui) 
             							{	//console.log(ui.newPanel.attr('id'));
             							}
@@ -54,12 +63,15 @@
 			//////////////////////////////////////////////////////
 			//window.location.href = 'https://www.1sekolah.xyz/main.html';
 			//var messagesPanel, first = true, ws, id;
-			var messagesPanel, ws, id;
+			//var messagesPanel, 
+			
+			var ws, id;
 			var first				= [];
 			var typedMessage		= [];
 			var messages			= [];
+			var timeout             = null;
 
-			window.ChatSubjects     = ["LOBI","MATH","SAINS","BIOLOGI","KIMIA","FIZI","BM","BI","ADDMATH","NETWORK","HELP"];
+			window.ChatSubjects     = ["LOBI","MATH","SAINS","BIOLOGI","KIMIA","FIZI","BM","BI","ADDMATH","NETWORK","HELP","ROBOTIK","WEBSITE","MISC"];
 			window.ChatCurrentIndex = 0;
 			window.ChatRows 		= 9;
 			window.ChatCols 		= 20;//4;
@@ -76,21 +88,33 @@
 				{	window.ChatCurrentIndex = index;
 					if (e.keyCode === 13 && !e.shiftKey) 
 					{	if (typedMessage[index].value.length) 
-						{	if (typedMessage[index].value === "can i has new color?") 
-							{	id = Math.floor(Math.random() * 1000000);
-								localStorage.id = id;
-							}
+						{	clearTimeout(timeout);
+							timeout = setTimeout(function () 
+							{	//this is a good point for command-line help!
+								//if (typedMessage[index].value === "can i has new color?") 
+								//{	id = Math.floor(Math.random() * 1000000);
+								//	localStorage.id = id;
+								//}
 						
-							///////////////////////////////////////////////////////////////////////////////
-							//typedMessage[index].value = mysession.get("userimg")+"@&%"+mysession.get("username")+"@&%"+typedMessage[index].value;
-							typedMessage[index].value = String(index)+"@&%"+window.ChatSubjects[getY_from_Index(index,window.ChatCols)]+"@&%"+ mysession.get("userimg")+"@&%"+mysession.get("username")+"@&%"+typedMessage[index].value;
+								///////////////////////////////////////////////////////////////////////////////
+								//strip all html tags
+								typedMessage[index].value = (typedMessage[index].value).replace(/(<([^>]+)>)/ig,"");
+								//typedMessage[index].value = String(index)+"@&%"+window.ChatSubjects[getY_from_Index(index,window.ChatCols)]+"@&%"+ mysession.get("userimg")+"@&%"+mysession.get("username")+"@&%"+typedMessage[index].value;
 
-							///////////////////////////////////////////////////////////////////////////////
-							typedMessage[index].value = typedMessage[index].value.substring(0, 512);
-							addMessage(id, typedMessage[index].value, false);
-							ws.send(id + " " + typedMessage[index].value);
+								//alert("getY_from_Index("+index+","+window.ChatCols+") = "+Math.floor(getY_from_Index(index,window.ChatCols)));
+								//typedMessage[index].value = String(index)+"@&%"+window.ChatSubjects[Math.floor(getY_from_Index(index,window.ChatCols))]+" [Bab"+(getX_from_Index(index,window.ChatCols)+1)+"] "+"@&%"+ mysession.get("userimg")+"@&%"+mysession.get("username")+"@&%"+typedMessage[index].value;
+								typedMessage[index].value = String(index)+"@&%"+window.ChatSubjects[Math.trunc(getY_from_Index(index,window.ChatCols))]+" [Bab"+(getX_from_Index(index,window.ChatCols)+1)+"] @&%"+ mysession.get("userimg")+"@&%"+mysession.get("username")+"@&%"+typedMessage[index].value;
+
+								///////////////////////////////////////////////////////////////////////////////
+								typedMessage[index].value = typedMessage[index].value.substring(0, 512);
+								addMessage(id, typedMessage[index].value, false);
+								ws.send(id + " " + typedMessage[index].value);
+								typedMessage[index].value = "";
+							}, 250);
 						}
-						typedMessage[index].value = "";
+						else 
+						{	typedMessage[index].value = "";
+						}
 						return false;
 					}
 					return true;
@@ -109,7 +133,7 @@
 				
 				////////////////////////////////////////////////////////////////////////////////
 				////////////////////////////////////////////////////////////////////////////////
-				messagesPanel	= document.getElementById("messagesPanel");
+				//messagesPanel	= document.getElementById("messagesPanel");
 			
 				//var rows=9,cols=4;
 				var rows = window.ChatRows;
@@ -190,13 +214,11 @@
 				//client('talk',message,function(err,price){});
 				
 				const [cindex,csubj,cimg,cuser,cmsg] = message.split('@&%');
-				
-				//alert("cindex="+cindex+", window.ChatCurrentIndex="+window.ChatCurrentIndex);
+
+				//only print msg when it is from the same subject				
 				var dunnowhythereisawhitespaceinfrontofcindex = " "+String(window.ChatCurrentIndex);
-				//if(cindex===String(window.ChatCurrentIndex))
 				if(cindex===dunnowhythereisawhitespaceinfrontofcindex || cindex===String(window.ChatCurrentIndex))
-				{	//alert("cindex="+cindex+", window.ChatCurrentIndex="+window.ChatCurrentIndex);
-					client('talk',message,function(err,price){});
+				{	client('talk',message,function(err,price){});
 				}
 
 				/*
@@ -241,43 +263,23 @@
 	<!--body onload="main();window.location.assign('https://www.1sekolah.xyz/main.html');"-->
 	<body onload="main()">
 
-		<section id="messagesPanel"></section>
+		<!--section id="messagesPanel"></section-->
 
 		<!-------------------------------------------------------------->
 		<div id="tabs0">
 	  		<!------------------------------------------------------------------>	
   			<script>
-  				//var TopicString = ["",];
-				//var s = function(){/*
-				//					STRING
-				//					GOES
-				//					HERE
-				//				   */}.multiline();
-    			//console.log("s="+s);
-				//window.ChatSubjects= ["LOBI","MATH","SAINS","BIOLOGI","KIMIA","FIZI","BM","BI","ADDMATH","NETWORK","HELP"];
-				/*
-				var chatHTML=
-				`<ul>
-	    			<li><a href="#tabs-top0">LOBI</a></li>
-    				<li><a href="#tabs-top1">MATH</a></li>
-    				<li><a href="#tabs-top2">SAINS</a></li>
-    				<li><a href="#tabs-top3">BIOLOGI</a></li>
-    				<li><a href="#tabs-top4">KIMIA</a></li>
-    				<li><a href="#tabs-top5">FIZIK</a></li>
-    				<li><a href="#tabs-top6">BM</a></li>
-    				<li><a href="#tabs-top7">BI</a></li>
-    				<li><a href="#tabs-top8">ADDMATH</a></li>
-    				<li><a href="#tabs-top9">NETWORK</a></li>
-    				<li><a href="#tabs-top10">HELP</a></li>
-  				</ul>`;
-  				*/
   				var tab="";
   				var chatHTML="<ul>";
 				for(i=0;i<window.ChatRows;i++)
 				{	tab = "#tabs-top" + String(i);
 					chatHTML+= '<li><a href="'+tab+'">'+window.ChatSubjects[i]+'</a></li>';
 				}
-    			chatHTML +=	'<li><a href="#tabs-top9">NETWORK</a></li><li><a href="#tabs-top10">HELP</a></li>';
+    			chatHTML +=	'<li><a href="#tabs-top9">NETWORK</a></li>';
+    			chatHTML +=	'<li><a href="#tabs-top10">HELP</a></li>';
+    			chatHTML +=	'<li><a href="#tabs-top11">ROBOTIK</a></li>';
+    			chatHTML +=	'<li><a href="#tabs-top12">WEBSITE</a></li>';
+    			chatHTML +=	'<li><a href="#tabs-top13">MISC</a></li>';
 				chatHTML += "</ul>";
 
 				for(i=0;i<window.ChatRows;i++)
@@ -353,6 +355,11 @@
     				</script>
   				</div>
   			</div>
+	  		<!------------------------------------------------------------------>	
+  			<div id="tabs-top11"><div id="Robotik">Connecting...</div></div>
+  			<div id="tabs-top12"><div id="Website">Connecting...</div></div>
+  			<div id="tabs-top13"><div id="Misc">Connecting...</div></div>
+
 		</div>		
 		
 	</body>
